@@ -34,6 +34,53 @@ def delays(theta_rad):
     return _tau(refL, theta_rad), _tau(refR, theta_rad), _tau(earL, theta_rad)
 
 
+# --- the full reference -> ear matrix -------------------------------------
+# A headset has two ears and two reference microphones, so there are FOUR
+# feedforward pairings, not two. Ignoring the contralateral pairings throws away
+# most of the angular coverage: for a source at +90 deg the left cup's own
+# reference is 102 us non-causal, while the RIGHT reference leads the left ear by
+# roughly half a head width and is comfortably causal.
+POINTS = {
+    "earL": (0.0, +HEAD_R),
+    "earR": (0.0, -HEAD_R),
+    "refL": (D_FWD, +(HEAD_R + D_OUT)),
+    "refR": (D_FWD, -(HEAD_R + D_OUT)),
+}
+
+
+def tau_point(name, theta_deg):
+    """Plane-wave arrival delay at a named point, seconds (relative to centre)."""
+    return _tau(POINTS[name], np.radians(np.asarray(theta_deg, dtype=float)))
+
+
+def margin(ref, ear, theta_deg, tau_secondary):
+    """Causality margin for driving `ear` from `ref`, seconds.
+
+        margin = tau_ear(theta) - tau_ref(theta) - tau_secondary
+
+    Positive means a causal feedforward controller is possible at that azimuth.
+    """
+    return (tau_point("ear" + ear, theta_deg) - tau_point("ref" + ref, theta_deg)
+            - tau_secondary)
+
+
+def best_ref_for_ear(ear, theta_deg, tau_secondary):
+    """Which reference gives this ear the largest causality margin?
+    Returns (ref, margin). ref is None when neither is causal."""
+    mL = float(margin("L", ear, theta_deg, tau_secondary))
+    mR = float(margin("R", ear, theta_deg, tau_secondary))
+    if max(mL, mR) <= 0:
+        return None, max(mL, mR)
+    return ("L", mL) if mL >= mR else ("R", mR)
+
+
+def coverage(ear, tau_secondary, grid=None):
+    """Fraction of azimuth for which this ear has ANY usable reference."""
+    g = grid if grid is not None else np.arange(-180, 180, 1.0)
+    ok = [best_ref_for_ear(ear, t, tau_secondary)[0] is not None for t in g]
+    return float(np.mean(ok))
+
+
 def causality_margin(theta_deg, tau_secondary, cup="L"):
     """Electrical-delay budget available at this azimuth, for one cup, seconds.
 

@@ -27,6 +27,7 @@ class StreamingANC:
         self._target = None
         self._blend = 0
         self._blend_n = 1
+        self._mbuf = self._mhbuf = self._msh = None
 
     def set_filter(self, w0, xfade_samples=256):
         """The L2 coefficient path. Cross-faded so a switch does not click."""
@@ -60,6 +61,45 @@ class StreamingANC:
                 if self.leak:
                     w *= (1.0 - self.leak)
                 w += (self.mu / nrm) * xhbuf * score(ei, self.mode)
+        self.w = w
+        return e, y
+
+    def process_block_multiref(self, xs, d, ref):
+        """Same loop, but with rolling buffers kept for EVERY reference mic so a
+        reference switch does not inherit a stale delay line.
+
+        A headset has two reference mics and two ears, giving four feedforward
+        pairings; which one is causal depends on azimuth, so the controller must
+        be able to change reference without a transient.
+        """
+        xs = np.atleast_2d(xs)
+        nref, n = xs.shape
+        if self._mbuf is None or self._mbuf.shape[0] != nref:
+            self._mbuf = np.zeros((nref, self.L))
+            self._mhbuf = np.zeros((nref, self.L))
+            self._msh = np.zeros((nref, len(self.s_hat)))
+        e = np.empty(n); y = np.empty(n)
+        w = self.w
+        xb, xhb, shb = self._mbuf, self._mhbuf, self._msh
+        ybuf, s_hat, s_true = self.ybuf, self.s_hat, self.s_true
+        for i in range(n):
+            if self._blend > 0:
+                a = 1.0 / self._blend
+                w *= (1 - a); w += a * self._target
+                self._blend -= 1
+            xb[:, 1:] = xb[:, :-1]; xb[:, 0] = xs[:, i]
+            shb[:, 1:] = shb[:, :-1]; shb[:, 0] = xs[:, i]
+            xhb[:, 1:] = xhb[:, :-1]; xhb[:, 0] = shb @ s_hat
+            yi = float(w @ xb[ref]) if self.engaged else 0.0
+            ybuf[1:] = ybuf[:-1]; ybuf[0] = yi
+            ei = d[i] - float(s_true @ ybuf)
+            e[i] = ei; y[i] = yi
+            if self.adapting and self.engaged and self._blend == 0:
+                xh = xhb[ref]
+                nrm = self.delta + float(xh @ xh)
+                if self.leak:
+                    w *= (1.0 - self.leak)
+                w += (self.mu / nrm) * xh * score(ei, self.mode)
         self.w = w
         return e, y
 

@@ -240,86 +240,172 @@ it is the strongest evidence so far that it is modelling physics rather than cur
 
 ---
 
-## 3b. E05 — Direction and head rotation: **G5 DOES NOT PASS**
+## 3b. E05 — Direction and head rotation: **G5 PASSES**
 
-Gate as specified: G5 passes only on an ANC improvement over the fixed baseline,
-never on bearing accuracy alone. **It does not pass.** The ANC numbers produced so far
-are not trustworthy and are deliberately not reported as findings. What follows is what
-is solid, what is broken, and what has to be fixed.
+Rebuilt from scratch as a **true two-cup headset**. The previous version rendered one ear
+and scored the other cup's reference against it; **no ANC number from it is quoted anywhere.**
 
-### Solid results
+This version has independent `d_L` and `d_R`, all four reference→ear pairings, an independent
+L0 controller and filter state per ear, and left/right/joint scoring.
 
-**S1 — Bearing estimation works and is characterised.** Band-limited GCC-PHAT on the two
-reference mics, static source, ±70°: **0.17° RMSE**. Degradation with frame length and
-reference SNR (RMSE deg / mean confidence):
+### The geometry, unit-tested (`tests/test_geometry.py`)
 
-| frame | 40 dB | 10 dB | 0 dB | −10 dB |
-|---|---|---|---|---|
-| 256 (5.3 ms) | 0.4 / 0.53 | 0.6 / 0.53 | 0.9 / 0.50 | **39.2 / 0.26** |
-| **768 (16 ms)** | 0.1 / 0.53 | 0.2 / 0.52 | 0.5 / 0.52 | **12.4 / 0.36** |
-| 2048 (43 ms) | 0.1 / 0.52 | 0.2 / 0.52 | 0.3 / 0.52 | 1.2 / 0.48 |
+Every margin is checked against a closed form derived by hand, not against the
+implementation: **292 cases, |error| < 1e-12.** Plus mirror symmetry, the straight-ahead
+identity `F/c − τ_s`, and "never causal from behind".
 
-Audio DoA only breaks at low SNR *with short frames*, and confidence collapses with it —
-so `κ` is a valid gate. This also locates the only regime where IMU fusion could help.
-
-**S2 — Each cup's reference microphone has its own causal cone.** Derived from the geometry
-and cross-checked against the delay model:
+The result that reframed the experiment: a headset has **four** feedforward pairings, not two.
 
 ```
-left  reference: causal  -84 deg .. +50 deg
-right reference: causal  -50 deg .. +84 deg
-beyond +-84 deg: NEITHER -- the controller must disengage
+              L->L      R->L      L->R      R->R
+  -90 deg    -14.6    -612.2    +495.6    -102.0     us
+    0 deg    +87.5     +87.5     +87.5     +87.5
+  +90 deg   -102.0    +495.6    -612.2     -14.6
 ```
 
-This is a stronger directional effect than filter shape, and it is the mechanism worth
-pursuing: direction decides *which microphone is usable at all*, which is binary.
+For a source at +90° the left cup's **own** reference is 102 µs non-causal while the **right**
+reference leads the left ear by ~496 µs. Allowing contralateral pairings takes each ear from
+**38% → 68% of azimuth** with a usable reference.
 
-**S3 — Directional filter selection on shape grounds has almost no headroom.** Azimuth
-changes the reference-to-ear delay from 7.0 samples at 0° to 0.4 samples at 70° — a few
-samples, which an adaptive filter absorbs unaided. In the first version of this experiment
-the **oracle was no better than the baseline**, confirming it. Any real shape dependence
-would have to come from head shadowing and scattering, which this plane-wave point-receiver
-model does not contain, and which is precisely the kind of thing §4 says simulation is weak at.
+### Bearing estimation, unit-tested (`tests/test_doa.py`)
 
-**S4 — Audio DoA costs ~100,000× the IMU path.** At a 62.5 Hz frame rate:
-
-| | cost |
+| test | result |
 |---|---|
-| GCC-PHAT bearing (3 × 2048-pt FFT per frame) | **21.1 MMAC/s** |
-| gyro integration (one multiply-add) | **0.0002 MMAC/s** |
+| known angles, broadband | **0.30° RMSE** |
+| known angles, harmonic + 20% broadband | 5.12° RMSE |
+| pure line spectrum | **46° @16 ms, 27.7° @500 ms — a bias, not noise** |
+| coherence high / coherent-spread low on a clean tone | 0.97 / 0.0065 |
+| confidence predicts error | **corr −0.820** |
+| gate 0.4 separates | accepted 3.2° vs rejected 30.5° |
+| independent channels | 0.000 |
 
-**21.1 MMAC/s exceeds the entire 15 MMAC/s L2 budget** in `02-architecture.md` §9.2. That
-budget is wrong and must be either raised or the DoA rate cut. It is also an argument for
-fusion that has nothing to do with accuracy: if the gyro carries the fast component, audio
-DoA can run at ~10 Hz instead of 62.5 Hz, a ~6× saving on the dominant L2 cost.
+**A two-microphone ITD estimator is fundamentally ambiguous for a line spectrum**, and more
+data does not help. Adding 20% broadband content fixes it. Real engine and rotor noise carries
+broadband content, so this is a caveat rather than a blocker — but it must be stated.
 
-### Three bugs this experiment found
+### The confidence metric, replaced (requirement 3)
 
-1. **GCC-PHAT was applied unbanded.** Normalising `|R|` to 1 across the whole spectrum
-   promotes empty bands — numerical noise with random phase — to full weight. For a
-   band-limited source that is most of the spectrum, and it put the correlation peak at
-   zero lag for four of seven test azimuths. Fixed by band-limiting the PHAT weighting.
-2. **Zero-padding an FFT does not upsample a cross-correlation.** The IFFT grid is still
-   `1/fs`. An `interp` factor applied to the time axis produced a clean ×8 bearing error.
-   Fixed with parabolic interpolation around the peak.
-3. **`causality_margin` had a sign error on the outboard term**, using the right-cup sign
-   for both cups. It overstated the left cup's coverage and silently pushed part of the
-   sweep outside the causal region, which is why the filter bank trained to ~−2 dB.
-   Fixed and cross-checked against `delays()`.
+Peak-to-sidelobe margin is **wrong** for this application: a tonal source has a periodic
+correlation surface, so the margin collapses even when the bearing is perfect. The replacement
+is `coherence × f(coherent spread)`:
 
-### Two things still broken — what blocks G5
+- **coherence** — are the channels linearly related? High for a clean tone.
+- **coherent spread** — flatness of `coh(f)·P(f)`. Low for a line spectrum, where the bearing
+  genuinely *is* wrong by ~30°.
 
-4. **The experiment simulates one ear but two cups.** The disturbance is rendered at the
-   left ear while the right cup's reference is paired with it and scored against the *right*
-   cup's margin. Those are different quantities. A headset is **two independent ANC loops**,
-   and E05 must render and score both ears separately. This is a design flaw in the
-   experiment, not in the architecture.
-5. **The confidence metric is broken for tonal sources.** Peak-to-sidelobe margin collapses
-   when the source has strong harmonic content, because the correlation surface is
-   periodic. Every arm reported 100 % fallback. Needs a different confidence statistic —
-   coherence-based, or peak prominence measured modulo the harmonic period.
+Only the product is a useful gate. An intermediate version used the spread of a *single*
+channel and was fooled exactly backwards: independent noise raised flatness without making the
+delay resolvable, so **confidence rose from 0.24 to 0.84 as SNR fell** while the error stayed
+at 30°. Coherence weighting removes the independent noise from the estimate.
 
-Until 4 and 5 are fixed, no ANC number from E05 means anything, and none is quoted here.
+> The first draft of the test asserted "confidence must be high for a clean tonal source".
+> That was wrong — for a clean tonal source the bearing is bad, so confidence there should be
+> **low**. The only property worth testing is that confidence *predicts error*.
+
+### Requirement 8 — the hypothesis, tested as a 2×2 factorial (oracle bearing)
+
+| config | joint attenuation | vs A |
+|---|---|---|
+| **A** fixed ipsilateral ref + omni filter | −3.47 dB | — |
+| **B** reference SELECTION + omni filter | −4.12 dB | **−0.66 dB** |
+| **C** fixed ref + per-sector FILTER | −4.06 dB | **−0.59 dB** |
+| **D** both | −5.90 dB | **−2.44 dB** |
+
+> **Hypothesis** — *"the primary value of direction is causal reference selection, not
+> directional filter-shape optimisation"* — **NOT SUPPORTED.**
+
+Neither mechanism dominates. They are almost equal alone (−0.66 vs −0.59 dB) and strongly
+**super-additive** together: −2.44 dB against −1.25 dB for the sum of the parts. The reason is
+structural — the filter bank is trained per *(reference, sector)* pair, so a sector filter is
+only correct once the matching reference is selected, and a selected reference is only fully
+exploited with its matching filter. **They are one mechanism, not two.**
+
+The corrected conclusion for the architecture: keep directional selection, but specify it as
+*joint* reference-and-filter selection. Implementing either half alone recovers about a quarter
+of the benefit.
+
+### Requirement 8, isolated: where the effect actually lives
+
+Static bearings, config A vs D, no rotation:
+
+| bearing | ipsi margin | best ref | A | D | gain |
+|---|---|---|---|---|---|
+| −30° | +89.8 µs | L | −3.75 | −4.46 | −0.72 dB |
+| 0° | +87.5 µs | L | −3.98 | −4.71 | −0.73 dB |
+| +30° | +46.1 µs | R | −3.84 | −6.75 | **−2.90 dB** |
+| **+60°** | **−23.3 µs** | R | −3.65 | −13.01 | **−9.36 dB** |
+| **+90°** | **−102.0 µs** | R | −3.71 | −13.21 | **−9.51 dB** |
+| +120° | −169.1 µs | R | −3.71 | −7.20 | −3.49 dB |
+
+**The entire effect lives where the ipsilateral reference goes non-causal.** Inside ±50° it is
+worth 0.7 dB; at +60…+90° it is worth **9.4 dB**.
+
+> This also caught a scope error of mine. The first run swept ±78°, which is almost entirely
+> inside the ipsilateral causal region, and measured only −0.47 dB. The sweep must cross the
+> causal boundary or the experiment cannot see what it is testing. Now ±110°.
+
+### A claim of ours that this overturned
+
+At −90°/−120° **no** reference is causal. The architecture (§5.3.3) said a controller outside
+its causal region *adds* energy and must disengage. Measured: disengaging scores **0.00 dB**
+while continuing to run scores **−3.5 dB** — because the source is partly periodic, and
+periodic components are cancellable despite the delay (E01/F3 again).
+
+**Corrected rule: disengage only when the noise is both non-causal *and* unpredictable.** That
+is head A's `predictability` descriptor doing real work, and the experiment now degrades
+gracefully to the ipsilateral reference instead of muting.
+
+### Requirements 5–7 — the ablation
+
+Baseline is config A, **no direction at all**. (An earlier run used "direction machinery driven
+by a constant bearing of zero" as the baseline, which is much stronger and hid a 2.4 dB effect
+behind a 0.9 dB one.)
+
+| bearing source | DoA RMSE | tracking lag | ref-sel accuracy | fallback | joint att | after a turn |
+|---|---|---|---|---|---|---|
+| fixed (no direction) | — | — | 43–50 % | — | −3.47 dB | −3.58 dB |
+| audio only | 11.1–11.3° | 0–128 ms | 99–100 % | 0 % | **−5.94 dB** | −6.47 dB |
+| IMU dead-reckoning | 0.6–2.1° | 0–112 ms | 99–100 % | 0 % | −5.89 dB | −6.23 dB |
+| audio + IMU fusion | 4.4–6.5° | 0–128 ms | 99–100 % | 0–1 % | −5.90 dB | −6.63 dB |
+| oracle | 0° | — | 100 % | — | −5.93 dB | −6.07 dB |
+
+Usable-reference availability: **86–88 % of frames per ear** across the ±110° sweep.
+Rotation rate (30 / 100 / 250 °/s) changes attenuation by < 0.4 dB — the mechanism is not
+rate-limited in this range.
+
+**Gyro drift — why fusion exists.** A 3 s run cannot show it (0.5 °/s bias = 1.5°), so it was
+measured over increasing durations:
+
+| duration | IMU | audio | fusion |
+|---|---|---|---|
+| 3 s | **0.9°** | 12.0° | 6.4° |
+| 12 s | 3.3° | 10.1° | 6.6° |
+| 30 s | 8.7° | 10.9° | **7.7°** |
+
+The IMU is best briefly and degrades without bound; audio is noisy but drift-free; **fusion is
+the only one that does not degrade with time**, and it wins by 30 s. This is the complementary
+behaviour the architecture assumed, now demonstrated rather than asserted.
+
+> Finding this required fixing a **double-import bug** — the drift loop set `DUR` on a second
+> copy of the module (`import rhear.experiments.e05_direction` from inside `__main__`), so
+> `run()` kept reading 3.0 s and the table showed a gyro that never drifted.
+
+**Computational cost.** GCC-PHAT 21.1 + coherence 7.7 = **28.8 MMAC/s**, against the
+architecture's 15 MMAC/s L2 budget — **that budget is wrong and must be raised or the DoA rate
+cut.** Gyro integration is 0.0002 MMAC/s. Measured wall time 0.39–0.45 ms/frame, 2.4–2.8 % of
+the 16 ms frame.
+
+### Requirement 12 — decision
+
+> ## G5: **PASS**
+> A realisable bearing source improves ANC by **2.42–2.47 dB** over the no-direction baseline,
+> capturing essentially all of the oracle's 2.46 dB. The criterion is the ANC gain, not the
+> bearing accuracy — and note that **audio-only has the worst bearing RMSE (11.3°) yet the best
+> attenuation (−5.94 dB)**, which is exactly why the gate was specified this way.
+
+Keep the directional mechanism, specified as **joint reference-and-filter selection**. Use
+fusion rather than either source alone: it costs the same as audio and is the only bearing
+source that is stable over minutes.
 
 ---
 
@@ -336,7 +422,7 @@ Until 4 and 5 are fixed, no ANC number from E05 means anything, and none is quot
 | STOI / PESQ / SI-SDR of the enhancer | **Yes** — this is how the whole field works | E03, not built yet |
 | Model size, MACs, INT8 accuracy loss | **Yes**, exactly | E04, not built yet |
 | Bearing estimation and its degradation | **Yes** | **E05 ✓ (S1)** |
-| Direction converting into ANC gain | Probably — needs two-ear rendering | **E05 ✗ — blocked, see §3b** |
+| Direction converting into ANC gain | **Yes** | **E05 ✓ — +2.42 dB, see §3b** |
 | L2 filter generation beating a fixed filter | **Yes** | **E06 ✓ — +9.3 dB after a change** |
 | MCU inference time, power | **Projection only** | needs hardware |
 | **Passive attenuation / NRR of a real cup** | **No** | needs hardware |
@@ -361,10 +447,10 @@ Do not order the integrated prototype until every one of these passes in simulat
 - [ ] **G3** L1 enhancer hits STOI ≥ 0.85, PESQ ≥ 2.5, ΔSI-SDR ≥ 15 dB at 0 dB SNR on
       held-out noise *types* (E03)
 - [ ] **G4** INT8 quantised model ≤ 200 KB, ≤ 125 MMAC/s, with measured accuracy loss (E04)
-- [ ] **G5** Directional selection beats a fixed filter during head rotation (E05) —
-      **DOES NOT PASS.** Bearing estimation works (0.17° clean, 12.4° at −10 dB/16 ms) but
-      does not yet convert into ANC gain. Blocked on two-ear rendering and a confidence
-      metric that survives tonal sources. Three bugs found and fixed en route
+- [x] **G5** Directional selection beats a fixed filter during head rotation (E05) —
+      **PASS**: +2.42 dB over a no-direction baseline from a realisable bearing source,
+      capturing all of the oracle's 2.46 dB. Rebuilt as a true two-cup headset with
+      unit-tested geometry and a new coherence-based confidence metric
 - [x] **G6** L2 filter generation beats a fixed filter on non-stationary noise (E06) —
       **PASS**: +9.3 dB after a change, 77 % of the oracle gap closed, 1,764-param selector
 
