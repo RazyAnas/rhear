@@ -59,15 +59,60 @@ at 192 kHz `[v]`. At 768 kHz a single sample is 1.3 µs, and the decimation filt
 | Tier | Part | Latency (analog in → analog out) | Flexibility | Chip cost | Risk |
 |---|---|---|---|---|---|
 | **A — analog** | ams **AS3415** (feedforward) / **AS3435** (feedback+hybrid) / AS3418 (TWS) `[v]` | ≈ 0 (no converters in the loop) | filter shape set by external RC; a handful of responses via analog switches | ₹300–900 `[e]` | Low electrical risk, low flexibility. Integrated speaker driver, 35 mW stereo out, >110 dB SNR, 900 nV input-referred noise, integrated bypass `[v]` |
-| **B — ANC codec** ★ | Analog Devices **ADAU1777**, 4 ADC / 2 DAC `[v]` | **as little as 5 µs** `[v]` | fully programmable filters; coefficients writable at runtime | ~₹800–1,800 `[e]` | Package `[?]` — sibling ADAU1772 is LFCSP `[v]`, which is hand-reflowable |
+| **B — ANC codec** ★ | Analog Devices **ADAU1772**, 4 ADC / 2 DAC, **40-LFCSP** `[v]` | **38 µs** analog→analog @192 kHz, user-reported `[v]` | programmable fixed filters; coefficients writable at runtime | `[?]` | **LFCSP is a QFN — hand-reflowable, ordinary 2-layer PCB.** This is the buildable one |
+| B′ — ANC codec | Analog Devices **ADAU1777**, 4 ADC / 2 DAC | **5 µs** (can bypass the SRCs; ADAU1772 cannot) `[v]` | same | chip ~₹1,800 `[?]`; **eval board ₹35,985, 10-week lead** `[v]` | **WLCSP-36, 0.4 mm pitch** `[v]` — no LFCSP variant exists. Needs fine-pitch assembly |
 | **C — ANC codec + DSP** | **ADAU1787**, 4 ADC / 2 DAC + FastDSP (768 kHz) + 28-bit SigmaDSP (50 MIPS) `[v]` | **5 µs at fS = 768 kHz**, FastDSP bypass `[v]` | most capable: on-chip adaptive filtering possible | chip ≈ $22–24 ≈ **₹2,000** `[v]`; **eval board $603.90 ≈ ₹53,000** `[v]` | **WLCSP** (`BCBZ`) — not hand-solderable, needs fine-pitch assembly |
 | **D — generic codec** | PCM1808 / TLV320 class | **500–600 µs** `[v]` | full | ₹150–400 | **Rejected for L0.** Usable only for periodic noise, where prediction covers the delay |
 
-**Choice: B (ADAU1777) for the target build; A as the hackathon fast-loop and permanent
-fallback; C only if the WLCSP assembly risk is retired; D explicitly excluded from L0.**
+**Choice: B (ADAU1772, LFCSP-40) for the target build; A as the hackathon fast loop and
+permanent fallback; B′/C only if fine-pitch assembly is available; D excluded from L0.**
 
-Note the trap in C: the chip is ₹2,000 but the eval board is ₹53,000. Buying the eval board
-would consume three whole prototype budgets. It is a lab instrument, not a route to a product.
+### 1.3a The package question, resolved — and why it changed the choice
+
+Open item #1 in the first draft was "ADAU1777 package: LFCSP or WLCSP?". **Answer: WLCSP-36
+only** (`ADAU1777BCBZRL`, 0.4 mm pitch) `[v]`. There is no QFN variant. That rules it out for
+a team without fine-pitch assembly, and it retracts the earlier advice to *"order an ADAU1777
+sample early"* — there is nothing to prototype it on without a PCB spin.
+
+The **ADAU1772** is the same 4-ADC/2-DAC low-latency ANC codec in **40-LFCSP** `[v]`, which is
+a QFN: hand-reflowable on a hot plate, routable on an ordinary 2-layer board. Its one
+disadvantage is that it **cannot bypass the sample-rate converters**, where the ADAU1777 can
+`[v]` — hence 38 µs instead of 5 µs.
+
+**Is 38 µs good enough? The twin answers it without buying anything** (E01,
+`05-digital-twin.md`):
+
+| part | delay | harmonic | band-limited | wideband |
+|---|---|---|---|---|
+| ADAU1777 (WLCSP) | 5 µs | −48.9 dB | −52.6 dB | −13.82 dB |
+| **ADAU1772 (LFCSP)** | **38 µs** | −49.0 dB | −52.5 dB | **−13.65 dB** |
+| generic 48 kHz codec | 619 µs | −18.1 dB | −35.1 dB | −0.00 dB |
+
+**Penalty for choosing the solderable part: 0.17 dB.** It uses 26 % of the 145.8 µs causality
+budget. This is exactly what the digital twin is for — a packaging problem became a
+quantified engineering trade instead of a guess.
+
+### 1.3b A constraint that validates the architecture
+
+Neither the ADAU1772 nor the ADAU1777 DSP can run adaptive algorithms — no LMS, FxLMS or
+NLMS. **They support fixed-coefficient ANC filters only** `[v]`.
+
+That is not a limitation for RHEAR, it is a confirmation. The silicon supports precisely the
+paradigm the architecture already committed to: a **fixed filter executing in the fast path,
+with coefficients written from outside** (L2 at 62.5 Hz, plus FxNLMS refinement on the MCU).
+An architecture that had put an adaptive algorithm inside the codec would be unbuildable on
+either part. Ours maps onto what the hardware actually does.
+
+### 1.3c Do not buy evaluation boards
+
+| board | price | lead time |
+|---|---|---|
+| EVAL-ADAU1777Z | **₹35,985** `[v]` | **10 weeks**, 1 in stock `[v]` |
+| EVAL-ADAU1787Z | $603.90 ≈ ₹53,000 `[v]` | — |
+
+These are lab instruments priced for companies, not routes to a product. Either one consumes
+two to three entire prototype budgets. If a search for a part lands on a `EVAL-` part number,
+that is the wrong page.
 
 ### 1.4 The mapping that makes this elegant
 

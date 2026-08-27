@@ -98,6 +98,10 @@ measurements rather than assertions (`docs/05-digital-twin.md`). No hardware pur
 ./run_experiments.sh     # ~3 min, numpy + scipy only, no datasets, no hardware
 ```
 
+Hardware: ANC codec settled on the **ADAU1772 (40-LFCSP, hand-solderable)** after the
+ADAU1777 turned out to be WLCSP-only; the twin priced that swap at **0.17 dB**. Buy nothing
+yet — see the buy gate.
+
 Buy gate: G0–G2 **pass**; G3–G6 (speech-enhancement metrics, quantisation, direction, filter
 generation) still to build — all of them simulation-only, still no hardware needed.
 Next: E03, the L1 enhancer against STOI/PESQ/SI-SDR targets.
