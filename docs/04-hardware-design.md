@@ -319,11 +319,23 @@ Order in week 1:
 
 ---
 
+## 8a. Correction: the 4-channel capture line was wrong by ~10x
+
+The first draft budgeted ₹1,500–2,500 for a 4-channel USB audio interface. Real Indian price
+for the obvious candidate, the Behringer UMC404HD: **₹22,999** `[v]`. That estimate was wrong
+by an order of magnitude and is withdrawn.
+
+The replacement is cheaper *and* better: **two PCM1808 I²S stereo ADC modules driven from one
+shared master clock**, into the MCU. Two cheap USB sound cards would also give four channels,
+but they run on **independent clocks**, and inter-card drift destroys the inter-microphone
+phase relationship — which is the entire basis of the coherence bound (E00/V2) and of the DoA
+estimate (§5.3). Sample-synchronous capture is not a nice-to-have here; it *is* the measurement.
+
 ## 9. Hardware risk register
 
 | Risk | L | I | Mitigation |
 |---|---|---|---|
-| ADAU1777 package turns out to be WLCSP too | Med | High | AS3415/AS3435 analog tier is a complete fallback; CSK6012 is a second |
+| ~~ADAU1777 package turns out to be WLCSP~~ | — | — | **Confirmed WLCSP-36. Resolved by switching to ADAU1772 (40-LFCSP), at a measured cost of 0.17 dB** |
 | Import lead time / customs on ADI + Infineon parts | **High** | Med | Order week 1; analog tier uses locally-available jellybean parts |
 | Custom PCB does not come back in time | **High** | Med | Analog fast loop needs no PCB spin; Tier 2 is explicitly post-hackathon |
 | Hand-built analog filter is noisy / drifts | Med | Low | Low-noise op-amps; the error mic *measures* the result, so degradation is visible, not hidden |
@@ -333,11 +345,47 @@ Order in week 1:
 
 ---
 
+## 9a. Where to buy, in India
+
+Verified Indian sources and prices. Everything in the hackathon fast-loop path is locally
+stocked and ships in days; only the ANC codec needs an import.
+
+| Item | Where | Price |
+|---|---|---|
+| **MAX4466** electret mic + adjustable-gain amp (analog) | DNA Technology, Robu.in, Probots | **₹98 + GST ≈ ₹116** `[v]` |
+| **MAX9814** electret mic + amp with AGC (analog) | Probots, Robu.in, IndiaMART | **≈ ₹200** `[v]` |
+| **STM32F407 Discovery** (STM32F407G-DISC1) | Robu.in, element14 India, Flipkart, Amazon.in | **≈ ₹2,749** `[v]` |
+| STM32H750VBT6 DevEBox (480 MHz, 1 MB RAM) | Probots, CompoIndia | `[?]` |
+| PCM1808 I²S stereo ADC module | Hubtronics.in, Techtonics.in, Siqma | ~₹300–700 `[?]` |
+| MPU6050 IMU (head rotation, §5.3.2) | Robu.in, Probots | ~₹150 `[e]` |
+| TL072 / NE5532 op-amps, CD4053 analog mux, passives | Any Indian retailer / local market | ~₹300–500 total `[e]` |
+| Closed-back passive headphone | Amazon.in / local | ₹1,200–2,000 |
+| **ADAU1772 (40-LFCSP)** | DigiKey India / Mouser India / element14 India — **import** | `[?]` |
+
+Notes on sourcing:
+- **Analog mic modules are what we want, and they are cheap.** Most MEMS mic modules sold in
+  India (INMP441, SPH0645) are **I²S/PDM digital** — wrong for mics 1–4, because PDM ASIC
+  latency dominates mid-band group delay (§2.2). MAX4466/MAX9814 are electret + analog amp,
+  which is exactly right for the fast loop, at ₹100–200.
+- **The Infineon IM73A135 is a bare MEMS part**, not a module — a production choice, not a
+  breadboard one. Prototype with MAX9814-class modules; specify IM73A135 on the PCB.
+- DigiKey India ships domestically with free delivery over ₹7,000 `[v]`, so consolidate into
+  one import order rather than placing several.
+- **Watch lead times, not just prices.** The ADAU1777 eval board listed a 10-week manufacturer
+  lead time with one unit in stock `[v]`. Check the "In Stock" quantity before planning around
+  any ADI part.
+- **If a search lands on an `EVAL-` part number, that is the wrong page.** Those are the eval
+  boards, priced for companies.
+
 ## 10. Open items — confirm before ordering
 
-1. `[?]` **ADAU1777 package** (LFCSP vs WLCSP) and qty-1 India-landed price. Single highest-value unknown.
-2. `[?]` ADAU1777 digital-mic input availability — decides whether mic 5 needs an MCU PDM port.
-3. `[?]` Whether the ADAU1777's programmable filters can be updated **glitch-free at 62.5 Hz** — the whole L2→L0 mechanism depends on it. Look for coefficient double-buffering / safeload.
+1. ~~ADAU1777 package~~ — **RESOLVED: WLCSP-36 only. Switched to ADAU1772, 40-LFCSP.** `[v]`
+2. `[?]` **ADAU1772 qty-1 India-landed price and lead time.** Now the highest-value unknown —
+   the ADAU1777 eval board's 10-week lead is a warning about ADI stock into India generally.
+3. `[?]` ADAU1772 digital-mic input availability — decides whether mic 5 needs an MCU PDM port.
+4. `[?]` Whether the ADAU1772's filter coefficients can be updated **glitch-free at 62.5 Hz** —
+   the whole L2→L0 mechanism depends on it. Look for coefficient double-buffering / safeload
+   in the datasheet. **Check this before ordering anything.**
 4. `[?]` Alif E1C and CSK6012 unit pricing and Indian distribution.
 5. `[?]` Measured NRR of the candidate cup — the single largest lever on system performance.
 6. `[?]` IM73A135 India availability and minimum order quantity.

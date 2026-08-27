@@ -30,7 +30,7 @@ Build A is not a throwaway: its mic geometry, `Ŝ(z)` measurement and recordings
 | Closed-back **passive** headphone (no ANC) | 1 | 1,200–2,000 | Must be passive. A commercial ANC can is a black box and invites "what did *you* build?" |
 | Electret/MEMS mic capsules + preamps (outer ref ×2, in-cup error ×1) | 3 | 600–1,200 | The error mic is what makes attenuation *measurable* rather than claimed |
 | Boom/headset mic | 1 | 400–800 | Communication path — the STOI/PESQ path |
-| 4-channel USB audio interface | 1 | 1,500–2,500 | 4 simultaneous inputs is the real requirement; 2-ch will not do |
+| 4-channel **synchronous** capture: 2 × PCM1808 I²S ADC modules on one shared master clock | 2 | ~300–700 each | Replaces the USB interface. Cheaper *and* better — see `04-hardware-design.md` §8a. A 4-ch USB interface is ₹22,999 in India, and two cheap USB cards have independent clocks, which destroys inter-mic phase |
 | **MCU board** (STM32H7 class) for L1/L2 + coefficient link | 1 | 1,800–3,000 | No hard µs deadline once L0 moves off it |
 | **Analog fast-loop board** (op-amps + RC network + CD4053 analog switches, 4 selectable responses) | 1 | 300–600 | The L0 controller. Zero converter group delay; selective-fixed-filter ANC in analog. See `04` §8 |
 | ADAU1777 sample + breakout (parallel track, not on the critical path) | 1 | 1,000–2,000 | Production fast loop; order week 1 for lead time |
