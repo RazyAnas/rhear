@@ -102,6 +102,8 @@ Hardware: ANC codec settled on the **ADAU1772 (40-LFCSP, hand-solderable)** afte
 ADAU1777 turned out to be WLCSP-only; the twin priced that swap at **0.17 dB**. Buy nothing
 yet — see the buy gate.
 
-Buy gate: G0–G2 **pass**; G3–G6 (speech-enhancement metrics, quantisation, direction, filter
-generation) still to build — all of them simulation-only, still no hardware needed.
-Next: E03, the L1 enhancer against STOI/PESQ/SI-SDR targets.
+Buy gate: **G0–G2 and G6 pass.** G6 is the central claim: neural filter selection gives
+**+9.3 dB over plain FxNLMS** in the 250 ms after a noise change, closing 77 % of the gap to a
+perfect-knowledge oracle, with a **1,764-parameter** selector. G3–G5 (speech-enhancement
+metrics, INT8 quantisation, direction under head rotation) still to build — all simulation-only.
+Next: E05 (direction, needs no data) then E03 (needs speech corpora).

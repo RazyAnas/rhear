@@ -200,6 +200,46 @@ was wrong, and the braces were doing all the work.
 
 ---
 
+## 3a. E06 — Does neural filter selection actually beat the alternatives?
+
+This is the project's central claim, tested. Non-stationary scenario, 6 s, five noise changes:
+`engine → rotor → wind → engine → siren → wind`. Reference-mic self-noise at 45 dB SNR, so
+attenuation is capped near the coherence bound rather than by deterministic-signal artefacts.
+Electrical delay set to **38 µs**, the ADAU1772 figure — i.e. the part we actually chose.
+
+Four controllers on identical signals:
+
+| controller | overall | **250 ms after a change** | steady state |
+|---|---|---|---|
+| fixed generic filter, no adaptation | −7.02 dB | −10.99 dB | −12.38 dB |
+| FxNLMS only (the classical baseline) | −8.11 dB | −11.39 dB | −29.67 dB |
+| **learned selection + FxNLMS refine** | **−12.19 dB** | **−20.67 dB** | −31.95 dB |
+| oracle selection + FxNLMS refine (ceiling) | −13.43 dB | −23.37 dB | −30.16 dB |
+
+**+9.3 dB over plain FxNLMS in the 250 ms after a noise change**, closing **77 %** of the gap
+to an oracle that knows the noise class perfectly. +4.1 dB overall.
+
+The win lands exactly where the architecture predicted it would: **at the transitions.** In
+steady state FxNLMS catches up on its own (−29.7 dB), which is precisely why the design pairs
+neural selection with classical refinement instead of choosing one — selection buys the
+transient, adaptation buys the asymptote. Neither alone is enough, and now that is a
+measurement rather than a design opinion.
+
+The selector is **1,764 parameters**, reaching 83.2 % frame accuracy on the scenario (100 % on
+its training distribution — the gap is frames that straddle a transition, which is honest and
+expected). It runs at 62.5 Hz and emits a filter choice, never audio.
+
+### The twin caught its own design rule being violated
+
+First run of E06 used `L = 256` and the **engine filter failed to train — +0.22 dB**, i.e.
+worse than doing nothing. Cause: the engine fundamental is 50 Hz, one period is 960 samples
+at 48 kHz, and E01/F4 says exploiting periodicity needs a filter spanning at least one period.
+Raising `L` to 1024 fixed it immediately (−53 dB on its own noise). A rule derived in one
+experiment predicted a failure in another. That is the twin being internally consistent, and
+it is the strongest evidence so far that it is modelling physics rather than curve-fitting.
+
+---
+
 ## 4. What the twin can and cannot prove
 
 | Claim | Provable in sim? | Status |
@@ -213,7 +253,7 @@ was wrong, and the braces were doing all the work.
 | STOI / PESQ / SI-SDR of the enhancer | **Yes** — this is how the whole field works | E03, not built yet |
 | Model size, MACs, INT8 accuracy loss | **Yes**, exactly | E04, not built yet |
 | Direction / head-rotation tracking | **Yes** (spherical-head model in `paths`) | E05, not built yet |
-| L2 filter generation beating a fixed filter | **Yes** | E06, not built yet |
+| L2 filter generation beating a fixed filter | **Yes** | **E06 ✓ — +9.3 dB after a change** |
 | MCU inference time, power | **Projection only** | needs hardware |
 | **Passive attenuation / NRR of a real cup** | **No** | needs hardware |
 | **Real secondary path, driver nonlinearity, fit variation** | **No** | needs hardware |
@@ -238,10 +278,11 @@ Do not order the integrated prototype until every one of these passes in simulat
       held-out noise *types* (E03)
 - [ ] **G4** INT8 quantised model ≤ 200 KB, ≤ 125 MMAC/s, with measured accuracy loss (E04)
 - [ ] **G5** Directional selection beats a fixed filter during simulated head rotation (E05)
-- [ ] **G6** L2 filter generation beats a fixed filter on non-stationary noise (E06)
+- [x] **G6** L2 filter generation beats a fixed filter on non-stationary noise (E06) —
+      **PASS**: +9.3 dB after a change, 77 % of the oracle gap closed, 1,764-param selector
 
-G3–G6 need datasets (DNS, MAD, NOISEX-92) but still **no hardware**. Only after all six does
-money get spent — and by then the algorithms are written, so the rig's job narrows to
+G3 and G4 need datasets (DNS, MAD, NOISEX-92); G5 needs none. All are still **no hardware**.
+Only after all six does money get spent — and by then the algorithms are written, so the rig's job narrows to
 measuring the two things simulation genuinely cannot: the cup and the secondary path.
 
 **One purchase is worth making before the gate:** the ADAU1777 sample, because its lead time
@@ -265,7 +306,9 @@ laptop. Results land in `results/*.npz`.
 | `rhear/core/anc.py` | FxLMS/FxNLMS with robust score functions, impulse detector |
 | `rhear/core/predict.py` | Δ-step prediction floor — the theory the results are checked against |
 | `rhear/core/signals.py` | broadband, harmonic, α-stable, gunshot-like bursts |
-| `rhear/experiments/` | E00 validation, E01 causality, E02 impulsive |
+| `rhear/core/l2runtime.py` | the frame-rate **coefficient interface** — slow selector writes `w`, fast loop runs FxNLMS per sample |
+| `rhear/core/state.py` | acoustic state features (periodicity, impulsiveness, flatness, centroid) |
+| `rhear/experiments/` | E00 validation, E01 causality, E02 impulsive, E06 filter selection |
 
 The virtual patch panel is `CODECS` in `electronics.py`: swapping ADAU1777 for a generic
 codec is one dictionary lookup, which is what makes "connect the electronics virtually"
