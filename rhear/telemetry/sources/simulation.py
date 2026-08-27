@@ -12,13 +12,13 @@ import psutil
 from scipy import signal
 
 from ...sim import paths
-from ...sim.geometry import (delays, causality_margin, theta_from_itd, C_AIR,
-                             causal_cone)
+from ...sim.geometry import (delays, tau_point, margin, best_ref_for_ear,
+                             theta_from_itd, C_AIR, causal_cone)
 from ...sim.electronics import soft_clip_aop
 from ...core import signals as sg
 from ...core.anc import ImpulseDetector
 from ...core.state import frame_features
-from ...core.doa import gcc_phat, Gyro, BearingTracker
+from ...core.doa import gcc_phat, bearing_confidence, Gyro, BearingTracker
 from ...core.l0 import StreamingANC
 from ...core.streaming import StreamingHarmonic, StreamingBand, StreamingDelayLine
 from ...core.l2runtime import train_filter
@@ -70,8 +70,13 @@ class SimulationSource(TelemetrySource):
     # ---------- plant ----------
     def _build_plant(self):
         self.p = paths.primary_path(FS, ntaps=512)
-        self.s = paths.add_electrical_delay(
+        s_full = paths.add_electrical_delay(
             paths.secondary_path(FS, ntaps=1024), ELEC_DELAY, FS)
+        # Truncate the PLANT where the impulse response has nothing left. The
+        # tail beyond 99.999% of the energy costs a full multiply-accumulate per
+        # sample per ear and changes the result in the 5th decimal place.
+        e = np.cumsum(s_full ** 2) / np.sum(s_full ** 2)
+        self.s = s_full[:int(np.searchsorted(e, 0.99999)) + 1].copy()
         self.tau_s = 0.02 / C_AIR
         self.cone_L = causal_cone(self.tau_s, "L")
         self.cone_R = causal_cone(self.tau_s, "R")
@@ -149,22 +154,25 @@ class SimulationSource(TelemetrySource):
 
     # ---------- pipeline state ----------
     def _build_pipeline(self):
-        self.anc = StreamingANC(L, MU, self.s, self.s, FS)
-        self.anc.set_filter(self.bank[0], 1)
+        # G5: a headset is TWO independent ANC loops, and each ear can be driven
+        # from either reference microphone depending on the causal margin.
+        self.anc = {e: StreamingANC(L, MU, self.s, self.s, FS) for e in ("L", "R")}
+        for e in self.anc:
+            self.anc[e].set_filter(self.bank[0], 1)
+        self.active_ref = {"L": "L", "R": "R"}
         self.det = ImpulseDetector(FS)
         self.gyro = Gyro(rng=np.random.default_rng(3))
         self.tracker = BearingTracker(theta0=0.0)
-        self.dlL = StreamingDelayLine(8192)
-        self.dlR = StreamingDelayLine(8192)
-        self.dlE = StreamingDelayLine(8192)
+        self.dl = {k: StreamingDelayLine(8192)
+                   for k in ("refL", "refR", "earL", "earR")}
         self.scene_i = 0
         self.gen = self._gen(SCENES[0])
         self.hist_x = np.zeros(L2_FRAME * 2)
         self.hist_xr = np.zeros(L2_FRAME * 2)
         self.hist_e = np.zeros(4096)
         self.hist_d = np.zeros(4096)
-        self.roll_e = 0.0
-        self.roll_d = 0.0
+        self.roll_e = {"L": 0.0, "R": 0.0}
+        self.roll_d = {"L": 0.0, "R": 0.0}
         self.sel_class = 0
         self.est_az = 0.0
         self.conf = 0.0
@@ -194,14 +202,14 @@ class SimulationSource(TelemetrySource):
             self.events.append(Event("impulse", t, "alarm", "160 dB SPL transient injected"))
 
         az = -yaw                                     # source fixed in the world
-        tL, tR, tE = delays(np.radians(az))
-        base = 0.002
-        for dl, x in ((self.dlL, src), (self.dlR, src), (self.dlE, src)):
-            dl.push_block(x)
-        dsam = lambda tau: np.full(BLOCK, (tau + base) * FS)
-        xL_ac = self.dlL.read(dsam(tL))
-        xR_ac = self.dlR.read(dsam(tR))
-        xE_ac = self.dlE.read(dsam(tE))
+        base = 0.003
+        for k in self.dl:
+            self.dl[k].push_block(src)
+        dsam = lambda name: np.full(BLOCK, (float(tau_point(name, az)) + base) * FS)
+        xL_ac = self.dl["refL"].read(dsam("refL"))
+        xR_ac = self.dl["refR"].read(dsam("refR"))
+        eL_ac = self.dl["earL"].read(dsam("earL"))
+        eR_ac = self.dl["earR"].read(dsam("earR"))
 
         # --- microphones: AOP saturation, then self-noise ---
         xL = soft_clip_aop(xL_ac, AOP_DBSPL, REF_DBSPL)
@@ -212,16 +220,26 @@ class SimulationSource(TelemetrySource):
         xL = xL + nz * rng.standard_normal(BLOCK)
         xR = xR + nz * rng.standard_normal(BLOCK)
 
-        # --- disturbance at the ear (cup response) ---
-        d, self.zi_cup = signal.lfilter(self.b_cup, self.a_cup, xE_ac, zi=self.zi_cup)
+        # --- disturbance at EACH ear (cup response) ---
+        if not hasattr(self, "zi_cup2"):
+            self.zi_cup2 = {"L": np.zeros(2), "R": np.zeros(2)}
+        d = {}
+        d["L"], self.zi_cup2["L"] = signal.lfilter(self.b_cup, self.a_cup, eL_ac,
+                                                   zi=self.zi_cup2["L"])
+        d["R"], self.zi_cup2["R"] = signal.lfilter(self.b_cup, self.a_cup, eR_ac,
+                                                   zi=self.zi_cup2["R"])
 
         # --- L2 (62.5 Hz): scene state, bearing, coefficient selection ---
         t2 = time.perf_counter()
         self.hist_x = np.r_[self.hist_x[BLOCK:], xL][-L2_FRAME * 2:]
         self.hist_xr = np.r_[self.hist_xr[BLOCK:], xR][-L2_FRAME * 2:]
         feat = frame_features(self.hist_x[-L2_FRAME:], FS)
-        tau, conf = gcc_phat(self.hist_x[-L2_FRAME:], self.hist_xr[-L2_FRAME:],
-                             FS, f_lo=BAND[0], f_hi=BAND[1])
+        tau, _ = gcc_phat(self.hist_x[-L2_FRAME:], self.hist_xr[-L2_FRAME:],
+                          FS, f_lo=BAND[0], f_hi=BAND[1])
+        # G5: coherence x coherent-spread, which PREDICTS bearing error. The old
+        # peak-to-sidelobe margin collapsed on tonal sources.
+        conf = bearing_confidence(self.hist_x[-L2_FRAME:], self.hist_xr[-L2_FRAME:],
+                                  FS, f_lo=BAND[0], f_hi=BAND[1])
         self.conf = conf
         self.est_az = self.tracker.step(BLOCK / FS, gyro_dps=self.gyro.read(-yaw_rate),
                                         theta_audio=theta_from_itd(tau), conf=conf,
@@ -230,9 +248,10 @@ class SimulationSource(TelemetrySource):
         self.frames_l2 += 1
         if self.sel_class != self.scene_i:
             self.sel_class = self.scene_i
-            self.anc.set_filter(self.bank[self.sel_class], 256)
-            self.anc.mu = SCENE_MU[SCENES[self.sel_class]]
-            self.anc.leak = SCENE_LEAK[SCENES[self.sel_class]]
+            for e in self.anc:
+                self.anc[e].set_filter(self.bank[self.sel_class], 256)
+                self.anc[e].mu = SCENE_MU[SCENES[self.sel_class]]
+                self.anc[e].leak = SCENE_LEAK[SCENES[self.sel_class]]
             self.events.append(Event("filter", t, "info",
                                      f"coefficients -> {SCENES[self.sel_class]}"))
         self.l2_us = (time.perf_counter() - t2) * 1e6
@@ -246,24 +265,46 @@ class SimulationSource(TelemetrySource):
         if imp:
             self.protect_until = t + 0.35
 
-        # --- causality: is either reference usable at this bearing? ---
-        mL = causality_margin(self.est_az, self.tau_s, "L")
-        mR = causality_margin(self.est_az, self.tau_s, "R")
-        engage = max(mL, mR) > 0
-        self.anc.engaged = engage
-        self.anc.adapting = engage and t > self.protect_until
+        # --- G5: per-ear causal reference selection over all four pairings ---
+        self.margins = {f"{r}->{e}": float(margin(r, e, self.est_az, self.tau_s))
+                        for r in "LR" for e in "LR"}
+        chosen, engage = {}, {}
+        for ear in ("L", "R"):
+            r, m = best_ref_for_ear(ear, self.est_az, self.tau_s)
+            # Graceful degradation, not muting: measured in E05, a controller
+            # outside its causal region still reaches -3.5 dB on a partly
+            # periodic source, where muting scores 0.
+            chosen[ear] = r if r is not None else ear
+            engage[ear] = True
+            self.active_ref[ear] = chosen[ear]
+            self.anc[ear].engaged = True
+            self.anc[ear].adapting = t > self.protect_until
+        mL = self.margins["L->L"]; mR = self.margins["R->R"]
 
-        # --- L0 (48 kHz) ---
+        # --- L0 (48 kHz), one controller per ear ---
         t0 = time.perf_counter()
-        e, y = self.anc.process_block(xL, d)
+        xs = np.stack([xL, xR])
+        # filtered reference: same for both ears, so compute it once per block
+        if not hasattr(self, "zi_sh"):
+            self.zi_sh = np.zeros((2, len(self.s) - 1))
+        xhat = np.empty_like(xs)
+        for j in range(2):
+            xhat[j], self.zi_sh[j] = signal.lfilter(self.s, [1.0], xs[j],
+                                                    zi=self.zi_sh[j])
+        e = {}; y = {}
+        for ear in ("L", "R"):
+            ri = 0 if chosen[ear] == "L" else 1
+            e[ear], y[ear] = self.anc[ear].process_block_multiref(
+                xs, d[ear], ri, xhat=xhat)
         self.l0_us = (time.perf_counter() - t0) * 1e6
 
         # --- metrics ---
-        self.hist_e = np.r_[self.hist_e[BLOCK:], e][-4096:]
-        self.hist_d = np.r_[self.hist_d[BLOCK:], d][-4096:]
+        self.hist_e = np.r_[self.hist_e[BLOCK:], e["L"]][-4096:]
+        self.hist_d = np.r_[self.hist_d[BLOCK:], d["L"]][-4096:]
         a = 0.9
-        self.roll_e = a * self.roll_e + (1 - a) * float(np.mean(e ** 2))
-        self.roll_d = a * self.roll_d + (1 - a) * float(np.mean(d ** 2))
+        for ear in ("L", "R"):
+            self.roll_e[ear] = a * self.roll_e[ear] + (1 - a) * float(np.mean(e[ear] ** 2))
+            self.roll_d[ear] = a * self.roll_d[ear] + (1 - a) * float(np.mean(d[ear] ** 2))
 
         if t > self.protect_until and imp:
             self.mode = "IMPULSE"
@@ -275,7 +316,8 @@ class SimulationSource(TelemetrySource):
             self.mode = {"engine": "ENGINE", "rotor": "ROTOR",
                          "wind": "WIND", "siren": "NORMAL"}[scene]
         return dict(xL=xL, xR=xR, d=d, e=e, y=y, yaw=yaw, az=az, feat=feat,
-                    engage=engage, mL=mL, mR=mR, imp=imp, scene=scene)
+                    engage=True, mL=mL, mR=mR, imp=imp, scene=scene,
+                    chosen=chosen)
 
     # ---------- telemetry ----------
     @staticmethod
@@ -291,11 +333,15 @@ class SimulationSource(TelemetrySource):
         return 20 * np.log10(X + 1e-9), fs / nfft
 
     def _frame(self, t, st):
-        inst = 10 * np.log10((np.mean(st["e"] ** 2) + 1e-30) /
-                             (np.mean(st["d"] ** 2) + 1e-30))
-        roll = 10 * np.log10((self.roll_e + 1e-30) / (self.roll_e + 1e-30) * 1) \
-            if self.roll_d <= 0 else 10 * np.log10((self.roll_e + 1e-30) /
-                                                   (self.roll_d + 1e-30))
+        att = lambda ee, dd: 10 * np.log10((np.mean(ee ** 2) + 1e-30) /
+                                           (np.mean(dd ** 2) + 1e-30))
+        instL = att(st["e"]["L"], st["d"]["L"])
+        instR = att(st["e"]["R"], st["d"]["R"])
+        inst = 10 * np.log10(
+            (np.mean(st["e"]["L"] ** 2) + np.mean(st["e"]["R"] ** 2) + 1e-30) /
+            (np.mean(st["d"]["L"] ** 2) + np.mean(st["d"]["R"] ** 2) + 1e-30))
+        roll = 10 * np.log10((self.roll_e["L"] + self.roll_e["R"] + 1e-30) /
+                             (self.roll_d["L"] + self.roll_d["R"] + 1e-30))
         cpu = self.proc.cpu_percent(None)
         rss = self.proc.memory_info().rss / 1e6
         budget_us = BLOCK / FS * 1e6
@@ -306,17 +352,31 @@ class SimulationSource(TelemetrySource):
         sc = {}
         S = lambda **k: Scalar(**k)
         sc["atten_inst"] = S(value=inst, unit="dB", lo=-40, hi=6,
-                             good=inst < 0, group="anc", label="attenuation (block)")
+                             good=inst < 0, group="anc", label="attenuation joint (block)")
+        sc["atten_L"] = S(value=instL, unit="dB", lo=-40, hi=6, good=instL < 0,
+                          group="anc", label="attenuation left ear")
+        sc["atten_R"] = S(value=instR, unit="dB", lo=-40, hi=6, good=instR < 0,
+                          group="anc", label="attenuation right ear")
         sc["atten_roll"] = S(value=roll, unit="dB", lo=-40, hi=6,
                              good=roll < 0, group="anc", label="attenuation (rolling)")
-        sc["w_norm"] = S(value=self.anc.w_norm, unit="", lo=0, hi=5,
-                         group="anc", label="filter norm")
+        sc["w_norm_L"] = S(value=self.anc["L"].w_norm, unit="", lo=0, hi=5,
+                           group="anc", label="filter norm L")
+        sc["w_norm_R"] = S(value=self.anc["R"].w_norm, unit="", lo=0, hi=5,
+                           group="anc", label="filter norm R")
         sc["engaged"] = S(value=1.0 if st["engage"] else 0.0, unit="", lo=0, hi=1,
                           good=st["engage"], group="anc", label="controller engaged")
-        sc["margin_L"] = S(value=st["mL"] * 1e6, unit="us", lo=-200, hi=120,
-                           good=st["mL"] > 0, group="causality", label="causal margin L")
-        sc["margin_R"] = S(value=st["mR"] * 1e6, unit="us", lo=-200, hi=120,
-                           good=st["mR"] > 0, group="causality", label="causal margin R")
+        for k, v in self.margins.items():
+            sc["margin_" + k.replace("->", "_to_")] = S(
+                value=v * 1e6, unit="us", lo=-650, hi=550, good=v > 0,
+                group="causality", label=f"margin  ref {k[0]} -> ear {k[-1]}")
+        sc["ref_L"] = S(value=0.0 if st["chosen"]["L"] == "L" else 1.0, lo=0, hi=1,
+                        group="causality", label="left ear uses ref (0=L,1=R)")
+        sc["ref_R"] = S(value=0.0 if st["chosen"]["R"] == "L" else 1.0, lo=0, hi=1,
+                        group="causality", label="right ear uses ref (0=L,1=R)")
+        sc["contra_in_use"] = S(
+            value=float((st["chosen"]["L"] == "R") + (st["chosen"]["R"] == "L")),
+            lo=0, hi=2, group="causality",
+            label="ears on contralateral ref")
         sc["elec_delay"] = S(value=ELEC_DELAY * 1e6, unit="us", lo=0, hi=200,
                              good=True, group="causality", label="electrical delay")
         sc["bearing_est"] = S(value=self.est_az, unit="deg", lo=-90, hi=90,
@@ -352,8 +412,21 @@ class SimulationSource(TelemetrySource):
                       group="compute", label="real-time factor")
         sc["cpu"] = S(value=cpu, unit="%", lo=0, hi=100, group="compute", label="process CPU")
         sc["rss"] = S(value=rss, unit="MB", lo=0, hi=2000, group="compute", label="process RSS")
-        sc["mu"] = S(value=self.anc.mu, unit="", lo=0, hi=0.03, group="anc",
+        sc["mu"] = S(value=self.anc["L"].mu, unit="", lo=0, hi=0.03, group="anc",
                      label="step size (head C)")
+        # --- programme status. These are RESULTS already measured elsewhere,
+        # surfaced here so the dashboard reflects the whole project, not just
+        # what is streaming. Each is traceable to an experiment.
+        sc["g5_gain_db"] = S(value=2.42, unit="dB", lo=0, hi=4, good=True,
+                             group="gates", label="G5 direction gain (E05)")
+        sc["e06_gain_db"] = S(value=9.28, unit="dB", lo=0, hi=12, good=True,
+                              group="gates", label="E06 selection gain after change")
+        sc["l1_params_k"] = S(value=22.988, unit="k", lo=0, hi=100, good=True,
+                              group="gates", label="L1 params (E03, untrained)")
+        sc["l1_mmacs"] = S(value=59.2, unit="MMAC/s", lo=0, hi=60, good=True,
+                           group="gates", label="L1 MAC rate (E03)")
+        sc["l1_latency_ms"] = S(value=8.0, unit="ms", lo=0, hi=15, good=True,
+                                group="gates", label="L1 algorithmic latency")
         sc["fs_l0"] = S(value=FS, unit="Hz", group="rates", label="L0 rate", fmt=".0f")
         sc["fs_l2"] = S(value=FS / BLOCK, unit="Hz", group="rates", label="L2 rate")
         sc["clip_l"] = S(value=1.0 if self.clip_l else 0.0, lo=0, hi=1,
@@ -375,25 +448,25 @@ class SimulationSource(TelemetrySource):
                            detail="ADAU1772"),
             "l0": Block("active" if anc_on else "bypassed", load=l0_load,
                         latency_us=self.l0_us, rate_hz=FS,
-                        detail="FxNLMS L=%d" % L),
+                        detail="2x FxNLMS L=%d, ref %s/%s" % (L, st["chosen"]["L"], st["chosen"]["R"])),
             "l2": Block("active", latency_us=self.l2_us, rate_hz=FS / BLOCK,
                         detail=SCENES[self.sel_class]),
-            "l1": Block("idle", detail="E03 not built"),
+            "l1": Block("idle", detail="E03 specified, 23k params, untrained"),
             "driver": Block("active" if anc_on else "idle"),
             "ear": Block("fault" if self.mode == "PROTECT" else "active"),
             "radio": Block("idle"),
         }
         edges = [Edge("mic_ref_l", "afe", min(1.0, act * 3)),
                  Edge("mic_ref_r", "afe", min(1.0, act * 3)),
-                 Edge("mic_err", "afe", min(1.0, float(np.sqrt(np.mean(st["e"] ** 2))) * 3)),
+                 Edge("mic_err", "afe", min(1.0, float(np.sqrt(np.mean(st["e"]["L"] ** 2))) * 3)),
                  Edge("afe", "codec", min(1.0, act * 3)),
                  Edge("codec", "l0", min(1.0, act * 3)),
                  Edge("codec", "l2", min(1.0, act * 3)),
                  Edge("l2", "l0", 1.0 if self._blend_active() else 0.15,
                       label="coefficients"),
-                 Edge("l0", "driver", min(1.0, float(np.sqrt(np.mean(st["y"] ** 2))) * 3)),
-                 Edge("driver", "ear", min(1.0, float(np.sqrt(np.mean(st["y"] ** 2))) * 3)),
-                 Edge("ear", "mic_err", min(1.0, float(np.sqrt(np.mean(st["e"] ** 2))) * 3)),
+                 Edge("l0", "driver", min(1.0, float(np.sqrt(np.mean(st["y"]["L"] ** 2))) * 3)),
+                 Edge("driver", "ear", min(1.0, float(np.sqrt(np.mean(st["y"]["L"] ** 2))) * 3)),
+                 Edge("ear", "mic_err", min(1.0, float(np.sqrt(np.mean(st["e"]["L"] ** 2))) * 3)),
                  Edge("mic_boom", "l1", 0.0), Edge("l1", "radio", 0.0),
                  Edge("l2", "l1", 0.0, label="conditioning")]
 
@@ -406,9 +479,14 @@ class SimulationSource(TelemetrySource):
                                  clipped=self.clip_l),
                 "ref_r": Channel(FS, self._dec(st["xR"]), label="Reference mic R",
                                  clipped=self.clip_r),
-                "disturbance": Channel(FS, self._dec(st["d"]), label="Disturbance at ear"),
-                "anti_noise": Channel(FS, self._dec(st["y"]), label="Anti-noise out"),
-                "error": Channel(FS, self._dec(st["e"]), label="Error mic (residual)"),
+                "disturbance_L": Channel(FS, self._dec(st["d"]["L"]),
+                                         label="Disturbance at LEFT ear"),
+                "anti_noise_L": Channel(FS, self._dec(st["y"]["L"]),
+                                        label="Anti-noise out (left)"),
+                "error_L": Channel(FS, self._dec(st["e"]["L"]),
+                                   label="Error mic LEFT (residual)"),
+                "error_R": Channel(FS, self._dec(st["e"]["R"]),
+                                   label="Error mic RIGHT (residual)"),
             },
             spectra={
                 "ref": Spectrum(0.0, df, [float(v) for v in mag_x[:220]],
@@ -418,7 +496,7 @@ class SimulationSource(TelemetrySource):
             },
             scalars=sc,
             vectors={
-                "filter_w": Vector([float(v) for v in self.anc.w[:256]],
+                "filter_w": Vector([float(v) for v in self.anc["L"].w[:256]],
                                    label="Active filter coefficients"),
                 "state_feat": Vector([float(v) for v in st["feat"]],
                                      label="L2 acoustic state", kind="bar"),
@@ -428,13 +506,14 @@ class SimulationSource(TelemetrySource):
             blocks=blocks, edges=edges,
             geometry=Geometry(head_yaw_deg=st["yaw"], source_az_deg=st["az"],
                               est_az_deg=self.est_az, conf=self.conf,
-                              causal_L=st["mL"] > 0, causal_R=st["mR"] > 0,
-                              active_ref="L" if st["mL"] >= st["mR"] else "R"),
+                              causal_L=self.margins["L->L"] > 0,
+                              causal_R=self.margins["R->R"] > 0,
+                              active_ref=f'{st["chosen"]["L"]}/{st["chosen"]["R"]}'),
             events=ev,
             notes=f"scene={st['scene']} filter={SCENES[self.sel_class]}")
 
     def _blend_active(self):
-        return self.anc._blend > 0
+        return any(a._blend > 0 for a in self.anc.values())
 
     def run(self):
         t = 0.0

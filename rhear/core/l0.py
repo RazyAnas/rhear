@@ -7,6 +7,7 @@ plant half (applying the true secondary path to produce the error) exists only i
 simulation; on hardware the error arrives from the error microphone instead.
 """
 import numpy as np
+from scipy import signal
 from .anc import score
 
 
@@ -64,32 +65,37 @@ class StreamingANC:
         self.w = w
         return e, y
 
-    def process_block_multiref(self, xs, d, ref):
+    def process_block_multiref(self, xs, d, ref, xhat=None):
         """Same loop, but with rolling buffers kept for EVERY reference mic so a
         reference switch does not inherit a stale delay line.
 
         A headset has two reference mics and two ears, giving four feedforward
         pairings; which one is causal depends on azimuth, so the controller must
         be able to change reference without a transient.
+
+        `xhat` is the filtered reference (s_hat * x). It does NOT depend on the
+        ear, so with two ears it must be computed ONCE per block by the caller
+        and passed in -- computing it inside this loop, per ear, per reference,
+        was 2/3 of the cost and pushed the live twin over real time.
         """
         xs = np.atleast_2d(xs)
         nref, n = xs.shape
+        if xhat is None:
+            xhat = np.stack([signal.lfilter(self.s_hat, [1.0], x) for x in xs])
         if self._mbuf is None or self._mbuf.shape[0] != nref:
             self._mbuf = np.zeros((nref, self.L))
             self._mhbuf = np.zeros((nref, self.L))
-            self._msh = np.zeros((nref, len(self.s_hat)))
         e = np.empty(n); y = np.empty(n)
         w = self.w
-        xb, xhb, shb = self._mbuf, self._mhbuf, self._msh
-        ybuf, s_hat, s_true = self.ybuf, self.s_hat, self.s_true
+        xb, xhb = self._mbuf, self._mhbuf
+        ybuf, s_true = self.ybuf, self.s_true
         for i in range(n):
             if self._blend > 0:
                 a = 1.0 / self._blend
                 w *= (1 - a); w += a * self._target
                 self._blend -= 1
             xb[:, 1:] = xb[:, :-1]; xb[:, 0] = xs[:, i]
-            shb[:, 1:] = shb[:, :-1]; shb[:, 0] = xs[:, i]
-            xhb[:, 1:] = xhb[:, :-1]; xhb[:, 0] = shb @ s_hat
+            xhb[:, 1:] = xhb[:, :-1]; xhb[:, 0] = xhat[:, i]
             yi = float(w @ xb[ref]) if self.engaged else 0.0
             ybuf[1:] = ybuf[:-1]; ybuf[0] = yi
             ei = d[i] - float(s_true @ ybuf)
