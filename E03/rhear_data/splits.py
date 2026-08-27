@@ -47,6 +47,32 @@ def noise_group(path, corpus):
     return f"{corpus}:{os.path.splitext(b)[0]}"
 
 
+def describe_grouping(paths, corpus):
+    """Report how clips collapse into source groups.
+
+    MUST be inspected against the real corpus before trusting the split. If MAD
+    filenames do not expose the source video, every clip of a class can collapse
+    into ONE group (seen with stand-in files: all gunshots -> "mad:gunshot"),
+    which would push a whole class into a single split. The opposite failure --
+    one group per clip -- means clips from the same source video can land in
+    different splits and leak.
+    """
+    from collections import Counter
+    g = [noise_group(p, corpus) for p in paths]
+    c = Counter(g)
+    return {
+        "clips": len(paths),
+        "groups": len(c),
+        "clips_per_group_mean": round(len(paths) / max(len(c), 1), 2),
+        "largest_group": c.most_common(1)[0] if c else None,
+        "singleton_groups": sum(1 for v in c.values() if v == 1),
+        "risk": ("groups collapse a whole class -- check the filename pattern"
+                 if len(c) < 5 else
+                 "one group per clip -- clips from one source video may leak"
+                 if all(v == 1 for v in c.values()) and len(c) > 50 else "looks sane"),
+    }
+
+
 def rir_group(path):
     """Group RIRs by room directory, not by individual measurement."""
     p = path.replace(os.sep, "/")
@@ -55,11 +81,21 @@ def rir_group(path):
 
 
 def split_groups(groups, rng, frac=(0.80, 0.10, 0.10)):
-    """Deterministically assign whole groups to splits."""
+    """Deterministically assign whole groups to splits.
+
+    Guarantees at least one group per split whenever there are >= 3 groups.
+    Without that, a small noise pool silently produced an EMPTY validation split
+    (4 groups x 10% rounds to 0), and the build skipped `val` entirely.
+    """
     g = sorted(set(groups))
     rng.shuffle(g)
     n = len(g)
-    a, b = int(frac[0] * n), int((frac[0] + frac[1]) * n)
+    if n < 3:
+        return {"train": set(g), "val": set(), "test": set()}
+    a = max(1, int(frac[0] * n))
+    b = max(a + 1, int((frac[0] + frac[1]) * n))
+    b = min(b, n - 1)
+    a = min(a, b - 1) if b - 1 >= 1 else a
     return {"train": set(g[:a]), "val": set(g[a:b]), "test": set(g[b:])}
 
 

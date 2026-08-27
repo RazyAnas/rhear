@@ -18,7 +18,7 @@ FS = 16_000
 def index_librispeech(root):
     """-> {speaker: [(utt_id, path), ...]}  (REAL recordings)"""
     out = {}
-    for d, _, fs in os.walk(root):
+    for d, _, fs in os.walk(root, followlinks=True):   # split roots may be symlinks
         for f in fs:
             if f.endswith((".flac", ".wav")):
                 p = os.path.join(d, f)
@@ -29,10 +29,17 @@ def index_librispeech(root):
 
 
 def index_musan_noise(root):
-    """MUSAN noise subtree only. -> [dict(path, cls, source)]"""
+    """MUSAN noise subtree only. -> [dict(path, cls, source)]
+
+    If the tree contains a directory literally named `noise` (the MUSAN layout)
+    only that subtree is indexed, so music/ and speech/ can never leak in as
+    "noise". If it does not, `root` is assumed to already point at noise.
+    """
+    walk = list(os.walk(root, followlinks=True))
+    has_noise_dir = any("noise" in d.replace(os.sep, "/").split("/") for d, _, _ in walk)
     out = []
-    for d, _, fs in os.walk(root):
-        if "noise" not in d.replace(os.sep, "/").split("/"):
+    for d, _, fs in walk:
+        if has_noise_dir and "noise" not in d.replace(os.sep, "/").split("/"):
             continue
         for f in fs:
             if not f.endswith(".wav"):
@@ -41,7 +48,9 @@ def index_musan_noise(root):
             sub = "free-sound" if "free-sound" in d else (
                 "sound-bible" if "sound-bible" in d else "other")
             out.append(dict(path=p, cls="ambient" if sub == "free-sound" else "machinery",
-                            source=S.noise_group(p, "musan"), corpus="musan", sub=sub))
+                            source=S.noise_group(p, "musan"), corpus="musan", sub=sub,
+                            provenance=("synthetically generated"
+                                        if "STANDIN" in p else "real recording")))
     return out
 
 
@@ -52,7 +61,7 @@ def index_mad(root):
     """MAD as a MILITARY-NOISE SOURCE ONLY. The 'communication' class contains
     speech and is excluded so it cannot contaminate the enhancement target."""
     out, skipped = [], 0
-    for d, _, fs in os.walk(root):
+    for d, _, fs in os.walk(root, followlinks=True):
         cls = os.path.basename(d).lower()
         for f in fs:
             if not f.endswith((".wav", ".flac")):
@@ -62,13 +71,15 @@ def index_mad(root):
                 continue
             p = os.path.join(d, f)
             out.append(dict(path=p, cls=cls, source=S.noise_group(p, "mad"),
-                            corpus="mad", sub=cls))
+                            corpus="mad", sub=cls,
+                            provenance=("synthetically generated"
+                                        if "STANDIN" in p else "real recording")))
     return out, skipped
 
 
 def index_rirs(root, real_only=True):
     out = []
-    for d, _, fs in os.walk(root):
+    for d, _, fs in os.walk(root, followlinks=True):
         dl = d.replace(os.sep, "/").lower()
         is_real = "real_rirs" in dl
         if real_only and not is_real:
@@ -146,9 +157,10 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
         nz_pool = noise_by[src]
         rir_pool = rir_by[src]
         if not spk_pool or not nz_pool:
-            if verbose:
-                print(f"  [skip] {split}: no data")
-            continue
+            raise RuntimeError(
+                f"split '{split}' has no data (speakers={len(spk_pool)}, "
+                f"noise groups={len(nz_pool)}). A silently skipped split is worse "
+                f"than a failed build -- it produces a dataset that looks complete.")
         d = os.path.join(out_dir, split)
         os.makedirs(d, exist_ok=True)
         spks = sorted(spk_pool)
@@ -159,7 +171,9 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
             k = int(rng.integers(1, 4))
             picks = [nz_pool[int(rng.integers(len(nz_pool)))] for _ in range(k)]
             nz = [dict(audio=load_audio(p["path"]), cls=p["cls"],
-                       source=p["source"]) for p in picks]
+                       source=p["source"],
+                       provenance=p.get("provenance", "real recording"))
+                  for p in picks]
             rir = None
             if rir_pool and rng.random() < 0.6:
                 rp = rir_pool[int(rng.integers(len(rir_pool)))]

@@ -36,7 +36,6 @@ def compute(header, rows, audio_root=None):
         for l in x.get("noise_layers", []):
             ng.add(f"{l['source']}:{l['cls']}")
             cls[l["cls"]] += 1
-    r["noise_sources_total"] = len({x.split(":")[0] for x in rows for _ in [0]})
     r["distinct_noise_recordings"] = len({l["source"]
                                           for x in rows
                                           for l in x.get("noise_layers", [])})

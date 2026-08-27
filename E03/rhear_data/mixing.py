@@ -133,6 +133,7 @@ def make_mixture(speech, noises, fs, rng, rir=None, dur_s=4.0,
         tot += a
         layers.append(dict(cls=nz["cls"], source=nz["source"],
                            level_traj=kind,
+                           provenance=nz.get("provenance", "real recording"),
                            stationarity=classify_stationarity(nz["cls"])))
     meta["noise_layers"] = layers
     meta["n_noise_layers"] = len(layers)
@@ -197,5 +198,12 @@ def make_mixture(speech, noises, fs, rng, rir=None, dur_s=4.0,
     meta["dur_s"] = dur_s
     meta["speaker"] = speech["speaker"]
     meta["utt"] = speech["utt"]
-    meta["provenance"] = "synthetically mixed from real recordings"
+    # Provenance is DERIVED from the actual sources, never asserted. If any
+    # component is a synthetic stand-in, the sample says so.
+    src_prov = {speech.get("provenance", "real recording")} | {
+        l["provenance"] for l in layers}
+    meta["provenance"] = ("synthetically mixed from real recordings"
+                          if src_prov == {"real recording"}
+                          else "synthetically mixed, CONTAINS SYNTHETIC SOURCES")
+    meta["source_provenance"] = sorted(src_prov)
     return noisy.astype(np.float32), target.astype(np.float32), meta
