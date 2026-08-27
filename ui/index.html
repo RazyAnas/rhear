@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RHEAR Digital Twin</title>
+<style>
+:root{
+  --bg:#0a0d12; --panel:#111721; --panel2:#0d131c; --line:#1e2734;
+  --fg:#dbe4ef; --dim:#7d8da3; --dimmer:#4a5768;
+  --accent:#38bdf8; --good:#34d399; --warn:#fbbf24; --bad:#f87171;
+  --coef:#c084fc; --grid:#182130;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:13px/1.45 var(--mono);}
+header{display:flex;align-items:center;gap:14px;padding:8px 14px;background:var(--panel);
+  border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+.brand{font-weight:700;letter-spacing:.14em;font-size:13px}
+.brand span{color:var(--accent)}
+.badge{padding:3px 9px;border-radius:3px;border:1px solid var(--line);
+  background:var(--panel2);font-size:11px;letter-spacing:.08em;white-space:nowrap}
+#mode{font-weight:700;letter-spacing:.12em}
+.m-NORMAL{color:var(--good);border-color:#14532d}
+.m-ENGINE,.m-ROTOR,.m-WIND{color:var(--accent);border-color:#0c4a6e}
+.m-IMPULSE,.m-PROTECT{color:#fff;background:var(--bad);border-color:var(--bad)}
+.m-LOW_CONFIDENCE{color:var(--warn);border-color:#78350f}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.live .dot{background:var(--good);animation:pulse 1.4s infinite}
+.dead .dot{background:var(--bad)}
+.paused .dot{background:var(--warn)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.spacer{flex:1}
+button{font:inherit;color:var(--fg);background:var(--panel2);border:1px solid var(--line);
+  padding:4px 11px;border-radius:3px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.on{border-color:var(--accent);color:var(--accent)}
+input[type=range]{width:260px;accent-color:var(--accent)}
+main{display:grid;grid-template-columns:minmax(430px,1.15fr) minmax(360px,1fr) minmax(300px,.85fr);
+  gap:10px;padding:10px;align-items:start}
+@media(max-width:1250px){main{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.card>h2{margin:0;padding:6px 11px;font-size:10.5px;letter-spacing:.13em;color:var(--dim);
+  text-transform:uppercase;border-bottom:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:center;font-weight:600}
+.card>div{padding:9px 11px}
+.col{display:flex;flex-direction:column;gap:10px}
+canvas{display:block;width:100%;border-radius:3px;background:var(--panel2)}
+.chan{margin-bottom:8px}
+.chan .lbl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--dim);
+  margin-bottom:3px;letter-spacing:.05em}
+.chan .lbl .clip{color:var(--bad);font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:6px}
+.tile{background:var(--panel2);border:1px solid var(--line);border-radius:3px;padding:6px 8px}
+.tile .k{font-size:9.5px;color:var(--dimmer);letter-spacing:.05em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .v{font-size:16px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.tile .u{font-size:10px;color:var(--dim);margin-left:3px;font-weight:400}
+.tile.good .v{color:var(--good)} .tile.bad .v{color:var(--bad)}
+.tile .bar{height:2px;background:var(--line);margin-top:5px;border-radius:1px;overflow:hidden}
+.tile .bar i{display:block;height:100%;background:var(--accent)}
+.tile.good .bar i{background:var(--good)} .tile.bad .bar i{background:var(--bad)}
+.grp{font-size:9.5px;letter-spacing:.14em;color:var(--dimmer);text-transform:uppercase;
+  margin:10px 0 5px}
+.grp:first-child{margin-top:0}
+#events{max-height:150px;overflow:auto;font-size:11px}
+#events div{padding:2px 0;border-bottom:1px solid var(--panel2);color:var(--dim)}
+#events .alarm{color:var(--bad)} #events .warn{color:var(--warn)}
+#flow{width:100%;height:auto}
+.nd rect{fill:var(--panel2);stroke:var(--line);stroke-width:1.2;rx:4}
+.nd.active rect{stroke:var(--accent);fill:#0b2030}
+.nd.warn rect{stroke:var(--warn);fill:#251c07}
+.nd.fault rect{stroke:var(--bad);fill:#2a0f12}
+.nd.bypassed rect{stroke:var(--dimmer);stroke-dasharray:3 3}
+.nd.idle rect{opacity:.42}
+.nd text{fill:var(--fg);font-size:11px;text-anchor:middle;font-family:var(--mono)}
+.nd.idle text{fill:var(--dimmer)}
+.nd .sub{fill:var(--dim);font-size:8.6px}
+.ed{stroke:var(--dimmer);stroke-width:1.2;fill:none;marker-end:url(#ah)}
+.ed.hot{stroke:var(--accent)}
+.ed.coef{stroke:var(--coef);stroke-dasharray:4 3}
+.ed.coef.hot{stroke:var(--coef);stroke-width:2.4}
+.legend{display:flex;gap:14px;font-size:10px;color:var(--dim);padding:4px 11px 8px}
+.legend b{font-weight:400}
+.sw{display:inline-block;width:14px;height:2px;vertical-align:middle;margin-right:4px}
+.note{font-size:10.5px;color:var(--dimmer);padding:0 11px 9px;line-height:1.5}
+.stale{opacity:.4}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">R<span>H</span>EAR · DIGITAL TWIN</div>
+  <div class="badge" id="mode">--</div>
+  <div class="badge" id="src">--</div>
+  <div class="badge" id="conn"><span class="dot"></span><span id="conntxt">connecting</span></div>
+  <div class="spacer"></div>
+  <button id="pause">⏸ pause</button>
+  <input type="range" id="scrub" min="0" max="0" value="0" disabled>
+  <div class="badge" id="tpos">live</div>
+  <div class="badge" id="schema">--</div>
+</header>
+
+<main>
+  <div class="col">
+    <div class="card">
+      <h2>signal flow <span id="flowmode"></span></h2>
+      <svg id="flow" viewBox="0 0 1000 470" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5"
+                  markerHeight="5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <g id="edges"></g><g id="nodes"></g>
+      </svg>
+      <div class="legend">
+        <b><i class="sw" style="background:var(--accent)"></i>audio path</b>
+        <b><i class="sw" style="background:var(--coef)"></i>coefficient path (not audio)</b>
+        <b><i class="sw" style="background:var(--dimmer)"></i>not reported by this producer</b>
+      </div>
+      <div class="note">The coefficient path is the architecture: L2 writes filter
+        coefficients at frame rate; no neural computation sits in the microsecond loop.</div>
+    </div>
+    <div class="card"><h2>head &amp; source</h2><div><canvas id="head" height="300"></canvas></div>
+      <div class="note" id="headnote"></div></div>
+    <div class="card"><h2>events</h2><div id="events"></div></div>
+  </div>
+
+  <div class="col">
+    <div class="card"><h2>microphones &amp; signals <span id="chrate"></span></h2>
+      <div id="chans"></div></div>
+    <div class="card"><h2>residual spectrogram</h2><div><canvas id="sgram" height="150"></canvas></div></div>
+    <div class="card"><h2>spectrum</h2><div><canvas id="spec" height="170"></canvas></div>
+      <div class="legend"><b><i class="sw" style="background:var(--dim)"></i>reference</b>
+        <b><i class="sw" style="background:var(--accent)"></i>residual at ear</b></div></div>
+  </div>
+
+  <div class="col">
+    <div class="card"><h2>state</h2><div id="tiles"></div></div>
+    <div class="card"><h2>vectors</h2><div id="vecs"></div></div>
+  </div>
+</main>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const HIST=900; let hist=[], live=true, meta=null, cursor=-1;
+let sgram=null;
+
+function dpi(c,h){const r=c.getBoundingClientRect();const d=window.devicePixelRatio||1;
+  c.width=Math.max(1,r.width*d);c.height=h*d;const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);
+  return [x,r.width,h];}
+
+/* ---------- signal flow ---------- */
+function buildFlow(){
+  const W=1000,H=470,ng=$('#nodes'),eg=$('#edges');
+  const pos={};meta.nodes.forEach(n=>pos[n.id]=[n.x*W,n.y*H]);
+  eg.innerHTML='';ng.innerHTML='';
+  meta.edges.forEach((e,i)=>{
+    const [x1,y1]=pos[e.src],[x2,y2]=pos[e.dst];
+    const mx=(x1+x2)/2, p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d',`M${x1+66},${y1} C${mx},${y1} ${mx},${y2} ${x2-66},${y2}`);
+    p.setAttribute('class','ed'+(e.coeff?' coef':''));p.id='e'+i;
+    p.setAttribute('stroke-linecap','round');eg.appendChild(p);
+  });
+  meta.nodes.forEach(n=>{
+    const [x,y]=pos[n.id];
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('class','nd idle');g.id='n_'+n.id;
+    const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    r.setAttribute('x',x-66);r.setAttribute('y',y-26);r.setAttribute('width',132);
+    r.setAttribute('height',52);g.appendChild(r);
+    n.label.split('\n').forEach((ln,i)=>{
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',x);t.setAttribute('y',y-5+i*12);t.textContent=ln;g.appendChild(t);});
+    const s=document.createElementNS('http://www.w3.org/2000/svg','text');
+    s.setAttribute('x',x);s.setAttribute('y',y+19);s.setAttribute('class','sub');
+    s.id='s_'+n.id;g.appendChild(s);ng.appendChild(g);
+  });
+}
+function drawFlow(f){
+  meta.nodes.forEach(n=>{
+    const b=f.blocks[n.id], g=$('#n_'+n.id);
+    if(!g)return;
+    g.setAttribute('class','nd '+(b?b.state:'idle'));
+    const s=$('#s_'+n.id);
+    if(!b){s.textContent='';return;}
+    let d=[];
+    if(b.latency_us!=null)d.push(b.latency_us<1000?b.latency_us.toFixed(0)+'µs':(b.latency_us/1000).toFixed(1)+'ms');
+    if(b.load!=null)d.push((b.load*100).toFixed(0)+'%');
+    if(b.detail)d.push(b.detail);
+    s.textContent=d.join(' · ').slice(0,30);
+  });
+  f.edges.forEach(e=>{
+    const i=meta.edges.findIndex(m=>m.src===e.src&&m.dst===e.dst);
+    if(i<0)return;const p=$('#e'+i);if(!p)return;
+    const hot=(e.level||0)>0.05;
+    p.setAttribute('class','ed'+(meta.edges[i].coeff?' coef':'')+(hot?' hot':''));
+    p.style.opacity=String(0.28+0.72*Math.min(1,e.level||0));
+  });
+}
+
+/* ---------- generic renderers ---------- */
+function drawWave(c,arr,col,clip){
+  const [x,w,h]=dpi(c,58);x.clearRect(0,0,w,h);
+  x.strokeStyle='#182130';x.lineWidth=1;x.beginPath();x.moveTo(0,h/2);x.lineTo(w,h/2);x.stroke();
+  if(!arr||!arr.length)return;
+  let m=0;for(const v of arr)m=Math.max(m,Math.abs(v));m=m||1;
+  x.strokeStyle=clip?'#f87171':col;x.lineWidth=1.15;x.beginPath();
+  arr.forEach((v,i)=>{const px=i/(arr.length-1)*w, py=h/2-(v/m)*(h/2-3);
+    i?x.lineTo(px,py):x.moveTo(px,py);});
+  x.stroke();
+  x.fillStyle='#4a5768';x.font='9px ui-monospace';
+  x.fillText('±'+m.toPrecision(2),4,10);
+}
+function renderChans(f){
+  const host=$('#chans');
+  for(const [k,ch] of Object.entries(f.channels)){
+    let el=document.getElementById('ch_'+k);
+    if(!el){el=document.createElement('div');el.className='chan';el.id='ch_'+k;
+      el.innerHTML=`<div class="lbl"><span>${ch.label||k}</span><span class="clip" id="clip_${k}"></span></div><canvas height="58"></canvas>`;
+      host.appendChild(el);}
+    $('#clip_'+k).textContent=ch.clipped?'SATURATED':'';
+    const col=k==='error'?'#34d399':(k==='anti_noise'?'#c084fc':'#38bdf8');
+    drawWave(el.querySelector('canvas'),ch.samples,col,ch.clipped);
+  }
+  $('#chrate').textContent=Object.values(f.channels)[0]?
+    (Object.values(f.channels)[0].rate_hz/1000).toFixed(0)+' kHz':'';
+}
+function renderSpec(f){
+  const c=$('#spec'),[x,w,h]=dpi(c,170);x.clearRect(0,0,w,h);
+  const sp=Object.values(f.spectra||{});if(!sp.length)return;
+  x.strokeStyle='#182130';x.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=h*i/4;x.beginPath();x.moveTo(0,y);x.lineTo(w,y);x.stroke();}
+  const lo=-90,hi=0;
+  const cols=['#7d8da3','#38bdf8'];
+  sp.forEach((s,si)=>{
+    x.strokeStyle=cols[si%2];x.lineWidth=1.2;x.beginPath();
+    s.mag_db.forEach((v,i)=>{const px=i/(s.mag_db.length-1)*w;
+      const py=h-(Math.max(lo,Math.min(hi,v))-lo)/(hi-lo)*h;
+      i?x.lineTo(px,py):x.moveTo(px,py);});
+    x.stroke();
+  });
+  x.fillStyle='#4a5768';x.font='9px ui-monospace';
+  const df=sp[0].df_hz,n=sp[0].mag_db.length;
+  for(let i=0;i<=4;i++){const fq=df*n*i/4;x.fillText((fq/1000).toFixed(1)+'k',i/4*w+2,h-3);}
+  x.fillText('0 dB',2,10);x.fillText('-90',2,h-14);
+}
+function pushSgram(f){
+  const c=$('#sgram');const d=window.devicePixelRatio||1;
+  const r=c.getBoundingClientRect();
+  if(c.width!==Math.floor(r.width*d)){c.width=Math.floor(r.width*d);c.height=150*d;}
+  const x=c.getContext('2d');
+  const s=(f.spectra||{}).err;if(!s)return;
+  const img=x.getImageData(1,0,c.width-1,c.height);
+  x.putImageData(img,0,0);
+  const n=s.mag_db.length;
+  for(let py=0;py<c.height;py++){
+    const i=Math.floor((1-py/c.height)*(n-1));
+    let v=(Math.max(-90,Math.min(0,s.mag_db[i]))+90)/90;
+    const rr=Math.floor(255*Math.min(1,v*1.7)), g=Math.floor(180*Math.max(0,v*1.5-0.35)),
+          bb=Math.floor(90*Math.max(0,1-v*1.5)+40*v);
+    x.fillStyle=`rgb(${rr},${g},${bb})`;x.fillRect(c.width-1,py,1,1);
+  }
+}
+function fmtNum(v){
+  const a=Math.abs(v);
+  if(v===0)return '0';
+  if(a>=1000)return v.toFixed(0);
+  if(a>=100)return v.toFixed(1);
+  if(a>=1)return v.toFixed(2);
+  if(a>=0.01)return v.toFixed(3);
+  return v.toExponential(1);          // never let a real value read as 0.00
+}
+function renderTiles(f){
+  const groups={};
+  for(const [k,s] of Object.entries(f.scalars)){(groups[s.group||'misc']??=[]).push([k,s]);}
+  const host=$('#tiles');const order=Object.keys(groups).sort();
+  let html='';
+  for(const g of order){
+    html+=`<div class="grp">${g}</div><div class="tiles">`;
+    for(const [k,s] of groups[g]){
+      const cls=s.good===true?'good':(s.good===false?'bad':'');
+      const val=s.value==null?'--':fmtNum(s.value);
+      let bar='';
+      if(s.value!=null&&s.lo!=null&&s.hi!=null){
+        const p=Math.max(0,Math.min(1,(s.value-s.lo)/(s.hi-s.lo)));
+        bar=`<div class="bar"><i style="width:${(p*100).toFixed(1)}%"></i></div>`;}
+      html+=`<div class="tile ${cls}"><div class="k">${s.label||k}</div>
+        <div class="v">${val}<span class="u">${s.unit||''}</span></div>${bar}</div>`;
+    }
+    html+='</div>';
+  }
+  host.innerHTML=html;
+}
+function renderVecs(f){
+  const host=$('#vecs');
+  for(const [k,v] of Object.entries(f.vectors||{})){
+    let el=document.getElementById('v_'+k);
+    if(!el){el=document.createElement('div');el.className='chan';el.id='v_'+k;
+      el.innerHTML=`<div class="lbl"><span>${v.label||k}</span><span></span></div><canvas height="66"></canvas>`;
+      host.appendChild(el);}
+    const c=el.querySelector('canvas');const [x,w,h]=dpi(c,66);
+    x.clearRect(0,0,w,h);const a=v.values;if(!a.length)continue;
+    let mn=Math.min(...a),mx=Math.max(...a);if(mx-mn<1e-12){mx=mn+1;}
+    const y0=h-(0-mn)/(mx-mn)*h;
+    x.strokeStyle='#182130';x.beginPath();x.moveTo(0,y0);x.lineTo(w,y0);x.stroke();
+    if(v.kind==='bar'){
+      const bw=w/a.length;
+      a.forEach((val,i)=>{const py=h-(val-mn)/(mx-mn)*h;
+        x.fillStyle=val<0?'#38bdf8':'#c084fc';
+        x.fillRect(i*bw+1,Math.min(py,y0),Math.max(1,bw-2),Math.abs(y0-py)||1);});
+    }else{
+      x.strokeStyle='#c084fc';x.lineWidth=1.1;x.beginPath();
+      a.forEach((val,i)=>{const px=i/(a.length-1)*w,py=h-(val-mn)/(mx-mn)*h;
+        i?x.lineTo(px,py):x.moveTo(px,py);});x.stroke();
+    }
+    x.fillStyle='#4a5768';x.font='9px ui-monospace';
+    x.fillText(mx.toPrecision(3),3,10);x.fillText(mn.toPrecision(3),3,h-3);
+  }
+}
+function renderHead(f){
+  const c=$('#head'),[x,w,h]=dpi(c,300);x.clearRect(0,0,w,h);
+  const g=f.geometry;const cx=w/2,cy=h/2+8,R=Math.min(w,h)*0.23;
+  // causal cones, from the geometry the pipeline actually uses
+  const cone=(a0,a1,col)=>{x.beginPath();x.moveTo(cx,cy);
+    x.arc(cx,cy,R*2.55,(a0-90)*Math.PI/180,(a1-90)*Math.PI/180);x.closePath();
+    x.fillStyle=col;x.fill();};
+  cone(-84,50,'rgba(56,189,248,0.055)');
+  cone(-50,84,'rgba(52,211,153,0.055)');
+  for(let r=1;r<=3;r++){x.strokeStyle='#182130';x.beginPath();
+    x.arc(cx,cy,R*0.85*r,0,7);x.stroke();}
+  x.strokeStyle='#1e2734';x.beginPath();x.moveTo(cx-R*2.6,cy);x.lineTo(cx+R*2.6,cy);
+  x.moveTo(cx,cy-R*2.6);x.lineTo(cx,cy+R*2.6);x.stroke();
+  // head, rotated by yaw
+  const yaw=(g.head_yaw_deg||0)*Math.PI/180;
+  x.save();x.translate(cx,cy);x.rotate(yaw);
+  x.beginPath();x.arc(0,0,R,0,7);x.fillStyle='#141c28';x.fill();
+  x.strokeStyle='#38bdf8';x.lineWidth=1.4;x.stroke();
+  x.beginPath();x.moveTo(0,-R);x.lineTo(-6,-R-11);x.lineTo(6,-R-11);x.closePath();
+  x.fillStyle='#38bdf8';x.fill();                                  // nose
+  [[-1,'L',g.causal_L],[1,'R',g.causal_R]].forEach(([s,lbl,ok])=>{
+    x.beginPath();x.ellipse(s*R*0.98,0,6,11,0,0,7);
+    x.fillStyle=ok?'#34d399':'#f87171';x.fill();
+    x.fillStyle='#0a0d12';x.font='bold 8px ui-monospace';x.textAlign='center';
+    x.fillText(lbl,s*R*0.98,3);
+  });
+  x.restore();
+  // true and estimated source bearings
+  const ray=(deg,col,dash,lbl)=>{
+    if(deg==null)return;const a=(deg-90)*Math.PI/180;
+    x.save();x.setLineDash(dash);x.strokeStyle=col;x.lineWidth=1.6;
+    x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+Math.cos(a)*R*2.5,cy+Math.sin(a)*R*2.5);
+    x.stroke();x.restore();
+    x.fillStyle=col;x.beginPath();
+    x.arc(cx+Math.cos(a)*R*2.5,cy+Math.sin(a)*R*2.5,4.5,0,7);x.fill();
+    x.font='9px ui-monospace';x.textAlign='center';
+    x.fillText(lbl+' '+deg.toFixed(0)+'°',cx+Math.cos(a)*R*2.5,cy+Math.sin(a)*R*2.5-9);
+  };
+  ray(g.source_az_deg,'#fbbf24',[],'true');
+  ray(g.est_az_deg,'#38bdf8',[5,4],'est');
+  x.textAlign='left';
+  $('#headnote').textContent=
+    `active reference ${g.active_ref||'--'} · causal cones L −84…+50°, R −50…+84° · `+
+    `confidence ${(g.conf??0).toFixed(2)}`;
+}
+function renderEvents(f){
+  if(!f.events||!f.events.length)return;
+  const host=$('#events');
+  f.events.forEach(e=>{const d=document.createElement('div');d.className=e.severity;
+    d.textContent=`t=${e.t.toFixed(2)}s  ${e.kind.toUpperCase()}  ${e.text}`;
+    host.prepend(d);});
+  while(host.children.length>60)host.lastChild.remove();
+}
+
+function render(f){
+  $('#mode').textContent=f.mode;$('#mode').className='badge m-'+f.mode;
+  $('#src').textContent=(f.source||'?').toUpperCase()+' · '+(f.experiment||'');
+  $('#schema').textContent='schema '+f.schema;
+  $('#flowmode').textContent=f.notes||'';
+  if(meta){drawFlow(f);}
+  renderChans(f);renderSpec(f);renderTiles(f);renderVecs(f);
+  if(f.geometry)renderHead(f);
+  if(live)pushSgram(f);
+  renderEvents(f);
+}
+
+function setConn(s,t){$('#conn').className='badge '+s;$('#conntxt').textContent=t;}
+function show(i){cursor=i;const f=hist[i];if(f)render(f);
+  $('#tpos').textContent=live?'live':'t='+(f?f.t.toFixed(2):'--')+'s';}
+
+fetch('/api/meta').then(r=>r.json()).then(m=>{meta=m;buildFlow();
+  fetch('/api/history?n=400').then(r=>r.json()).then(h=>{
+    hist=h.slice(-HIST);$('#scrub').max=Math.max(0,hist.length-1);
+    if(hist.length)show(hist.length-1);});});
+
+const es=new EventSource('/api/stream');
+es.onopen=()=>setConn('live','live');
+es.onerror=()=>setConn('dead','reconnecting');
+es.onmessage=ev=>{
+  const f=JSON.parse(ev.data);hist.push(f);if(hist.length>HIST)hist.shift();
+  $('#scrub').max=Math.max(0,hist.length-1);
+  if(live){$('#scrub').value=hist.length-1;render(f);$('#tpos').textContent='live';
+    setConn('live','live');}
+};
+$('#pause').onclick=()=>{live=!live;
+  $('#pause').textContent=live?'⏸ pause':'▶ resume';
+  $('#pause').classList.toggle('on',!live);
+  $('#scrub').disabled=live;
+  setConn(live?'live':'paused',live?'live':'paused');
+  if(live&&hist.length)show(hist.length-1);};
+$('#scrub').oninput=e=>{if(!live)show(+e.target.value);};
+addEventListener('resize',()=>{if(hist[cursor])render(hist[cursor]);});
+</script>
+</body></html>

@@ -55,6 +55,7 @@ headphone. The distinction is the latency budget of the loop, not a blanket rule
 | [`docs/02-architecture.md`](docs/02-architecture.md) | Full architecture: signal model, control math, network design, loss functions, data engine, budgets, metrics |
 | [`docs/03-roadmap-and-hardware.md`](docs/03-roadmap-and-hardware.md) | Build A / Build B BOMs, demo design, 12-week plan with gates, risk register |
 | [`docs/04-hardware-design.md`](docs/04-hardware-design.md) | Part-level design: codec selection (the decision that makes or breaks it), 5-mic plan, MCU, sample rates, memory, power/battery arithmetic, volume BOM, buildability verdict |
+| [`docs/06-digital-twin-ui.md`](docs/06-digital-twin-ui.md) | **The live dashboard.** Telemetry contract, what runs where, and how E03 / G5 / hardware plug into the same UI |
 | [`docs/05-digital-twin.md`](docs/05-digital-twin.md) | **Runnable simulation.** Validated twin, causality/codec proved by measurement, impulse robustness, and the buy gate that must pass before money is spent |
 
 ## Three things we will not claim
@@ -95,7 +96,8 @@ and validated** — the causality/codec decision and the impulse-robustness clai
 measurements rather than assertions (`docs/05-digital-twin.md`). No hardware purchased.
 
 ```bash
-./run_experiments.sh     # ~3 min, numpy + scipy only, no datasets, no hardware
+./run_experiments.sh     # experiments: ~3 min, no datasets, no hardware
+python3 rhear_twin.py    # live dashboard -> http://127.0.0.1:8765
 ```
 
 Hardware: ANC codec settled on the **ADAU1772 (40-LFCSP, hand-solderable)** after the

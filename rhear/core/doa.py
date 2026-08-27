@@ -64,7 +64,7 @@ class BearingTracker:
     """Complementary filter. The gyro carries the fast component; audio corrects
     the slow drift, weighted by its own confidence."""
 
-    def __init__(self, theta0, tau_c=0.5, conf_floor=0.15):
+    def __init__(self, theta0, tau_c=0.5, conf_floor=0.08):
         self.theta = float(theta0)
         self.tau_c = tau_c
         self.conf_floor = conf_floor
