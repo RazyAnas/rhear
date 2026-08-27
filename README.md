@@ -104,6 +104,7 @@ yet — see the buy gate.
 
 Buy gate: **G0–G2 and G6 pass.** G6 is the central claim: neural filter selection gives
 **+9.3 dB over plain FxNLMS** in the 250 ms after a noise change, closing 77 % of the gap to a
-perfect-knowledge oracle, with a **1,764-parameter** selector. G3–G5 (speech-enhancement
-metrics, INT8 quantisation, direction under head rotation) still to build — all simulation-only.
-Next: E05 (direction, needs no data) then E03 (needs speech corpora).
+perfect-knowledge oracle, with a **1,764-parameter** selector. **G5 does not pass**: bearing estimation
+works (0.17° clean, 12.4° at −10 dB SNR) but does not yet convert into ANC gain — blocked on
+two-ear rendering and a confidence metric that survives tonal sources. G3–G4 (speech metrics,
+INT8) still to build. All simulation-only.

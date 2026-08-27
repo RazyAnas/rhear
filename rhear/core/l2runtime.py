@@ -56,6 +56,60 @@ def run_controller(x, d, s_true, s_hat, L=256, mu=0.01, delta=1e-4, leak=0.0,
     return dict(e=e, w=w)
 
 
+def run_controller_multiref(xs, d, s_true, s_hats, L=256, mu=0.01, delta=1e-4,
+                           leak=0.0, mode="nlms", w_init=None, selector=None,
+                           frame=256, refine=True, xfade=0.3):
+    """Fast loop with a SELECTABLE reference microphone.
+
+    xs      : (n_ref, n) reference signals -- one per cup
+    selector: callable(frame_index, hist_index) -> (w0 or None, ref_idx or None,
+                                                    engage: bool)
+    Rolling buffers are maintained for every reference, so switching does not
+    inherit a stale delay line. `engage=False` mutes the controller entirely --
+    the correct action where the causality margin is negative, since a
+    feedforward controller outside its causal region ADDS energy.
+    """
+    xs = np.atleast_2d(xs)
+    nref, n = xs.shape
+    xhats = np.stack([signal.lfilter(sh, [1.0], x) for x, sh in zip(xs, s_hats)])
+    w = np.zeros(L) if w_init is None else w_init.astype(float).copy()
+    e = np.zeros(n)
+    ls = len(s_true)
+    xbuf = np.zeros((nref, L)); xhbuf = np.zeros((nref, L)); ybuf = np.zeros(ls)
+    ref, engaged = 0, True
+    w_target, blend_left, blend_n = None, 0, max(1, int(xfade * frame))
+    d_rms = np.sqrt(np.mean(d ** 2)) + 1e-20
+
+    for i in range(n):
+        if selector is not None and i % frame == 0:
+            w0, r0, engage = selector(i // frame, i)
+            if r0 is not None and r0 != ref:
+                ref = r0
+            engaged = engage
+            if w0 is not None:
+                w_target, blend_left = w0.astype(float), blend_n
+        if blend_left > 0:
+            a = 1.0 / blend_left
+            w = (1 - a) * w + a * w_target
+            blend_left -= 1
+
+        xbuf[:, 1:] = xbuf[:, :-1]; xbuf[:, 0] = xs[:, i]
+        xhbuf[:, 1:] = xhbuf[:, :-1]; xhbuf[:, 0] = xhats[:, i]
+        yi = float(w @ xbuf[ref]) if engaged else 0.0
+        ybuf[1:] = ybuf[:-1]; ybuf[0] = yi
+        e[i] = d[i] - float(s_true @ ybuf)
+
+        if refine and engaged and blend_left == 0:
+            xh = xhbuf[ref]
+            nrm = delta + float(xh @ xh)
+            w *= (1.0 - leak)
+            w += (mu / nrm) * xh * score(e[i], mode)
+        if i % 512 == 0 and abs(e[i]) > 1e4 * d_rms:
+            e[i:] = np.nan
+            break
+    return dict(e=e, w=w)
+
+
 def train_filter(x, d, s, L=256, mu=0.01, passes=3, mode="nlms"):
     """Converge a control filter on one noise type. This is how the pre-trained
     fixed-filter bank is built -- exactly the SFANC/GFANC premise."""
