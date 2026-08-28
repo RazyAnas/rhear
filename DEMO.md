@@ -77,6 +77,38 @@ A headset has **four** microphone→ear paths, not two. At +90° the left cup's 
 mic is 102 µs non-causal while the *right* mic leads by 496 µs. Using both takes
 each ear from **38 % → 68 % of azimuth covered**.
 
+### 4b. Speech enhancement — how to present it (45 s)
+
+The A/B panel appears at the bottom right once evaluation has run. **Play a clip.**
+Judges respond to sound far more than to a metric table.
+
+Say this, in this order:
+
+> *"This is our speech-enhancement model — 23,000 parameters, 59 MMAC/s, 8 ms
+> latency, strictly causal. It gives about +5 dB SI-SDR and you can hear it.
+> STOI has not moved yet, and we know why we can say that with confidence: we
+> measured the ceiling."*
+
+**The ceiling measurement — use it, it is the strongest thing here.**
+Apply a *perfect* mask (computed from the true clean signal, which no model can
+beat) at our architecture's resolution:
+
+| mask | STOI |
+|---|---|
+| noisy, unprocessed | 0.819 |
+| oracle at our 48 ERB bands | **0.967** |
+| oracle at full 257 bins | 0.979 |
+
+Resolution costs only 0.012 STOI. **So the architecture can reach 0.967 against a
+0.85 target — the design is not the limit, our current training is.** We also
+ruled out the phase head by ablation (worth 0.006).
+
+That is a stronger answer than a borderline number, because it shows the ceiling,
+the ruled-out causes, and the remaining work.
+
+**Do not quote a STOI figure as a result.** The dataset behind it uses
+synthesised noise and is labelled INTERIM on the panel itself.
+
 ### 5. Honest close (30 s)
 *"Five of seven internal gates pass. The speech-enhancement model is specified
 and measured — 23,000 parameters, 59 MMAC/s, 8 ms latency, strictly causal — but
@@ -92,9 +124,16 @@ against closed-form theory first (coherence bound to 0.06 dB; codec delay derive
 independently). It has already found four bugs in our own design and made two of
 our claims fail. That is what it is for.
 
-**"Why no trained model?"** Because we refused to train on a dataset we had not
-inspected. The pipeline is built, the licences are cleared, and the model is
-measured. Training is roughly a week of the three we have left.
+**"Why no trained model?"** There is one now, on an interim dataset (real speech,
+synthesised noise) — it gives +5 dB SI-SDR and you can hear it. The real-corpus
+version is blocked on a 10 GB download, not on the method. We refused to train on
+a dataset we had not inspected, and the pipeline and licences are cleared.
+
+**"Your STOI didn't improve."** Correct, and we can tell you exactly what that
+does and does not mean. A perfect mask at our resolution reaches 0.967, so the
+architecture is not the limit. We ruled out mask resolution and the phase head by
+measurement. It is undertrained or under-capacity, and that is the next
+experiment, not a mystery.
 
 **"What's novel?"** Neural computation in the *coefficient* path, not the audio
 path — so AI latency never violates acoustic causality. Plus IMU-fused causal

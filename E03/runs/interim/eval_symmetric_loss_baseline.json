@@ -1,0 +1,99 @@
+{
+ "WARNING": "INTERIM \u2014 real speech, SYNTHESISED noise. NOT a G3 result.",
+ "checkpoint": "/tmp/smoke.pt",
+ "n_test": 300,
+ "model": {
+  "params": 22988,
+  "mmacs": 59.178,
+  "latency_ms": 8.0
+ },
+ "overall": {
+  "stoi_noisy": 0.8051,
+  "stoi_enhanced": 0.7973,
+  "pesq_noisy": 1.3822,
+  "pesq_enhanced": 1.5026,
+  "sisdr_noisy": 2.6103,
+  "sisdr_enhanced": 8.2407
+ },
+ "by_stationarity": {
+  "mixed": {
+   "stoi_noisy": 0.765,
+   "stoi_enhanced": 0.7529,
+   "pesq_noisy": 1.3057,
+   "pesq_enhanced": 1.4019,
+   "sisdr_noisy": 2.0567,
+   "sisdr_enhanced": 7.7585
+  },
+  "stationary": {
+   "stoi_noisy": 0.7999,
+   "stoi_enhanced": 0.7955,
+   "pesq_noisy": 1.4185,
+   "pesq_enhanced": 1.5568,
+   "sisdr_noisy": 4.202,
+   "sisdr_enhanced": 11.5377
+  },
+  "nonstationary": {
+   "stoi_noisy": 0.8409,
+   "stoi_enhanced": 0.8357,
+   "pesq_noisy": 1.4361,
+   "pesq_enhanced": 1.5715,
+   "sisdr_noisy": 2.5762,
+   "sisdr_enhanced": 7.6017
+  }
+ },
+ "deltas": {
+  "d_stoi": -0.0078,
+  "d_pesq": 0.1204,
+  "d_sisdr": 5.63
+ },
+ "examples": [
+  {
+   "base": "ex00",
+   "id": "test_000284",
+   "snr_db": -9.968,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "siren"
+   ],
+   "stoi_noisy": 0.42731376731186094,
+   "stoi_enhanced": 0.3420128592401127,
+   "pesq_noisy": 1.0624221563339233,
+   "pesq_enhanced": 1.0440088510513306,
+   "sisdr_noisy": -11.155770172389998,
+   "sisdr_enhanced": -6.086075146605103
+  },
+  {
+   "base": "ex01",
+   "id": "test_000255",
+   "snr_db": 5.247,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "stoi_noisy": 0.9311306149460498,
+   "stoi_enhanced": 0.9341447603286928,
+   "pesq_noisy": 1.5860955715179443,
+   "pesq_enhanced": 1.5049352645874023,
+   "sisdr_noisy": -0.6587496628895648,
+   "sisdr_enhanced": 5.086715169290713
+  },
+  {
+   "base": "ex02",
+   "id": "test_000030",
+   "snr_db": 19.973,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "stoi_noisy": 0.9044896036660423,
+   "stoi_enhanced": 0.9140214647421452,
+   "pesq_noisy": 2.4979288578033447,
+   "pesq_enhanced": 2.7307097911834717,
+   "sisdr_noisy": 19.023975905227857,
+   "sisdr_enhanced": 21.722521967301333
+  }
+ ]
+}

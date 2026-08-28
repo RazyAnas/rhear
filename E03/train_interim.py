@@ -64,18 +64,26 @@ def si_sdr(est, ref, eps=1e-6):
     return 10 * torch.log10((t.pow(2).sum(-1) + eps) / ((est - t).pow(2).sum(-1) + eps))
 
 
-def loss_fn(est_wav, ref_wav, S_est, S_ref, spp, c=0.3, rho=6.0):
-    """SI-SDR + power-law-compressed magnitude/RI + the asymmetric
-    intelligibility term (docs/02-architecture.md 7.2)."""
+def loss_fn(est_wav, ref_wav, S_est, S_ref, spp, c=0.3, rho=8.0):
+    """SI-SDR + power-law-compressed ASYMMETRIC magnitude + RI + SPP.
+
+    The asymmetry must live INSIDE the magnitude loss, not beside it. A first
+    version used a symmetric magnitude term at weight 30 plus a separate
+    asymmetric term at weight 8 with rho=6, which gives an effective
+    remove-speech : leave-noise ratio of only 2.05x instead of 6x -- the loss was
+    very nearly symmetric, the model over-suppressed, and STOI went DOWN (-0.008)
+    while SI-SDR climbed. Folding rho into the one magnitude term makes the
+    effective ratio exactly rho.
+    """
     l_sisdr = -si_sdr(est_wav, ref_wav).mean()
     me = (S_est.abs() + 1e-8) ** c
     mr = (S_ref.abs() + 1e-8) ** c
-    l_mag = (me - mr).pow(2).mean()
+    d = mr - me                                        # >0 = speech was removed
+    l_mag = (rho * torch.clamp(d, min=0).pow(2).mean()
+             + torch.clamp(-d, min=0).pow(2).mean())
     ri = (me * torch.exp(1j * S_est.angle()) - mr * torch.exp(1j * S_ref.angle()))
     l_ri = (ri.real.pow(2) + ri.imag.pow(2)).mean()
-    d = mr - me                                        # >0 = speech removed
-    l_asym = (rho * torch.clamp(d, min=0).pow(2).mean()
-              + torch.clamp(-d, min=0).pow(2).mean())
+    l_asym = torch.zeros((), device=me.device)
     # Speech-presence target, reduced to the encoder's band resolution.
     # `mr` is (B,1,T,F); `spp` is (B,1,T,bands) with the SAME T (the encoder does
     # not stride in time). So only the frequency axis is reduced -- an earlier
@@ -87,8 +95,8 @@ def loss_fn(est_wav, ref_wav, S_est, S_ref, spp, c=0.3, rho=6.0):
     qt = nn.functional.interpolate(q, size=spp.shape[-2:], mode="nearest")
     l_spp = nn.functional.binary_cross_entropy(
         spp.clamp(1e-6, 1 - 1e-6), qt.clamp(0, 1))
-    total = l_sisdr + 30.0 * l_mag + 15.0 * l_ri + 8.0 * l_asym + 0.5 * l_spp
-    return total, dict(sisdr=float(l_sisdr), mag=float(l_mag), asym=float(l_asym))
+    total = l_sisdr + 30.0 * l_mag + 15.0 * l_ri + 0.5 * l_spp
+    return total, dict(sisdr=float(l_sisdr), mag=float(l_mag))
 
 
 def enhance(model, x, win):
