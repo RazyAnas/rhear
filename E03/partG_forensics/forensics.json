@@ -1,0 +1,5175 @@
+{
+ "PROVENANCE": "noise is 100% SYNTHETICALLY GENERATED; speech is real LibriSpeech. Speech-path findings expected to transfer; noise-type findings are synthetic-only.",
+ "checkpoint": "baseline_frozen/model.pt",
+ "n_clips": 300,
+ "mean_gain": {
+  "speech": 0.6848801122605801,
+  "noise": 0.4251705622052153,
+  "vowel": 0.7007981165250142,
+  "cons": 0.6895059097806613,
+  "lf": 0.6895835301280022,
+  "hf": 0.6800013889620702
+ },
+ "speech_gain_db": -3.287708895422141,
+ "noise_gain_db": -7.428736252420455,
+ "retention_curve": {
+  "level_db_rel_peak": [
+   -57.5,
+   -52.5,
+   -47.5,
+   -42.5,
+   -37.5,
+   -32.5,
+   -27.5,
+   -22.5,
+   -17.5,
+   -12.5,
+   -7.5,
+   -2.5
+  ],
+  "retention": [
+   0.0,
+   0.0,
+   0.0,
+   1.5587962670107172,
+   1.2152492763653058,
+   1.0533987514263365,
+   0.9924728789001896,
+   0.9881324195870406,
+   0.9904091995055023,
+   0.998615778040133,
+   1.0143677167953733,
+   1.0448119644242255
+  ]
+ },
+ "per_clip": [
+  {
+   "id": "test_000000",
+   "snr_db": 19.198,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9574155211448669,
+   "g_noise": 0.46419522166252136,
+   "stoi": 0.9851279068222633,
+   "stoi_noisy": 0.9836039901169824,
+   "pesq": 2.1299331188201904,
+   "pesq_noisy": 1.7627322673797607,
+   "sisdr": 19.564835186423583,
+   "sisdr_noisy": 17.941497851131064
+  },
+  {
+   "id": "test_000001",
+   "snr_db": 0.655,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.510844349861145,
+   "g_noise": 0.5541346669197083,
+   "stoi": 0.7714188546836893,
+   "stoi_noisy": 0.7349611331776544,
+   "pesq": 1.1440229415893555,
+   "pesq_noisy": 1.0784986019134521,
+   "sisdr": 3.6088838032235513,
+   "sisdr_noisy": -1.8201596682952754
+  },
+  {
+   "id": "test_000002",
+   "snr_db": 10.256,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.815904438495636,
+   "g_noise": 0.34875109791755676,
+   "stoi": 0.9416588333852257,
+   "stoi_noisy": 0.9528857335807042,
+   "pesq": 1.375931739807129,
+   "pesq_noisy": 1.2510147094726562,
+   "sisdr": 8.06296743255749,
+   "sisdr_noisy": 7.815043866123316
+  },
+  {
+   "id": "test_000003",
+   "snr_db": -4.185,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.45462942123413086,
+   "g_noise": 0.4426536560058594,
+   "stoi": 0.6771535771391693,
+   "stoi_noisy": 0.6984941757802724,
+   "pesq": 1.052331805229187,
+   "pesq_noisy": 1.0938447713851929,
+   "sisdr": -5.3957834532324265,
+   "sisdr_noisy": -5.852693011656865
+  },
+  {
+   "id": "test_000004",
+   "snr_db": -5.106,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.408189058303833,
+   "g_noise": 0.33725064992904663,
+   "stoi": 0.5833975572540745,
+   "stoi_noisy": 0.5309680859630782,
+   "pesq": 1.0251156091690063,
+   "pesq_noisy": 1.0243637561798096,
+   "sisdr": -6.4472566534138975,
+   "sisdr_noisy": -8.867764323407457
+  },
+  {
+   "id": "test_000005",
+   "snr_db": -6.97,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9660969972610474,
+   "g_noise": 0.6540796756744385,
+   "stoi": 0.8405130797370111,
+   "stoi_noisy": 0.8398523481525664,
+   "pesq": 1.0914041996002197,
+   "pesq_noisy": 1.0914077758789062,
+   "sisdr": -7.490447785097168,
+   "sisdr_noisy": -7.464737376102932
+  },
+  {
+   "id": "test_000006",
+   "snr_db": 11.006,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7969734072685242,
+   "g_noise": 0.4587574303150177,
+   "stoi": 0.8362644424709156,
+   "stoi_noisy": 0.8545523910555464,
+   "pesq": 1.1302469968795776,
+   "pesq_noisy": 1.1237884759902954,
+   "sisdr": 8.85461639784101,
+   "sisdr_noisy": 7.670211404718902
+  },
+  {
+   "id": "test_000007",
+   "snr_db": -2.47,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.325802206993103,
+   "g_noise": 0.3305092453956604,
+   "stoi": 0.772990186812717,
+   "stoi_noisy": 0.7718007353099762,
+   "pesq": 1.1127668619155884,
+   "pesq_noisy": 1.067848563194275,
+   "sisdr": 0.1895560609962234,
+   "sisdr_noisy": -4.879171005149732
+  },
+  {
+   "id": "test_000008",
+   "snr_db": 4.973,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8346416354179382,
+   "g_noise": 0.5475785732269287,
+   "stoi": 0.9349068596123149,
+   "stoi_noisy": 0.9345798044909113,
+   "pesq": 1.2698897123336792,
+   "pesq_noisy": 1.2672367095947266,
+   "sisdr": 6.213456841346793,
+   "sisdr_noisy": 3.9012028662158595
+  },
+  {
+   "id": "test_000009",
+   "snr_db": -2.847,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5845494866371155,
+   "g_noise": 0.5020734667778015,
+   "stoi": 0.5942471872599846,
+   "stoi_noisy": 0.6160434163975822,
+   "pesq": 1.0642896890640259,
+   "pesq_noisy": 1.0404632091522217,
+   "sisdr": -3.063249981571955,
+   "sisdr_noisy": -3.5040440512901623
+  },
+  {
+   "id": "test_000010",
+   "snr_db": 11.625,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7645993232727051,
+   "g_noise": 0.29878610372543335,
+   "stoi": 0.8623113434434184,
+   "stoi_noisy": 0.8517840213369815,
+   "pesq": 1.3051230907440186,
+   "pesq_noisy": 1.2721034288406372,
+   "sisdr": 14.455070410502639,
+   "sisdr_noisy": 11.064430084356736
+  },
+  {
+   "id": "test_000011",
+   "snr_db": -1.827,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.652108371257782,
+   "g_noise": 0.5538365244865417,
+   "stoi": 0.7125685047721512,
+   "stoi_noisy": 0.7366321274872383,
+   "pesq": 1.2015823125839233,
+   "pesq_noisy": 1.2886505126953125,
+   "sisdr": -2.1399803624223592,
+   "sisdr_noisy": -2.5288536901078285
+  },
+  {
+   "id": "test_000012",
+   "snr_db": 5.263,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9268352389335632,
+   "g_noise": 0.6996716260910034,
+   "stoi": 0.8870431122282646,
+   "stoi_noisy": 0.8931683936447701,
+   "pesq": 1.2013592720031738,
+   "pesq_noisy": 1.2001210451126099,
+   "sisdr": 3.9758725205499115,
+   "sisdr_noisy": 3.649281999461957
+  },
+  {
+   "id": "test_000013",
+   "snr_db": 3.893,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9273024201393127,
+   "g_noise": 0.676608681678772,
+   "stoi": 0.8750655648876114,
+   "stoi_noisy": 0.8592396539776467,
+   "pesq": 1.098613977432251,
+   "pesq_noisy": 1.0817192792892456,
+   "sisdr": 2.385973963278389,
+   "sisdr_noisy": 1.4526259385504001
+  },
+  {
+   "id": "test_000014",
+   "snr_db": 2.468,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.40900665521621704,
+   "g_noise": 0.26028865575790405,
+   "stoi": 0.6714310446547939,
+   "stoi_noisy": 0.6855981626506368,
+   "pesq": 1.0483062267303467,
+   "pesq_noisy": 1.047605037689209,
+   "sisdr": 3.937073931118677,
+   "sisdr_noisy": -0.8737615530750329
+  },
+  {
+   "id": "test_000015",
+   "snr_db": 14.367,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9884502291679382,
+   "g_noise": 0.6059771776199341,
+   "stoi": 0.9264739126400721,
+   "stoi_noisy": 0.9266769853249075,
+   "pesq": 1.8233566284179688,
+   "pesq_noisy": 1.8304243087768555,
+   "sisdr": 11.008316667769527,
+   "sisdr_noisy": 10.962761188337002
+  },
+  {
+   "id": "test_000016",
+   "snr_db": 16.605,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9854559302330017,
+   "g_noise": 0.4306320250034332,
+   "stoi": 0.9700938530642614,
+   "stoi_noisy": 0.9676753481659804,
+   "pesq": 2.3988099098205566,
+   "pesq_noisy": 2.321560859680176,
+   "sisdr": 16.279834665010974,
+   "sisdr_noisy": 16.053241962881724
+  },
+  {
+   "id": "test_000017",
+   "snr_db": 9.143,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.6930143237113953,
+   "g_noise": 0.26501452922821045,
+   "stoi": 0.8390232845113663,
+   "stoi_noisy": 0.8107911231275635,
+   "pesq": 1.2838518619537354,
+   "pesq_noisy": 1.0822467803955078,
+   "sisdr": 11.678678037080168,
+   "sisdr_noisy": 4.996160145716365
+  },
+  {
+   "id": "test_000018",
+   "snr_db": 6.052,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7751699090003967,
+   "g_noise": 0.22990454733371735,
+   "stoi": 0.9136423273957895,
+   "stoi_noisy": 0.8916904989773581,
+   "pesq": 1.3631854057312012,
+   "pesq_noisy": 1.1330389976501465,
+   "sisdr": 7.063888398096405,
+   "sisdr_noisy": 6.0106663078931835
+  },
+  {
+   "id": "test_000019",
+   "snr_db": 19.848,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9723233580589294,
+   "g_noise": 0.5435431599617004,
+   "stoi": 0.9867907641146364,
+   "stoi_noisy": 0.9847505858597185,
+   "pesq": 2.8252267837524414,
+   "pesq_noisy": 2.581609010696411,
+   "sisdr": 18.87262741063704,
+   "sisdr_noisy": 18.571518239048295
+  },
+  {
+   "id": "test_000020",
+   "snr_db": 10.26,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5980525016784668,
+   "g_noise": 0.319282203912735,
+   "stoi": 0.9127108401937124,
+   "stoi_noisy": 0.9245444578079037,
+   "pesq": 1.3322908878326416,
+   "pesq_noisy": 1.1460610628128052,
+   "sisdr": 9.477456818965525,
+   "sisdr_noisy": 7.963581291121874
+  },
+  {
+   "id": "test_000021",
+   "snr_db": -4.441,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9130703210830688,
+   "g_noise": 0.3472064733505249,
+   "stoi": 0.8960632944427649,
+   "stoi_noisy": 0.8818178801183403,
+   "pesq": 1.2609806060791016,
+   "pesq_noisy": 1.1816028356552124,
+   "sisdr": 0.011634306365867406,
+   "sisdr_noisy": -5.6210327097513115
+  },
+  {
+   "id": "test_000022",
+   "snr_db": 3.433,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.728503406047821,
+   "g_noise": 0.5605689287185669,
+   "stoi": 0.6966473881004505,
+   "stoi_noisy": 0.6987731247283117,
+   "pesq": 1.0605688095092773,
+   "pesq_noisy": 1.0709946155548096,
+   "sisdr": 1.4799995204608742,
+   "sisdr_noisy": 0.7391307925818645
+  },
+  {
+   "id": "test_000023",
+   "snr_db": 14.018,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8904582262039185,
+   "g_noise": 0.47160422801971436,
+   "stoi": 0.9479548403713135,
+   "stoi_noisy": 0.9435902427627659,
+   "pesq": 2.2958531379699707,
+   "pesq_noisy": 1.801175832748413,
+   "sisdr": 16.736504316010507,
+   "sisdr_noisy": 11.468102340323043
+  },
+  {
+   "id": "test_000024",
+   "snr_db": 7.516,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9621718525886536,
+   "g_noise": 0.503716230392456,
+   "stoi": 0.8825673002541897,
+   "stoi_noisy": 0.862536697895229,
+   "pesq": 1.1718274354934692,
+   "pesq_noisy": 1.1441136598587036,
+   "sisdr": 4.974764890349914,
+   "sisdr_noisy": 3.5928508063989604
+  },
+  {
+   "id": "test_000025",
+   "snr_db": 15.764,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9082719087600708,
+   "g_noise": 0.4520106315612793,
+   "stoi": 0.9719999912020967,
+   "stoi_noisy": 0.972290864169764,
+   "pesq": 2.1405813694000244,
+   "pesq_noisy": 1.695387840270996,
+   "sisdr": 19.58973348512589,
+   "sisdr_noisy": 15.11245827678554
+  },
+  {
+   "id": "test_000026",
+   "snr_db": 8.803,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5869956612586975,
+   "g_noise": 0.30799150466918945,
+   "stoi": 0.9179281321003187,
+   "stoi_noisy": 0.9193374821744346,
+   "pesq": 1.8088910579681396,
+   "pesq_noisy": 1.324781060218811,
+   "sisdr": 11.867418217386431,
+   "sisdr_noisy": 6.391394612229294
+  },
+  {
+   "id": "test_000027",
+   "snr_db": -5.432,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.21781320869922638,
+   "g_noise": 0.22738519310951233,
+   "stoi": 0.49456883072306446,
+   "stoi_noisy": 0.5459479801591912,
+   "pesq": 1.0240148305892944,
+   "pesq_noisy": 1.0250736474990845,
+   "sisdr": -9.103244010096418,
+   "sisdr_noisy": -9.803109132665998
+  },
+  {
+   "id": "test_000028",
+   "snr_db": 0.49,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7813220620155334,
+   "g_noise": 0.5467898845672607,
+   "stoi": 0.7692767418234796,
+   "stoi_noisy": 0.7759222053794521,
+   "pesq": 1.063572645187378,
+   "pesq_noisy": 1.0704103708267212,
+   "sisdr": -0.31322316506085884,
+   "sisdr_noisy": -0.4803576991137487
+  },
+  {
+   "id": "test_000029",
+   "snr_db": 5.474,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8708992600440979,
+   "g_noise": 0.5847246646881104,
+   "stoi": 0.88838508498315,
+   "stoi_noisy": 0.8880606657487639,
+   "pesq": 1.1583387851715088,
+   "pesq_noisy": 1.1157035827636719,
+   "sisdr": 5.852319092578066,
+   "sisdr_noisy": 4.7345624746345605
+  },
+  {
+   "id": "test_000030",
+   "snr_db": 15.165,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6104875206947327,
+   "g_noise": 0.4252152442932129,
+   "stoi": 0.9422014802051197,
+   "stoi_noisy": 0.9578779428581451,
+   "pesq": 1.7728979587554932,
+   "pesq_noisy": 1.3469305038452148,
+   "sisdr": 11.872804423744016,
+   "sisdr_noisy": 9.92373368225184
+  },
+  {
+   "id": "test_000031",
+   "snr_db": 2.04,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.775180995464325,
+   "g_noise": 0.5805394053459167,
+   "stoi": 0.7442361576540629,
+   "stoi_noisy": 0.7353641136670028,
+   "pesq": 1.1087491512298584,
+   "pesq_noisy": 1.0892795324325562,
+   "sisdr": 3.6975458526280844,
+   "sisdr_noisy": 1.6402912719988834
+  },
+  {
+   "id": "test_000032",
+   "snr_db": 10.028,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5712374448776245,
+   "g_noise": 0.25233370065689087,
+   "stoi": 0.8848010452730329,
+   "stoi_noisy": 0.9071293725688524,
+   "pesq": 1.3458091020584106,
+   "pesq_noisy": 1.0602232217788696,
+   "sisdr": 9.134333536192813,
+   "sisdr_noisy": 5.769390962740921
+  },
+  {
+   "id": "test_000033",
+   "snr_db": -0.186,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.34809327125549316,
+   "g_noise": 0.3329818546772003,
+   "stoi": 0.6066764168478104,
+   "stoi_noisy": 0.5686431174288137,
+   "pesq": 1.0284810066223145,
+   "pesq_noisy": 1.0266646146774292,
+   "sisdr": 0.47349658470362405,
+   "sisdr_noisy": -1.9061264407187961
+  },
+  {
+   "id": "test_000034",
+   "snr_db": -6.95,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5559108853340149,
+   "g_noise": 0.5429935455322266,
+   "stoi": 0.5506561813796769,
+   "stoi_noisy": 0.5719284809911886,
+   "pesq": 1.043402910232544,
+   "pesq_noisy": 1.0315959453582764,
+   "sisdr": -13.891079886834522,
+   "sisdr_noisy": -14.15869036947645
+  },
+  {
+   "id": "test_000035",
+   "snr_db": 18.802,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8319931626319885,
+   "g_noise": 0.48649051785469055,
+   "stoi": 0.9837080383180292,
+   "stoi_noisy": 0.9926979380820001,
+   "pesq": 2.9592292308807373,
+   "pesq_noisy": 2.868908643722534,
+   "sisdr": 17.887072295572896,
+   "sisdr_noisy": 16.804952384118497
+  },
+  {
+   "id": "test_000036",
+   "snr_db": 1.253,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6710022687911987,
+   "g_noise": 0.35281655192375183,
+   "stoi": 0.8303878370640398,
+   "stoi_noisy": 0.7891513969788302,
+   "pesq": 1.16624915599823,
+   "pesq_noisy": 1.0977383852005005,
+   "sisdr": 1.497212473983998,
+   "sisdr_noisy": -0.7934138783838236
+  },
+  {
+   "id": "test_000037",
+   "snr_db": 10.534,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8719443678855896,
+   "g_noise": 0.37706640362739563,
+   "stoi": 0.9311425628191464,
+   "stoi_noisy": 0.9233329267076966,
+   "pesq": 1.7068617343902588,
+   "pesq_noisy": 1.4473694562911987,
+   "sisdr": 11.584571350861433,
+   "sisdr_noisy": 8.640461878681867
+  },
+  {
+   "id": "test_000038",
+   "snr_db": -0.725,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.41623473167419434,
+   "g_noise": 0.30100128054618835,
+   "stoi": 0.5679372148350694,
+   "stoi_noisy": 0.5850472000453683,
+   "pesq": 1.0398645401000977,
+   "pesq_noisy": 1.0368688106536865,
+   "sisdr": -1.01461408120764,
+   "sisdr_noisy": -4.512158906175811
+  },
+  {
+   "id": "test_000039",
+   "snr_db": 5.405,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.4354468584060669,
+   "g_noise": 0.32491743564605713,
+   "stoi": 0.8737727565098568,
+   "stoi_noisy": 0.8678025576229483,
+   "pesq": 1.1810728311538696,
+   "pesq_noisy": 1.0804325342178345,
+   "sisdr": 5.54592388773383,
+   "sisdr_noisy": 2.8451943787745586
+  },
+  {
+   "id": "test_000040",
+   "snr_db": -7.07,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.46874067187309265,
+   "g_noise": 0.21865098178386688,
+   "stoi": 0.7558811022687535,
+   "stoi_noisy": 0.7359312611676139,
+   "pesq": 1.059632658958435,
+   "pesq_noisy": 1.02681565284729,
+   "sisdr": 0.3263008672836503,
+   "sisdr_noisy": -9.822010942243066
+  },
+  {
+   "id": "test_000041",
+   "snr_db": 17.283,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8364965319633484,
+   "g_noise": 0.5367098450660706,
+   "stoi": 0.955732873240383,
+   "stoi_noisy": 0.9540870466783071,
+   "pesq": 2.2742857933044434,
+   "pesq_noisy": 1.7429380416870117,
+   "sisdr": 17.09508201571009,
+   "sisdr_noisy": 15.953849564596458
+  },
+  {
+   "id": "test_000042",
+   "snr_db": -8.588,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.49107620120048523,
+   "g_noise": 0.37973979115486145,
+   "stoi": 0.6811064523205023,
+   "stoi_noisy": 0.6975973539431146,
+   "pesq": 1.0328400135040283,
+   "pesq_noisy": 1.0501104593276978,
+   "sisdr": -10.17875117245853,
+   "sisdr_noisy": -11.916455641666538
+  },
+  {
+   "id": "test_000043",
+   "snr_db": -9.707,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.3504798412322998,
+   "g_noise": 0.34387481212615967,
+   "stoi": 0.4035980836788856,
+   "stoi_noisy": 0.3778136955781376,
+   "pesq": 1.0310842990875244,
+   "pesq_noisy": 1.0326294898986816,
+   "sisdr": -8.766217812995418,
+   "sisdr_noisy": -12.151989310814688
+  },
+  {
+   "id": "test_000044",
+   "snr_db": 14.088,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9025373458862305,
+   "g_noise": 0.26975634694099426,
+   "stoi": 0.9296524866475174,
+   "stoi_noisy": 0.9233590477142355,
+   "pesq": 1.539628267288208,
+   "pesq_noisy": 1.5204442739486694,
+   "sisdr": 14.277751621270141,
+   "sisdr_noisy": 12.662042989524135
+  },
+  {
+   "id": "test_000045",
+   "snr_db": 1.561,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.772492527961731,
+   "g_noise": 0.4598751366138458,
+   "stoi": 0.9045998300640585,
+   "stoi_noisy": 0.8999381137983994,
+   "pesq": 1.1176822185516357,
+   "pesq_noisy": 1.0929447412490845,
+   "sisdr": 2.7811168889970697,
+   "sisdr_noisy": 1.197390013008273
+  },
+  {
+   "id": "test_000046",
+   "snr_db": 8.217,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7780855894088745,
+   "g_noise": 0.4346848428249359,
+   "stoi": 0.8733413448724151,
+   "stoi_noisy": 0.8529852742118245,
+   "pesq": 1.1622322797775269,
+   "pesq_noisy": 1.1199406385421753,
+   "sisdr": 7.97045286414264,
+   "sisdr_noisy": 4.150897503801836
+  },
+  {
+   "id": "test_000047",
+   "snr_db": 9.772,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8923724293708801,
+   "g_noise": 0.3820086717605591,
+   "stoi": 0.9669383528421797,
+   "stoi_noisy": 0.9597005140138456,
+   "pesq": 1.6555596590042114,
+   "pesq_noisy": 1.4816360473632812,
+   "sisdr": 9.205941549070433,
+   "sisdr_noisy": 8.241473463647585
+  },
+  {
+   "id": "test_000048",
+   "snr_db": 7.674,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6100967526435852,
+   "g_noise": 0.4190923571586609,
+   "stoi": 0.7799742422715809,
+   "stoi_noisy": 0.7658639179487411,
+   "pesq": 1.3900294303894043,
+   "pesq_noisy": 1.2228496074676514,
+   "sisdr": 11.085826489313437,
+   "sisdr_noisy": 5.870332266385327
+  },
+  {
+   "id": "test_000049",
+   "snr_db": -9.477,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.3599459230899811,
+   "g_noise": 0.39023736119270325,
+   "stoi": 0.3847547344427348,
+   "stoi_noisy": 0.4289746602403972,
+   "pesq": 1.031440258026123,
+   "pesq_noisy": 1.0915671586990356,
+   "sisdr": -11.648752773903524,
+   "sisdr_noisy": -10.272404058528624
+  },
+  {
+   "id": "test_000050",
+   "snr_db": 12.159,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6254063248634338,
+   "g_noise": 0.2000965178012848,
+   "stoi": 0.8781942314391856,
+   "stoi_noisy": 0.8536819353301961,
+   "pesq": 1.9110249280929565,
+   "pesq_noisy": 1.1853300333023071,
+   "sisdr": 17.19431470821776,
+   "sisdr_noisy": 10.833266673066264
+  },
+  {
+   "id": "test_000051",
+   "snr_db": 13.344,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6959921717643738,
+   "g_noise": 0.4059044122695923,
+   "stoi": 0.9208242133515062,
+   "stoi_noisy": 0.9361491928784019,
+   "pesq": 1.4058277606964111,
+   "pesq_noisy": 1.154909610748291,
+   "sisdr": 12.660323795527527,
+   "sisdr_noisy": 11.446886275782191
+  },
+  {
+   "id": "test_000052",
+   "snr_db": 18.585,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9775775671005249,
+   "g_noise": 0.6166794300079346,
+   "stoi": 0.9899291087556426,
+   "stoi_noisy": 0.9905849143725082,
+   "pesq": 2.919466733932495,
+   "pesq_noisy": 2.781094551086426,
+   "sisdr": 13.535879518260241,
+   "sisdr_noisy": 13.510542671132676
+  },
+  {
+   "id": "test_000053",
+   "snr_db": -7.661,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.4509429335594177,
+   "g_noise": 0.3231271803379059,
+   "stoi": 0.6630160251458401,
+   "stoi_noisy": 0.7061689482732332,
+   "pesq": 1.0609931945800781,
+   "pesq_noisy": 1.0626821517944336,
+   "sisdr": -5.913025825558438,
+   "sisdr_noisy": -8.966648714101416
+  },
+  {
+   "id": "test_000054",
+   "snr_db": 7.408,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8074562549591064,
+   "g_noise": 0.1807159036397934,
+   "stoi": 0.8751325065370502,
+   "stoi_noisy": 0.9123601686058249,
+   "pesq": 1.9542498588562012,
+   "pesq_noisy": 1.3286195993423462,
+   "sisdr": 9.942440473460056,
+   "sisdr_noisy": 4.668132297707553
+  },
+  {
+   "id": "test_000055",
+   "snr_db": 12.118,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7726495862007141,
+   "g_noise": 0.403356671333313,
+   "stoi": 0.9594663573954325,
+   "stoi_noisy": 0.9481329763979458,
+   "pesq": 1.3133107423782349,
+   "pesq_noisy": 1.1542243957519531,
+   "sisdr": 13.039239317607187,
+   "sisdr_noisy": 10.427156568344278
+  },
+  {
+   "id": "test_000056",
+   "snr_db": 1.634,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5146411061286926,
+   "g_noise": 0.372256875038147,
+   "stoi": 0.6843559543330299,
+   "stoi_noisy": 0.6882743942014788,
+   "pesq": 1.0503026247024536,
+   "pesq_noisy": 1.0406420230865479,
+   "sisdr": 3.5812133058488156,
+   "sisdr_noisy": 1.6282241700877373
+  },
+  {
+   "id": "test_000057",
+   "snr_db": 6.623,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.981195330619812,
+   "g_noise": 0.4943181872367859,
+   "stoi": 0.9270678676844919,
+   "stoi_noisy": 0.9274647120240873,
+   "pesq": 1.4820549488067627,
+   "pesq_noisy": 1.4644339084625244,
+   "sisdr": 6.403161676886038,
+   "sisdr_noisy": 6.388003953789959
+  },
+  {
+   "id": "test_000058",
+   "snr_db": 13.574,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9596124291419983,
+   "g_noise": 0.4463007152080536,
+   "stoi": 0.9634512343614241,
+   "stoi_noisy": 0.9630074462520696,
+   "pesq": 1.3241779804229736,
+   "pesq_noisy": 1.285224437713623,
+   "sisdr": 12.800265378828898,
+   "sisdr_noisy": 12.49146165747625
+  },
+  {
+   "id": "test_000059",
+   "snr_db": 0.442,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.4366503655910492,
+   "g_noise": 0.44037941098213196,
+   "stoi": 0.5590267659155385,
+   "stoi_noisy": 0.6344488461185197,
+   "pesq": 1.1882693767547607,
+   "pesq_noisy": 1.2689210176467896,
+   "sisdr": -0.7009539908640403,
+   "sisdr_noisy": -2.2444748724276673
+  },
+  {
+   "id": "test_000060",
+   "snr_db": 6.917,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8941922187805176,
+   "g_noise": 0.6141717433929443,
+   "stoi": 0.8962497237784308,
+   "stoi_noisy": 0.878734437879784,
+   "pesq": 1.1851806640625,
+   "pesq_noisy": 1.1280125379562378,
+   "sisdr": 7.999412780908891,
+   "sisdr_noisy": 6.89987212155156
+  },
+  {
+   "id": "test_000061",
+   "snr_db": 7.892,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7346189618110657,
+   "g_noise": 0.5399214029312134,
+   "stoi": 0.942631578453493,
+   "stoi_noisy": 0.94885404043515,
+   "pesq": 1.6369227170944214,
+   "pesq_noisy": 1.6168475151062012,
+   "sisdr": 5.946535532497446,
+   "sisdr_noisy": 3.0496572069977566
+  },
+  {
+   "id": "test_000062",
+   "snr_db": 7.717,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8439362645149231,
+   "g_noise": 0.39004117250442505,
+   "stoi": 0.8399563140960165,
+   "stoi_noisy": 0.8015906504037082,
+   "pesq": 1.3025442361831665,
+   "pesq_noisy": 1.1141414642333984,
+   "sisdr": 11.23411769636906,
+   "sisdr_noisy": 5.6681372790556575
+  },
+  {
+   "id": "test_000063",
+   "snr_db": -9.863,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5017251968383789,
+   "g_noise": 0.3591122329235077,
+   "stoi": 0.5684386073093053,
+   "stoi_noisy": 0.598749876317141,
+   "pesq": 1.0364758968353271,
+   "pesq_noisy": 1.0424679517745972,
+   "sisdr": -12.382950395782707,
+   "sisdr_noisy": -13.679586755543083
+  },
+  {
+   "id": "test_000064",
+   "snr_db": 7.321,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7999305725097656,
+   "g_noise": 0.546157717704773,
+   "stoi": 0.8590297828711194,
+   "stoi_noisy": 0.871236009560686,
+   "pesq": 1.135148525238037,
+   "pesq_noisy": 1.0926475524902344,
+   "sisdr": 5.8350652480763445,
+   "sisdr_noisy": 4.90190080245767
+  },
+  {
+   "id": "test_000065",
+   "snr_db": -4.536,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9727988839149475,
+   "g_noise": 0.6262537240982056,
+   "stoi": 0.799056657721527,
+   "stoi_noisy": 0.7999825053975046,
+   "pesq": 1.1615946292877197,
+   "pesq_noisy": 1.1643650531768799,
+   "sisdr": -7.799323688296818,
+   "sisdr_noisy": -7.785182857967739
+  },
+  {
+   "id": "test_000066",
+   "snr_db": 14.314,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.744940996170044,
+   "g_noise": 0.40841373801231384,
+   "stoi": 0.952963910426728,
+   "stoi_noisy": 0.9563406463163169,
+   "pesq": 1.513043999671936,
+   "pesq_noisy": 1.3016830682754517,
+   "sisdr": 13.27270875236923,
+   "sisdr_noisy": 10.257574910654647
+  },
+  {
+   "id": "test_000067",
+   "snr_db": -0.582,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5247662663459778,
+   "g_noise": 0.36208242177963257,
+   "stoi": 0.742039166161598,
+   "stoi_noisy": 0.7280267229220023,
+   "pesq": 1.1625251770019531,
+   "pesq_noisy": 1.076304316520691,
+   "sisdr": -3.5282062251252837,
+   "sisdr_noisy": -5.363700548737204
+  },
+  {
+   "id": "test_000068",
+   "snr_db": 10.911,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6543107628822327,
+   "g_noise": 0.34788915514945984,
+   "stoi": 0.9384849220607282,
+   "stoi_noisy": 0.9216347188044616,
+   "pesq": 1.7205557823181152,
+   "pesq_noisy": 1.3041245937347412,
+   "sisdr": 14.027927560091435,
+   "sisdr_noisy": 10.36821241246611
+  },
+  {
+   "id": "test_000069",
+   "snr_db": -2.351,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8614953756332397,
+   "g_noise": 0.6116848587989807,
+   "stoi": 0.7654243924632236,
+   "stoi_noisy": 0.7272541168487832,
+   "pesq": 1.0969762802124023,
+   "pesq_noisy": 1.041801929473877,
+   "sisdr": -1.1145614797456502,
+   "sisdr_noisy": -8.398247052816492
+  },
+  {
+   "id": "test_000070",
+   "snr_db": -5.788,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.6785228848457336,
+   "g_noise": 0.42496028542518616,
+   "stoi": 0.6292277466937632,
+   "stoi_noisy": 0.6355419500097863,
+   "pesq": 1.0479917526245117,
+   "pesq_noisy": 1.054824709892273,
+   "sisdr": -6.823855702108412,
+   "sisdr_noisy": -6.062061612908992
+  },
+  {
+   "id": "test_000071",
+   "snr_db": 6.189,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.4651623070240021,
+   "g_noise": 0.323984831571579,
+   "stoi": 0.7881236558398006,
+   "stoi_noisy": 0.7763084159648829,
+   "pesq": 1.1199531555175781,
+   "pesq_noisy": 1.0477246046066284,
+   "sisdr": 8.356101888368825,
+   "sisdr_noisy": 3.6939627047723884
+  },
+  {
+   "id": "test_000072",
+   "snr_db": 1.554,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9258843064308167,
+   "g_noise": 0.414924293756485,
+   "stoi": 0.824435887711305,
+   "stoi_noisy": 0.8259294130083445,
+   "pesq": 1.3499760627746582,
+   "pesq_noisy": 1.3378126621246338,
+   "sisdr": 1.6010077131796394,
+   "sisdr_noisy": 0.26230020698917217
+  },
+  {
+   "id": "test_000073",
+   "snr_db": 7.473,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8490825891494751,
+   "g_noise": 0.4097237288951874,
+   "stoi": 0.8512308819440578,
+   "stoi_noisy": 0.8337163993658612,
+   "pesq": 1.2485188245773315,
+   "pesq_noisy": 1.146416187286377,
+   "sisdr": 8.94096654422033,
+   "sisdr_noisy": 7.012497711075937
+  },
+  {
+   "id": "test_000074",
+   "snr_db": -0.318,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7485706806182861,
+   "g_noise": 0.7029374241828918,
+   "stoi": 0.6075921800994679,
+   "stoi_noisy": 0.6047000212316693,
+   "pesq": 1.0676349401474,
+   "pesq_noisy": 1.069930076599121,
+   "sisdr": -0.8734682165001834,
+   "sisdr_noisy": -1.2759021596197
+  },
+  {
+   "id": "test_000075",
+   "snr_db": -9.765,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6450907588005066,
+   "g_noise": 0.38557928800582886,
+   "stoi": 0.7393208057225549,
+   "stoi_noisy": 0.7491347867620539,
+   "pesq": 1.124935269355774,
+   "pesq_noisy": 1.0295079946517944,
+   "sisdr": -14.94211245616711,
+   "sisdr_noisy": -13.145287253475967
+  },
+  {
+   "id": "test_000076",
+   "snr_db": 1.11,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5953600406646729,
+   "g_noise": 0.2846645414829254,
+   "stoi": 0.8958924036785926,
+   "stoi_noisy": 0.8917146974409721,
+   "pesq": 1.1308740377426147,
+   "pesq_noisy": 1.051548957824707,
+   "sisdr": 3.6336896852061322,
+   "sisdr_noisy": 0.35516229597755766
+  },
+  {
+   "id": "test_000077",
+   "snr_db": 7.493,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7074865698814392,
+   "g_noise": 0.5306194424629211,
+   "stoi": 0.8520036460733751,
+   "stoi_noisy": 0.8649496650420587,
+   "pesq": 1.3509124517440796,
+   "pesq_noisy": 1.2434602975845337,
+   "sisdr": 7.675253282625372,
+   "sisdr_noisy": 5.866987180454624
+  },
+  {
+   "id": "test_000078",
+   "snr_db": -5.491,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8990911245346069,
+   "g_noise": 0.5909966230392456,
+   "stoi": 0.6482607738616565,
+   "stoi_noisy": 0.6261986790206469,
+   "pesq": 1.1018189191818237,
+   "pesq_noisy": 1.0905972719192505,
+   "sisdr": -4.028825987395454,
+   "sisdr_noisy": -6.9639128372315895
+  },
+  {
+   "id": "test_000079",
+   "snr_db": -1.01,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7577268481254578,
+   "g_noise": 0.651222825050354,
+   "stoi": 0.8986701776477152,
+   "stoi_noisy": 0.9234280904855732,
+   "pesq": 1.1603926420211792,
+   "pesq_noisy": 1.2272231578826904,
+   "sisdr": 0.6059669499629928,
+   "sisdr_noisy": -1.3041472027256007
+  },
+  {
+   "id": "test_000080",
+   "snr_db": 6.573,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.855064332485199,
+   "g_noise": 0.4674682319164276,
+   "stoi": 0.9565225562146107,
+   "stoi_noisy": 0.9587872379426419,
+   "pesq": 1.4061717987060547,
+   "pesq_noisy": 1.5517016649246216,
+   "sisdr": 4.403731713862012,
+   "sisdr_noisy": 2.7872836880325744
+  },
+  {
+   "id": "test_000081",
+   "snr_db": 18.988,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8975432515144348,
+   "g_noise": 0.32599499821662903,
+   "stoi": 0.9860254438783693,
+   "stoi_noisy": 0.9805097472898269,
+   "pesq": 2.73567795753479,
+   "pesq_noisy": 2.6470065116882324,
+   "sisdr": 17.952060823024386,
+   "sisdr_noisy": 16.739756994005425
+  },
+  {
+   "id": "test_000082",
+   "snr_db": 13.969,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.777533233165741,
+   "g_noise": 0.4928959310054779,
+   "stoi": 0.9445749626283971,
+   "stoi_noisy": 0.9621940528783895,
+   "pesq": 2.010019540786743,
+   "pesq_noisy": 1.9979631900787354,
+   "sisdr": 14.174664537467446,
+   "sisdr_noisy": 12.242022664782276
+  },
+  {
+   "id": "test_000083",
+   "snr_db": 19.764,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9043174386024475,
+   "g_noise": 0.30683884024620056,
+   "stoi": 0.9809779813730931,
+   "stoi_noisy": 0.9840307834105573,
+   "pesq": 2.5423967838287354,
+   "pesq_noisy": 2.4915409088134766,
+   "sisdr": 19.068449910086336,
+   "sisdr_noisy": 17.929693664041018
+  },
+  {
+   "id": "test_000084",
+   "snr_db": 5.187,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7418587803840637,
+   "g_noise": 0.2871561646461487,
+   "stoi": 0.9788960698746186,
+   "stoi_noisy": 0.960546867652985,
+   "pesq": 1.339140772819519,
+   "pesq_noisy": 1.158233880996704,
+   "sisdr": 8.84395492166847,
+   "sisdr_noisy": 2.9833041419934463
+  },
+  {
+   "id": "test_000085",
+   "snr_db": 15.471,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7334110736846924,
+   "g_noise": 0.3898037374019623,
+   "stoi": 0.9677998901600811,
+   "stoi_noisy": 0.9710109010858771,
+   "pesq": 1.7080916166305542,
+   "pesq_noisy": 1.3257460594177246,
+   "sisdr": 18.137431215694676,
+   "sisdr_noisy": 14.455238933814567
+  },
+  {
+   "id": "test_000086",
+   "snr_db": 11.224,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6214733123779297,
+   "g_noise": 0.37179720401763916,
+   "stoi": 0.937954994958707,
+   "stoi_noisy": 0.949685406050471,
+   "pesq": 1.9079997539520264,
+   "pesq_noisy": 1.4760100841522217,
+   "sisdr": 11.926675071010512,
+   "sisdr_noisy": 10.112135996693253
+  },
+  {
+   "id": "test_000087",
+   "snr_db": -4.013,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.25207796692848206,
+   "g_noise": 0.1242503672838211,
+   "stoi": 0.503595750749052,
+   "stoi_noisy": 0.491404704594736,
+   "pesq": 1.0218727588653564,
+   "pesq_noisy": 1.0189712047576904,
+   "sisdr": -7.275675304429509,
+   "sisdr_noisy": -8.506986916995604
+  },
+  {
+   "id": "test_000088",
+   "snr_db": -7.26,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.3505021035671234,
+   "g_noise": 0.35859885811805725,
+   "stoi": 0.4883333880599472,
+   "stoi_noisy": 0.5591561598751328,
+   "pesq": 1.0311410427093506,
+   "pesq_noisy": 3.088979959487915,
+   "sisdr": -12.349189743854794,
+   "sisdr_noisy": -7.69729790211327
+  },
+  {
+   "id": "test_000089",
+   "snr_db": -9.153,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.22021619975566864,
+   "g_noise": 0.19745853543281555,
+   "stoi": 0.5736848648198588,
+   "stoi_noisy": 0.5908942879952915,
+   "pesq": 1.0271705389022827,
+   "pesq_noisy": 1.0520843267440796,
+   "sisdr": -10.16671537507821,
+   "sisdr_noisy": -10.638336956334635
+  },
+  {
+   "id": "test_000090",
+   "snr_db": -8.565,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.32685932517051697,
+   "g_noise": 0.2083282768726349,
+   "stoi": 0.5359661162892291,
+   "stoi_noisy": 0.5604030805417674,
+   "pesq": 1.0601685047149658,
+   "pesq_noisy": 1.049477219581604,
+   "sisdr": -8.019279568458131,
+   "sisdr_noisy": -9.452537910274048
+  },
+  {
+   "id": "test_000091",
+   "snr_db": 18.387,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9300006628036499,
+   "g_noise": 0.47940316796302795,
+   "stoi": 0.9387759500774229,
+   "stoi_noisy": 0.9439560668327639,
+   "pesq": 1.7706904411315918,
+   "pesq_noisy": 1.5793334245681763,
+   "sisdr": 18.453060432331004,
+   "sisdr_noisy": 16.948180327745572
+  },
+  {
+   "id": "test_000092",
+   "snr_db": 14.173,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9408517479896545,
+   "g_noise": 0.3721582889556885,
+   "stoi": 0.9605120816947538,
+   "stoi_noisy": 0.955336354540167,
+   "pesq": 2.166865348815918,
+   "pesq_noisy": 1.7136168479919434,
+   "sisdr": 14.521699538834834,
+   "sisdr_noisy": 10.623527237082769
+  },
+  {
+   "id": "test_000093",
+   "snr_db": 11.408,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9307706952095032,
+   "g_noise": 0.6519612073898315,
+   "stoi": 0.9231730972682578,
+   "stoi_noisy": 0.9195678082001767,
+   "pesq": 1.3585035800933838,
+   "pesq_noisy": 1.327547550201416,
+   "sisdr": 11.14216700752918,
+   "sisdr_noisy": 10.313999639753215
+  },
+  {
+   "id": "test_000094",
+   "snr_db": -6.658,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7329288721084595,
+   "g_noise": 0.6376343369483948,
+   "stoi": 0.45994650792838093,
+   "stoi_noisy": 0.45037995601659186,
+   "pesq": 1.0266616344451904,
+   "pesq_noisy": 1.3829472064971924,
+   "sisdr": -12.32297465899652,
+   "sisdr_noisy": -13.714772553778731
+  },
+  {
+   "id": "test_000095",
+   "snr_db": 16.203,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.852026104927063,
+   "g_noise": 0.20812515914440155,
+   "stoi": 0.9800068516471463,
+   "stoi_noisy": 0.9846755736318965,
+   "pesq": 1.768851637840271,
+   "pesq_noisy": 1.5908045768737793,
+   "sisdr": 16.76054645077145,
+   "sisdr_noisy": 15.14096568111805
+  },
+  {
+   "id": "test_000096",
+   "snr_db": 8.138,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5728834271430969,
+   "g_noise": 0.3345988690853119,
+   "stoi": 0.9579728076725909,
+   "stoi_noisy": 0.9802922188429911,
+   "pesq": 1.6331048011779785,
+   "pesq_noisy": 1.9648113250732422,
+   "sisdr": 6.632308271990091,
+   "sisdr_noisy": 2.3926960994876594
+  },
+  {
+   "id": "test_000097",
+   "snr_db": -8.584,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.23377740383148193,
+   "g_noise": 0.22351187467575073,
+   "stoi": 0.4310124222032468,
+   "stoi_noisy": 0.569298831229823,
+   "pesq": 1.0434279441833496,
+   "pesq_noisy": 1.035827875137329,
+   "sisdr": -15.639137660683812,
+   "sisdr_noisy": -12.211125883339909
+  },
+  {
+   "id": "test_000098",
+   "snr_db": 0.069,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.40372762084007263,
+   "g_noise": 0.32581502199172974,
+   "stoi": 0.857458431599445,
+   "stoi_noisy": 0.8644863150860919,
+   "pesq": 1.2103168964385986,
+   "pesq_noisy": 1.2129175662994385,
+   "sisdr": 5.00840677474622,
+   "sisdr_noisy": -0.5263777338479244
+  },
+  {
+   "id": "test_000099",
+   "snr_db": 11.19,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8353909850120544,
+   "g_noise": 0.4355054199695587,
+   "stoi": 0.916175333631074,
+   "stoi_noisy": 0.8653345979027085,
+   "pesq": 1.3836275339126587,
+   "pesq_noisy": 1.2633392810821533,
+   "sisdr": 15.453562958542733,
+   "sisdr_noisy": 10.047071340135059
+  },
+  {
+   "id": "test_000100",
+   "snr_db": 5.566,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9807845950126648,
+   "g_noise": 0.5067429542541504,
+   "stoi": 0.9445637520339594,
+   "stoi_noisy": 0.9446507476383217,
+   "pesq": 1.660735845565796,
+   "pesq_noisy": 1.6748647689819336,
+   "sisdr": 4.45695133053026,
+   "sisdr_noisy": 4.387547526647008
+  },
+  {
+   "id": "test_000101",
+   "snr_db": 12.207,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8644422292709351,
+   "g_noise": 0.45154720544815063,
+   "stoi": 0.9770437296817385,
+   "stoi_noisy": 0.9784652355409794,
+   "pesq": 1.4002468585968018,
+   "pesq_noisy": 1.2885249853134155,
+   "sisdr": 13.10303257704688,
+   "sisdr_noisy": 9.963704567058693
+  },
+  {
+   "id": "test_000102",
+   "snr_db": 11.737,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6566967964172363,
+   "g_noise": 0.4033864736557007,
+   "stoi": 0.9491724361776682,
+   "stoi_noisy": 0.9558133256506076,
+   "pesq": 1.7886009216308594,
+   "pesq_noisy": 1.3764127492904663,
+   "sisdr": 10.718052065161102,
+   "sisdr_noisy": 9.340449123421182
+  },
+  {
+   "id": "test_000103",
+   "snr_db": 8.587,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.49575358629226685,
+   "g_noise": 0.3148989677429199,
+   "stoi": 0.8509597917569741,
+   "stoi_noisy": 0.8478825230694388,
+   "pesq": 1.368028998374939,
+   "pesq_noisy": 1.0938886404037476,
+   "sisdr": 11.365526987357413,
+   "sisdr_noisy": 8.405766555834143
+  },
+  {
+   "id": "test_000104",
+   "snr_db": -2.658,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5482817888259888,
+   "g_noise": 0.4418390691280365,
+   "stoi": 0.6135548644402783,
+   "stoi_noisy": 0.6593454052977353,
+   "pesq": 1.1642026901245117,
+   "pesq_noisy": 1.1395959854125977,
+   "sisdr": -3.121983238705541,
+   "sisdr_noisy": -4.6852537469760005
+  },
+  {
+   "id": "test_000105",
+   "snr_db": 5.531,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7272312641143799,
+   "g_noise": 0.41886666417121887,
+   "stoi": 0.864481412443273,
+   "stoi_noisy": 0.8556312639231956,
+   "pesq": 1.2141863107681274,
+   "pesq_noisy": 1.1256166696548462,
+   "sisdr": 6.7248553924342325,
+   "sisdr_noisy": 3.9248849843697315
+  },
+  {
+   "id": "test_000106",
+   "snr_db": 2.483,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.915580153465271,
+   "g_noise": 0.37410059571266174,
+   "stoi": 0.8639350895636045,
+   "stoi_noisy": 0.8498918823457252,
+   "pesq": 1.1422946453094482,
+   "pesq_noisy": 1.1002962589263916,
+   "sisdr": 2.5077891711935987,
+   "sisdr_noisy": -1.4208337968045146
+  },
+  {
+   "id": "test_000107",
+   "snr_db": -4.626,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.49362537264823914,
+   "g_noise": 0.5224869251251221,
+   "stoi": 0.6639701653932449,
+   "stoi_noisy": 0.6744262729514219,
+   "pesq": 1.0509015321731567,
+   "pesq_noisy": 1.043592929840088,
+   "sisdr": -8.589357591816416,
+   "sisdr_noisy": -9.148459975292154
+  },
+  {
+   "id": "test_000108",
+   "snr_db": -1.733,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8373246788978577,
+   "g_noise": 0.6010383367538452,
+   "stoi": 0.7950125399411794,
+   "stoi_noisy": 0.7925605613869542,
+   "pesq": 1.066144347190857,
+   "pesq_noisy": 1.0588542222976685,
+   "sisdr": -2.1604679003970992,
+   "sisdr_noisy": -2.581843809910519
+  },
+  {
+   "id": "test_000109",
+   "snr_db": 14.813,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9018771052360535,
+   "g_noise": 0.6481205821037292,
+   "stoi": 0.9454236388456286,
+   "stoi_noisy": 0.9524523761290664,
+   "pesq": 1.228166937828064,
+   "pesq_noisy": 1.1751549243927002,
+   "sisdr": 13.529383624552837,
+   "sisdr_noisy": 13.266860111198842
+  },
+  {
+   "id": "test_000110",
+   "snr_db": 19.005,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9740331172943115,
+   "g_noise": 0.3342263400554657,
+   "stoi": 0.9878839957690784,
+   "stoi_noisy": 0.9890444868740507,
+   "pesq": 2.6996564865112305,
+   "pesq_noisy": 2.6207544803619385,
+   "sisdr": 17.695342723370338,
+   "sisdr_noisy": 17.443562739196835
+  },
+  {
+   "id": "test_000111",
+   "snr_db": -0.573,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7018424868583679,
+   "g_noise": 0.44595810770988464,
+   "stoi": 0.749208082774194,
+   "stoi_noisy": 0.7584929754517306,
+   "pesq": 1.0666135549545288,
+   "pesq_noisy": 1.0684703588485718,
+   "sisdr": -1.8055624033286046,
+   "sisdr_noisy": -2.8754118243522115
+  },
+  {
+   "id": "test_000112",
+   "snr_db": 19.27,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9363633394241333,
+   "g_noise": 0.5278112292289734,
+   "stoi": 0.9688910050656401,
+   "stoi_noisy": 0.9687762891224143,
+   "pesq": 2.0370664596557617,
+   "pesq_noisy": 2.211038827896118,
+   "sisdr": 13.819195249763755,
+   "sisdr_noisy": 13.171418012284688
+  },
+  {
+   "id": "test_000113",
+   "snr_db": 7.943,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7865934371948242,
+   "g_noise": 0.3840489685535431,
+   "stoi": 0.9623861364339442,
+   "stoi_noisy": 0.9538419429746505,
+   "pesq": 1.5656907558441162,
+   "pesq_noisy": 1.3506680727005005,
+   "sisdr": 10.716850778828316,
+   "sisdr_noisy": 7.016149171562709
+  },
+  {
+   "id": "test_000114",
+   "snr_db": -4.069,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.6806500554084778,
+   "g_noise": 0.5521776676177979,
+   "stoi": 0.7296779570098763,
+   "stoi_noisy": 0.74269636685269,
+   "pesq": 1.2525548934936523,
+   "pesq_noisy": 1.1689730882644653,
+   "sisdr": -8.559413831231723,
+   "sisdr_noisy": -8.196523824373084
+  },
+  {
+   "id": "test_000115",
+   "snr_db": 18.7,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9741074442863464,
+   "g_noise": 0.4622904062271118,
+   "stoi": 0.9730311769861028,
+   "stoi_noisy": 0.9728943960735965,
+   "pesq": 2.129424571990967,
+   "pesq_noisy": 2.1381211280822754,
+   "sisdr": 16.626333780785757,
+   "sisdr_noisy": 16.274757588710358
+  },
+  {
+   "id": "test_000116",
+   "snr_db": 1.336,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6213623881340027,
+   "g_noise": 0.34833285212516785,
+   "stoi": 0.7356951093910878,
+   "stoi_noisy": 0.7319356562999659,
+   "pesq": 1.073615312576294,
+   "pesq_noisy": 1.0445443391799927,
+   "sisdr": 2.050570342501174,
+   "sisdr_noisy": 1.1528899624834978
+  },
+  {
+   "id": "test_000117",
+   "snr_db": 6.213,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7609460353851318,
+   "g_noise": 0.2133999913930893,
+   "stoi": 0.915911224710751,
+   "stoi_noisy": 0.8998697575968878,
+   "pesq": 1.2352709770202637,
+   "pesq_noisy": 1.2059661149978638,
+   "sisdr": 7.085401040281175,
+   "sisdr_noisy": 3.4803742115569634
+  },
+  {
+   "id": "test_000118",
+   "snr_db": 6.748,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.880632221698761,
+   "g_noise": 0.5226801037788391,
+   "stoi": 0.9237469611377729,
+   "stoi_noisy": 0.907830109121041,
+   "pesq": 1.2906432151794434,
+   "pesq_noisy": 1.282614827156067,
+   "sisdr": 10.035208422890706,
+   "sisdr_noisy": 6.419757419132254
+  },
+  {
+   "id": "test_000119",
+   "snr_db": 4.531,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8365792632102966,
+   "g_noise": 0.4949106276035309,
+   "stoi": 0.8851851139611865,
+   "stoi_noisy": 0.8470250925944294,
+   "pesq": 1.138681411743164,
+   "pesq_noisy": 1.0952427387237549,
+   "sisdr": 6.373805151922369,
+   "sisdr_noisy": 4.132057793206277
+  },
+  {
+   "id": "test_000120",
+   "snr_db": 1.866,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6299253106117249,
+   "g_noise": 0.5104665756225586,
+   "stoi": 0.8124695932702388,
+   "stoi_noisy": 0.8080635006741934,
+   "pesq": 1.1261920928955078,
+   "pesq_noisy": 1.0805587768554688,
+   "sisdr": 2.827122896360666,
+   "sisdr_noisy": 0.19880063927096084
+  },
+  {
+   "id": "test_000121",
+   "snr_db": 8.321,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7583706378936768,
+   "g_noise": 0.529765784740448,
+   "stoi": 0.9327086026028178,
+   "stoi_noisy": 0.9019810479974063,
+   "pesq": 1.511512041091919,
+   "pesq_noisy": 1.2647794485092163,
+   "sisdr": 10.516298128332354,
+   "sisdr_noisy": 7.727750699932631
+  },
+  {
+   "id": "test_000122",
+   "snr_db": 5.36,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6087915301322937,
+   "g_noise": 0.3563719093799591,
+   "stoi": 0.7129598733262696,
+   "stoi_noisy": 0.7162911875852974,
+   "pesq": 1.104557752609253,
+   "pesq_noisy": 1.0851378440856934,
+   "sisdr": 1.5667042478717772,
+   "sisdr_noisy": 0.8725489635671446
+  },
+  {
+   "id": "test_000123",
+   "snr_db": 1.096,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.607819676399231,
+   "g_noise": 0.5936108231544495,
+   "stoi": 0.7788155224121094,
+   "stoi_noisy": 0.7883025810029423,
+   "pesq": 1.1412421464920044,
+   "pesq_noisy": 1.0871577262878418,
+   "sisdr": 1.8001143420130272,
+   "sisdr_noisy": 0.5941604416845291
+  },
+  {
+   "id": "test_000124",
+   "snr_db": 11.415,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6233344078063965,
+   "g_noise": 0.28930428624153137,
+   "stoi": 0.9040925797957479,
+   "stoi_noisy": 0.8830581574236003,
+   "pesq": 1.5512750148773193,
+   "pesq_noisy": 1.3449149131774902,
+   "sisdr": 14.300353113966477,
+   "sisdr_noisy": 9.350765238607462
+  },
+  {
+   "id": "test_000125",
+   "snr_db": -6.29,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6944212913513184,
+   "g_noise": 0.52430260181427,
+   "stoi": 0.6714654476834999,
+   "stoi_noisy": 0.6684496146974611,
+   "pesq": 1.062326192855835,
+   "pesq_noisy": 1.0614869594573975,
+   "sisdr": -6.4535139115938165,
+   "sisdr_noisy": -7.094091615676543
+  },
+  {
+   "id": "test_000126",
+   "snr_db": -2.052,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.33480170369148254,
+   "g_noise": 0.3400728702545166,
+   "stoi": 0.7133970297023383,
+   "stoi_noisy": 0.7076103546055615,
+   "pesq": 1.0810918807983398,
+   "pesq_noisy": 1.0655570030212402,
+   "sisdr": -7.558069350855421,
+   "sisdr_noisy": -4.922602911077814
+  },
+  {
+   "id": "test_000127",
+   "snr_db": -2.812,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.46371492743492126,
+   "g_noise": 0.4566629230976105,
+   "stoi": 0.7310325313862687,
+   "stoi_noisy": 0.7512068747896226,
+   "pesq": 1.050230622291565,
+   "pesq_noisy": 1.0335266590118408,
+   "sisdr": -1.3089973031780295,
+   "sisdr_noisy": -3.2591732136055906
+  },
+  {
+   "id": "test_000128",
+   "snr_db": 15.206,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7023625373840332,
+   "g_noise": 0.40797653794288635,
+   "stoi": 0.9042877547604886,
+   "stoi_noisy": 0.9142236259479527,
+   "pesq": 1.7885485887527466,
+   "pesq_noisy": 1.5050774812698364,
+   "sisdr": 12.309785553745387,
+   "sisdr_noisy": 11.457136975515612
+  },
+  {
+   "id": "test_000129",
+   "snr_db": 8.497,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6146509051322937,
+   "g_noise": 0.47695988416671753,
+   "stoi": 0.9125936093310579,
+   "stoi_noisy": 0.9295312586014077,
+   "pesq": 1.2586214542388916,
+   "pesq_noisy": 1.2912338972091675,
+   "sisdr": 8.50562763053843,
+   "sisdr_noisy": 5.461148347926619
+  },
+  {
+   "id": "test_000130",
+   "snr_db": 6.105,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9287056922912598,
+   "g_noise": 0.6031774282455444,
+   "stoi": 0.8389589595798876,
+   "stoi_noisy": 0.8116673365155701,
+   "pesq": 1.156773328781128,
+   "pesq_noisy": 1.069377064704895,
+   "sisdr": 3.2167156327898976,
+   "sisdr_noisy": 2.4946879746463897
+  },
+  {
+   "id": "test_000131",
+   "snr_db": 17.567,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8853775262832642,
+   "g_noise": 0.5128790140151978,
+   "stoi": 0.9546802477549826,
+   "stoi_noisy": 0.9607653771264212,
+   "pesq": 1.7405471801757812,
+   "pesq_noisy": 1.621033787727356,
+   "sisdr": 14.618166094995468,
+   "sisdr_noisy": 13.329331610114409
+  },
+  {
+   "id": "test_000132",
+   "snr_db": -7.523,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.25493061542510986,
+   "g_noise": 0.42382219433784485,
+   "stoi": 0.3736442376149255,
+   "stoi_noisy": 0.4778222514275636,
+   "pesq": 1.0411995649337769,
+   "pesq_noisy": 2.5249369144439697,
+   "sisdr": -14.547569435190052,
+   "sisdr_noisy": -9.885281788306369
+  },
+  {
+   "id": "test_000133",
+   "snr_db": -8.14,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5006710886955261,
+   "g_noise": 0.3703015148639679,
+   "stoi": 0.7389384284093266,
+   "stoi_noisy": 0.8160151140831241,
+   "pesq": 1.0751091241836548,
+   "pesq_noisy": 1.0601179599761963,
+   "sisdr": -18.209278574644042,
+   "sisdr_noisy": -16.00286202520949
+  },
+  {
+   "id": "test_000134",
+   "snr_db": 12.172,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8647153973579407,
+   "g_noise": 0.47812336683273315,
+   "stoi": 0.9578549791926544,
+   "stoi_noisy": 0.9548563089334356,
+   "pesq": 1.6437146663665771,
+   "pesq_noisy": 1.4554040431976318,
+   "sisdr": 13.735927645567209,
+   "sisdr_noisy": 12.067417813210934
+  },
+  {
+   "id": "test_000135",
+   "snr_db": 7.525,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.791447103023529,
+   "g_noise": 0.4483003318309784,
+   "stoi": 0.7718215376885139,
+   "stoi_noisy": 0.773306777590252,
+   "pesq": 1.3258016109466553,
+   "pesq_noisy": 1.2905611991882324,
+   "sisdr": 10.85229861437201,
+   "sisdr_noisy": 5.590732532525179
+  },
+  {
+   "id": "test_000136",
+   "snr_db": -2.275,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.43194493651390076,
+   "g_noise": 0.2583020031452179,
+   "stoi": 0.7801357801490244,
+   "stoi_noisy": 0.7762845404541858,
+   "pesq": 1.272467851638794,
+   "pesq_noisy": 1.0770604610443115,
+   "sisdr": -4.349348334410551,
+   "sisdr_noisy": -5.506380860913702
+  },
+  {
+   "id": "test_000137",
+   "snr_db": -7.628,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.20723587274551392,
+   "g_noise": 0.36880776286125183,
+   "stoi": 0.5065437764241331,
+   "stoi_noisy": 0.5599557483049272,
+   "pesq": 1.0263787508010864,
+   "pesq_noisy": 1.100367784500122,
+   "sisdr": -19.76161773370022,
+   "sisdr_noisy": -10.705783962349075
+  },
+  {
+   "id": "test_000138",
+   "snr_db": -5.764,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.6542875170707703,
+   "g_noise": 0.5981770753860474,
+   "stoi": 0.7596303510797598,
+   "stoi_noisy": 0.77780471928605,
+   "pesq": 1.4432017803192139,
+   "pesq_noisy": 1.31437349319458,
+   "sisdr": -3.9073350019834057,
+   "sisdr_noisy": -7.43973712777085
+  },
+  {
+   "id": "test_000139",
+   "snr_db": 2.852,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6634723544120789,
+   "g_noise": 0.44250917434692383,
+   "stoi": 0.8416334859435624,
+   "stoi_noisy": 0.8260314733136545,
+   "pesq": 1.3627796173095703,
+   "pesq_noisy": 1.178342342376709,
+   "sisdr": 0.26335971641968053,
+   "sisdr_noisy": -3.692401471302447
+  },
+  {
+   "id": "test_000140",
+   "snr_db": 8.602,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.674635112285614,
+   "g_noise": 0.4240211546421051,
+   "stoi": 0.9245685137551831,
+   "stoi_noisy": 0.9281724868048107,
+   "pesq": 1.3010843992233276,
+   "pesq_noisy": 1.2190237045288086,
+   "sisdr": 7.136529384961067,
+   "sisdr_noisy": 3.306572111436437
+  },
+  {
+   "id": "test_000141",
+   "snr_db": -7.698,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.13934160768985748,
+   "g_noise": 0.16307011246681213,
+   "stoi": 0.6368057556273116,
+   "stoi_noisy": 0.6572134217240043,
+   "pesq": 1.034126877784729,
+   "pesq_noisy": 1.0421111583709717,
+   "sisdr": -7.258641558382001,
+   "sisdr_noisy": -8.778995357862211
+  },
+  {
+   "id": "test_000142",
+   "snr_db": -0.815,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8232402801513672,
+   "g_noise": 0.5300359725952148,
+   "stoi": 0.8190050164862405,
+   "stoi_noisy": 0.8077844348815613,
+   "pesq": 1.2329821586608887,
+   "pesq_noisy": 1.2016278505325317,
+   "sisdr": -5.896454114386504,
+   "sisdr_noisy": -5.760028246712318
+  },
+  {
+   "id": "test_000143",
+   "snr_db": 16.207,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8768078088760376,
+   "g_noise": 0.4527691602706909,
+   "stoi": 0.9390034435014638,
+   "stoi_noisy": 0.9548309913181956,
+   "pesq": 2.2129452228546143,
+   "pesq_noisy": 2.555370569229126,
+   "sisdr": 13.463335204048528,
+   "sisdr_noisy": 12.70644069086215
+  },
+  {
+   "id": "test_000144",
+   "snr_db": -8.105,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.408702552318573,
+   "g_noise": 0.31256818771362305,
+   "stoi": 0.5412871379561829,
+   "stoi_noisy": 0.5734635083662651,
+   "pesq": 1.3065992593765259,
+   "pesq_noisy": 1.0695991516113281,
+   "sisdr": -12.795709949538555,
+   "sisdr_noisy": -12.068919922164504
+  },
+  {
+   "id": "test_000145",
+   "snr_db": 4.862,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9118921756744385,
+   "g_noise": 0.3590407073497772,
+   "stoi": 0.9699178437105239,
+   "stoi_noisy": 0.9944540075081412,
+   "pesq": 2.7458693981170654,
+   "pesq_noisy": 1.3853362798690796,
+   "sisdr": 16.19227228536527,
+   "sisdr_noisy": 2.635278321123331
+  },
+  {
+   "id": "test_000146",
+   "snr_db": 11.389,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8367801904678345,
+   "g_noise": 0.2837209105491638,
+   "stoi": 0.9312623324232571,
+   "stoi_noisy": 0.8980301115350666,
+   "pesq": 1.2675219774246216,
+   "pesq_noisy": 1.2127422094345093,
+   "sisdr": 15.251908168561759,
+   "sisdr_noisy": 10.122133259514461
+  },
+  {
+   "id": "test_000147",
+   "snr_db": -9.811,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6291801929473877,
+   "g_noise": 0.49055272340774536,
+   "stoi": 0.4241857898046007,
+   "stoi_noisy": 0.4613890203979551,
+   "pesq": 1.0306432247161865,
+   "pesq_noisy": 1.027329921722412,
+   "sisdr": -14.063855735304083,
+   "sisdr_noisy": -14.663722344732886
+  },
+  {
+   "id": "test_000148",
+   "snr_db": -7.748,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.41800710558891296,
+   "g_noise": 0.11143520474433899,
+   "stoi": 0.7148076944524874,
+   "stoi_noisy": 0.6131342963332198,
+   "pesq": 1.1364558935165405,
+   "pesq_noisy": 1.0787689685821533,
+   "sisdr": -3.9003113067857083,
+   "sisdr_noisy": -10.01268136035801
+  },
+  {
+   "id": "test_000149",
+   "snr_db": 13.587,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8899906277656555,
+   "g_noise": 0.6170874834060669,
+   "stoi": 0.9600833883780968,
+   "stoi_noisy": 0.9583572823540839,
+   "pesq": 1.9878767728805542,
+   "pesq_noisy": 1.7703063488006592,
+   "sisdr": 14.428165546998642,
+   "sisdr_noisy": 13.524221931726178
+  },
+  {
+   "id": "test_000150",
+   "snr_db": 0.395,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5904641151428223,
+   "g_noise": 0.5552818775177002,
+   "stoi": 0.5751048486509175,
+   "stoi_noisy": 0.5821748291488068,
+   "pesq": 1.1194909811019897,
+   "pesq_noisy": 1.102453589439392,
+   "sisdr": -2.066407281498511,
+   "sisdr_noisy": -3.399946165574621
+  },
+  {
+   "id": "test_000151",
+   "snr_db": -4.144,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.4368162453174591,
+   "g_noise": 0.47670871019363403,
+   "stoi": 0.5216978170021549,
+   "stoi_noisy": 0.5447830581942967,
+   "pesq": 1.0360502004623413,
+   "pesq_noisy": 1.0644034147262573,
+   "sisdr": -5.082734022671539,
+   "sisdr_noisy": -5.040527989573281
+  },
+  {
+   "id": "test_000152",
+   "snr_db": 0.474,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5799059271812439,
+   "g_noise": 0.4935530424118042,
+   "stoi": 0.7776569587024711,
+   "stoi_noisy": 0.7587878675022766,
+   "pesq": 1.0776176452636719,
+   "pesq_noisy": 1.0406447649002075,
+   "sisdr": -3.4136354365695625,
+   "sisdr_noisy": -4.275708088946528
+  },
+  {
+   "id": "test_000153",
+   "snr_db": 17.148,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8361126184463501,
+   "g_noise": 0.25641584396362305,
+   "stoi": 0.9711965749276821,
+   "stoi_noisy": 0.972599867665123,
+   "pesq": 2.4931654930114746,
+   "pesq_noisy": 1.8368706703186035,
+   "sisdr": 20.463834160274267,
+   "sisdr_noisy": 16.420022980565946
+  },
+  {
+   "id": "test_000154",
+   "snr_db": 2.107,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6457263827323914,
+   "g_noise": 0.2791271507740021,
+   "stoi": 0.8613332244601435,
+   "stoi_noisy": 0.8556011688864777,
+   "pesq": 1.0827338695526123,
+   "pesq_noisy": 1.0443830490112305,
+   "sisdr": 1.6331679903794196,
+   "sisdr_noisy": -0.9027692729590464
+  },
+  {
+   "id": "test_000155",
+   "snr_db": -2.711,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9650101065635681,
+   "g_noise": 0.5875295996665955,
+   "stoi": 0.9329323200139358,
+   "stoi_noisy": 0.929478943771662,
+   "pesq": 1.107051968574524,
+   "pesq_noisy": 1.1043968200683594,
+   "sisdr": -3.2331698159650593,
+   "sisdr_noisy": -3.2436904232198187
+  },
+  {
+   "id": "test_000156",
+   "snr_db": -0.437,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.42932507395744324,
+   "g_noise": 0.3486020863056183,
+   "stoi": 0.7354593591196438,
+   "stoi_noisy": 0.7127997727992726,
+   "pesq": 1.0422199964523315,
+   "pesq_noisy": 1.0324575901031494,
+   "sisdr": -1.763464033293451,
+   "sisdr_noisy": -3.581779860522078
+  },
+  {
+   "id": "test_000157",
+   "snr_db": 2.078,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5270354747772217,
+   "g_noise": 0.3800857961177826,
+   "stoi": 0.787520516645024,
+   "stoi_noisy": 0.8361541515684427,
+   "pesq": 1.056775689125061,
+   "pesq_noisy": 1.0524741411209106,
+   "sisdr": 1.20376288927574,
+   "sisdr_noisy": 0.10557126219330139
+  },
+  {
+   "id": "test_000158",
+   "snr_db": 6.495,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5729861259460449,
+   "g_noise": 0.39565661549568176,
+   "stoi": 0.860868950972632,
+   "stoi_noisy": 0.8606999267095364,
+   "pesq": 1.1984944343566895,
+   "pesq_noisy": 1.0898667573928833,
+   "sisdr": 6.758138150826935,
+   "sisdr_noisy": 5.109946873236879
+  },
+  {
+   "id": "test_000159",
+   "snr_db": 7.318,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8371742367744446,
+   "g_noise": 0.5281877517700195,
+   "stoi": 0.8341755062932797,
+   "stoi_noisy": 0.8147823370604502,
+   "pesq": 1.1742593050003052,
+   "pesq_noisy": 1.1050798892974854,
+   "sisdr": 8.157071289152952,
+   "sisdr_noisy": 6.526056253024143
+  },
+  {
+   "id": "test_000160",
+   "snr_db": 5.682,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6866292357444763,
+   "g_noise": 0.4528496265411377,
+   "stoi": 0.8015803914508787,
+   "stoi_noisy": 0.7940717478341084,
+   "pesq": 1.1628659963607788,
+   "pesq_noisy": 1.0980119705200195,
+   "sisdr": 5.135197389581462,
+   "sisdr_noisy": 2.756818683924185
+  },
+  {
+   "id": "test_000161",
+   "snr_db": 9.254,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.924070417881012,
+   "g_noise": 0.6378852128982544,
+   "stoi": 0.8564485316266243,
+   "stoi_noisy": 0.860971559204156,
+   "pesq": 1.3029924631118774,
+   "pesq_noisy": 1.2103763818740845,
+   "sisdr": 9.343312878967385,
+   "sisdr_noisy": 8.18667085325434
+  },
+  {
+   "id": "test_000162",
+   "snr_db": 0.626,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6169030666351318,
+   "g_noise": 0.32535243034362793,
+   "stoi": 0.8975990105647259,
+   "stoi_noisy": 0.9006578383067881,
+   "pesq": 1.4056334495544434,
+   "pesq_noisy": 1.1915431022644043,
+   "sisdr": 5.733906868283666,
+   "sisdr_noisy": 0.23656375986174277
+  },
+  {
+   "id": "test_000163",
+   "snr_db": 4.444,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7546294927597046,
+   "g_noise": 0.37110260128974915,
+   "stoi": 0.9028583982252161,
+   "stoi_noisy": 0.8912854266930975,
+   "pesq": 1.3511159420013428,
+   "pesq_noisy": 1.2223384380340576,
+   "sisdr": 6.292102405055276,
+   "sisdr_noisy": 3.4482893607411116
+  },
+  {
+   "id": "test_000164",
+   "snr_db": -3.861,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.2516336441040039,
+   "g_noise": 0.2148243933916092,
+   "stoi": 0.4346337193940126,
+   "stoi_noisy": 0.4939879489098392,
+   "pesq": 1.0287799835205078,
+   "pesq_noisy": 1.0255225896835327,
+   "sisdr": -3.8362303443363306,
+   "sisdr_noisy": -7.106434995616333
+  },
+  {
+   "id": "test_000165",
+   "snr_db": 5.063,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.5881232023239136,
+   "g_noise": 0.43424829840660095,
+   "stoi": 0.8116135724008977,
+   "stoi_noisy": 0.8160259174654143,
+   "pesq": 1.2006405591964722,
+   "pesq_noisy": 1.1204479932785034,
+   "sisdr": 5.891870165971841,
+   "sisdr_noisy": 4.536757344953032
+  },
+  {
+   "id": "test_000166",
+   "snr_db": -3.48,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5719173550605774,
+   "g_noise": 0.572094202041626,
+   "stoi": 0.7600043142866231,
+   "stoi_noisy": 0.7871268584720785,
+   "pesq": 1.1828315258026123,
+   "pesq_noisy": 1.1563811302185059,
+   "sisdr": -1.7891225945054292,
+   "sisdr_noisy": -4.200808516028984
+  },
+  {
+   "id": "test_000167",
+   "snr_db": 4.337,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.877458393573761,
+   "g_noise": 0.5014331340789795,
+   "stoi": 0.8583020053287924,
+   "stoi_noisy": 0.8480141504864886,
+   "pesq": 1.0295593738555908,
+   "pesq_noisy": 1.0331658124923706,
+   "sisdr": 2.085223743921858,
+   "sisdr_noisy": 0.6005819618252964
+  },
+  {
+   "id": "test_000168",
+   "snr_db": 14.322,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.950282096862793,
+   "g_noise": 0.6806485652923584,
+   "stoi": 0.8834475149325425,
+   "stoi_noisy": 0.8673405918515233,
+   "pesq": 1.6243406534194946,
+   "pesq_noisy": 1.4423654079437256,
+   "sisdr": 14.409120497425336,
+   "sisdr_noisy": 13.444414678344856
+  },
+  {
+   "id": "test_000169",
+   "snr_db": 4.643,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.5414028167724609,
+   "g_noise": 0.47462013363838196,
+   "stoi": 0.8411151855061055,
+   "stoi_noisy": 0.8190629968920943,
+   "pesq": 1.1954333782196045,
+   "pesq_noisy": 1.0837433338165283,
+   "sisdr": 8.486662022931519,
+   "sisdr_noisy": 2.051988674530332
+  },
+  {
+   "id": "test_000170",
+   "snr_db": -4.001,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.2346321940422058,
+   "g_noise": 0.1375252902507782,
+   "stoi": 0.7404955511580951,
+   "stoi_noisy": 0.7301647440948718,
+   "pesq": 1.1464049816131592,
+   "pesq_noisy": 1.3851637840270996,
+   "sisdr": -1.2890465391731971,
+   "sisdr_noisy": -5.819646916522293
+  },
+  {
+   "id": "test_000171",
+   "snr_db": 13.554,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8802863359451294,
+   "g_noise": 0.5267519950866699,
+   "stoi": 0.9805711052628877,
+   "stoi_noisy": 0.9730750831745805,
+   "pesq": 2.1646196842193604,
+   "pesq_noisy": 1.6918925046920776,
+   "sisdr": 15.58554439299047,
+   "sisdr_noisy": 12.151655428771527
+  },
+  {
+   "id": "test_000172",
+   "snr_db": -1.801,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8383292555809021,
+   "g_noise": 0.6116354465484619,
+   "stoi": 0.6264595110320925,
+   "stoi_noisy": 0.6097397365212321,
+   "pesq": 1.0586822032928467,
+   "pesq_noisy": 1.0593411922454834,
+   "sisdr": -2.31523638668521,
+   "sisdr_noisy": -2.80976825515331
+  },
+  {
+   "id": "test_000173",
+   "snr_db": 8.461,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8099070191383362,
+   "g_noise": 0.41780051589012146,
+   "stoi": 0.9478790112815244,
+   "stoi_noisy": 0.959320577511695,
+   "pesq": 1.8086156845092773,
+   "pesq_noisy": 1.3586769104003906,
+   "sisdr": 7.070955454061222,
+   "sisdr_noisy": 3.5405085931181324
+  },
+  {
+   "id": "test_000174",
+   "snr_db": -7.376,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7132284641265869,
+   "g_noise": 0.5239701867103577,
+   "stoi": 0.548462174941109,
+   "stoi_noisy": 0.560285106587011,
+   "pesq": 1.0530507564544678,
+   "pesq_noisy": 1.0507131814956665,
+   "sisdr": -5.469165285409642,
+   "sisdr_noisy": -6.696527288503827
+  },
+  {
+   "id": "test_000175",
+   "snr_db": 6.852,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9510701298713684,
+   "g_noise": 0.6634749174118042,
+   "stoi": 0.8792900813302801,
+   "stoi_noisy": 0.8607386893302896,
+   "pesq": 1.160739779472351,
+   "pesq_noisy": 1.141082763671875,
+   "sisdr": 7.483310242102073,
+   "sisdr_noisy": 6.440439687663471
+  },
+  {
+   "id": "test_000176",
+   "snr_db": -0.824,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7891626954078674,
+   "g_noise": 0.3996591567993164,
+   "stoi": 0.8339447910403797,
+   "stoi_noisy": 0.8150730733159215,
+   "pesq": 1.06010103225708,
+   "pesq_noisy": 1.0501822233200073,
+   "sisdr": -4.617797020519189,
+   "sisdr_noisy": -4.638923168715835
+  },
+  {
+   "id": "test_000177",
+   "snr_db": 2.095,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.37393975257873535,
+   "g_noise": 0.058930959552526474,
+   "stoi": 0.8441667104779784,
+   "stoi_noisy": 0.8285217131055174,
+   "pesq": 1.1276577711105347,
+   "pesq_noisy": 1.0381267070770264,
+   "sisdr": 10.290551429739203,
+   "sisdr_noisy": -0.3050690893872723
+  },
+  {
+   "id": "test_000178",
+   "snr_db": -8.651,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.37014442682266235,
+   "g_noise": 0.49327149987220764,
+   "stoi": 0.5865672867949611,
+   "stoi_noisy": 0.6038046547743291,
+   "pesq": 1.078019618988037,
+   "pesq_noisy": 1.1819393634796143,
+   "sisdr": -11.409923366155816,
+   "sisdr_noisy": -9.89634918132733
+  },
+  {
+   "id": "test_000179",
+   "snr_db": 14.086,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9139803051948547,
+   "g_noise": 0.4188801050186157,
+   "stoi": 0.9846091599275693,
+   "stoi_noisy": 0.9754365760796473,
+   "pesq": 1.3763790130615234,
+   "pesq_noisy": 1.2487890720367432,
+   "sisdr": 14.149524413065492,
+   "sisdr_noisy": 12.874472036759217
+  },
+  {
+   "id": "test_000180",
+   "snr_db": -7.17,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.41617733240127563,
+   "g_noise": 0.5216453671455383,
+   "stoi": 0.44310018165544723,
+   "stoi_noisy": 0.49389829840946403,
+   "pesq": 1.0385072231292725,
+   "pesq_noisy": 1.0375397205352783,
+   "sisdr": -8.206114385902618,
+   "sisdr_noisy": -10.362017765108698
+  },
+  {
+   "id": "test_000181",
+   "snr_db": -8.442,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.38148513436317444,
+   "g_noise": 0.2978655993938446,
+   "stoi": 0.5445701386816761,
+   "stoi_noisy": 0.6076144553945209,
+   "pesq": 1.0184986591339111,
+   "pesq_noisy": 1.0182640552520752,
+   "sisdr": -10.35809816502151,
+   "sisdr_noisy": -8.853774894877123
+  },
+  {
+   "id": "test_000182",
+   "snr_db": -1.661,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5197591185569763,
+   "g_noise": 0.42981305718421936,
+   "stoi": 0.7244428160418533,
+   "stoi_noisy": 0.7285807163721989,
+   "pesq": 1.0434726476669312,
+   "pesq_noisy": 1.0329833030700684,
+   "sisdr": -3.2409839960766185,
+   "sisdr_noisy": -6.919332424390565
+  },
+  {
+   "id": "test_000183",
+   "snr_db": -7.582,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.21333381533622742,
+   "g_noise": 0.2282838523387909,
+   "stoi": 0.5071729739896214,
+   "stoi_noisy": 0.5849605492995166,
+   "pesq": 1.1544859409332275,
+   "pesq_noisy": 1.0491615533828735,
+   "sisdr": -11.602433116179506,
+   "sisdr_noisy": -8.87087637793784
+  },
+  {
+   "id": "test_000184",
+   "snr_db": 5.206,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7648816108703613,
+   "g_noise": 0.4087143540382385,
+   "stoi": 0.8240382563646051,
+   "stoi_noisy": 0.8300082833822738,
+   "pesq": 1.1859992742538452,
+   "pesq_noisy": 1.147449254989624,
+   "sisdr": 5.4987539126801295,
+   "sisdr_noisy": 2.4287518465550564
+  },
+  {
+   "id": "test_000185",
+   "snr_db": 15.817,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6751338243484497,
+   "g_noise": 0.5376277565956116,
+   "stoi": 0.8746827979317118,
+   "stoi_noisy": 0.904715419707875,
+   "pesq": 1.6260145902633667,
+   "pesq_noisy": 1.4592068195343018,
+   "sisdr": 10.17764456570864,
+   "sisdr_noisy": 8.662860224193818
+  },
+  {
+   "id": "test_000186",
+   "snr_db": 5.826,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9314266443252563,
+   "g_noise": 0.6063547730445862,
+   "stoi": 0.9817373393876307,
+   "stoi_noisy": 0.9814641020670193,
+   "pesq": 1.8515300750732422,
+   "pesq_noisy": 2.2781269550323486,
+   "sisdr": 2.8272344064092323,
+   "sisdr_noisy": 2.679060180466253
+  },
+  {
+   "id": "test_000187",
+   "snr_db": -5.195,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.19416232407093048,
+   "g_noise": 0.0716685950756073,
+   "stoi": 0.6853844125122259,
+   "stoi_noisy": 0.6140056731292735,
+   "pesq": 1.0884833335876465,
+   "pesq_noisy": 1.0314598083496094,
+   "sisdr": 8.851459684526663,
+   "sisdr_noisy": -7.4523177453451055
+  },
+  {
+   "id": "test_000188",
+   "snr_db": 9.069,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.5001766681671143,
+   "g_noise": 0.19309158623218536,
+   "stoi": 0.8921238136527931,
+   "stoi_noisy": 0.8894145296296703,
+   "pesq": 1.807453989982605,
+   "pesq_noisy": 1.196406364440918,
+   "sisdr": 14.148261015962198,
+   "sisdr_noisy": 6.975396843469178
+  },
+  {
+   "id": "test_000189",
+   "snr_db": 17.819,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8532431721687317,
+   "g_noise": 0.34872257709503174,
+   "stoi": 0.957777589608757,
+   "stoi_noisy": 0.9621130875889585,
+   "pesq": 2.3938989639282227,
+   "pesq_noisy": 1.8726658821105957,
+   "sisdr": 15.83650318956032,
+   "sisdr_noisy": 13.100790362387208
+  },
+  {
+   "id": "test_000190",
+   "snr_db": -6.552,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6398847103118896,
+   "g_noise": 0.4083003103733063,
+   "stoi": 0.5655677166468629,
+   "stoi_noisy": 0.5650204487007298,
+   "pesq": 1.0357105731964111,
+   "pesq_noisy": 1.348341464996338,
+   "sisdr": -9.60380194571033,
+   "sisdr_noisy": -9.981089979096327
+  },
+  {
+   "id": "test_000191",
+   "snr_db": 18.339,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9571297764778137,
+   "g_noise": 0.49103879928588867,
+   "stoi": 0.8523471393451749,
+   "stoi_noisy": 0.8468224441029897,
+   "pesq": 1.5305602550506592,
+   "pesq_noisy": 1.3821438550949097,
+   "sisdr": 14.501955303119281,
+   "sisdr_noisy": 13.944892367036186
+  },
+  {
+   "id": "test_000192",
+   "snr_db": 3.165,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5008602142333984,
+   "g_noise": 0.3195941746234894,
+   "stoi": 0.8025592960662559,
+   "stoi_noisy": 0.7608263702198808,
+   "pesq": 1.1901354789733887,
+   "pesq_noisy": 1.115537405014038,
+   "sisdr": 1.7946012991895346,
+   "sisdr_noisy": -1.1058362380284479
+  },
+  {
+   "id": "test_000193",
+   "snr_db": -6.692,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.38528430461883545,
+   "g_noise": 0.5088253021240234,
+   "stoi": 0.6323557809115877,
+   "stoi_noisy": 0.6142715975087014,
+   "pesq": 1.1110901832580566,
+   "pesq_noisy": 1.0550848245620728,
+   "sisdr": -7.874927138841116,
+   "sisdr_noisy": -9.946712238821158
+  },
+  {
+   "id": "test_000194",
+   "snr_db": 0.773,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9371853470802307,
+   "g_noise": 0.6384360790252686,
+   "stoi": 0.8200722183421882,
+   "stoi_noisy": 0.8182369529465647,
+   "pesq": 1.2477811574935913,
+   "pesq_noisy": 1.2365245819091797,
+   "sisdr": -1.0147434796896806,
+   "sisdr_noisy": -1.0079782124536028
+  },
+  {
+   "id": "test_000195",
+   "snr_db": 8.941,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7019548416137695,
+   "g_noise": 0.4610021114349365,
+   "stoi": 0.91810970559256,
+   "stoi_noisy": 0.9022140723864732,
+   "pesq": 1.437035322189331,
+   "pesq_noisy": 1.1425305604934692,
+   "sisdr": 10.29666976158131,
+   "sisdr_noisy": 7.144679645613833
+  },
+  {
+   "id": "test_000196",
+   "snr_db": -1.173,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8897026777267456,
+   "g_noise": 0.4461257755756378,
+   "stoi": 0.8205111531369006,
+   "stoi_noisy": 0.7583705115723137,
+   "pesq": 1.0795197486877441,
+   "pesq_noisy": 1.1158827543258667,
+   "sisdr": 2.0774919340881586,
+   "sisdr_noisy": -2.473955860455672
+  },
+  {
+   "id": "test_000197",
+   "snr_db": 4.781,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.52935791015625,
+   "g_noise": 0.4979665279388428,
+   "stoi": 0.7727847405232657,
+   "stoi_noisy": 0.7608879964532632,
+   "pesq": 1.1386220455169678,
+   "pesq_noisy": 1.0721133947372437,
+   "sisdr": 6.390469405672096,
+   "sisdr_noisy": 3.3551858661714142
+  },
+  {
+   "id": "test_000198",
+   "snr_db": -2.639,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7421960830688477,
+   "g_noise": 0.5316261053085327,
+   "stoi": 0.5706463954135008,
+   "stoi_noisy": 0.5807247123215937,
+   "pesq": 1.0667057037353516,
+   "pesq_noisy": 1.0721180438995361,
+   "sisdr": -2.5407752413276756,
+   "sisdr_noisy": -3.775581832450552
+  },
+  {
+   "id": "test_000199",
+   "snr_db": -1.07,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.3342725932598114,
+   "g_noise": 0.3720698952674866,
+   "stoi": 0.547474811376334,
+   "stoi_noisy": 0.5570104109294611,
+   "pesq": 1.0465912818908691,
+   "pesq_noisy": 1.0347014665603638,
+   "sisdr": 0.3618624504206155,
+   "sisdr_noisy": -2.621895822279186
+  },
+  {
+   "id": "test_000200",
+   "snr_db": 17.423,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8477845788002014,
+   "g_noise": 0.4616554081439972,
+   "stoi": 0.9509722969530743,
+   "stoi_noisy": 0.9454720356861767,
+   "pesq": 1.7489835023880005,
+   "pesq_noisy": 1.6464314460754395,
+   "sisdr": 18.478579965905688,
+   "sisdr_noisy": 16.96607179495253
+  },
+  {
+   "id": "test_000201",
+   "snr_db": -6.7,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.504504382610321,
+   "g_noise": 0.3095899820327759,
+   "stoi": 0.6140550180372577,
+   "stoi_noisy": 0.6192889940716491,
+   "pesq": 1.022609829902649,
+   "pesq_noisy": 1.0364218950271606,
+   "sisdr": -6.521168330821001,
+   "sisdr_noisy": -8.508336589284495
+  },
+  {
+   "id": "test_000202",
+   "snr_db": 0.446,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.4253314435482025,
+   "g_noise": 0.40389716625213623,
+   "stoi": 0.6962658825575451,
+   "stoi_noisy": 0.6983159602324878,
+   "pesq": 1.085297703742981,
+   "pesq_noisy": 1.052121877670288,
+   "sisdr": 3.9949126148888254,
+   "sisdr_noisy": -2.868476626632259
+  },
+  {
+   "id": "test_000203",
+   "snr_db": -4.106,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9414167404174805,
+   "g_noise": 0.41492292284965515,
+   "stoi": 0.9318848325636723,
+   "stoi_noisy": 0.9103121297002044,
+   "pesq": 1.5364418029785156,
+   "pesq_noisy": 1.2996842861175537,
+   "sisdr": -9.094026129581298,
+   "sisdr_noisy": -10.156754089529086
+  },
+  {
+   "id": "test_000204",
+   "snr_db": -9.018,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8913167715072632,
+   "g_noise": 0.5309545397758484,
+   "stoi": 0.8178170858560256,
+   "stoi_noisy": 0.823952746056583,
+   "pesq": 1.2438901662826538,
+   "pesq_noisy": 1.0620166063308716,
+   "sisdr": -14.835604068886553,
+   "sisdr_noisy": -14.779461233557454
+  },
+  {
+   "id": "test_000205",
+   "snr_db": -3.932,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.2570636570453644,
+   "g_noise": 0.3457466959953308,
+   "stoi": 0.47159462602050317,
+   "stoi_noisy": 0.5940313721673227,
+   "pesq": 1.0379235744476318,
+   "pesq_noisy": 1.0372117757797241,
+   "sisdr": -13.542604449025252,
+   "sisdr_noisy": -7.384136345539739
+  },
+  {
+   "id": "test_000206",
+   "snr_db": 6.512,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8253973722457886,
+   "g_noise": 0.3840234577655792,
+   "stoi": 0.9210548892568017,
+   "stoi_noisy": 0.9054267855097875,
+   "pesq": 1.4131288528442383,
+   "pesq_noisy": 1.3837940692901611,
+   "sisdr": 7.313273673926358,
+   "sisdr_noisy": 4.644093807988001
+  },
+  {
+   "id": "test_000207",
+   "snr_db": 1.368,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5656837821006775,
+   "g_noise": 0.33419230580329895,
+   "stoi": 0.8416503615549551,
+   "stoi_noisy": 0.8564383164057995,
+   "pesq": 1.1086324453353882,
+   "pesq_noisy": 1.0942622423171997,
+   "sisdr": 2.9923719210191875,
+   "sisdr_noisy": -1.0923784151723013
+  },
+  {
+   "id": "test_000208",
+   "snr_db": -7.371,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.22095021605491638,
+   "g_noise": 0.2114512026309967,
+   "stoi": 0.5845406549156269,
+   "stoi_noisy": 0.5937007343599113,
+   "pesq": 1.0340516567230225,
+   "pesq_noisy": 1.0951608419418335,
+   "sisdr": -8.029479664978037,
+   "sisdr_noisy": -8.95620860966887
+  },
+  {
+   "id": "test_000209",
+   "snr_db": -5.809,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7878938317298889,
+   "g_noise": 0.5751557350158691,
+   "stoi": 0.4624933147491686,
+   "stoi_noisy": 0.428170531333003,
+   "pesq": 1.0350253582000732,
+   "pesq_noisy": 1.0397287607192993,
+   "sisdr": -7.122519135030563,
+   "sisdr_noisy": -8.401229235872812
+  },
+  {
+   "id": "test_000210",
+   "snr_db": 1.643,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.43445003032684326,
+   "g_noise": 0.22736229002475739,
+   "stoi": 0.9084161499802955,
+   "stoi_noisy": 0.8594440067631192,
+   "pesq": 1.3804289102554321,
+   "pesq_noisy": 1.0602213144302368,
+   "sisdr": 8.064167261045508,
+   "sisdr_noisy": 0.7837296751114491
+  },
+  {
+   "id": "test_000211",
+   "snr_db": 8.363,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6202576756477356,
+   "g_noise": 0.3109920918941498,
+   "stoi": 0.8950273428520024,
+   "stoi_noisy": 0.8916772045379538,
+   "pesq": 1.1780577898025513,
+   "pesq_noisy": 1.1012296676635742,
+   "sisdr": 9.780119295023217,
+   "sisdr_noisy": 8.07577453531745
+  },
+  {
+   "id": "test_000212",
+   "snr_db": -3.937,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.47723308205604553,
+   "g_noise": 0.3747707009315491,
+   "stoi": 0.6543308615764042,
+   "stoi_noisy": 0.6236200091268511,
+   "pesq": 1.1009246110916138,
+   "pesq_noisy": 1.0232473611831665,
+   "sisdr": -6.0392854497395545,
+   "sisdr_noisy": -6.14233325975949
+  },
+  {
+   "id": "test_000213",
+   "snr_db": -7.897,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.5012742280960083,
+   "g_noise": 0.36794546246528625,
+   "stoi": 0.6203714798370678,
+   "stoi_noisy": 0.5930504229738742,
+   "pesq": 1.051705002784729,
+   "pesq_noisy": 1.094754695892334,
+   "sisdr": -8.749511527472157,
+   "sisdr_noisy": -9.860699115745206
+  },
+  {
+   "id": "test_000214",
+   "snr_db": -6.562,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8987194895744324,
+   "g_noise": 0.36333057284355164,
+   "stoi": 0.7664198969500022,
+   "stoi_noisy": 0.7728971310451257,
+   "pesq": 1.217543601989746,
+   "pesq_noisy": 1.2017375230789185,
+   "sisdr": -7.802353618095746,
+   "sisdr_noisy": -8.681684523747595
+  },
+  {
+   "id": "test_000215",
+   "snr_db": 2.961,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.38526925444602966,
+   "g_noise": 0.24721160531044006,
+   "stoi": 0.7650552535851917,
+   "stoi_noisy": 0.7411256452079241,
+   "pesq": 1.1645588874816895,
+   "pesq_noisy": 1.05316162109375,
+   "sisdr": 0.6626418776187468,
+   "sisdr_noisy": -2.704575836096539
+  },
+  {
+   "id": "test_000216",
+   "snr_db": 16.013,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.965779185295105,
+   "g_noise": 0.6349051594734192,
+   "stoi": 0.9241475510875677,
+   "stoi_noisy": 0.9225889698918444,
+   "pesq": 1.951115608215332,
+   "pesq_noisy": 1.8058140277862549,
+   "sisdr": 15.670042679959753,
+   "sisdr_noisy": 15.428046255084611
+  },
+  {
+   "id": "test_000217",
+   "snr_db": 17.793,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9750809073448181,
+   "g_noise": 0.4178082346916199,
+   "stoi": 0.9958623612652181,
+   "stoi_noisy": 0.996366304719078,
+   "pesq": 2.871840238571167,
+   "pesq_noisy": 2.8731472492218018,
+   "sisdr": 17.766561387171155,
+   "sisdr_noisy": 17.797571935190756
+  },
+  {
+   "id": "test_000218",
+   "snr_db": -6.585,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6363856792449951,
+   "g_noise": 0.4126557409763336,
+   "stoi": 0.6011820541502095,
+   "stoi_noisy": 0.6147116313712498,
+   "pesq": 1.0809533596038818,
+   "pesq_noisy": 1.0674628019332886,
+   "sisdr": -6.510083605222144,
+   "sisdr_noisy": -8.258494263895065
+  },
+  {
+   "id": "test_000219",
+   "snr_db": 0.604,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9419440627098083,
+   "g_noise": 0.6686173677444458,
+   "stoi": 0.8064128546552513,
+   "stoi_noisy": 0.7994112281697966,
+   "pesq": 1.1265281438827515,
+   "pesq_noisy": 1.1176080703735352,
+   "sisdr": 0.729418046332816,
+   "sisdr_noisy": 0.5143964212395808
+  },
+  {
+   "id": "test_000220",
+   "snr_db": 13.709,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9622705578804016,
+   "g_noise": 0.5966681838035583,
+   "stoi": 0.8923376502293581,
+   "stoi_noisy": 0.874916049062082,
+   "pesq": 1.328696846961975,
+   "pesq_noisy": 1.1909222602844238,
+   "sisdr": 11.952627776570964,
+   "sisdr_noisy": 9.231038475520712
+  },
+  {
+   "id": "test_000221",
+   "snr_db": -4.315,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7622964382171631,
+   "g_noise": 0.6132264733314514,
+   "stoi": 0.6123868286848931,
+   "stoi_noisy": 0.6177724159663375,
+   "pesq": 1.0569044351577759,
+   "pesq_noisy": 1.0582311153411865,
+   "sisdr": -5.305495836815622,
+   "sisdr_noisy": -5.545881477711802
+  },
+  {
+   "id": "test_000222",
+   "snr_db": -5.988,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.540093183517456,
+   "g_noise": 0.5371000170707703,
+   "stoi": 0.6882627777573537,
+   "stoi_noisy": 0.6934725947896092,
+   "pesq": 1.1807241439819336,
+   "pesq_noisy": 1.1592260599136353,
+   "sisdr": -7.119988582818824,
+   "sisdr_noisy": -7.857378824180026
+  },
+  {
+   "id": "test_000223",
+   "snr_db": 6.97,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5234495401382446,
+   "g_noise": 0.33187711238861084,
+   "stoi": 0.880749276543902,
+   "stoi_noisy": 0.9004568999656544,
+   "pesq": 1.3069539070129395,
+   "pesq_noisy": 1.1123675107955933,
+   "sisdr": 9.494534467016551,
+   "sisdr_noisy": 6.012546057609295
+  },
+  {
+   "id": "test_000224",
+   "snr_db": -4.81,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.24743027985095978,
+   "g_noise": 0.3007620871067047,
+   "stoi": 0.2967578001392077,
+   "stoi_noisy": 0.4263003798014399,
+   "pesq": 1.0301662683486938,
+   "pesq_noisy": 1.0237598419189453,
+   "sisdr": -3.2762437999722485,
+   "sisdr_noisy": -8.659333223311297
+  },
+  {
+   "id": "test_000225",
+   "snr_db": 10.961,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9528224468231201,
+   "g_noise": 0.49810394644737244,
+   "stoi": 0.9428767556957052,
+   "stoi_noisy": 0.938591515976749,
+   "pesq": 1.3687676191329956,
+   "pesq_noisy": 1.3773833513259888,
+   "sisdr": 11.767741457945958,
+   "sisdr_noisy": 10.594167734397002
+  },
+  {
+   "id": "test_000226",
+   "snr_db": -9.136,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8189225792884827,
+   "g_noise": 0.728872537612915,
+   "stoi": 0.6869490057422244,
+   "stoi_noisy": 0.6980121546687353,
+   "pesq": 1.027436375617981,
+   "pesq_noisy": 1.0282496213912964,
+   "sisdr": -9.705708103647252,
+   "sisdr_noisy": -9.391892722039026
+  },
+  {
+   "id": "test_000227",
+   "snr_db": -0.52,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.6395310759544373,
+   "g_noise": 0.35377055406570435,
+   "stoi": 0.8321655304536695,
+   "stoi_noisy": 0.8218689425417086,
+   "pesq": 1.1687780618667603,
+   "pesq_noisy": 1.2327399253845215,
+   "sisdr": 1.8313974487659477,
+   "sisdr_noisy": -0.8279002593798408
+  },
+  {
+   "id": "test_000228",
+   "snr_db": 8.207,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9670938849449158,
+   "g_noise": 0.4675501883029938,
+   "stoi": 0.9085942753102356,
+   "stoi_noisy": 0.8807339180858045,
+   "pesq": 1.3254187107086182,
+   "pesq_noisy": 1.2079768180847168,
+   "sisdr": 4.845990222044433,
+   "sisdr_noisy": 3.6148687101483383
+  },
+  {
+   "id": "test_000229",
+   "snr_db": 3.755,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8163122534751892,
+   "g_noise": 0.49658840894699097,
+   "stoi": 0.8202282620682584,
+   "stoi_noisy": 0.7870595829574384,
+   "pesq": 1.110366940498352,
+   "pesq_noisy": 1.0906894207000732,
+   "sisdr": 3.4534337653132385,
+   "sisdr_noisy": 2.115456303765492
+  },
+  {
+   "id": "test_000230",
+   "snr_db": 4.764,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.534785807132721,
+   "g_noise": 0.4281684160232544,
+   "stoi": 0.739992242330529,
+   "stoi_noisy": 0.7480924766968483,
+   "pesq": 1.133927822113037,
+   "pesq_noisy": 1.0727431774139404,
+   "sisdr": 5.625608392412879,
+   "sisdr_noisy": 1.7559761407585914
+  },
+  {
+   "id": "test_000231",
+   "snr_db": 13.95,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8840870261192322,
+   "g_noise": 0.24278749525547028,
+   "stoi": 0.9865452048199578,
+   "stoi_noisy": 0.9917191542473003,
+   "pesq": 2.6105544567108154,
+   "pesq_noisy": 1.887420415878296,
+   "sisdr": 20.406709770163566,
+   "sisdr_noisy": 11.056985595354117
+  },
+  {
+   "id": "test_000232",
+   "snr_db": 6.485,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9483853578567505,
+   "g_noise": 0.6840184330940247,
+   "stoi": 0.7997911111453828,
+   "stoi_noisy": 0.7951567736138536,
+   "pesq": 1.264007806777954,
+   "pesq_noisy": 1.253401756286621,
+   "sisdr": 4.776955398298278,
+   "sisdr_noisy": 4.240653417271058
+  },
+  {
+   "id": "test_000233",
+   "snr_db": 18.55,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9221650958061218,
+   "g_noise": 0.5459641814231873,
+   "stoi": 0.9252223464260619,
+   "stoi_noisy": 0.9106491962121219,
+   "pesq": 1.7621252536773682,
+   "pesq_noisy": 1.5834379196166992,
+   "sisdr": 16.36277607775963,
+   "sisdr_noisy": 15.148779109953939
+  },
+  {
+   "id": "test_000234",
+   "snr_db": 2.246,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.47051313519477844,
+   "g_noise": 0.26988494396209717,
+   "stoi": 0.7277994449624331,
+   "stoi_noisy": 0.7038788958179907,
+   "pesq": 1.1397291421890259,
+   "pesq_noisy": 1.0740693807601929,
+   "sisdr": 3.5087193780010955,
+   "sisdr_noisy": 0.3990521044541694
+  },
+  {
+   "id": "test_000235",
+   "snr_db": 15.95,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9167136549949646,
+   "g_noise": 0.3885723352432251,
+   "stoi": 0.9753253509991291,
+   "stoi_noisy": 0.9792999817029088,
+   "pesq": 2.048016309738159,
+   "pesq_noisy": 1.9970346689224243,
+   "sisdr": 15.33357773151308,
+   "sisdr_noisy": 14.782121757316013
+  },
+  {
+   "id": "test_000236",
+   "snr_db": -9.714,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8541023135185242,
+   "g_noise": 0.5368694067001343,
+   "stoi": 0.7386413583139068,
+   "stoi_noisy": 0.706634026663333,
+   "pesq": 1.062970757484436,
+   "pesq_noisy": 1.0582969188690186,
+   "sisdr": -11.804853126733406,
+   "sisdr_noisy": -11.75020865017423
+  },
+  {
+   "id": "test_000237",
+   "snr_db": 2.438,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.42680180072784424,
+   "g_noise": 0.3552592694759369,
+   "stoi": 0.7703261558726625,
+   "stoi_noisy": 0.7545823147703783,
+   "pesq": 1.1305797100067139,
+   "pesq_noisy": 1.084381103515625,
+   "sisdr": 3.4382301332734073,
+   "sisdr_noisy": -1.2379948463751993
+  },
+  {
+   "id": "test_000238",
+   "snr_db": -2.338,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.2354288399219513,
+   "g_noise": 0.2263815850019455,
+   "stoi": 0.6701306307582422,
+   "stoi_noisy": 0.6874564281647848,
+   "pesq": 1.0398263931274414,
+   "pesq_noisy": 1.0312482118606567,
+   "sisdr": 1.5543645261458836,
+   "sisdr_noisy": -4.405135497054883
+  },
+  {
+   "id": "test_000239",
+   "snr_db": -8.353,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7799825072288513,
+   "g_noise": 0.42262810468673706,
+   "stoi": 0.5222905900595266,
+   "stoi_noisy": 0.5237213857016374,
+   "pesq": 1.0508748292922974,
+   "pesq_noisy": 1.0505127906799316,
+   "sisdr": -9.194765285436864,
+   "sisdr_noisy": -10.406485323107697
+  },
+  {
+   "id": "test_000240",
+   "snr_db": 17.094,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8121403455734253,
+   "g_noise": 0.21918055415153503,
+   "stoi": 0.9472219712459895,
+   "stoi_noisy": 0.9491885359339896,
+   "pesq": 2.0862438678741455,
+   "pesq_noisy": 1.6857634782791138,
+   "sisdr": 18.98045660018155,
+   "sisdr_noisy": 14.331614856737737
+  },
+  {
+   "id": "test_000241",
+   "snr_db": 5.606,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7341033220291138,
+   "g_noise": 0.5641818642616272,
+   "stoi": 0.883961846688749,
+   "stoi_noisy": 0.879554869396373,
+   "pesq": 1.3262455463409424,
+   "pesq_noisy": 1.3018684387207031,
+   "sisdr": 5.139167726420851,
+   "sisdr_noisy": 3.9023476834803645
+  },
+  {
+   "id": "test_000242",
+   "snr_db": -5.454,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.2624107301235199,
+   "g_noise": 0.300140380859375,
+   "stoi": 0.597574186562728,
+   "stoi_noisy": 0.569654182262961,
+   "pesq": 1.0371531248092651,
+   "pesq_noisy": 1.0427981615066528,
+   "sisdr": -8.13380222205049,
+   "sisdr_noisy": -6.615422210955925
+  },
+  {
+   "id": "test_000243",
+   "snr_db": 4.397,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.3646462857723236,
+   "g_noise": 0.2147642821073532,
+   "stoi": 0.7967449681426294,
+   "stoi_noisy": 0.7957515918706154,
+   "pesq": 1.3215155601501465,
+   "pesq_noisy": 1.0883146524429321,
+   "sisdr": 7.81052586316007,
+   "sisdr_noisy": 3.000845075105614
+  },
+  {
+   "id": "test_000244",
+   "snr_db": -0.23,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5643691420555115,
+   "g_noise": 0.4671957194805145,
+   "stoi": 0.5280179963369489,
+   "stoi_noisy": 0.5133925441005335,
+   "pesq": 1.079830527305603,
+   "pesq_noisy": 1.0572367906570435,
+   "sisdr": -0.47602983424810036,
+   "sisdr_noisy": -1.8292092432629394
+  },
+  {
+   "id": "test_000245",
+   "snr_db": -5.374,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.6317939758300781,
+   "g_noise": 0.6037015318870544,
+   "stoi": 0.7367775474685158,
+   "stoi_noisy": 0.7291273192617277,
+   "pesq": 1.1479012966156006,
+   "pesq_noisy": 1.138671875,
+   "sisdr": 1.604555179720005,
+   "sisdr_noisy": -7.235794263094492
+  },
+  {
+   "id": "test_000246",
+   "snr_db": 15.501,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6704667806625366,
+   "g_noise": 0.2644652724266052,
+   "stoi": 0.948214290413158,
+   "stoi_noisy": 0.9566598321527219,
+   "pesq": 2.041200637817383,
+   "pesq_noisy": 1.7882964611053467,
+   "sisdr": 18.13537035940087,
+   "sisdr_noisy": 15.200524318074635
+  },
+  {
+   "id": "test_000247",
+   "snr_db": 8.899,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.804957389831543,
+   "g_noise": 0.5027741193771362,
+   "stoi": 0.9163898533233337,
+   "stoi_noisy": 0.9023630513146728,
+   "pesq": 1.4609735012054443,
+   "pesq_noisy": 1.2278695106506348,
+   "sisdr": 8.064545510873703,
+   "sisdr_noisy": 5.628597926062322
+  },
+  {
+   "id": "test_000248",
+   "snr_db": 9.869,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7777594923973083,
+   "g_noise": 0.514180600643158,
+   "stoi": 0.9288990551548144,
+   "stoi_noisy": 0.9215338814667595,
+   "pesq": 1.2127716541290283,
+   "pesq_noisy": 1.202017068862915,
+   "sisdr": 0.536965982897447,
+   "sisdr_noisy": -0.5508146996048895
+  },
+  {
+   "id": "test_000249",
+   "snr_db": 6.763,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6999778747558594,
+   "g_noise": 0.4578377604484558,
+   "stoi": 0.7915248290170617,
+   "stoi_noisy": 0.783031347126753,
+   "pesq": 1.1196295022964478,
+   "pesq_noisy": 1.072204351425171,
+   "sisdr": 5.4555562429530315,
+   "sisdr_noisy": 4.37527086525422
+  },
+  {
+   "id": "test_000250",
+   "snr_db": 18.447,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.784624457359314,
+   "g_noise": 0.17800913751125336,
+   "stoi": 0.9721298087785492,
+   "stoi_noisy": 0.9740687189808646,
+   "pesq": 1.979283332824707,
+   "pesq_noisy": 1.4630171060562134,
+   "sisdr": 15.911038768719926,
+   "sisdr_noisy": 12.42860989409975
+  },
+  {
+   "id": "test_000251",
+   "snr_db": 13.798,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7293127775192261,
+   "g_noise": 0.4816015660762787,
+   "stoi": 0.9380342355581703,
+   "stoi_noisy": 0.9494814329531757,
+   "pesq": 2.165895938873291,
+   "pesq_noisy": 1.601757526397705,
+   "sisdr": 15.160046423784063,
+   "sisdr_noisy": 13.409144399235057
+  },
+  {
+   "id": "test_000252",
+   "snr_db": -8.142,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.19410265982151031,
+   "g_noise": 0.1836116909980774,
+   "stoi": 0.6022768415031563,
+   "stoi_noisy": 0.5431001131316832,
+   "pesq": 1.0549945831298828,
+   "pesq_noisy": 1.0495274066925049,
+   "sisdr": -5.2559217038203485,
+   "sisdr_noisy": -10.716346222202286
+  },
+  {
+   "id": "test_000253",
+   "snr_db": -5.667,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.5454579591751099,
+   "g_noise": 0.5038627982139587,
+   "stoi": 0.7905590116556634,
+   "stoi_noisy": 0.8367331853177167,
+   "pesq": 1.3255681991577148,
+   "pesq_noisy": 1.5269694328308105,
+   "sisdr": -4.767621794416893,
+   "sisdr_noisy": -8.951366313107961
+  },
+  {
+   "id": "test_000254",
+   "snr_db": 13.551,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8658722043037415,
+   "g_noise": 0.3859782814979553,
+   "stoi": 0.9655998565531806,
+   "stoi_noisy": 0.9492748728319065,
+   "pesq": 1.4994125366210938,
+   "pesq_noisy": 1.2980318069458008,
+   "sisdr": 15.557661117118018,
+   "sisdr_noisy": 11.746478189658166
+  },
+  {
+   "id": "test_000255",
+   "snr_db": 3.777,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9583680033683777,
+   "g_noise": 0.5802747011184692,
+   "stoi": 0.8766230067551131,
+   "stoi_noisy": 0.8660233766216109,
+   "pesq": 1.3017680644989014,
+   "pesq_noisy": 1.2094964981079102,
+   "sisdr": -6.3342276366655925,
+   "sisdr_noisy": -6.539159566859636
+  },
+  {
+   "id": "test_000256",
+   "snr_db": 18.897,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9789807796478271,
+   "g_noise": 0.5242553949356079,
+   "stoi": 0.9964211427585317,
+   "stoi_noisy": 0.9962976968114831,
+   "pesq": 2.8242528438568115,
+   "pesq_noisy": 2.8420138359069824,
+   "sisdr": 18.907816187696195,
+   "sisdr_noisy": 18.651036412305267
+  },
+  {
+   "id": "test_000257",
+   "snr_db": -1.955,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7914745211601257,
+   "g_noise": 0.43350663781166077,
+   "stoi": 0.7645406918916425,
+   "stoi_noisy": 0.7471597751544917,
+   "pesq": 1.0789138078689575,
+   "pesq_noisy": 1.0626987218856812,
+   "sisdr": 0.22820134455265903,
+   "sisdr_noisy": -2.6904731870868988
+  },
+  {
+   "id": "test_000258",
+   "snr_db": -3.594,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.4036111533641815,
+   "g_noise": 0.3879010081291199,
+   "stoi": 0.5482392337437803,
+   "stoi_noisy": 0.5713621232410727,
+   "pesq": 1.024956226348877,
+   "pesq_noisy": 1.0250095129013062,
+   "sisdr": -5.612054435214478,
+   "sisdr_noisy": -8.457324099898626
+  },
+  {
+   "id": "test_000259",
+   "snr_db": 17.479,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9522954821586609,
+   "g_noise": 0.5314624309539795,
+   "stoi": 0.9455382530225214,
+   "stoi_noisy": 0.9486127828748513,
+   "pesq": 1.5359575748443604,
+   "pesq_noisy": 1.5298817157745361,
+   "sisdr": 16.791974189862813,
+   "sisdr_noisy": 16.09383808968734
+  },
+  {
+   "id": "test_000260",
+   "snr_db": 4.704,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.501133143901825,
+   "g_noise": 0.19267234206199646,
+   "stoi": 0.7394736557191113,
+   "stoi_noisy": 0.7014157597547223,
+   "pesq": 1.4042625427246094,
+   "pesq_noisy": 1.1963921785354614,
+   "sisdr": 11.688305603695339,
+   "sisdr_noisy": -0.1993885339808586
+  },
+  {
+   "id": "test_000261",
+   "snr_db": 17.327,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.901762068271637,
+   "g_noise": 0.5988315939903259,
+   "stoi": 0.954256520384686,
+   "stoi_noisy": 0.9456558286034187,
+   "pesq": 1.9920570850372314,
+   "pesq_noisy": 1.599752426147461,
+   "sisdr": 19.786166805469495,
+   "sisdr_noisy": 14.54887220477049
+  },
+  {
+   "id": "test_000262",
+   "snr_db": 0.394,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.4211486279964447,
+   "g_noise": 0.2443113625049591,
+   "stoi": 0.7610970160443199,
+   "stoi_noisy": 0.7076859795954161,
+   "pesq": 1.155132532119751,
+   "pesq_noisy": 1.0994882583618164,
+   "sisdr": 4.828220026183356,
+   "sisdr_noisy": 0.17772930728892075
+  },
+  {
+   "id": "test_000263",
+   "snr_db": -1.243,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.4907691180706024,
+   "g_noise": 0.37385353446006775,
+   "stoi": 0.7081105653833456,
+   "stoi_noisy": 0.702727301839998,
+   "pesq": 1.042873740196228,
+   "pesq_noisy": 1.0291178226470947,
+   "sisdr": -1.5379435166420985,
+   "sisdr_noisy": -3.9657128437517115
+  },
+  {
+   "id": "test_000264",
+   "snr_db": -2.758,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6006223559379578,
+   "g_noise": 0.5616779923439026,
+   "stoi": 0.6915385408442749,
+   "stoi_noisy": 0.6824280252631227,
+   "pesq": 1.0461885929107666,
+   "pesq_noisy": 1.0482302904129028,
+   "sisdr": -2.9833355367720564,
+   "sisdr_noisy": -4.4287519226351515
+  },
+  {
+   "id": "test_000265",
+   "snr_db": 10.763,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8487766981124878,
+   "g_noise": 0.6574419736862183,
+   "stoi": 0.9657882926481969,
+   "stoi_noisy": 0.9730862623600617,
+   "pesq": 2.203660249710083,
+   "pesq_noisy": 1.9293243885040283,
+   "sisdr": 12.385089501043163,
+   "sisdr_noisy": 9.491802290142862
+  },
+  {
+   "id": "test_000266",
+   "snr_db": -2.303,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.847700297832489,
+   "g_noise": 0.5372426509857178,
+   "stoi": 0.6538179170627182,
+   "stoi_noisy": 0.6435469966192517,
+   "pesq": 1.1016209125518799,
+   "pesq_noisy": 1.0775378942489624,
+   "sisdr": 0.4440024357619737,
+   "sisdr_noisy": -3.0528982193181124
+  },
+  {
+   "id": "test_000267",
+   "snr_db": -0.393,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.4706156849861145,
+   "g_noise": 0.43659496307373047,
+   "stoi": 0.7444198653083725,
+   "stoi_noisy": 0.711559265588821,
+   "pesq": 1.1388864517211914,
+   "pesq_noisy": 1.0573028326034546,
+   "sisdr": -1.1448462814016251,
+   "sisdr_noisy": -2.4140141780176836
+  },
+  {
+   "id": "test_000268",
+   "snr_db": -3.145,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.5453355312347412,
+   "g_noise": 0.4348202645778656,
+   "stoi": 0.7108736657021953,
+   "stoi_noisy": 0.7310326667586533,
+   "pesq": 1.1502827405929565,
+   "pesq_noisy": 1.1594257354736328,
+   "sisdr": -1.5608511523643556,
+   "sisdr_noisy": -3.5288934990663035
+  },
+  {
+   "id": "test_000269",
+   "snr_db": 4.504,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7656228542327881,
+   "g_noise": 0.5396411418914795,
+   "stoi": 0.9094618713605979,
+   "stoi_noisy": 0.9052252336023959,
+   "pesq": 1.3351571559906006,
+   "pesq_noisy": 1.2375404834747314,
+   "sisdr": 4.444367920314209,
+   "sisdr_noisy": 1.692651919976106
+  },
+  {
+   "id": "test_000270",
+   "snr_db": -4.17,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8391972184181213,
+   "g_noise": 0.41062918305397034,
+   "stoi": 0.8301420153824942,
+   "stoi_noisy": 0.7709630922374769,
+   "pesq": 1.0607163906097412,
+   "pesq_noisy": 1.0395958423614502,
+   "sisdr": 2.4591431391579794,
+   "sisdr_noisy": -4.814238137234263
+  },
+  {
+   "id": "test_000271",
+   "snr_db": -5.676,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9556612372398376,
+   "g_noise": 0.8289533257484436,
+   "stoi": 0.5199325947394775,
+   "stoi_noisy": 0.5234539286866631,
+   "pesq": 1.026679515838623,
+   "pesq_noisy": 1.0260577201843262,
+   "sisdr": -7.7928090332810305,
+   "sisdr_noisy": -7.882344881160846
+  },
+  {
+   "id": "test_000272",
+   "snr_db": 14.688,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8563406467437744,
+   "g_noise": 0.4358520209789276,
+   "stoi": 0.9726568302659945,
+   "stoi_noisy": 0.9715429074317165,
+   "pesq": 2.071908473968506,
+   "pesq_noisy": 1.9893271923065186,
+   "sisdr": 13.265805066169051,
+   "sisdr_noisy": 11.056250317925052
+  },
+  {
+   "id": "test_000273",
+   "snr_db": -4.34,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.8930650353431702,
+   "g_noise": 0.5465856194496155,
+   "stoi": 0.49709883627833884,
+   "stoi_noisy": 0.45452973159956617,
+   "pesq": 1.064888834953308,
+   "pesq_noisy": 1.0686395168304443,
+   "sisdr": -4.0921616994303385,
+   "sisdr_noisy": -4.750700078238106
+  },
+  {
+   "id": "test_000274",
+   "snr_db": 13.988,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7273196578025818,
+   "g_noise": 0.26308584213256836,
+   "stoi": 0.9493327727073992,
+   "stoi_noisy": 0.9244110636127623,
+   "pesq": 1.6658048629760742,
+   "pesq_noisy": 1.1528918743133545,
+   "sisdr": 11.392487996231758,
+   "sisdr_noisy": 7.80788843168506
+  },
+  {
+   "id": "test_000275",
+   "snr_db": -8.028,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7257733941078186,
+   "g_noise": 0.33145859837532043,
+   "stoi": 0.6647336296183941,
+   "stoi_noisy": 0.6225073911619322,
+   "pesq": 1.0302987098693848,
+   "pesq_noisy": 1.0342767238616943,
+   "sisdr": -5.448208883113498,
+   "sisdr_noisy": -10.108481192360772
+  },
+  {
+   "id": "test_000276",
+   "snr_db": 2.219,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.46850892901420593,
+   "g_noise": 0.177427738904953,
+   "stoi": 0.6859082215277782,
+   "stoi_noisy": 0.7395756152869661,
+   "pesq": 1.1028844118118286,
+   "pesq_noisy": 1.0885084867477417,
+   "sisdr": 6.003097082964221,
+   "sisdr_noisy": -0.6410290017987851
+  },
+  {
+   "id": "test_000277",
+   "snr_db": -1.412,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9655637145042419,
+   "g_noise": 0.5864748358726501,
+   "stoi": 0.8632852291613453,
+   "stoi_noisy": 0.8550684429634446,
+   "pesq": 1.16102933883667,
+   "pesq_noisy": 1.143081784248352,
+   "sisdr": -2.2367126116627043,
+   "sisdr_noisy": -2.8032037214845316
+  },
+  {
+   "id": "test_000278",
+   "snr_db": -8.042,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.250759482383728,
+   "g_noise": 0.2520986795425415,
+   "stoi": 0.4516641238990842,
+   "stoi_noisy": 0.5011240161493853,
+   "pesq": 1.0470874309539795,
+   "pesq_noisy": 1.0353326797485352,
+   "sisdr": -3.6439216942551242,
+   "sisdr_noisy": -8.580293556351721
+  },
+  {
+   "id": "test_000279",
+   "snr_db": 9.542,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7895410656929016,
+   "g_noise": 0.2855837941169739,
+   "stoi": 0.9591870367997092,
+   "stoi_noisy": 0.9758585068677458,
+   "pesq": 1.8726032972335815,
+   "pesq_noisy": 1.561816930770874,
+   "sisdr": 10.864558620924418,
+   "sisdr_noisy": 8.279716680650566
+  },
+  {
+   "id": "test_000280",
+   "snr_db": 15.262,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.6478371024131775,
+   "g_noise": 0.18307217955589294,
+   "stoi": 0.9616007495870568,
+   "stoi_noisy": 0.9593808328773695,
+   "pesq": 2.377396583557129,
+   "pesq_noisy": 1.7946544885635376,
+   "sisdr": 14.538394171367111,
+   "sisdr_noisy": 11.709696051102341
+  },
+  {
+   "id": "test_000281",
+   "snr_db": 16.485,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9862291812896729,
+   "g_noise": 0.5525509119033813,
+   "stoi": 0.9821977291929926,
+   "stoi_noisy": 0.9750042254927923,
+   "pesq": 2.0364232063293457,
+   "pesq_noisy": 2.0183897018432617,
+   "sisdr": 16.943323042712798,
+   "sisdr_noisy": 16.2984467111703
+  },
+  {
+   "id": "test_000282",
+   "snr_db": 11.442,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7036557197570801,
+   "g_noise": 0.3886919915676117,
+   "stoi": 0.9253411983655172,
+   "stoi_noisy": 0.9165606484873411,
+   "pesq": 1.4176522493362427,
+   "pesq_noisy": 1.2622666358947754,
+   "sisdr": 11.88620163962657,
+   "sisdr_noisy": 9.66917508346764
+  },
+  {
+   "id": "test_000283",
+   "snr_db": 18.517,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.801460862159729,
+   "g_noise": 0.3537817597389221,
+   "stoi": 0.9730790178161868,
+   "stoi_noisy": 0.987742860348465,
+   "pesq": 2.3635098934173584,
+   "pesq_noisy": 1.9302163124084473,
+   "sisdr": 17.879596557388716,
+   "sisdr_noisy": 15.94661554861519
+  },
+  {
+   "id": "test_000284",
+   "snr_db": 17.882,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9496025443077087,
+   "g_noise": 0.5948470830917358,
+   "stoi": 0.9546044731044182,
+   "stoi_noisy": 0.9651315616726905,
+   "pesq": 1.6961036920547485,
+   "pesq_noisy": 1.6507070064544678,
+   "sisdr": 14.439650653871043,
+   "sisdr_noisy": 14.32543911269005
+  },
+  {
+   "id": "test_000285",
+   "snr_db": 9.272,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6697437763214111,
+   "g_noise": 0.2674850821495056,
+   "stoi": 0.9051570847762573,
+   "stoi_noisy": 0.9042263328726526,
+   "pesq": 1.4975709915161133,
+   "pesq_noisy": 1.3712244033813477,
+   "sisdr": 8.766153344511409,
+   "sisdr_noisy": 7.320457854221122
+  },
+  {
+   "id": "test_000286",
+   "snr_db": 3.097,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6369835734367371,
+   "g_noise": 0.455143541097641,
+   "stoi": 0.7443383436858537,
+   "stoi_noisy": 0.720307875878634,
+   "pesq": 1.1144859790802002,
+   "pesq_noisy": 1.106630563735962,
+   "sisdr": 4.636096124175087,
+   "sisdr_noisy": 1.7748603345860121
+  },
+  {
+   "id": "test_000287",
+   "snr_db": 8.373,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.8988787531852722,
+   "g_noise": 0.4802496135234833,
+   "stoi": 0.8813919077410957,
+   "stoi_noisy": 0.8595026569653956,
+   "pesq": 1.2344282865524292,
+   "pesq_noisy": 1.1232191324234009,
+   "sisdr": 8.067341719566517,
+   "sisdr_noisy": 5.81808798522392
+  },
+  {
+   "id": "test_000288",
+   "snr_db": 8.475,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7833730578422546,
+   "g_noise": 0.563135027885437,
+   "stoi": 0.833199302425588,
+   "stoi_noisy": 0.829458475944765,
+   "pesq": 1.3153139352798462,
+   "pesq_noisy": 1.2273399829864502,
+   "sisdr": 7.883422751260081,
+   "sisdr_noisy": 6.582951309601233
+  },
+  {
+   "id": "test_000289",
+   "snr_db": -5.823,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.628817081451416,
+   "g_noise": 0.29416459798812866,
+   "stoi": 0.6816589507129804,
+   "stoi_noisy": 0.6575503110688138,
+   "pesq": 1.0855802297592163,
+   "pesq_noisy": 1.050021767616272,
+   "sisdr": -2.4498403479589674,
+   "sisdr_noisy": -6.2301996456288
+  },
+  {
+   "id": "test_000290",
+   "snr_db": 9.935,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6753904819488525,
+   "g_noise": 0.3962562084197998,
+   "stoi": 0.8682932897233463,
+   "stoi_noisy": 0.8682184554367163,
+   "pesq": 1.2767807245254517,
+   "pesq_noisy": 1.1608182191848755,
+   "sisdr": 8.404039878685861,
+   "sisdr_noisy": 6.782536445534491
+  },
+  {
+   "id": "test_000291",
+   "snr_db": 15.094,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9212790131568909,
+   "g_noise": 0.5874290466308594,
+   "stoi": 0.9647570732113907,
+   "stoi_noisy": 0.9433510449187721,
+   "pesq": 2.0660431385040283,
+   "pesq_noisy": 1.4610990285873413,
+   "sisdr": 17.173500948710018,
+   "sisdr_noisy": 14.179421076274314
+  },
+  {
+   "id": "test_000292",
+   "snr_db": 14.554,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.7246663570404053,
+   "g_noise": 0.3047386109828949,
+   "stoi": 0.9578731974501992,
+   "stoi_noisy": 0.9712263184299099,
+   "pesq": 2.114382028579712,
+   "pesq_noisy": 1.7098076343536377,
+   "sisdr": 16.017079632673227,
+   "sisdr_noisy": 11.76131079782447
+  },
+  {
+   "id": "test_000293",
+   "snr_db": -9.15,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "g_speech": 0.9008721113204956,
+   "g_noise": 0.7352309226989746,
+   "stoi": 0.4974616749987359,
+   "stoi_noisy": 0.5041091055363293,
+   "pesq": 1.048746109008789,
+   "pesq_noisy": 1.0478214025497437,
+   "sisdr": -9.412355077585618,
+   "sisdr_noisy": -9.226618629770314
+  },
+  {
+   "id": "test_000294",
+   "snr_db": 9.974,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.9278912544250488,
+   "g_noise": 0.4526852071285248,
+   "stoi": 0.9556807877576131,
+   "stoi_noisy": 0.9562841741929717,
+   "pesq": 1.7529354095458984,
+   "pesq_noisy": 1.6875019073486328,
+   "sisdr": 9.452085404242391,
+   "sisdr_noisy": 9.049376022928616
+  },
+  {
+   "id": "test_000295",
+   "snr_db": -6.019,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.2320743054151535,
+   "g_noise": 0.27555885910987854,
+   "stoi": 0.5262115832222442,
+   "stoi_noisy": 0.5639342269966894,
+   "pesq": 1.0246379375457764,
+   "pesq_noisy": 1.0214717388153076,
+   "sisdr": -4.378217992367571,
+   "sisdr_noisy": -6.462653003515575
+  },
+  {
+   "id": "test_000296",
+   "snr_db": 9.057,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.7800276875495911,
+   "g_noise": 0.5869132280349731,
+   "stoi": 0.870636101302121,
+   "stoi_noisy": 0.8636839961791949,
+   "pesq": 1.5635954141616821,
+   "pesq_noisy": 1.3663673400878906,
+   "sisdr": 10.137498637944466,
+   "sisdr_noisy": 7.9929951225636096
+  },
+  {
+   "id": "test_000297",
+   "snr_db": 9.628,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6012782454490662,
+   "g_noise": 0.4019699692726135,
+   "stoi": 0.8357499840247408,
+   "stoi_noisy": 0.8158893407911315,
+   "pesq": 1.3049490451812744,
+   "pesq_noisy": 1.1510215997695923,
+   "sisdr": 11.107627842130102,
+   "sisdr_noisy": 8.45668533928331
+  },
+  {
+   "id": "test_000298",
+   "snr_db": -2.389,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.25564828515052795,
+   "g_noise": 0.13486036658287048,
+   "stoi": 0.6704527288382289,
+   "stoi_noisy": 0.6318948778288399,
+   "pesq": 1.0586446523666382,
+   "pesq_noisy": 1.024219274520874,
+   "sisdr": 4.456536287090058,
+   "sisdr_noisy": -5.016179368843759
+  },
+  {
+   "id": "test_000299",
+   "snr_db": 0.588,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "g_speech": 0.6125390529632568,
+   "g_noise": 0.34180545806884766,
+   "stoi": 0.7282077232432118,
+   "stoi_noisy": 0.7069223656680855,
+   "pesq": 1.0576667785644531,
+   "pesq_noisy": 1.0554085969924927,
+   "sisdr": 1.9282692963454637,
+   "sisdr_noisy": -0.24390377090904086
+  }
+ ]
+}
