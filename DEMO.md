@@ -85,9 +85,21 @@ Judges respond to sound far more than to a metric table.
 Say this, in this order:
 
 > *"This is our speech-enhancement model — 23,000 parameters, 59 MMAC/s, 8 ms
-> latency, strictly causal. It gives about +5 dB SI-SDR and you can hear it.
-> STOI has not moved yet, and we know why we can say that with confidence: we
-> measured the ceiling."*
+> latency, strictly causal. On held-out, speaker-disjoint data it improves all
+> three metrics: SI-SDR +5.9 dB, PESQ +0.24, STOI +0.025.
+> It does not yet hit the PS targets, and we can tell you exactly how far the
+> architecture could go, because we measured the ceiling."*
+
+**Measured, held-out, 300 clips, speaker-disjoint:**
+
+| metric | noisy | enhanced | delta | PS target |
+|---|---|---|---|---|
+| STOI | 0.805 | **0.830** | +0.025 | > 0.85 |
+| PESQ | 1.382 | **1.621** | +0.239 | > 2.5 |
+| SI-SDR | 2.61 | **8.53** | +5.92 dB | > 15 dB |
+
+Best on **stationary** noise — vehicle and engine, i.e. the Smart Vehicles use
+case: STOI 0.800→0.832, PESQ 1.42→1.81, SI-SDR +4.2→+12.8 dB. Lead with that.
 
 **The ceiling measurement — use it, it is the strongest thing here.**
 Apply a *perfect* mask (computed from the true clean signal, which no model can
