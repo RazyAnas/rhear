@@ -1,0 +1,5163 @@
+{
+ "PROVENANCE": "noise is 100% SYNTHETICALLY GENERATED; speech is real LibriSpeech. Speech-path findings expected to transfer; noise-type findings are synthetic-only.",
+ "checkpoint": "baseline_frozen/model.pt",
+ "n_clips": 300,
+ "mean_gain": {
+  "speech": 0.6209612431625525,
+  "noise": 0.283146008575956,
+  "vowel": 0.6187912626812856,
+  "cons": 0.6426777460177739,
+  "lf": 0.5790751631557941,
+  "hf": 0.6316936849306027
+ },
+ "speech_gain_db": -4.13871010293871,
+ "noise_gain_db": -10.95979112225744,
+ "retention_curve": {
+  "level_db_rel_peak": [
+   -57.5,
+   -52.5,
+   -47.5,
+   -42.5,
+   -37.5,
+   -32.5,
+   -27.5,
+   -22.5,
+   -17.5,
+   -12.5,
+   -7.5,
+   -2.5
+  ],
+  "retention": [
+   0.0,
+   0.0,
+   0.0,
+   1.0308587900005612,
+   0.9160937593245828,
+   0.8652189943664009,
+   0.8569499587658459,
+   0.8585228678882934,
+   0.8676251864413279,
+   0.8924902336943145,
+   0.9308808334026049,
+   0.9905334460916574
+  ]
+ },
+ "per_clip": [
+  {
+   "id": "test_000000",
+   "snr_db": -5.551,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.2473854124546051,
+   "g_noise": 0.14586025476455688,
+   "stoi": 0.5824374380963879,
+   "stoi_noisy": 0.5293109454784041,
+   "pesq": 1.0564159154891968,
+   "pesq_noisy": 1.1054775714874268,
+   "sisdr": -2.28016498613044,
+   "sisdr_noisy": -9.747756589490857
+  },
+  {
+   "id": "test_000001",
+   "snr_db": 6.996,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.7229368090629578,
+   "g_noise": 0.08746387809515,
+   "stoi": 0.9409284805312431,
+   "stoi_noisy": 0.9230501762005948,
+   "pesq": 1.5423120260238647,
+   "pesq_noisy": 1.8022632598876953,
+   "sisdr": 13.11734090633263,
+   "sisdr_noisy": 3.3679401038335577
+  },
+  {
+   "id": "test_000002",
+   "snr_db": 5.852,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.6569019556045532,
+   "g_noise": 0.3259824812412262,
+   "stoi": 0.7627700334630898,
+   "stoi_noisy": 0.6591679797748942,
+   "pesq": 1.6577509641647339,
+   "pesq_noisy": 1.2778260707855225,
+   "sisdr": 12.847790623092108,
+   "sisdr_noisy": 5.070610657729954
+  },
+  {
+   "id": "test_000003",
+   "snr_db": 8.055,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.5013097524642944,
+   "g_noise": 0.09714091569185257,
+   "stoi": 0.9035988501140291,
+   "stoi_noisy": 0.8629423698359868,
+   "pesq": 1.7523717880249023,
+   "pesq_noisy": 1.3254146575927734,
+   "sisdr": 13.91339537742516,
+   "sisdr_noisy": 3.2436123703574453
+  },
+  {
+   "id": "test_000004",
+   "snr_db": 18.552,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.9439646601676941,
+   "g_noise": 0.4516286849975586,
+   "stoi": 0.9691308257389378,
+   "stoi_noisy": 0.9583643326633576,
+   "pesq": 3.013061046600342,
+   "pesq_noisy": 2.9630558490753174,
+   "sisdr": 19.652656693139214,
+   "sisdr_noisy": 16.413540059255865
+  },
+  {
+   "id": "test_000005",
+   "snr_db": 7.046,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.778597891330719,
+   "g_noise": 0.3543300926685333,
+   "stoi": 0.9149072413984586,
+   "stoi_noisy": 0.9169765876967664,
+   "pesq": 1.3442108631134033,
+   "pesq_noisy": 1.2313613891601562,
+   "sisdr": 10.27956251686646,
+   "sisdr_noisy": 6.565369137766721
+  },
+  {
+   "id": "test_000006",
+   "snr_db": -9.124,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.2588483691215515,
+   "g_noise": 0.130904883146286,
+   "stoi": 0.6296550358083982,
+   "stoi_noisy": 0.597450822176635,
+   "pesq": 1.0590389966964722,
+   "pesq_noisy": 1.0421537160873413,
+   "sisdr": -3.5234030200825774,
+   "sisdr_noisy": -11.01230135117154
+  },
+  {
+   "id": "test_000007",
+   "snr_db": 16.317,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.9297656416893005,
+   "g_noise": 0.27408769726753235,
+   "stoi": 0.9800139652766985,
+   "stoi_noisy": 0.9854537118534719,
+   "pesq": 2.007420778274536,
+   "pesq_noisy": 2.172457218170166,
+   "sisdr": 18.973256121244525,
+   "sisdr_noisy": 15.645275422914995
+  },
+  {
+   "id": "test_000008",
+   "snr_db": 11.059,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.6299713253974915,
+   "g_noise": 0.11643854528665543,
+   "stoi": 0.9616252998898102,
+   "stoi_noisy": 0.9585733081841744,
+   "pesq": 2.1128859519958496,
+   "pesq_noisy": 1.286909580230713,
+   "sisdr": 17.127582005407483,
+   "sisdr_noisy": 7.97163911440169
+  },
+  {
+   "id": "test_000009",
+   "snr_db": 19.178,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.8526626229286194,
+   "g_noise": 0.26211172342300415,
+   "stoi": 0.9827815337595236,
+   "stoi_noisy": 0.9836359142828824,
+   "pesq": 2.758544683456421,
+   "pesq_noisy": 2.2030389308929443,
+   "sisdr": 23.171272235735483,
+   "sisdr_noisy": 18.63316052918777
+  },
+  {
+   "id": "test_000010",
+   "snr_db": -1.781,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.627963125705719,
+   "g_noise": 0.4541489779949188,
+   "stoi": 0.8055293220724548,
+   "stoi_noisy": 0.7595080311898653,
+   "pesq": 1.1852866411209106,
+   "pesq_noisy": 1.0963350534439087,
+   "sisdr": 1.854777214431091,
+   "sisdr_noisy": -2.8672536688034
+  },
+  {
+   "id": "test_000011",
+   "snr_db": 14.443,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.7799491286277771,
+   "g_noise": 0.449989378452301,
+   "stoi": 0.8967184256413876,
+   "stoi_noisy": 0.86817021858414,
+   "pesq": 2.2488820552825928,
+   "pesq_noisy": 1.4978888034820557,
+   "sisdr": 15.420767457703963,
+   "sisdr_noisy": 12.067627431505198
+  },
+  {
+   "id": "test_000012",
+   "snr_db": 10.574,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.7886824607849121,
+   "g_noise": 0.17271128296852112,
+   "stoi": 0.8300047331563172,
+   "stoi_noisy": 0.7672531109396313,
+   "pesq": 1.5249426364898682,
+   "pesq_noisy": 1.3329565525054932,
+   "sisdr": 13.362503454558446,
+   "sisdr_noisy": 6.491634694668188
+  },
+  {
+   "id": "test_000013",
+   "snr_db": 5.949,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.5862002968788147,
+   "g_noise": 0.3666243255138397,
+   "stoi": 0.7967529643302054,
+   "stoi_noisy": 0.7256363208074615,
+   "pesq": 1.5774967670440674,
+   "pesq_noisy": 1.4421335458755493,
+   "sisdr": 8.949722906556802,
+   "sisdr_noisy": 1.8553752638517547
+  },
+  {
+   "id": "test_000014",
+   "snr_db": -2.512,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.5356760025024414,
+   "g_noise": 0.14837060868740082,
+   "stoi": 0.8085707923626531,
+   "stoi_noisy": 0.8199454998488234,
+   "pesq": 1.3172650337219238,
+   "pesq_noisy": 1.04840886592865,
+   "sisdr": 8.706967804983961,
+   "sisdr_noisy": -2.8161079312576076
+  },
+  {
+   "id": "test_000015",
+   "snr_db": 2.935,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.3586355745792389,
+   "g_noise": 0.2374357432126999,
+   "stoi": 0.7861892719602518,
+   "stoi_noisy": 0.785903304649975,
+   "pesq": 1.300317406654358,
+   "pesq_noisy": 1.2651022672653198,
+   "sisdr": 7.404872094342009,
+   "sisdr_noisy": 1.8394360381283663
+  },
+  {
+   "id": "test_000016",
+   "snr_db": -4.858,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.40752196311950684,
+   "g_noise": 0.15637733042240143,
+   "stoi": 0.761486098953227,
+   "stoi_noisy": 0.7020092531592587,
+   "pesq": 1.0863922834396362,
+   "pesq_noisy": 1.141873836517334,
+   "sisdr": -1.378350502315426,
+   "sisdr_noisy": -6.597647328128699
+  },
+  {
+   "id": "test_000017",
+   "snr_db": -7.509,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.3361499309539795,
+   "g_noise": 0.2720663547515869,
+   "stoi": 0.6617196416176577,
+   "stoi_noisy": 0.6234634609076327,
+   "pesq": 1.1075516939163208,
+   "pesq_noisy": 1.107295036315918,
+   "sisdr": -1.2727528644140709,
+   "sisdr_noisy": -7.917704427541233
+  },
+  {
+   "id": "test_000018",
+   "snr_db": 15.151,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.7753695249557495,
+   "g_noise": 0.43602612614631653,
+   "stoi": 0.9433281681371835,
+   "stoi_noisy": 0.9333673757374915,
+   "pesq": 2.0614571571350098,
+   "pesq_noisy": 1.4306241273880005,
+   "sisdr": 17.654275128422377,
+   "sisdr_noisy": 14.294672773426381
+  },
+  {
+   "id": "test_000019",
+   "snr_db": 2.777,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.7496806979179382,
+   "g_noise": 0.5583273768424988,
+   "stoi": 0.8797823366043759,
+   "stoi_noisy": 0.845498047288048,
+   "pesq": 1.3126311302185059,
+   "pesq_noisy": 1.2247052192687988,
+   "sisdr": 7.004997903231137,
+   "sisdr_noisy": 2.782716211679433
+  },
+  {
+   "id": "test_000020",
+   "snr_db": 12.892,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.6954459547996521,
+   "g_noise": 0.31399425864219666,
+   "stoi": 0.9392346352685692,
+   "stoi_noisy": 0.9200418223023252,
+   "pesq": 2.29367995262146,
+   "pesq_noisy": 1.4812664985656738,
+   "sisdr": 16.648821690635764,
+   "sisdr_noisy": 11.548257269983328
+  },
+  {
+   "id": "test_000021",
+   "snr_db": 11.659,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8919029831886292,
+   "g_noise": 0.41693735122680664,
+   "stoi": 0.9655526388000606,
+   "stoi_noisy": 0.9551005593711731,
+   "pesq": 2.3645823001861572,
+   "pesq_noisy": 1.646822214126587,
+   "sisdr": 14.135276359548342,
+   "sisdr_noisy": 9.578480889336443
+  },
+  {
+   "id": "test_000022",
+   "snr_db": -0.672,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.3603980243206024,
+   "g_noise": 0.22767820954322815,
+   "stoi": 0.817704854612598,
+   "stoi_noisy": 0.7403748616480421,
+   "pesq": 1.3185094594955444,
+   "pesq_noisy": 1.1396479606628418,
+   "sisdr": 6.281020219995135,
+   "sisdr_noisy": -2.371737145870616
+  },
+  {
+   "id": "test_000023",
+   "snr_db": 2.298,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.7835313677787781,
+   "g_noise": 0.42363715171813965,
+   "stoi": 0.8874704567172708,
+   "stoi_noisy": 0.8698456057395287,
+   "pesq": 1.151206374168396,
+   "pesq_noisy": 1.2424277067184448,
+   "sisdr": 3.926295378010285,
+   "sisdr_noisy": -1.4676212624705267
+  },
+  {
+   "id": "test_000024",
+   "snr_db": -5.147,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.44353488087654114,
+   "g_noise": 0.42497703433036804,
+   "stoi": 0.5960815131695605,
+   "stoi_noisy": 0.5600177951383749,
+   "pesq": 1.0871516466140747,
+   "pesq_noisy": 1.1425191164016724,
+   "sisdr": -0.564382768338515,
+   "sisdr_noisy": -7.678612173167161
+  },
+  {
+   "id": "test_000025",
+   "snr_db": 5.635,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6752426624298096,
+   "g_noise": 0.46630123257637024,
+   "stoi": 0.9195047951835174,
+   "stoi_noisy": 0.8975704619859317,
+   "pesq": 1.8566603660583496,
+   "pesq_noisy": 1.436139464378357,
+   "sisdr": 8.198895135106895,
+   "sisdr_noisy": 4.74942974723376
+  },
+  {
+   "id": "test_000026",
+   "snr_db": 13.432,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.926995038986206,
+   "g_noise": 0.4305197298526764,
+   "stoi": 0.9570283685845531,
+   "stoi_noisy": 0.9437961832684967,
+   "pesq": 2.4461419582366943,
+   "pesq_noisy": 1.9784926176071167,
+   "sisdr": 15.500350014994595,
+   "sisdr_noisy": 11.29878722620356
+  },
+  {
+   "id": "test_000027",
+   "snr_db": 3.203,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.42483487725257874,
+   "g_noise": 0.18203920125961304,
+   "stoi": 0.8108964453812502,
+   "stoi_noisy": 0.7438911898000298,
+   "pesq": 1.5027192831039429,
+   "pesq_noisy": 1.1277059316635132,
+   "sisdr": 10.334213994231705,
+   "sisdr_noisy": 1.754607775454875
+  },
+  {
+   "id": "test_000028",
+   "snr_db": -6.056,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.28583166003227234,
+   "g_noise": 0.16810941696166992,
+   "stoi": 0.5291832007223025,
+   "stoi_noisy": 0.4982782886994645,
+   "pesq": 1.0508027076721191,
+   "pesq_noisy": 1.1037266254425049,
+   "sisdr": -2.083528193514669,
+   "sisdr_noisy": -7.99318177009777
+  },
+  {
+   "id": "test_000029",
+   "snr_db": 3.205,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.40065228939056396,
+   "g_noise": 0.176658034324646,
+   "stoi": 0.7772849127909055,
+   "stoi_noisy": 0.758425206525632,
+   "pesq": 1.2474048137664795,
+   "pesq_noisy": 1.0856821537017822,
+   "sisdr": 5.763458431521011,
+   "sisdr_noisy": 0.7158991835730022
+  },
+  {
+   "id": "test_000030",
+   "snr_db": 19.973,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.9835644364356995,
+   "g_noise": 0.4303875267505646,
+   "stoi": 0.9213313815529175,
+   "stoi_noisy": 0.9044896036660423,
+   "pesq": 2.819575309753418,
+   "pesq_noisy": 2.4979288578033447,
+   "sisdr": 22.111570471698975,
+   "sisdr_noisy": 19.023975905227857
+  },
+  {
+   "id": "test_000031",
+   "snr_db": 16.609,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.835655152797699,
+   "g_noise": 0.3615196943283081,
+   "stoi": 0.9217424500170762,
+   "stoi_noisy": 0.9271585819058333,
+   "pesq": 2.2279295921325684,
+   "pesq_noisy": 1.9646315574645996,
+   "sisdr": 18.416609490868673,
+   "sisdr_noisy": 14.601648417743501
+  },
+  {
+   "id": "test_000032",
+   "snr_db": 10.329,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.6535548567771912,
+   "g_noise": 0.34349262714385986,
+   "stoi": 0.8784137503986534,
+   "stoi_noisy": 0.853555656247258,
+   "pesq": 1.7297897338867188,
+   "pesq_noisy": 1.6275262832641602,
+   "sisdr": 13.657168542417748,
+   "sisdr_noisy": 9.297483882523917
+  },
+  {
+   "id": "test_000033",
+   "snr_db": 17.906,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.879286527633667,
+   "g_noise": 0.38907599449157715,
+   "stoi": 0.9036201694881559,
+   "stoi_noisy": 0.9570919764299246,
+   "pesq": 1.9933617115020752,
+   "pesq_noisy": 1.8696378469467163,
+   "sisdr": 17.30838595597619,
+   "sisdr_noisy": 16.46210965007709
+  },
+  {
+   "id": "test_000034",
+   "snr_db": 3.525,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8095082640647888,
+   "g_noise": 0.47030964493751526,
+   "stoi": 0.9577391503477158,
+   "stoi_noisy": 0.9359411703362546,
+   "pesq": 1.7773774862289429,
+   "pesq_noisy": 1.5340418815612793,
+   "sisdr": 5.501693017456076,
+   "sisdr_noisy": 0.9436093937539664
+  },
+  {
+   "id": "test_000035",
+   "snr_db": 14.129,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.8451037406921387,
+   "g_noise": 0.17243531346321106,
+   "stoi": 0.979211561212162,
+   "stoi_noisy": 0.9674758381080897,
+   "pesq": 2.203125238418579,
+   "pesq_noisy": 1.415996789932251,
+   "sisdr": 18.08429712892231,
+   "sisdr_noisy": 11.724534563526861
+  },
+  {
+   "id": "test_000036",
+   "snr_db": -5.146,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.13407252728939056,
+   "g_noise": 0.1320142149925232,
+   "stoi": 0.5814269769918843,
+   "stoi_noisy": 0.5644228953462337,
+   "pesq": 1.1219820976257324,
+   "pesq_noisy": 1.1085193157196045,
+   "sisdr": -1.8831809289518422,
+   "sisdr_noisy": -7.343449734926418
+  },
+  {
+   "id": "test_000037",
+   "snr_db": 6.382,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.551882803440094,
+   "g_noise": 0.20755821466445923,
+   "stoi": 0.757264109217314,
+   "stoi_noisy": 0.6721628442329374,
+   "pesq": 1.2019274234771729,
+   "pesq_noisy": 1.0641175508499146,
+   "sisdr": 11.262789047714556,
+   "sisdr_noisy": 4.212685359146676
+  },
+  {
+   "id": "test_000038",
+   "snr_db": -7.317,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.609865128993988,
+   "g_noise": 0.35815608501434326,
+   "stoi": 0.7039514332840425,
+   "stoi_noisy": 0.6750108709333426,
+   "pesq": 1.0855836868286133,
+   "pesq_noisy": 1.0721349716186523,
+   "sisdr": -3.1816762464295127,
+   "sisdr_noisy": -9.013109750158291
+  },
+  {
+   "id": "test_000039",
+   "snr_db": 11.114,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.7489569783210754,
+   "g_noise": 0.393036425113678,
+   "stoi": 0.8605011548642773,
+   "stoi_noisy": 0.8646196628831145,
+   "pesq": 1.637812614440918,
+   "pesq_noisy": 1.6153112649917603,
+   "sisdr": 12.156418024112375,
+   "sisdr_noisy": 8.645498909250662
+  },
+  {
+   "id": "test_000040",
+   "snr_db": 15.375,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.961151123046875,
+   "g_noise": 0.5495556592941284,
+   "stoi": 0.9429550814638593,
+   "stoi_noisy": 0.9443960838678139,
+   "pesq": 2.272275686264038,
+   "pesq_noisy": 2.1980857849121094,
+   "sisdr": 16.73582523327016,
+   "sisdr_noisy": 15.302418243875366
+  },
+  {
+   "id": "test_000041",
+   "snr_db": -3.462,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.36329174041748047,
+   "g_noise": 0.10241222381591797,
+   "stoi": 0.794956732901036,
+   "stoi_noisy": 0.6808290875650768,
+   "pesq": 1.388289451599121,
+   "pesq_noisy": 1.1906604766845703,
+   "sisdr": 6.139680468617131,
+   "sisdr_noisy": -7.265934612072755
+  },
+  {
+   "id": "test_000042",
+   "snr_db": -9.796,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.31349971890449524,
+   "g_noise": 0.18101820349693298,
+   "stoi": 0.5653012566834603,
+   "stoi_noisy": 0.5067821500747851,
+   "pesq": 1.0619335174560547,
+   "pesq_noisy": 1.057546615600586,
+   "sisdr": -6.807311572024299,
+   "sisdr_noisy": -11.051394337723021
+  },
+  {
+   "id": "test_000043",
+   "snr_db": -2.877,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.7839564085006714,
+   "g_noise": 0.6195935606956482,
+   "stoi": 0.8743996421361913,
+   "stoi_noisy": 0.8574870633707335,
+   "pesq": 1.3275442123413086,
+   "pesq_noisy": 1.1789284944534302,
+   "sisdr": 1.0174199550457335,
+   "sisdr_noisy": -3.534619255018744
+  },
+  {
+   "id": "test_000044",
+   "snr_db": -0.061,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.5858274698257446,
+   "g_noise": 0.3538837134838104,
+   "stoi": 0.7473251219361341,
+   "stoi_noisy": 0.7084638571505589,
+   "pesq": 1.2174742221832275,
+   "pesq_noisy": 1.0926748514175415,
+   "sisdr": 5.244166541943274,
+   "sisdr_noisy": -2.0577314819197876
+  },
+  {
+   "id": "test_000045",
+   "snr_db": 8.496,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.6597853302955627,
+   "g_noise": 0.32011404633522034,
+   "stoi": 0.93508657274523,
+   "stoi_noisy": 0.9172829071736891,
+   "pesq": 2.023355484008789,
+   "pesq_noisy": 1.2938690185546875,
+   "sisdr": 11.285907029743969,
+   "sisdr_noisy": 7.468180513529318
+  },
+  {
+   "id": "test_000046",
+   "snr_db": 17.428,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.6656700968742371,
+   "g_noise": 0.13037122786045074,
+   "stoi": 0.8694482740041949,
+   "stoi_noisy": 0.9188784698211016,
+   "pesq": 1.9045122861862183,
+   "pesq_noisy": 3.301959276199341,
+   "sisdr": 17.66603979484041,
+   "sisdr_noisy": 8.244156218208575
+  },
+  {
+   "id": "test_000047",
+   "snr_db": 16.959,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.8716474175453186,
+   "g_noise": 0.24467302858829498,
+   "stoi": 0.9714950394309455,
+   "stoi_noisy": 0.9590988234694425,
+   "pesq": 2.3461055755615234,
+   "pesq_noisy": 1.7401213645935059,
+   "sisdr": 21.783535783378237,
+   "sisdr_noisy": 16.47694607879776
+  },
+  {
+   "id": "test_000048",
+   "snr_db": 10.338,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.8396251201629639,
+   "g_noise": 0.17327609658241272,
+   "stoi": 0.9317082217228205,
+   "stoi_noisy": 0.9247161912306636,
+   "pesq": 1.734057068824768,
+   "pesq_noisy": 1.654770851135254,
+   "sisdr": 11.764516607909986,
+   "sisdr_noisy": 8.869570264502084
+  },
+  {
+   "id": "test_000049",
+   "snr_db": 12.317,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.9052876830101013,
+   "g_noise": 0.4546929597854614,
+   "stoi": 0.9508792869433428,
+   "stoi_noisy": 0.927546677250189,
+   "pesq": 2.190425395965576,
+   "pesq_noisy": 1.4435830116271973,
+   "sisdr": 15.39444572190372,
+   "sisdr_noisy": 12.268331821749065
+  },
+  {
+   "id": "test_000050",
+   "snr_db": 18.832,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.8339719176292419,
+   "g_noise": 0.22851255536079407,
+   "stoi": 0.9774221818053552,
+   "stoi_noisy": 0.9697780651875679,
+   "pesq": 2.6515915393829346,
+   "pesq_noisy": 2.175293207168579,
+   "sisdr": 21.293955848167364,
+   "sisdr_noisy": 17.335348624982608
+  },
+  {
+   "id": "test_000051",
+   "snr_db": -0.221,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8186615109443665,
+   "g_noise": 0.493299275636673,
+   "stoi": 0.84632852906064,
+   "stoi_noisy": 0.853815651652656,
+   "pesq": 1.2915854454040527,
+   "pesq_noisy": 1.1749132871627808,
+   "sisdr": 4.716505003567166,
+   "sisdr_noisy": -1.1124810902343576
+  },
+  {
+   "id": "test_000052",
+   "snr_db": 18.557,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.8840269446372986,
+   "g_noise": 0.1356302797794342,
+   "stoi": 0.9982401800456745,
+   "stoi_noisy": 0.9989201960476094,
+   "pesq": 2.345888137817383,
+   "pesq_noisy": 2.3502774238586426,
+   "sisdr": 23.75940987280589,
+   "sisdr_noisy": 17.141237074665835
+  },
+  {
+   "id": "test_000053",
+   "snr_db": 3.96,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.5525742769241333,
+   "g_noise": 0.15428929030895233,
+   "stoi": 0.8530190161926964,
+   "stoi_noisy": 0.6941776997774719,
+   "pesq": 1.5207042694091797,
+   "pesq_noisy": 1.3925913572311401,
+   "sisdr": 11.200690022061373,
+   "sisdr_noisy": 0.9880920043601622
+  },
+  {
+   "id": "test_000054",
+   "snr_db": 3.359,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.6029111742973328,
+   "g_noise": 0.2650294601917267,
+   "stoi": 0.7754259258248912,
+   "stoi_noisy": 0.6708845486578937,
+   "pesq": 1.4917173385620117,
+   "pesq_noisy": 1.2716116905212402,
+   "sisdr": 9.77506537006305,
+   "sisdr_noisy": 1.7330105936751736
+  },
+  {
+   "id": "test_000055",
+   "snr_db": 16.105,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.7627854943275452,
+   "g_noise": 0.15983089804649353,
+   "stoi": 0.958584367352883,
+   "stoi_noisy": 0.972477471222967,
+   "pesq": 1.9827110767364502,
+   "pesq_noisy": 1.907019853591919,
+   "sisdr": 20.220692007747875,
+   "sisdr_noisy": 14.598607767694636
+  },
+  {
+   "id": "test_000056",
+   "snr_db": -6.829,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.5158189535140991,
+   "g_noise": 0.40474382042884827,
+   "stoi": 0.7404632142062316,
+   "stoi_noisy": 0.6736991469272634,
+   "pesq": 1.055493950843811,
+   "pesq_noisy": 1.4160265922546387,
+   "sisdr": -1.1265531024169075,
+   "sisdr_noisy": -8.478926791217502
+  },
+  {
+   "id": "test_000057",
+   "snr_db": 1.167,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8392395973205566,
+   "g_noise": 0.49918150901794434,
+   "stoi": 0.9499170170050061,
+   "stoi_noisy": 0.9414420017946715,
+   "pesq": 1.4274485111236572,
+   "pesq_noisy": 1.3589298725128174,
+   "sisdr": 3.625639401575591,
+   "sisdr_noisy": -1.0404046491102994
+  },
+  {
+   "id": "test_000058",
+   "snr_db": 14.758,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.8227380514144897,
+   "g_noise": 0.1612064391374588,
+   "stoi": 0.9955151072496381,
+   "stoi_noisy": 0.998390747231753,
+   "pesq": 1.791621208190918,
+   "pesq_noisy": 1.619842767715454,
+   "sisdr": 21.407421148897512,
+   "sisdr_noisy": 14.279123091776647
+  },
+  {
+   "id": "test_000059",
+   "snr_db": -5.584,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.5387293100357056,
+   "g_noise": 0.42127424478530884,
+   "stoi": 0.650885062078933,
+   "stoi_noisy": 0.625385244676105,
+   "pesq": 1.0503073930740356,
+   "pesq_noisy": 1.031181812286377,
+   "sisdr": 0.5486759399914887,
+   "sisdr_noisy": -6.344354338985848
+  },
+  {
+   "id": "test_000060",
+   "snr_db": 13.711,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.7275880575180054,
+   "g_noise": 0.27446043491363525,
+   "stoi": 0.965422506837436,
+   "stoi_noisy": 0.9385344352615773,
+   "pesq": 2.6014230251312256,
+   "pesq_noisy": 1.437192678451538,
+   "sisdr": 17.157601309189968,
+   "sisdr_noisy": 12.486441355016733
+  },
+  {
+   "id": "test_000061",
+   "snr_db": 15.605,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.8278685808181763,
+   "g_noise": 0.32003670930862427,
+   "stoi": 0.9503694599736152,
+   "stoi_noisy": 0.9326837190511253,
+   "pesq": 2.4339611530303955,
+   "pesq_noisy": 1.9581248760223389,
+   "sisdr": 17.237406142846602,
+   "sisdr_noisy": 12.284300151331806
+  },
+  {
+   "id": "test_000062",
+   "snr_db": 3.632,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.5005323886871338,
+   "g_noise": 0.45173975825309753,
+   "stoi": 0.772087721324512,
+   "stoi_noisy": 0.7083939297827574,
+   "pesq": 1.3665263652801514,
+   "pesq_noisy": 1.2709968090057373,
+   "sisdr": 7.3493616100820205,
+   "sisdr_noisy": 2.9819076875750037
+  },
+  {
+   "id": "test_000063",
+   "snr_db": -3.589,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6308832764625549,
+   "g_noise": 0.5295445322990417,
+   "stoi": 0.824622162578463,
+   "stoi_noisy": 0.7730416550373266,
+   "pesq": 1.3111029863357544,
+   "pesq_noisy": 2.1165120601654053,
+   "sisdr": -3.743855869721757,
+   "sisdr_noisy": -7.1409356939389745
+  },
+  {
+   "id": "test_000064",
+   "snr_db": 7.734,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.5549200177192688,
+   "g_noise": 0.2269718199968338,
+   "stoi": 0.9494064042430631,
+   "stoi_noisy": 0.9251948840031217,
+   "pesq": 1.8166917562484741,
+   "pesq_noisy": 1.193451166152954,
+   "sisdr": 12.063970297846698,
+   "sisdr_noisy": 5.52642495779064
+  },
+  {
+   "id": "test_000065",
+   "snr_db": 11.134,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8968010544776917,
+   "g_noise": 0.5847529172897339,
+   "stoi": 0.9215122031962695,
+   "stoi_noisy": 0.9058801116587828,
+   "pesq": 1.9675076007843018,
+   "pesq_noisy": 1.5236897468566895,
+   "sisdr": 14.57675695431382,
+   "sisdr_noisy": 10.2027100719435
+  },
+  {
+   "id": "test_000066",
+   "snr_db": 9.66,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.5090222954750061,
+   "g_noise": 0.20679864287376404,
+   "stoi": 0.8134502540741287,
+   "stoi_noisy": 0.7438429292488765,
+   "pesq": 1.8985081911087036,
+   "pesq_noisy": 1.194000005722046,
+   "sisdr": 15.174862399333296,
+   "sisdr_noisy": 7.366222578554313
+  },
+  {
+   "id": "test_000067",
+   "snr_db": 7.113,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.5594242811203003,
+   "g_noise": 0.1513979285955429,
+   "stoi": 0.7610605824245028,
+   "stoi_noisy": 0.673009409320325,
+   "pesq": 1.7783865928649902,
+   "pesq_noisy": 1.2563233375549316,
+   "sisdr": 10.5629027789223,
+   "sisdr_noisy": 5.5503000877632624
+  },
+  {
+   "id": "test_000068",
+   "snr_db": 14.694,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8238515257835388,
+   "g_noise": 0.18169991672039032,
+   "stoi": 0.9650993354177989,
+   "stoi_noisy": 0.9688700266414731,
+   "pesq": 1.6620302200317383,
+   "pesq_noisy": 1.5832164287567139,
+   "sisdr": 17.281875481889074,
+   "sisdr_noisy": 11.692511019070565
+  },
+  {
+   "id": "test_000069",
+   "snr_db": 10.959,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.6815971732139587,
+   "g_noise": 0.1424712836742401,
+   "stoi": 0.9559760108788911,
+   "stoi_noisy": 0.9538899323797703,
+   "pesq": 1.910553216934204,
+   "pesq_noisy": 1.350340723991394,
+   "sisdr": 14.602476406028602,
+   "sisdr_noisy": 8.137477782195901
+  },
+  {
+   "id": "test_000070",
+   "snr_db": -8.121,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.5753703117370605,
+   "g_noise": 0.31407102942466736,
+   "stoi": 0.674465767598183,
+   "stoi_noisy": 0.7131007725562536,
+   "pesq": 1.0649393796920776,
+   "pesq_noisy": 1.0549689531326294,
+   "sisdr": -1.9797578471008563,
+   "sisdr_noisy": -10.504851671162596
+  },
+  {
+   "id": "test_000071",
+   "snr_db": -7.962,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.7466548085212708,
+   "g_noise": 0.5374280214309692,
+   "stoi": 0.8963894860688244,
+   "stoi_noisy": 0.9036037027530909,
+   "pesq": 1.165729284286499,
+   "pesq_noisy": 1.0515265464782715,
+   "sisdr": -4.33129340098048,
+   "sisdr_noisy": -10.314434749903809
+  },
+  {
+   "id": "test_000072",
+   "snr_db": 12.971,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.821099579334259,
+   "g_noise": 0.5805578231811523,
+   "stoi": 0.8952346923142473,
+   "stoi_noisy": 0.8861417475775614,
+   "pesq": 1.740443229675293,
+   "pesq_noisy": 1.4602713584899902,
+   "sisdr": 15.447917434966289,
+   "sisdr_noisy": 12.499159619912124
+  },
+  {
+   "id": "test_000073",
+   "snr_db": 14.762,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8119481801986694,
+   "g_noise": 0.4145451784133911,
+   "stoi": 0.8385410314894881,
+   "stoi_noisy": 0.9004565452741432,
+   "pesq": 1.529247760772705,
+   "pesq_noisy": 1.4930976629257202,
+   "sisdr": 11.453196744649714,
+   "sisdr_noisy": 9.047566310256267
+  },
+  {
+   "id": "test_000074",
+   "snr_db": -0.493,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.3545094430446625,
+   "g_noise": 0.149148628115654,
+   "stoi": 0.7837052889363633,
+   "stoi_noisy": 0.7075745762364964,
+   "pesq": 1.092247486114502,
+   "pesq_noisy": 1.082423210144043,
+   "sisdr": 5.4159802899834,
+   "sisdr_noisy": -2.4480996542951887
+  },
+  {
+   "id": "test_000075",
+   "snr_db": 1.843,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6571497321128845,
+   "g_noise": 0.1423555165529251,
+   "stoi": 0.903290411990291,
+   "stoi_noisy": 0.8797540104643857,
+   "pesq": 1.6532318592071533,
+   "pesq_noisy": 1.3710721731185913,
+   "sisdr": 7.822711162639092,
+   "sisdr_noisy": -0.8247336701312437
+  },
+  {
+   "id": "test_000076",
+   "snr_db": -6.971,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.2280762642621994,
+   "g_noise": 0.07466539740562439,
+   "stoi": 0.7491603174751802,
+   "stoi_noisy": 0.6875083860186709,
+   "pesq": 1.2325931787490845,
+   "pesq_noisy": 1.067824125289917,
+   "sisdr": 4.69176610823469,
+   "sisdr_noisy": -8.58565093296513
+  },
+  {
+   "id": "test_000077",
+   "snr_db": -1.45,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.3838464319705963,
+   "g_noise": 0.1583518087863922,
+   "stoi": 0.7692718841588498,
+   "stoi_noisy": 0.6950681812794216,
+   "pesq": 1.205129623413086,
+   "pesq_noisy": 1.1221576929092407,
+   "sisdr": 4.730072160728817,
+   "sisdr_noisy": -4.598608941682473
+  },
+  {
+   "id": "test_000078",
+   "snr_db": -5.183,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.5311762690544128,
+   "g_noise": 0.22120580077171326,
+   "stoi": 0.7502498236473332,
+   "stoi_noisy": 0.7148922054182846,
+   "pesq": 1.1560804843902588,
+   "pesq_noisy": 1.0839425325393677,
+   "sisdr": 0.49555459399203483,
+   "sisdr_noisy": -7.163704894157092
+  },
+  {
+   "id": "test_000079",
+   "snr_db": 11.748,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.5001105666160583,
+   "g_noise": 0.21924734115600586,
+   "stoi": 0.8457090077330974,
+   "stoi_noisy": 0.8395356686073805,
+   "pesq": 1.5513982772827148,
+   "pesq_noisy": 1.0915204286575317,
+   "sisdr": 13.899213574636534,
+   "sisdr_noisy": 8.689708170109018
+  },
+  {
+   "id": "test_000080",
+   "snr_db": 9.583,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.92874675989151,
+   "g_noise": 0.4418962001800537,
+   "stoi": 0.9523885659211717,
+   "stoi_noisy": 0.9041353296889052,
+   "pesq": 2.177476167678833,
+   "pesq_noisy": 1.6537095308303833,
+   "sisdr": 11.34647059057505,
+   "sisdr_noisy": 6.488984487819885
+  },
+  {
+   "id": "test_000081",
+   "snr_db": 19.153,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.9340494871139526,
+   "g_noise": 0.25328922271728516,
+   "stoi": 0.9881978245326366,
+   "stoi_noisy": 0.9846527853406851,
+   "pesq": 2.1456875801086426,
+   "pesq_noisy": 2.011153221130371,
+   "sisdr": 20.972580696215097,
+   "sisdr_noisy": 17.486654583290388
+  },
+  {
+   "id": "test_000082",
+   "snr_db": -5.195,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.36847245693206787,
+   "g_noise": 0.16072125732898712,
+   "stoi": 0.6061684447990849,
+   "stoi_noisy": 0.5612976935309946,
+   "pesq": 1.1375073194503784,
+   "pesq_noisy": 1.4658079147338867,
+   "sisdr": 9.16284861037116,
+   "sisdr_noisy": -6.1036099588368184
+  },
+  {
+   "id": "test_000083",
+   "snr_db": 8.921,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.8301767110824585,
+   "g_noise": 0.33654770255088806,
+   "stoi": 0.8724953098418731,
+   "stoi_noisy": 0.852057297568298,
+   "pesq": 1.7887797355651855,
+   "pesq_noisy": 1.4681588411331177,
+   "sisdr": 11.747879324399484,
+   "sisdr_noisy": 8.790591723351232
+  },
+  {
+   "id": "test_000084",
+   "snr_db": 1.474,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.6892935633659363,
+   "g_noise": 0.23539814352989197,
+   "stoi": 0.7641854192062074,
+   "stoi_noisy": 0.7529767200165899,
+   "pesq": 1.3976361751556396,
+   "pesq_noisy": 1.2296147346496582,
+   "sisdr": 5.19107046305527,
+   "sisdr_noisy": -3.6630821993368974
+  },
+  {
+   "id": "test_000085",
+   "snr_db": 6.971,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.4915463924407959,
+   "g_noise": 0.2258194386959076,
+   "stoi": 0.763944756157229,
+   "stoi_noisy": 0.7560476097856923,
+   "pesq": 1.289493441581726,
+   "pesq_noisy": 1.174984335899353,
+   "sisdr": 10.067145142716114,
+   "sisdr_noisy": 4.231321384541054
+  },
+  {
+   "id": "test_000086",
+   "snr_db": -0.978,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.6575185060501099,
+   "g_noise": 0.2578617334365845,
+   "stoi": 0.8359559418682515,
+   "stoi_noisy": 0.8205985124877222,
+   "pesq": 1.5274970531463623,
+   "pesq_noisy": 1.4571467638015747,
+   "sisdr": 5.590496329022418,
+   "sisdr_noisy": -1.297760285522995
+  },
+  {
+   "id": "test_000087",
+   "snr_db": -6.913,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.344715416431427,
+   "g_noise": 0.24326419830322266,
+   "stoi": 0.549389337245784,
+   "stoi_noisy": 0.5158013989226121,
+   "pesq": 1.0538249015808105,
+   "pesq_noisy": 1.0553396940231323,
+   "sisdr": -7.866272540078926,
+   "sisdr_noisy": -10.911421448001873
+  },
+  {
+   "id": "test_000088",
+   "snr_db": -6.354,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.24827788770198822,
+   "g_noise": 0.24353361129760742,
+   "stoi": 0.611377945965792,
+   "stoi_noisy": 0.5180829052371573,
+   "pesq": 1.1080987453460693,
+   "pesq_noisy": 1.1200048923492432,
+   "sisdr": 1.2343876108807108,
+   "sisdr_noisy": -7.0351114884674235
+  },
+  {
+   "id": "test_000089",
+   "snr_db": -4.102,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.33129504323005676,
+   "g_noise": 0.3212791383266449,
+   "stoi": 0.7866109403547454,
+   "stoi_noisy": 0.7882431719295737,
+   "pesq": 1.1571285724639893,
+   "pesq_noisy": 1.1172699928283691,
+   "sisdr": -1.4077450159851113,
+   "sisdr_noisy": -4.4240669063522144
+  },
+  {
+   "id": "test_000090",
+   "snr_db": 14.67,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.7955281734466553,
+   "g_noise": 0.28866177797317505,
+   "stoi": 0.9447426772401424,
+   "stoi_noisy": 0.9223585343581652,
+   "pesq": 2.011247396469116,
+   "pesq_noisy": 1.4864726066589355,
+   "sisdr": 18.059151284732277,
+   "sisdr_noisy": 13.27498870058077
+  },
+  {
+   "id": "test_000091",
+   "snr_db": 11.568,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8739315867424011,
+   "g_noise": 0.43251651525497437,
+   "stoi": 0.9403171589193378,
+   "stoi_noisy": 0.9253253161764057,
+   "pesq": 1.8881511688232422,
+   "pesq_noisy": 1.4968316555023193,
+   "sisdr": 14.021747020060085,
+   "sisdr_noisy": 9.507509749755043
+  },
+  {
+   "id": "test_000092",
+   "snr_db": 1.645,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.3638073205947876,
+   "g_noise": 0.3271198868751526,
+   "stoi": 0.6910299507012181,
+   "stoi_noisy": 0.6099178484066153,
+   "pesq": 1.2640454769134521,
+   "pesq_noisy": 1.0757707357406616,
+   "sisdr": 9.239280632441465,
+   "sisdr_noisy": 1.4326099602659423
+  },
+  {
+   "id": "test_000093",
+   "snr_db": 8.463,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.48511457443237305,
+   "g_noise": 0.27794772386550903,
+   "stoi": 0.6847890276114116,
+   "stoi_noisy": 0.5858409278607938,
+   "pesq": 1.9077270030975342,
+   "pesq_noisy": 1.4231617450714111,
+   "sisdr": 13.866094008408945,
+   "sisdr_noisy": 8.093505634973022
+  },
+  {
+   "id": "test_000094",
+   "snr_db": -6.721,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.5871118307113647,
+   "g_noise": 0.21540316939353943,
+   "stoi": 0.7861803141475785,
+   "stoi_noisy": 0.7509386749738213,
+   "pesq": 1.1426266431808472,
+   "pesq_noisy": 1.1022475957870483,
+   "sisdr": 2.7759758358353137,
+   "sisdr_noisy": -7.364233415164546
+  },
+  {
+   "id": "test_000095",
+   "snr_db": 12.685,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.8618415594100952,
+   "g_noise": 0.34918412566185,
+   "stoi": 0.8693402102661159,
+   "stoi_noisy": 0.8479175143354586,
+   "pesq": 1.9555749893188477,
+   "pesq_noisy": 1.487457275390625,
+   "sisdr": 15.830409575200576,
+   "sisdr_noisy": 11.753377289049736
+  },
+  {
+   "id": "test_000096",
+   "snr_db": 19.451,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.7940564155578613,
+   "g_noise": 0.14966897666454315,
+   "stoi": 0.9796260506399487,
+   "stoi_noisy": 0.9793734867402023,
+   "pesq": 2.4273650646209717,
+   "pesq_noisy": 1.7256332635879517,
+   "sisdr": 21.31985140115797,
+   "sisdr_noisy": 16.83946166293821
+  },
+  {
+   "id": "test_000097",
+   "snr_db": 5.947,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.4822823703289032,
+   "g_noise": 0.221340149641037,
+   "stoi": 0.885924867738083,
+   "stoi_noisy": 0.8051584462228217,
+   "pesq": 1.7953351736068726,
+   "pesq_noisy": 1.0991020202636719,
+   "sisdr": 11.99444459935576,
+   "sisdr_noisy": 4.287580923796832
+  },
+  {
+   "id": "test_000098",
+   "snr_db": 11.666,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.7502721548080444,
+   "g_noise": 0.20605319738388062,
+   "stoi": 0.9313579414092833,
+   "stoi_noisy": 0.9154367984154962,
+   "pesq": 2.0014631748199463,
+   "pesq_noisy": 1.554337501525879,
+   "sisdr": 14.955591329823214,
+   "sisdr_noisy": 8.809983109384598
+  },
+  {
+   "id": "test_000099",
+   "snr_db": -6.766,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.19336670637130737,
+   "g_noise": 0.2798500657081604,
+   "stoi": 0.5139703408666434,
+   "stoi_noisy": 0.503213987356393,
+   "pesq": 1.068350911140442,
+   "pesq_noisy": 1.0517858266830444,
+   "sisdr": -2.4377746172344383,
+   "sisdr_noisy": -7.08291155080815
+  },
+  {
+   "id": "test_000100",
+   "snr_db": -6.595,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.4034796953201294,
+   "g_noise": 0.19061964750289917,
+   "stoi": 0.7087687711896653,
+   "stoi_noisy": 0.6425436082829142,
+   "pesq": 1.1653765439987183,
+   "pesq_noisy": 1.1851550340652466,
+   "sisdr": 0.8803710592168206,
+   "sisdr_noisy": -7.534241945652495
+  },
+  {
+   "id": "test_000101",
+   "snr_db": -0.732,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.7735617756843567,
+   "g_noise": 0.3879077434539795,
+   "stoi": 0.9401155973944885,
+   "stoi_noisy": 0.9481466831783073,
+   "pesq": 1.6369563341140747,
+   "pesq_noisy": 1.0916104316711426,
+   "sisdr": 0.6971924513291189,
+   "sisdr_noisy": -4.4153590588022515
+  },
+  {
+   "id": "test_000102",
+   "snr_db": -9.949,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.7306156754493713,
+   "g_noise": 0.454656720161438,
+   "stoi": 0.8946274185554155,
+   "stoi_noisy": 0.8952763619269167,
+   "pesq": 1.1427263021469116,
+   "pesq_noisy": 1.0357980728149414,
+   "sisdr": -7.8261816252623895,
+   "sisdr_noisy": -12.852345255978024
+  },
+  {
+   "id": "test_000103",
+   "snr_db": 4.853,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.6998751163482666,
+   "g_noise": 0.32684454321861267,
+   "stoi": 0.889624122958216,
+   "stoi_noisy": 0.8968704106792392,
+   "pesq": 1.2632559537887573,
+   "pesq_noisy": 1.1646424531936646,
+   "sisdr": 7.0119838206550344,
+   "sisdr_noisy": 2.8832486015992806
+  },
+  {
+   "id": "test_000104",
+   "snr_db": 17.413,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.945156455039978,
+   "g_noise": 0.3672366738319397,
+   "stoi": 0.9909190971259617,
+   "stoi_noisy": 0.987482866554183,
+   "pesq": 2.663538694381714,
+   "pesq_noisy": 2.520397663116455,
+   "sisdr": 18.219101088862008,
+   "sisdr_noisy": 14.411956283276123
+  },
+  {
+   "id": "test_000105",
+   "snr_db": 16.035,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.7897741198539734,
+   "g_noise": 0.2837733030319214,
+   "stoi": 0.9770064028572141,
+   "stoi_noisy": 0.9787744420322788,
+   "pesq": 2.6123592853546143,
+   "pesq_noisy": 2.0377190113067627,
+   "sisdr": 18.078792739270845,
+   "sisdr_noisy": 14.36090718579835
+  },
+  {
+   "id": "test_000106",
+   "snr_db": -9.603,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.18388448655605316,
+   "g_noise": 0.24722003936767578,
+   "stoi": 0.5216361745759529,
+   "stoi_noisy": 0.5046532253007964,
+   "pesq": 1.0719492435455322,
+   "pesq_noisy": 1.0893054008483887,
+   "sisdr": -12.938198549344444,
+   "sisdr_noisy": -11.977601220878412
+  },
+  {
+   "id": "test_000107",
+   "snr_db": -1.156,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8637253046035767,
+   "g_noise": 0.4898264706134796,
+   "stoi": 0.9116278446001069,
+   "stoi_noisy": 0.9044774247216809,
+   "pesq": 1.1170334815979004,
+   "pesq_noisy": 1.0499999523162842,
+   "sisdr": 2.478850177179501,
+   "sisdr_noisy": -1.2630180751404652
+  },
+  {
+   "id": "test_000108",
+   "snr_db": -0.578,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.3125021457672119,
+   "g_noise": 0.14583231508731842,
+   "stoi": 0.7257086182477498,
+   "stoi_noisy": 0.6833925859682083,
+   "pesq": 1.121639370918274,
+   "pesq_noisy": 1.0736154317855835,
+   "sisdr": 5.256496141161949,
+   "sisdr_noisy": -4.435240752713434
+  },
+  {
+   "id": "test_000109",
+   "snr_db": 7.666,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.9001834988594055,
+   "g_noise": 0.527065098285675,
+   "stoi": 0.9640047476212293,
+   "stoi_noisy": 0.953997855906574,
+   "pesq": 1.8734338283538818,
+   "pesq_noisy": 1.7049726247787476,
+   "sisdr": 8.827595891987457,
+   "sisdr_noisy": 5.227400279942675
+  },
+  {
+   "id": "test_000110",
+   "snr_db": 11.466,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.7663038372993469,
+   "g_noise": 0.39826858043670654,
+   "stoi": 0.9664152975524622,
+   "stoi_noisy": 0.9694195574004206,
+   "pesq": 2.138186454772949,
+   "pesq_noisy": 1.6270263195037842,
+   "sisdr": 13.940681207453595,
+   "sisdr_noisy": 9.98878213675421
+  },
+  {
+   "id": "test_000111",
+   "snr_db": -8.69,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.4195639193058014,
+   "g_noise": 0.2662125825881958,
+   "stoi": 0.5692471153420923,
+   "stoi_noisy": 0.4531932188143872,
+   "pesq": 1.058058738708496,
+   "pesq_noisy": 1.0817208290100098,
+   "sisdr": -4.338767283969414,
+   "sisdr_noisy": -11.961321090596538
+  },
+  {
+   "id": "test_000112",
+   "snr_db": 1.756,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.3940317630767822,
+   "g_noise": 0.20162293314933777,
+   "stoi": 0.7783153936338972,
+   "stoi_noisy": 0.7233633446269978,
+   "pesq": 1.1313039064407349,
+   "pesq_noisy": 1.0899279117584229,
+   "sisdr": 9.120542095722803,
+   "sisdr_noisy": -0.4314258826064174
+  },
+  {
+   "id": "test_000113",
+   "snr_db": 6.719,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.593273401260376,
+   "g_noise": 0.23879575729370117,
+   "stoi": 0.9478718651542011,
+   "stoi_noisy": 0.939950425556355,
+   "pesq": 1.6762983798980713,
+   "pesq_noisy": 1.4022325277328491,
+   "sisdr": 9.855668148982328,
+   "sisdr_noisy": 4.8452456420076935
+  },
+  {
+   "id": "test_000114",
+   "snr_db": -8.213,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.13836011290550232,
+   "g_noise": 0.2224745899438858,
+   "stoi": 0.5049368253230454,
+   "stoi_noisy": 0.49365442838544255,
+   "pesq": 1.0290237665176392,
+   "pesq_noisy": 1.088248610496521,
+   "sisdr": -9.66508252887831,
+   "sisdr_noisy": -11.45597711158217
+  },
+  {
+   "id": "test_000115",
+   "snr_db": 9.968,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.5648446083068848,
+   "g_noise": 0.28452661633491516,
+   "stoi": 0.9379682872468764,
+   "stoi_noisy": 0.9194698003284375,
+   "pesq": 2.0967962741851807,
+   "pesq_noisy": 1.4439375400543213,
+   "sisdr": 12.239549824354752,
+   "sisdr_noisy": 8.590152546422846
+  },
+  {
+   "id": "test_000116",
+   "snr_db": -3.253,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.64638352394104,
+   "g_noise": 0.4137429893016815,
+   "stoi": 0.8039208454403828,
+   "stoi_noisy": 0.7524958348909138,
+   "pesq": 1.3166502714157104,
+   "pesq_noisy": 1.1863436698913574,
+   "sisdr": 1.0975285985685916,
+   "sisdr_noisy": -3.5500434713446225
+  },
+  {
+   "id": "test_000117",
+   "snr_db": -9.06,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.7318600416183472,
+   "g_noise": 0.4795532524585724,
+   "stoi": 0.6895437429436738,
+   "stoi_noisy": 0.687375451751254,
+   "pesq": 1.0715090036392212,
+   "pesq_noisy": 1.0402497053146362,
+   "sisdr": -8.144537513544725,
+   "sisdr_noisy": -11.408567261373603
+  },
+  {
+   "id": "test_000118",
+   "snr_db": -4.487,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.3601829409599304,
+   "g_noise": 0.08882623165845871,
+   "stoi": 0.8703352002667671,
+   "stoi_noisy": 0.7993492573096509,
+   "pesq": 1.3733443021774292,
+   "pesq_noisy": 1.494119644165039,
+   "sisdr": 4.881091750445729,
+   "sisdr_noisy": -11.857721080959822
+  },
+  {
+   "id": "test_000119",
+   "snr_db": 14.944,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.8413980603218079,
+   "g_noise": 0.333054780960083,
+   "stoi": 0.9040559730062349,
+   "stoi_noisy": 0.8781871821166201,
+   "pesq": 2.087970018386841,
+   "pesq_noisy": 1.6269807815551758,
+   "sisdr": 17.7974521461212,
+   "sisdr_noisy": 13.2789789612908
+  },
+  {
+   "id": "test_000120",
+   "snr_db": 2.029,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6378067135810852,
+   "g_noise": 0.3834151029586792,
+   "stoi": 0.8858516330480661,
+   "stoi_noisy": 0.8555993340703749,
+   "pesq": 1.4396928548812866,
+   "pesq_noisy": 1.1542177200317383,
+   "sisdr": 7.352661784943314,
+   "sisdr_noisy": 1.2919107142657238
+  },
+  {
+   "id": "test_000121",
+   "snr_db": -5.863,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.1786179542541504,
+   "g_noise": 0.12615440785884857,
+   "stoi": 0.7248753168672386,
+   "stoi_noisy": 0.7655987640009887,
+   "pesq": 1.1178573369979858,
+   "pesq_noisy": 1.093916654586792,
+   "sisdr": 0.2048942884300325,
+   "sisdr_noisy": -7.40518587029254
+  },
+  {
+   "id": "test_000122",
+   "snr_db": -2.131,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.44320300221443176,
+   "g_noise": 0.13154472410678864,
+   "stoi": 0.9571239345406294,
+   "stoi_noisy": 0.9384926280524218,
+   "pesq": 1.554110050201416,
+   "pesq_noisy": 1.2442858219146729,
+   "sisdr": 4.93637726496053,
+   "sisdr_noisy": -2.653443395856108
+  },
+  {
+   "id": "test_000123",
+   "snr_db": 6.029,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.5374961495399475,
+   "g_noise": 0.09677600860595703,
+   "stoi": 0.85091535612023,
+   "stoi_noisy": 0.8507740707447976,
+   "pesq": 1.6360642910003662,
+   "pesq_noisy": 1.1389471292495728,
+   "sisdr": 14.110313177519897,
+   "sisdr_noisy": 3.524264764843574
+  },
+  {
+   "id": "test_000124",
+   "snr_db": 10.342,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.9428367018699646,
+   "g_noise": 0.3758047819137573,
+   "stoi": 0.9070719067330393,
+   "stoi_noisy": 0.9141418983101236,
+   "pesq": 1.7552026510238647,
+   "pesq_noisy": 1.7908319234848022,
+   "sisdr": 12.872108101687028,
+   "sisdr_noisy": 8.124391512325456
+  },
+  {
+   "id": "test_000125",
+   "snr_db": 7.527,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.535755455493927,
+   "g_noise": 0.15199366211891174,
+   "stoi": 0.8750392307363692,
+   "stoi_noisy": 0.8528076659449912,
+   "pesq": 1.7875064611434937,
+   "pesq_noisy": 1.3557277917861938,
+   "sisdr": 12.253486353481911,
+   "sisdr_noisy": 4.425015833492964
+  },
+  {
+   "id": "test_000126",
+   "snr_db": 12.535,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8576505780220032,
+   "g_noise": 0.4045427739620209,
+   "stoi": 0.9032957654597035,
+   "stoi_noisy": 0.9063538141291508,
+   "pesq": 2.052919626235962,
+   "pesq_noisy": 1.7814143896102905,
+   "sisdr": 14.479330343463062,
+   "sisdr_noisy": 9.553261666245383
+  },
+  {
+   "id": "test_000127",
+   "snr_db": -0.364,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.3489878177642822,
+   "g_noise": 0.13727162778377533,
+   "stoi": 0.7418796793001442,
+   "stoi_noisy": 0.6510962816893346,
+   "pesq": 1.1343077421188354,
+   "pesq_noisy": 1.0767501592636108,
+   "sisdr": 7.397816975478744,
+   "sisdr_noisy": -1.1743972999367496
+  },
+  {
+   "id": "test_000128",
+   "snr_db": 9.893,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.5857792496681213,
+   "g_noise": 0.15958869457244873,
+   "stoi": 0.7767867197863737,
+   "stoi_noisy": 0.7605211481772267,
+   "pesq": 1.494615912437439,
+   "pesq_noisy": 1.0856529474258423,
+   "sisdr": 15.668672707638212,
+   "sisdr_noisy": 8.090898692181046
+  },
+  {
+   "id": "test_000129",
+   "snr_db": 18.723,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.8616940975189209,
+   "g_noise": 0.23034429550170898,
+   "stoi": 0.973326036737319,
+   "stoi_noisy": 0.9714412158263683,
+   "pesq": 1.9240942001342773,
+   "pesq_noisy": 2.0966408252716064,
+   "sisdr": 19.70361290904974,
+   "sisdr_noisy": 17.19674608926525
+  },
+  {
+   "id": "test_000130",
+   "snr_db": 2.509,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.5877857208251953,
+   "g_noise": 0.43565043807029724,
+   "stoi": 0.7812807971332545,
+   "stoi_noisy": 0.7300869277271741,
+   "pesq": 1.2482924461364746,
+   "pesq_noisy": 1.12601900100708,
+   "sisdr": 8.29133120327505,
+   "sisdr_noisy": 1.1428004958679079
+  },
+  {
+   "id": "test_000131",
+   "snr_db": 5.358,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.4765705168247223,
+   "g_noise": 0.12585888803005219,
+   "stoi": 0.8170822660926949,
+   "stoi_noisy": 0.7869930446027695,
+   "pesq": 1.5249624252319336,
+   "pesq_noisy": 1.0769652128219604,
+   "sisdr": 14.726400398284408,
+   "sisdr_noisy": 4.333141747937825
+  },
+  {
+   "id": "test_000132",
+   "snr_db": -8.095,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.1554621160030365,
+   "g_noise": 0.13411076366901398,
+   "stoi": 0.5894491707725683,
+   "stoi_noisy": 0.5754956377524363,
+   "pesq": 1.0712848901748657,
+   "pesq_noisy": 1.09918212890625,
+   "sisdr": -4.706255973551403,
+   "sisdr_noisy": -8.447265031786335
+  },
+  {
+   "id": "test_000133",
+   "snr_db": 6.799,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6460578441619873,
+   "g_noise": 0.48481759428977966,
+   "stoi": 0.9252779678749028,
+   "stoi_noisy": 0.9121260904127233,
+   "pesq": 1.9592132568359375,
+   "pesq_noisy": 1.33076012134552,
+   "sisdr": 7.738549876137628,
+   "sisdr_noisy": 6.086133485325702
+  },
+  {
+   "id": "test_000134",
+   "snr_db": -2.112,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.2598028779029846,
+   "g_noise": 0.14387139678001404,
+   "stoi": 0.8155828165275896,
+   "stoi_noisy": 0.7791056139531255,
+   "pesq": 1.394256591796875,
+   "pesq_noisy": 1.0967686176300049,
+   "sisdr": 5.427672229256418,
+   "sisdr_noisy": -3.717092584587493
+  },
+  {
+   "id": "test_000135",
+   "snr_db": 3.907,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.5400340557098389,
+   "g_noise": 0.23232777416706085,
+   "stoi": 0.8505758725138161,
+   "stoi_noisy": 0.7483544355864464,
+   "pesq": 1.2905011177062988,
+   "pesq_noisy": 1.0603389739990234,
+   "sisdr": 8.763413519848607,
+   "sisdr_noisy": 2.6220342692085103
+  },
+  {
+   "id": "test_000136",
+   "snr_db": -3.632,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.48149821162223816,
+   "g_noise": 0.2591051757335663,
+   "stoi": 0.7359183336254238,
+   "stoi_noisy": 0.6833915391661077,
+   "pesq": 1.1627875566482544,
+   "pesq_noisy": 1.066525936126709,
+   "sisdr": -7.044533123901694,
+   "sisdr_noisy": -9.599107648661679
+  },
+  {
+   "id": "test_000137",
+   "snr_db": -2.354,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.6653909683227539,
+   "g_noise": 0.33585095405578613,
+   "stoi": 0.683789249023756,
+   "stoi_noisy": 0.6121990093925881,
+   "pesq": 1.1566835641860962,
+   "pesq_noisy": 1.1456328630447388,
+   "sisdr": 1.9689375898235002,
+   "sisdr_noisy": -2.3628948445621294
+  },
+  {
+   "id": "test_000138",
+   "snr_db": -9.536,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.17118509113788605,
+   "g_noise": 0.1420205682516098,
+   "stoi": 0.305340819199592,
+   "stoi_noisy": 0.2572180911701151,
+   "pesq": 1.0489857196807861,
+   "pesq_noisy": 1.0454779863357544,
+   "sisdr": -2.3495581026036283,
+   "sisdr_noisy": -13.032150720006326
+  },
+  {
+   "id": "test_000139",
+   "snr_db": -9.59,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.48624059557914734,
+   "g_noise": 0.21635451912879944,
+   "stoi": 0.7655140934946348,
+   "stoi_noisy": 0.6796410905973351,
+   "pesq": 1.2133759260177612,
+   "pesq_noisy": 1.0773543119430542,
+   "sisdr": -0.5065473178083667,
+   "sisdr_noisy": -11.582507060744202
+  },
+  {
+   "id": "test_000140",
+   "snr_db": -5.374,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.562039852142334,
+   "g_noise": 0.3093443214893341,
+   "stoi": 0.6340199048792001,
+   "stoi_noisy": 0.5957753450689055,
+   "pesq": 1.0647914409637451,
+   "pesq_noisy": 1.1272963285446167,
+   "sisdr": -2.796891870574871,
+   "sisdr_noisy": -9.59694456431183
+  },
+  {
+   "id": "test_000141",
+   "snr_db": 3.392,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.46102622151374817,
+   "g_noise": 0.1978757381439209,
+   "stoi": 0.7953887325053957,
+   "stoi_noisy": 0.6853608370512435,
+   "pesq": 1.352695345878601,
+   "pesq_noisy": 1.1417099237442017,
+   "sisdr": 9.90018388930967,
+   "sisdr_noisy": 0.7899409699722132
+  },
+  {
+   "id": "test_000142",
+   "snr_db": 0.436,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8970063924789429,
+   "g_noise": 0.4442613124847412,
+   "stoi": 0.9213675404714899,
+   "stoi_noisy": 0.9150942974796055,
+   "pesq": 1.2741985321044922,
+   "pesq_noisy": 1.3350669145584106,
+   "sisdr": 2.0688559680923255,
+   "sisdr_noisy": -1.8413296501593628
+  },
+  {
+   "id": "test_000143",
+   "snr_db": 11.893,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.9313814640045166,
+   "g_noise": 0.15868382155895233,
+   "stoi": 0.9958500568315019,
+   "stoi_noisy": 0.9944286203140226,
+   "pesq": 2.4984993934631348,
+   "pesq_noisy": 1.6389501094818115,
+   "sisdr": 23.69702024592241,
+   "sisdr_noisy": 11.354105477931547
+  },
+  {
+   "id": "test_000144",
+   "snr_db": 11.218,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.9080126881599426,
+   "g_noise": 0.35624808073043823,
+   "stoi": 0.9808100480330031,
+   "stoi_noisy": 0.9780469787750208,
+   "pesq": 2.1681976318359375,
+   "pesq_noisy": 1.898655891418457,
+   "sisdr": 11.575473002072549,
+   "sisdr_noisy": 7.654948227750657
+  },
+  {
+   "id": "test_000145",
+   "snr_db": 19.66,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.8170369267463684,
+   "g_noise": 0.2892394959926605,
+   "stoi": 0.9643113841642487,
+   "stoi_noisy": 0.9692050680124407,
+   "pesq": 1.974668025970459,
+   "pesq_noisy": 1.962693452835083,
+   "sisdr": 21.06035106388305,
+   "sisdr_noisy": 18.914337552345717
+  },
+  {
+   "id": "test_000146",
+   "snr_db": 2.821,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.5026809573173523,
+   "g_noise": 0.20140184462070465,
+   "stoi": 0.7749106369454655,
+   "stoi_noisy": 0.7212241164886684,
+   "pesq": 1.273510217666626,
+   "pesq_noisy": 1.0994949340820312,
+   "sisdr": 9.628131632675613,
+   "sisdr_noisy": 0.5609368270738541
+  },
+  {
+   "id": "test_000147",
+   "snr_db": 8.574,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.5983791351318359,
+   "g_noise": 0.38487935066223145,
+   "stoi": 0.8278049060937136,
+   "stoi_noisy": 0.8209327556714436,
+   "pesq": 1.5258913040161133,
+   "pesq_noisy": 1.382527232170105,
+   "sisdr": 11.469568202951194,
+   "sisdr_noisy": 8.38084841865747
+  },
+  {
+   "id": "test_000148",
+   "snr_db": 14.288,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.7236072421073914,
+   "g_noise": 0.1379099041223526,
+   "stoi": 0.9609943395220159,
+   "stoi_noisy": 0.9573518974957089,
+   "pesq": 2.1201682090759277,
+   "pesq_noisy": 1.3576924800872803,
+   "sisdr": 16.271517861242376,
+   "sisdr_noisy": 8.76178738824853
+  },
+  {
+   "id": "test_000149",
+   "snr_db": 12.137,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.8976864218711853,
+   "g_noise": 0.492053747177124,
+   "stoi": 0.9104463864737888,
+   "stoi_noisy": 0.8688611948456042,
+   "pesq": 2.107837677001953,
+   "pesq_noisy": 1.709524154663086,
+   "sisdr": 15.088381870917406,
+   "sisdr_noisy": 11.640707546849598
+  },
+  {
+   "id": "test_000150",
+   "snr_db": -4.696,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.30321764945983887,
+   "g_noise": 0.22285141050815582,
+   "stoi": 0.6885505008899514,
+   "stoi_noisy": 0.6660797773536645,
+   "pesq": 1.0900404453277588,
+   "pesq_noisy": 1.0753870010375977,
+   "sisdr": -1.9575342454036626,
+   "sisdr_noisy": -5.8746532637809405
+  },
+  {
+   "id": "test_000151",
+   "snr_db": 5.424,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.43502599000930786,
+   "g_noise": 0.15360581874847412,
+   "stoi": 0.8929297952106787,
+   "stoi_noisy": 0.9182955168619436,
+   "pesq": 1.4487888813018799,
+   "pesq_noisy": 1.298301339149475,
+   "sisdr": 9.53483922299775,
+   "sisdr_noisy": 1.0303382136942807
+  },
+  {
+   "id": "test_000152",
+   "snr_db": 9.392,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.893403172492981,
+   "g_noise": 0.45967963337898254,
+   "stoi": 0.970554293012392,
+   "stoi_noisy": 0.9519936021349176,
+   "pesq": 2.0722463130950928,
+   "pesq_noisy": 1.5054521560668945,
+   "sisdr": 11.622760591310872,
+   "sisdr_noisy": 7.085700372866697
+  },
+  {
+   "id": "test_000153",
+   "snr_db": 5.455,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.9117375016212463,
+   "g_noise": 0.5309096574783325,
+   "stoi": 0.9004894752251771,
+   "stoi_noisy": 0.8882693516254474,
+   "pesq": 1.4492336511611938,
+   "pesq_noisy": 1.3398606777191162,
+   "sisdr": 10.406596278126596,
+   "sisdr_noisy": 5.373272526552823
+  },
+  {
+   "id": "test_000154",
+   "snr_db": 3.237,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.3444357216358185,
+   "g_noise": 0.13422982394695282,
+   "stoi": 0.8205496006542278,
+   "stoi_noisy": 0.7795292216657943,
+   "pesq": 1.3846583366394043,
+   "pesq_noisy": 1.0789669752120972,
+   "sisdr": 11.815856043520888,
+   "sisdr_noisy": 0.004299912049747244
+  },
+  {
+   "id": "test_000155",
+   "snr_db": -1.58,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.6264516711235046,
+   "g_noise": 0.14249396324157715,
+   "stoi": 0.6472339739248064,
+   "stoi_noisy": 0.5810526483272627,
+   "pesq": 1.1200929880142212,
+   "pesq_noisy": 1.1211483478546143,
+   "sisdr": 1.7071814377774588,
+   "sisdr_noisy": -2.708481526127585
+  },
+  {
+   "id": "test_000156",
+   "snr_db": -5.181,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.4591274559497833,
+   "g_noise": 0.40516817569732666,
+   "stoi": 0.6250734413307298,
+   "stoi_noisy": 0.6059073356035835,
+   "pesq": 1.1490850448608398,
+   "pesq_noisy": 1.099727988243103,
+   "sisdr": 0.9158615916919393,
+   "sisdr_noisy": -5.806701286408314
+  },
+  {
+   "id": "test_000157",
+   "snr_db": -3.935,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.5878960490226746,
+   "g_noise": 0.34637364745140076,
+   "stoi": 0.786510003841012,
+   "stoi_noisy": 0.7277802864035007,
+   "pesq": 1.1084535121917725,
+   "pesq_noisy": 1.0861760377883911,
+   "sisdr": 1.650342669084249,
+   "sisdr_noisy": -5.093346902280672
+  },
+  {
+   "id": "test_000158",
+   "snr_db": 7.415,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.4977043867111206,
+   "g_noise": 0.2303127646446228,
+   "stoi": 0.888186758495613,
+   "stoi_noisy": 0.8378246812426245,
+   "pesq": 1.8155326843261719,
+   "pesq_noisy": 1.4077352285385132,
+   "sisdr": 10.492366037358472,
+   "sisdr_noisy": 4.891426359786542
+  },
+  {
+   "id": "test_000159",
+   "snr_db": 3.946,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.5588217973709106,
+   "g_noise": 0.2538054883480072,
+   "stoi": 0.8050343008084969,
+   "stoi_noisy": 0.8111935168333395,
+   "pesq": 1.2858941555023193,
+   "pesq_noisy": 1.178968906402588,
+   "sisdr": 8.905935137302167,
+   "sisdr_noisy": 1.8590253881856436
+  },
+  {
+   "id": "test_000160",
+   "snr_db": 5.699,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.3958682715892792,
+   "g_noise": 0.31895044445991516,
+   "stoi": 0.8665533046041042,
+   "stoi_noisy": 0.879442004290495,
+   "pesq": 1.4924300909042358,
+   "pesq_noisy": 1.300217628479004,
+   "sisdr": 9.271889165315923,
+   "sisdr_noisy": 5.272559280808525
+  },
+  {
+   "id": "test_000161",
+   "snr_db": -1.775,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.758703887462616,
+   "g_noise": 0.39587968587875366,
+   "stoi": 0.9105209755516012,
+   "stoi_noisy": 0.9031640085278358,
+   "pesq": 1.266606092453003,
+   "pesq_noisy": 1.239970088005066,
+   "sisdr": 1.9976076458058736,
+   "sisdr_noisy": -3.2998275346476125
+  },
+  {
+   "id": "test_000162",
+   "snr_db": 12.367,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.6035758852958679,
+   "g_noise": 0.12279031425714493,
+   "stoi": 0.8824729568949263,
+   "stoi_noisy": 0.8595263649994491,
+   "pesq": 1.6102018356323242,
+   "pesq_noisy": 1.0508478879928589,
+   "sisdr": 16.843706297200363,
+   "sisdr_noisy": 7.932686492287351
+  },
+  {
+   "id": "test_000163",
+   "snr_db": 13.072,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.7967727184295654,
+   "g_noise": 0.5015382170677185,
+   "stoi": 0.9339477390021985,
+   "stoi_noisy": 0.9054400321345347,
+   "pesq": 2.311387538909912,
+   "pesq_noisy": 1.9586057662963867,
+   "sisdr": 15.395842798980803,
+   "sisdr_noisy": 11.762035246476902
+  },
+  {
+   "id": "test_000164",
+   "snr_db": 2.747,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.3821098804473877,
+   "g_noise": 0.2154310792684555,
+   "stoi": 0.7541679081021828,
+   "stoi_noisy": 0.7268832920059064,
+   "pesq": 1.253606915473938,
+   "pesq_noisy": 1.1905230283737183,
+   "sisdr": 8.618182424525187,
+   "sisdr_noisy": 2.729165928892642
+  },
+  {
+   "id": "test_000165",
+   "snr_db": 18.177,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.873203694820404,
+   "g_noise": 0.4010097086429596,
+   "stoi": 0.9830320695273004,
+   "stoi_noisy": 0.9811576121951573,
+   "pesq": 2.658175468444824,
+   "pesq_noisy": 2.1901626586914062,
+   "sisdr": 19.429523803813943,
+   "sisdr_noisy": 17.58321965270348
+  },
+  {
+   "id": "test_000166",
+   "snr_db": 18.29,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.8269609808921814,
+   "g_noise": 0.24809354543685913,
+   "stoi": 0.9839894870295596,
+   "stoi_noisy": 0.9822032336290977,
+   "pesq": 2.2708921432495117,
+   "pesq_noisy": 1.441931962966919,
+   "sisdr": 19.495024173385282,
+   "sisdr_noisy": 14.411986596991538
+  },
+  {
+   "id": "test_000167",
+   "snr_db": -5.458,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.5535004138946533,
+   "g_noise": 0.38910987973213196,
+   "stoi": 0.7229841608388372,
+   "stoi_noisy": 0.6642500519519949,
+   "pesq": 1.099805474281311,
+   "pesq_noisy": 1.0616637468338013,
+   "sisdr": 0.08828154348148429,
+   "sisdr_noisy": -6.5293256443863
+  },
+  {
+   "id": "test_000168",
+   "snr_db": 14.285,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.8367016315460205,
+   "g_noise": 0.22027520835399628,
+   "stoi": 0.9533528977957978,
+   "stoi_noisy": 0.9449423914777765,
+   "pesq": 2.683981418609619,
+   "pesq_noisy": 1.5056875944137573,
+   "sisdr": 18.13444404021465,
+   "sisdr_noisy": 12.60018892110552
+  },
+  {
+   "id": "test_000169",
+   "snr_db": 15.87,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.7529999017715454,
+   "g_noise": 0.22160044312477112,
+   "stoi": 0.9480746302160302,
+   "stoi_noisy": 0.9407678519374341,
+   "pesq": 2.2387712001800537,
+   "pesq_noisy": 1.4740158319473267,
+   "sisdr": 18.54557005337052,
+   "sisdr_noisy": 14.030700674437542
+  },
+  {
+   "id": "test_000170",
+   "snr_db": 19.891,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.9120956063270569,
+   "g_noise": 0.27657318115234375,
+   "stoi": 0.9764861247908969,
+   "stoi_noisy": 0.9715614506033583,
+   "pesq": 2.804100751876831,
+   "pesq_noisy": 2.1369786262512207,
+   "sisdr": 21.06632588839281,
+   "sisdr_noisy": 16.278788824743128
+  },
+  {
+   "id": "test_000171",
+   "snr_db": 4.161,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.6118603348731995,
+   "g_noise": 0.07174406945705414,
+   "stoi": 0.896434236750795,
+   "stoi_noisy": 0.7401948140122705,
+   "pesq": 1.7249468564987183,
+   "pesq_noisy": 1.412534475326538,
+   "sisdr": 12.875538942124429,
+   "sisdr_noisy": 0.05684650292758543
+  },
+  {
+   "id": "test_000172",
+   "snr_db": -8.724,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.1787426918745041,
+   "g_noise": 0.23933880031108856,
+   "stoi": 0.5887365176667148,
+   "stoi_noisy": 0.6787406872688962,
+   "pesq": 1.0387836694717407,
+   "pesq_noisy": 1.0749894380569458,
+   "sisdr": -10.934405233600959,
+   "sisdr_noisy": -11.77213971599869
+  },
+  {
+   "id": "test_000173",
+   "snr_db": 8.7,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.540874719619751,
+   "g_noise": 0.2215779572725296,
+   "stoi": 0.8078441855720689,
+   "stoi_noisy": 0.8104765766940072,
+   "pesq": 1.4069761037826538,
+   "pesq_noisy": 1.1206543445587158,
+   "sisdr": 13.197043938371378,
+   "sisdr_noisy": 7.664508376936191
+  },
+  {
+   "id": "test_000174",
+   "snr_db": -9.069,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.7314386963844299,
+   "g_noise": 0.3347303867340088,
+   "stoi": 0.8749001992233386,
+   "stoi_noisy": 0.8797413226400146,
+   "pesq": 1.0387864112854004,
+   "pesq_noisy": 1.0681524276733398,
+   "sisdr": -7.937431147838446,
+   "sisdr_noisy": -13.161912515810943
+  },
+  {
+   "id": "test_000175",
+   "snr_db": 6.481,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8831802010536194,
+   "g_noise": 0.4304685890674591,
+   "stoi": 0.9454387034149818,
+   "stoi_noisy": 0.93122976120407,
+   "pesq": 1.8312931060791016,
+   "pesq_noisy": 1.678724765777588,
+   "sisdr": 7.755666483225262,
+   "sisdr_noisy": 3.1041611548235175
+  },
+  {
+   "id": "test_000176",
+   "snr_db": -9.869,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.45201101899147034,
+   "g_noise": 0.3222869038581848,
+   "stoi": 0.5073724408588437,
+   "stoi_noisy": 0.5370006360924764,
+   "pesq": 1.07786226272583,
+   "pesq_noisy": 1.0815131664276123,
+   "sisdr": -8.708032120158029,
+   "sisdr_noisy": -10.863450917373365
+  },
+  {
+   "id": "test_000177",
+   "snr_db": -9.224,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.3146839141845703,
+   "g_noise": 0.14451630413532257,
+   "stoi": 0.6501642539414227,
+   "stoi_noisy": 0.5935479682368873,
+   "pesq": 1.0937678813934326,
+   "pesq_noisy": 1.0989811420440674,
+   "sisdr": -10.133761489975514,
+   "sisdr_noisy": -12.352153232260111
+  },
+  {
+   "id": "test_000178",
+   "snr_db": -5.014,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.2376449555158615,
+   "g_noise": 0.18491007387638092,
+   "stoi": 0.6277541637645289,
+   "stoi_noisy": 0.6615853697512549,
+   "pesq": 1.046409249305725,
+   "pesq_noisy": 1.067299723625183,
+   "sisdr": -3.7914509768978792,
+   "sisdr_noisy": -7.855621034432082
+  },
+  {
+   "id": "test_000179",
+   "snr_db": -1.244,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8895496726036072,
+   "g_noise": 0.5839575529098511,
+   "stoi": 0.8839129274582332,
+   "stoi_noisy": 0.8578231566116462,
+   "pesq": 1.257516622543335,
+   "pesq_noisy": 1.127090573310852,
+   "sisdr": 2.34992431476339,
+   "sisdr_noisy": -2.8656332897318073
+  },
+  {
+   "id": "test_000180",
+   "snr_db": 3.927,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.38026702404022217,
+   "g_noise": 0.14384958148002625,
+   "stoi": 0.8728094299201367,
+   "stoi_noisy": 0.8054190268861515,
+   "pesq": 1.5876108407974243,
+   "pesq_noisy": 1.1661901473999023,
+   "sisdr": 8.908953336532052,
+   "sisdr_noisy": 0.24625310178045953
+  },
+  {
+   "id": "test_000181",
+   "snr_db": -6.441,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.5214421153068542,
+   "g_noise": 0.34151384234428406,
+   "stoi": 0.7175945722386982,
+   "stoi_noisy": 0.6857529291199197,
+   "pesq": 1.120330810546875,
+   "pesq_noisy": 1.136458158493042,
+   "sisdr": -4.012646965982703,
+   "sisdr_noisy": -7.391266980468586
+  },
+  {
+   "id": "test_000182",
+   "snr_db": -6.976,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.28729143738746643,
+   "g_noise": 0.17881609499454498,
+   "stoi": 0.6310058357111811,
+   "stoi_noisy": 0.5927091739691208,
+   "pesq": 1.100303053855896,
+   "pesq_noisy": 1.0559024810791016,
+   "sisdr": -1.365565565400243,
+   "sisdr_noisy": -9.73849362273713
+  },
+  {
+   "id": "test_000183",
+   "snr_db": 12.945,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.7585076093673706,
+   "g_noise": 0.16399672627449036,
+   "stoi": 0.934556785397108,
+   "stoi_noisy": 0.9078429710100266,
+   "pesq": 2.1039164066314697,
+   "pesq_noisy": 1.9486463069915771,
+   "sisdr": 16.12479711011996,
+   "sisdr_noisy": 9.071538964162883
+  },
+  {
+   "id": "test_000184",
+   "snr_db": -8.277,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.7155182361602783,
+   "g_noise": 0.5101451277732849,
+   "stoi": 0.8292657425481248,
+   "stoi_noisy": 0.8524357337757706,
+   "pesq": 1.0684664249420166,
+   "pesq_noisy": 1.0383362770080566,
+   "sisdr": -6.03437801912945,
+   "sisdr_noisy": -10.78273711124721
+  },
+  {
+   "id": "test_000185",
+   "snr_db": 12.323,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.5999225974082947,
+   "g_noise": 0.2578815817832947,
+   "stoi": 0.8271028670193544,
+   "stoi_noisy": 0.8306362291477732,
+   "pesq": 1.933788537979126,
+   "pesq_noisy": 1.148010015487671,
+   "sisdr": 15.597438541492126,
+   "sisdr_noisy": 10.842443370279366
+  },
+  {
+   "id": "test_000186",
+   "snr_db": -4.439,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.5453398823738098,
+   "g_noise": 0.20850953459739685,
+   "stoi": 0.6354794070674777,
+   "stoi_noisy": 0.6456510076540549,
+   "pesq": 1.086409091949463,
+   "pesq_noisy": 1.065365195274353,
+   "sisdr": 1.9555764267092037,
+   "sisdr_noisy": -8.4178119828393
+  },
+  {
+   "id": "test_000187",
+   "snr_db": 18.766,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.9389053583145142,
+   "g_noise": 0.33531737327575684,
+   "stoi": 0.9913149133828945,
+   "stoi_noisy": 0.9891844165443792,
+   "pesq": 3.328212022781372,
+   "pesq_noisy": 2.75667142868042,
+   "sisdr": 18.98103615924931,
+   "sisdr_noisy": 14.620748565129702
+  },
+  {
+   "id": "test_000188",
+   "snr_db": -6.798,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.76741623878479,
+   "g_noise": 0.459199458360672,
+   "stoi": 0.7289040352194199,
+   "stoi_noisy": 0.7199022380763654,
+   "pesq": 1.0333747863769531,
+   "pesq_noisy": 1.0601736307144165,
+   "sisdr": -3.79720838917422,
+   "sisdr_noisy": -9.51617159445379
+  },
+  {
+   "id": "test_000189",
+   "snr_db": 12.177,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.7366688251495361,
+   "g_noise": 0.40786346793174744,
+   "stoi": 0.7912215396429328,
+   "stoi_noisy": 0.7423036781469269,
+   "pesq": 1.79381263256073,
+   "pesq_noisy": 1.4885562658309937,
+   "sisdr": 13.672685247185093,
+   "sisdr_noisy": 9.346556746923746
+  },
+  {
+   "id": "test_000190",
+   "snr_db": -9.141,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.130598247051239,
+   "g_noise": 0.1331709772348404,
+   "stoi": 0.46497518920104636,
+   "stoi_noisy": 0.5235619163779739,
+   "pesq": 1.0412507057189941,
+   "pesq_noisy": 1.0440518856048584,
+   "sisdr": -8.967939933450808,
+   "sisdr_noisy": -13.8793280276745
+  },
+  {
+   "id": "test_000191",
+   "snr_db": 13.392,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.8719406723976135,
+   "g_noise": 0.4304333031177521,
+   "stoi": 0.9590567841361869,
+   "stoi_noisy": 0.9573721924758639,
+   "pesq": 2.200909376144409,
+   "pesq_noisy": 1.9146358966827393,
+   "sisdr": 16.156973098921167,
+   "sisdr_noisy": 13.349422638537305
+  },
+  {
+   "id": "test_000192",
+   "snr_db": 8.917,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.662835419178009,
+   "g_noise": 0.16044020652770996,
+   "stoi": 0.8803555183074931,
+   "stoi_noisy": 0.8613539880793604,
+   "pesq": 1.7583872079849243,
+   "pesq_noisy": 1.1040922403335571,
+   "sisdr": 14.78575417293905,
+   "sisdr_noisy": 8.872932955309583
+  },
+  {
+   "id": "test_000193",
+   "snr_db": 11.096,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.7713006734848022,
+   "g_noise": 0.379753440618515,
+   "stoi": 0.842229825100382,
+   "stoi_noisy": 0.8332227873968707,
+   "pesq": 1.6927268505096436,
+   "pesq_noisy": 1.5222747325897217,
+   "sisdr": 12.486138554798721,
+   "sisdr_noisy": 9.82112180321172
+  },
+  {
+   "id": "test_000194",
+   "snr_db": 13.729,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.8313111662864685,
+   "g_noise": 0.18075332045555115,
+   "stoi": 0.9342113009563181,
+   "stoi_noisy": 0.9206759623696885,
+   "pesq": 1.9524471759796143,
+   "pesq_noisy": 1.7817165851593018,
+   "sisdr": 17.663882023524813,
+   "sisdr_noisy": 10.935288065575275
+  },
+  {
+   "id": "test_000195",
+   "snr_db": 7.319,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.4275870621204376,
+   "g_noise": 0.13662372529506683,
+   "stoi": 0.862766727980632,
+   "stoi_noisy": 0.8369630111845583,
+   "pesq": 1.7720221281051636,
+   "pesq_noisy": 1.096128225326538,
+   "sisdr": 12.329917922268487,
+   "sisdr_noisy": 5.352924601388045
+  },
+  {
+   "id": "test_000196",
+   "snr_db": 13.423,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.7400794625282288,
+   "g_noise": 0.23685339093208313,
+   "stoi": 0.9349474777624129,
+   "stoi_noisy": 0.9104454406997623,
+   "pesq": 1.9639902114868164,
+   "pesq_noisy": 1.4680938720703125,
+   "sisdr": 16.700880577254644,
+   "sisdr_noisy": 10.62248495147027
+  },
+  {
+   "id": "test_000197",
+   "snr_db": 10.428,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.720928430557251,
+   "g_noise": 0.37949812412261963,
+   "stoi": 0.9435483064792111,
+   "stoi_noisy": 0.9120467358032083,
+   "pesq": 1.8525781631469727,
+   "pesq_noisy": 1.338262677192688,
+   "sisdr": 13.435667535080109,
+   "sisdr_noisy": 9.798281636113021
+  },
+  {
+   "id": "test_000198",
+   "snr_db": -8.248,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6179129481315613,
+   "g_noise": 0.28329774737358093,
+   "stoi": 0.6360641734694888,
+   "stoi_noisy": 0.5418092986413149,
+   "pesq": 1.0448442697525024,
+   "pesq_noisy": 1.0386146306991577,
+   "sisdr": -2.265201930733284,
+   "sisdr_noisy": -13.143400833028087
+  },
+  {
+   "id": "test_000199",
+   "snr_db": 4.443,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.7963059544563293,
+   "g_noise": 0.4479672610759735,
+   "stoi": 0.9519955150797771,
+   "stoi_noisy": 0.9366271588316727,
+   "pesq": 2.108671188354492,
+   "pesq_noisy": 1.7342333793640137,
+   "sisdr": 6.99671429744151,
+   "sisdr_noisy": 2.458368054605797
+  },
+  {
+   "id": "test_000200",
+   "snr_db": 6.956,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.5800922513008118,
+   "g_noise": 0.3625103235244751,
+   "stoi": 0.8828879429599701,
+   "stoi_noisy": 0.92293984665468,
+   "pesq": 1.3520004749298096,
+   "pesq_noisy": 1.5732920169830322,
+   "sisdr": 9.025752416235921,
+   "sisdr_noisy": 6.084315677555522
+  },
+  {
+   "id": "test_000201",
+   "snr_db": -5.547,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.5995776653289795,
+   "g_noise": 0.3343721628189087,
+   "stoi": 0.7455560620255733,
+   "stoi_noisy": 0.7491325754074245,
+   "pesq": 1.0286505222320557,
+   "pesq_noisy": 1.037193775177002,
+   "sisdr": -3.0768856820672412,
+   "sisdr_noisy": -7.0786054973437835
+  },
+  {
+   "id": "test_000202",
+   "snr_db": -9.767,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.11154922842979431,
+   "g_noise": 0.1167873740196228,
+   "stoi": 0.46072573532585936,
+   "stoi_noisy": 0.5538463927044622,
+   "pesq": 1.0284616947174072,
+   "pesq_noisy": 1.0391743183135986,
+   "sisdr": -5.40591333495729,
+   "sisdr_noisy": -14.426975859371598
+  },
+  {
+   "id": "test_000203",
+   "snr_db": 12.489,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.8263465166091919,
+   "g_noise": 0.2547839879989624,
+   "stoi": 0.9771067256574794,
+   "stoi_noisy": 0.9665902371856864,
+   "pesq": 2.3024420738220215,
+   "pesq_noisy": 1.8526277542114258,
+   "sisdr": 16.75643059283515,
+   "sisdr_noisy": 12.21325958209067
+  },
+  {
+   "id": "test_000204",
+   "snr_db": 1.568,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.6594666242599487,
+   "g_noise": 0.5094704627990723,
+   "stoi": 0.778808227924883,
+   "stoi_noisy": 0.7334496824793875,
+   "pesq": 1.2953534126281738,
+   "pesq_noisy": 1.1885123252868652,
+   "sisdr": 5.164748238177065,
+   "sisdr_noisy": 0.9921386020792999
+  },
+  {
+   "id": "test_000205",
+   "snr_db": -1.331,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.3591139316558838,
+   "g_noise": 0.12182597070932388,
+   "stoi": 0.7773352283163478,
+   "stoi_noisy": 0.7400309581125472,
+   "pesq": 1.1937750577926636,
+   "pesq_noisy": 1.0216515064239502,
+   "sisdr": 6.416449767660568,
+   "sisdr_noisy": -3.224117891679104
+  },
+  {
+   "id": "test_000206",
+   "snr_db": 16.919,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.8576356768608093,
+   "g_noise": 0.26095178723335266,
+   "stoi": 0.9730688895126131,
+   "stoi_noisy": 0.9790120208659,
+   "pesq": 2.236104965209961,
+   "pesq_noisy": 1.6438829898834229,
+   "sisdr": 18.604325825948788,
+   "sisdr_noisy": 13.785519372927746
+  },
+  {
+   "id": "test_000207",
+   "snr_db": 18.377,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.8419113159179688,
+   "g_noise": 0.18640972673892975,
+   "stoi": 0.9478919213947403,
+   "stoi_noisy": 0.9337667459331529,
+   "pesq": 2.8188934326171875,
+   "pesq_noisy": 1.5765933990478516,
+   "sisdr": 22.647750047347394,
+   "sisdr_noisy": 16.571036409073013
+  },
+  {
+   "id": "test_000208",
+   "snr_db": -2.866,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.2798873782157898,
+   "g_noise": 0.11135225743055344,
+   "stoi": 0.6946758243350519,
+   "stoi_noisy": 0.6181025746847555,
+   "pesq": 1.27202570438385,
+   "pesq_noisy": 1.0944252014160156,
+   "sisdr": 5.692218499952004,
+   "sisdr_noisy": -5.541972142716607
+  },
+  {
+   "id": "test_000209",
+   "snr_db": -7.451,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8012558221817017,
+   "g_noise": 0.5215755105018616,
+   "stoi": 0.8934335088751657,
+   "stoi_noisy": 0.8754368167636551,
+   "pesq": 1.1031757593154907,
+   "pesq_noisy": 1.1180089712142944,
+   "sisdr": -3.8661022159107388,
+   "sisdr_noisy": -7.562327199189046
+  },
+  {
+   "id": "test_000210",
+   "snr_db": 5.206,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.709096372127533,
+   "g_noise": 0.26252004504203796,
+   "stoi": 0.8286073885714222,
+   "stoi_noisy": 0.7921209468385909,
+   "pesq": 1.5012826919555664,
+   "pesq_noisy": 1.1541528701782227,
+   "sisdr": 10.88551552515575,
+   "sisdr_noisy": 4.249416521270771
+  },
+  {
+   "id": "test_000211",
+   "snr_db": 14.898,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.7487841248512268,
+   "g_noise": 0.39391428232192993,
+   "stoi": 0.960738479396634,
+   "stoi_noisy": 0.9586064110227178,
+   "pesq": 2.727010488510132,
+   "pesq_noisy": 1.8631316423416138,
+   "sisdr": 17.23866416442515,
+   "sisdr_noisy": 13.900364563174463
+  },
+  {
+   "id": "test_000212",
+   "snr_db": 15.016,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8721932172775269,
+   "g_noise": 0.24587422609329224,
+   "stoi": 0.9742867687592446,
+   "stoi_noisy": 0.9610100137135866,
+   "pesq": 2.5080385208129883,
+   "pesq_noisy": 1.943540334701538,
+   "sisdr": 18.20255316125011,
+   "sisdr_noisy": 12.209889978303966
+  },
+  {
+   "id": "test_000213",
+   "snr_db": 14.003,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.7858147025108337,
+   "g_noise": 0.24895372986793518,
+   "stoi": 0.9815512535526252,
+   "stoi_noisy": 0.9688711581701622,
+   "pesq": 2.724952220916748,
+   "pesq_noisy": 1.65134859085083,
+   "sisdr": 18.528286015860854,
+   "sisdr_noisy": 13.355213549897035
+  },
+  {
+   "id": "test_000214",
+   "snr_db": 16.897,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.7400200366973877,
+   "g_noise": 0.22092969715595245,
+   "stoi": 0.9645136397966066,
+   "stoi_noisy": 0.9679468221886272,
+   "pesq": 2.4667088985443115,
+   "pesq_noisy": 1.6916791200637817,
+   "sisdr": 20.148851869195795,
+   "sisdr_noisy": 15.455097114302792
+  },
+  {
+   "id": "test_000215",
+   "snr_db": 10.032,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.8165679574012756,
+   "g_noise": 0.42404040694236755,
+   "stoi": 0.867141051667502,
+   "stoi_noisy": 0.8431039435521426,
+   "pesq": 1.6431972980499268,
+   "pesq_noisy": 1.2727380990982056,
+   "sisdr": 12.87955268605419,
+   "sisdr_noisy": 9.31971425330182
+  },
+  {
+   "id": "test_000216",
+   "snr_db": -7.619,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.4660775065422058,
+   "g_noise": 0.25600484013557434,
+   "stoi": 0.6450162972416329,
+   "stoi_noisy": 0.686240423788532,
+   "pesq": 1.4278209209442139,
+   "pesq_noisy": 1.0971143245697021,
+   "sisdr": -7.992936826306053,
+   "sisdr_noisy": -11.15680650427115
+  },
+  {
+   "id": "test_000217",
+   "snr_db": -6.731,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.5450126528739929,
+   "g_noise": 0.41689544916152954,
+   "stoi": 0.7829622387288908,
+   "stoi_noisy": 0.750286736608002,
+   "pesq": 1.1466561555862427,
+   "pesq_noisy": 1.2445968389511108,
+   "sisdr": -4.380229894453747,
+   "sisdr_noisy": -8.584659123612099
+  },
+  {
+   "id": "test_000218",
+   "snr_db": 5.573,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6850118637084961,
+   "g_noise": 0.5588721632957458,
+   "stoi": 0.8971938165822915,
+   "stoi_noisy": 0.857929535789448,
+   "pesq": 1.5839598178863525,
+   "pesq_noisy": 1.1831648349761963,
+   "sisdr": 8.754795066328189,
+   "sisdr_noisy": 5.20965264044036
+  },
+  {
+   "id": "test_000219",
+   "snr_db": -0.226,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.22873927652835846,
+   "g_noise": 0.14628587663173676,
+   "stoi": 0.7483910749847555,
+   "stoi_noisy": 0.7397907671950738,
+   "pesq": 1.0785613059997559,
+   "pesq_noisy": 1.0770105123519897,
+   "sisdr": 2.058919712048207,
+   "sisdr_noisy": -2.862525991511818
+  },
+  {
+   "id": "test_000220",
+   "snr_db": -0.038,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8237618803977966,
+   "g_noise": 0.4875796437263489,
+   "stoi": 0.8730248668292989,
+   "stoi_noisy": 0.8797355201516746,
+   "pesq": 1.2154080867767334,
+   "pesq_noisy": 1.1732923984527588,
+   "sisdr": 4.685240044550849,
+   "sisdr_noisy": -1.6400866839521093
+  },
+  {
+   "id": "test_000221",
+   "snr_db": 11.979,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.7607502937316895,
+   "g_noise": 0.10559634864330292,
+   "stoi": 0.974857155826654,
+   "stoi_noisy": 0.9729860762567417,
+   "pesq": 1.652586579322815,
+   "pesq_noisy": 1.472745418548584,
+   "sisdr": 14.02482244629029,
+   "sisdr_noisy": 6.9095833808042055
+  },
+  {
+   "id": "test_000222",
+   "snr_db": 14.483,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.654085099697113,
+   "g_noise": 0.21981512010097504,
+   "stoi": 0.9638352520676323,
+   "stoi_noisy": 0.9841842579580012,
+   "pesq": 2.0377988815307617,
+   "pesq_noisy": 1.7416648864746094,
+   "sisdr": 13.531600904995083,
+   "sisdr_noisy": 12.958551341068038
+  },
+  {
+   "id": "test_000223",
+   "snr_db": 9.423,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.5271784067153931,
+   "g_noise": 0.147992804646492,
+   "stoi": 0.9545584537142612,
+   "stoi_noisy": 0.9291798506461476,
+   "pesq": 2.0965445041656494,
+   "pesq_noisy": 1.3329302072525024,
+   "sisdr": 13.126440048001056,
+   "sisdr_noisy": 7.708535114390025
+  },
+  {
+   "id": "test_000224",
+   "snr_db": -5.675,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.751057505607605,
+   "g_noise": 0.5148524045944214,
+   "stoi": 0.9269125301252102,
+   "stoi_noisy": 0.8990541712608593,
+   "pesq": 1.3101282119750977,
+   "pesq_noisy": 1.2991864681243896,
+   "sisdr": -4.956824691272109,
+   "sisdr_noisy": -8.343652947435299
+  },
+  {
+   "id": "test_000225",
+   "snr_db": 1.004,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8271105885505676,
+   "g_noise": 0.4743807017803192,
+   "stoi": 0.9522286642936176,
+   "stoi_noisy": 0.9347309394855217,
+   "pesq": 1.5193126201629639,
+   "pesq_noisy": 1.3559584617614746,
+   "sisdr": 5.149464836514373,
+   "sisdr_noisy": 0.3533801755615879
+  },
+  {
+   "id": "test_000226",
+   "snr_db": -6.187,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.1848096251487732,
+   "g_noise": 0.12667907774448395,
+   "stoi": 0.7591918711147282,
+   "stoi_noisy": 0.71271686773327,
+   "pesq": 1.15232515335083,
+   "pesq_noisy": 1.190983772277832,
+   "sisdr": 0.3074970709059888,
+   "sisdr_noisy": -7.531475639408657
+  },
+  {
+   "id": "test_000227",
+   "snr_db": 8.266,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.7518051862716675,
+   "g_noise": 0.381397008895874,
+   "stoi": 0.9461196225845596,
+   "stoi_noisy": 0.9323604991705929,
+   "pesq": 1.768743872642517,
+   "pesq_noisy": 1.332465648651123,
+   "sisdr": 11.439431573862057,
+   "sisdr_noisy": 6.723388853913917
+  },
+  {
+   "id": "test_000228",
+   "snr_db": 18.33,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.9537839293479919,
+   "g_noise": 0.2851109802722931,
+   "stoi": 0.9656277234865506,
+   "stoi_noisy": 0.9502520426068256,
+   "pesq": 2.04274582862854,
+   "pesq_noisy": 1.6722984313964844,
+   "sisdr": 20.27492403661428,
+   "sisdr_noisy": 16.277714010674984
+  },
+  {
+   "id": "test_000229",
+   "snr_db": -0.323,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6606444716453552,
+   "g_noise": 0.176360085606575,
+   "stoi": 0.7794533792343844,
+   "stoi_noisy": 0.7601265301683846,
+   "pesq": 1.3285446166992188,
+   "pesq_noisy": 1.1844213008880615,
+   "sisdr": 7.715182505457366,
+   "sisdr_noisy": -3.049385989472796
+  },
+  {
+   "id": "test_000230",
+   "snr_db": -4.406,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.6939519643783569,
+   "g_noise": 0.44572973251342773,
+   "stoi": 0.9102155048056225,
+   "stoi_noisy": 0.892582118214329,
+   "pesq": 1.2760989665985107,
+   "pesq_noisy": 1.2407753467559814,
+   "sisdr": -4.8468590233749085,
+   "sisdr_noisy": -9.262807134581202
+  },
+  {
+   "id": "test_000231",
+   "snr_db": -0.799,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.34577277302742004,
+   "g_noise": 0.20009565353393555,
+   "stoi": 0.7990780441365918,
+   "stoi_noisy": 0.7584778804325817,
+   "pesq": 1.5055464506149292,
+   "pesq_noisy": 1.1173229217529297,
+   "sisdr": 8.265668389986384,
+   "sisdr_noisy": -1.064645477482824
+  },
+  {
+   "id": "test_000232",
+   "snr_db": -4.664,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.24101269245147705,
+   "g_noise": 0.1869652420282364,
+   "stoi": 0.5870276120790646,
+   "stoi_noisy": 0.5456815098165946,
+   "pesq": 1.0654802322387695,
+   "pesq_noisy": 1.1036255359649658,
+   "sisdr": 2.028875673720959,
+   "sisdr_noisy": -5.812351672732287
+  },
+  {
+   "id": "test_000233",
+   "snr_db": -6.578,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.26584315299987793,
+   "g_noise": 0.08303375542163849,
+   "stoi": 0.745617176102472,
+   "stoi_noisy": 0.539588283076395,
+   "pesq": 1.2183505296707153,
+   "pesq_noisy": 1.3550341129302979,
+   "sisdr": 5.733216065206632,
+   "sisdr_noisy": -10.178573328412174
+  },
+  {
+   "id": "test_000234",
+   "snr_db": 0.341,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.3077734410762787,
+   "g_noise": 0.1646915227174759,
+   "stoi": 0.7261258931359077,
+   "stoi_noisy": 0.6673671564777848,
+   "pesq": 1.1641733646392822,
+   "pesq_noisy": 1.1530295610427856,
+   "sisdr": 4.327416368328697,
+   "sisdr_noisy": -2.340603162209552
+  },
+  {
+   "id": "test_000235",
+   "snr_db": 2.278,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6100064516067505,
+   "g_noise": 0.3064226806163788,
+   "stoi": 0.790476956591912,
+   "stoi_noisy": 0.7767258943209302,
+   "pesq": 1.2671318054199219,
+   "pesq_noisy": 1.129994511604309,
+   "sisdr": 5.9270114868174115,
+   "sisdr_noisy": -0.8326029607885301
+  },
+  {
+   "id": "test_000236",
+   "snr_db": -1.111,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.523865282535553,
+   "g_noise": 0.2067541480064392,
+   "stoi": 0.7027408303880223,
+   "stoi_noisy": 0.6889842736424001,
+   "pesq": 1.1378471851348877,
+   "pesq_noisy": 1.0567853450775146,
+   "sisdr": 4.817223060960047,
+   "sisdr_noisy": -2.8307131843198436
+  },
+  {
+   "id": "test_000237",
+   "snr_db": 18.093,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.7599320411682129,
+   "g_noise": 0.2878265082836151,
+   "stoi": 0.9759777396584898,
+   "stoi_noisy": 0.976261335157062,
+   "pesq": 2.553417921066284,
+   "pesq_noisy": 2.502638578414917,
+   "sisdr": 16.858308273284948,
+   "sisdr_noisy": 16.467765965915802
+  },
+  {
+   "id": "test_000238",
+   "snr_db": -7.353,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.5214041471481323,
+   "g_noise": 0.4889242351055145,
+   "stoi": 0.6428464309432504,
+   "stoi_noisy": 0.6417023546102774,
+   "pesq": 1.1327893733978271,
+   "pesq_noisy": 1.1572130918502808,
+   "sisdr": -5.310360316982278,
+   "sisdr_noisy": -7.822056488109142
+  },
+  {
+   "id": "test_000239",
+   "snr_db": 18.227,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.8635339736938477,
+   "g_noise": 0.3087194263935089,
+   "stoi": 0.9942636139597564,
+   "stoi_noisy": 0.9913410458030741,
+   "pesq": 2.9864237308502197,
+   "pesq_noisy": 1.9478949308395386,
+   "sisdr": 21.65464122752355,
+   "sisdr_noisy": 17.333670303001877
+  },
+  {
+   "id": "test_000240",
+   "snr_db": 6.246,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.8967233896255493,
+   "g_noise": 0.41917553544044495,
+   "stoi": 0.9525336487884944,
+   "stoi_noisy": 0.9373785441344838,
+   "pesq": 1.4984899759292603,
+   "pesq_noisy": 1.3759074211120605,
+   "sisdr": 9.250383523011578,
+   "sisdr_noisy": 6.1537187762365235
+  },
+  {
+   "id": "test_000241",
+   "snr_db": 10.282,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.6387923359870911,
+   "g_noise": 0.27180078625679016,
+   "stoi": 0.9141990943166031,
+   "stoi_noisy": 0.9075341221127335,
+   "pesq": 1.6794052124023438,
+   "pesq_noisy": 1.6580448150634766,
+   "sisdr": 11.345341261253932,
+   "sisdr_noisy": 8.279969447523094
+  },
+  {
+   "id": "test_000242",
+   "snr_db": 18.071,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.8223851919174194,
+   "g_noise": 0.29388749599456787,
+   "stoi": 0.9716596399864265,
+   "stoi_noisy": 0.9665904385808807,
+   "pesq": 2.437408447265625,
+   "pesq_noisy": 1.372411847114563,
+   "sisdr": 20.287803374009556,
+   "sisdr_noisy": 15.673707790296717
+  },
+  {
+   "id": "test_000243",
+   "snr_db": -9.587,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.17633028328418732,
+   "g_noise": 0.16455048322677612,
+   "stoi": 0.5325959250501977,
+   "stoi_noisy": 0.44105310549750826,
+   "pesq": 1.2299853563308716,
+   "pesq_noisy": 1.1096566915512085,
+   "sisdr": 2.544057363808443,
+   "sisdr_noisy": -9.648972629971693
+  },
+  {
+   "id": "test_000244",
+   "snr_db": -9.156,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.34648260474205017,
+   "g_noise": 0.20876383781433105,
+   "stoi": 0.49001186133165625,
+   "stoi_noisy": 0.5717890214712096,
+   "pesq": 1.0567539930343628,
+   "pesq_noisy": 1.1022653579711914,
+   "sisdr": -8.694968767418953,
+   "sisdr_noisy": -10.547644107761569
+  },
+  {
+   "id": "test_000245",
+   "snr_db": 11.919,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.7435225248336792,
+   "g_noise": 0.22118203341960907,
+   "stoi": 0.9424229182856448,
+   "stoi_noisy": 0.931996438050959,
+   "pesq": 1.8061754703521729,
+   "pesq_noisy": 1.3898396492004395,
+   "sisdr": 13.612396115710474,
+   "sisdr_noisy": 11.23456579190269
+  },
+  {
+   "id": "test_000246",
+   "snr_db": 6.252,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.5887433886528015,
+   "g_noise": 0.29255586862564087,
+   "stoi": 0.8231057977431473,
+   "stoi_noisy": 0.7458681165873303,
+   "pesq": 1.6570463180541992,
+   "pesq_noisy": 1.570053219795227,
+   "sisdr": 8.907711751308057,
+   "sisdr_noisy": 1.952974917366864
+  },
+  {
+   "id": "test_000247",
+   "snr_db": 3.567,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.5420081615447998,
+   "g_noise": 0.1335866004228592,
+   "stoi": 0.8723255290109696,
+   "stoi_noisy": 0.8291912357966214,
+   "pesq": 1.7697392702102661,
+   "pesq_noisy": 1.2505154609680176,
+   "sisdr": 12.650555148906848,
+   "sisdr_noisy": 2.6684170361913178
+  },
+  {
+   "id": "test_000248",
+   "snr_db": 14.586,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.7651980519294739,
+   "g_noise": 0.1394544094800949,
+   "stoi": 0.9527426867537391,
+   "stoi_noisy": 0.9253871372997704,
+   "pesq": 2.2793827056884766,
+   "pesq_noisy": 1.8554948568344116,
+   "sisdr": 19.762878534025454,
+   "sisdr_noisy": 12.352253086186316
+  },
+  {
+   "id": "test_000249",
+   "snr_db": 2.028,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.5858175754547119,
+   "g_noise": 0.31043586134910583,
+   "stoi": 0.8190496043322137,
+   "stoi_noisy": 0.732449168093011,
+   "pesq": 1.2949538230895996,
+   "pesq_noisy": 1.1513792276382446,
+   "sisdr": 9.154649313893733,
+   "sisdr_noisy": 0.21172804469177647
+  },
+  {
+   "id": "test_000250",
+   "snr_db": 10.725,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.7585228681564331,
+   "g_noise": 0.2370457500219345,
+   "stoi": 0.936977706993984,
+   "stoi_noisy": 0.9225830804458245,
+   "pesq": 1.6145539283752441,
+   "pesq_noisy": 1.3498034477233887,
+   "sisdr": 14.364727104070933,
+   "sisdr_noisy": 9.129752959450766
+  },
+  {
+   "id": "test_000251",
+   "snr_db": -4.014,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.28781670331954956,
+   "g_noise": 0.12620913982391357,
+   "stoi": 0.589983945028941,
+   "stoi_noisy": 0.5207197220164893,
+   "pesq": 1.0508002042770386,
+   "pesq_noisy": 1.0304644107818604,
+   "sisdr": 3.8258595757156866,
+   "sisdr_noisy": -7.927491284770848
+  },
+  {
+   "id": "test_000252",
+   "snr_db": -1.852,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.6097922921180725,
+   "g_noise": 0.14084526896476746,
+   "stoi": 0.9213835707617577,
+   "stoi_noisy": 0.865842693947414,
+   "pesq": 1.406408667564392,
+   "pesq_noisy": 1.3072011470794678,
+   "sisdr": 6.5245255618203295,
+   "sisdr_noisy": -5.764678775439233
+  },
+  {
+   "id": "test_000253",
+   "snr_db": -1.327,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8460729718208313,
+   "g_noise": 0.28450411558151245,
+   "stoi": 0.9128377208899368,
+   "stoi_noisy": 0.8925709966623092,
+   "pesq": 1.1513673067092896,
+   "pesq_noisy": 1.0226846933364868,
+   "sisdr": 0.09574268884486363,
+   "sisdr_noisy": -4.967126825282574
+  },
+  {
+   "id": "test_000254",
+   "snr_db": 18.186,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.924190104007721,
+   "g_noise": 0.3731482923030853,
+   "stoi": 0.9446850494403654,
+   "stoi_noisy": 0.9394918156334228,
+   "pesq": 2.3146657943725586,
+   "pesq_noisy": 2.0913522243499756,
+   "sisdr": 19.167969861037214,
+   "sisdr_noisy": 14.935514532038363
+  },
+  {
+   "id": "test_000255",
+   "snr_db": 5.247,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8831937909126282,
+   "g_noise": 0.36036205291748047,
+   "stoi": 0.9375237347484873,
+   "stoi_noisy": 0.9311306149460498,
+   "pesq": 1.5880982875823975,
+   "pesq_noisy": 1.5860955715179443,
+   "sisdr": 5.021925559787089,
+   "sisdr_noisy": -0.6587496628895648
+  },
+  {
+   "id": "test_000256",
+   "snr_db": 14.043,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.8208263516426086,
+   "g_noise": 0.16414079070091248,
+   "stoi": 0.9881194838852383,
+   "stoi_noisy": 0.9917697507327486,
+   "pesq": 2.5956056118011475,
+   "pesq_noisy": 2.0207576751708984,
+   "sisdr": 15.838938122998696,
+   "sisdr_noisy": 10.79065199677012
+  },
+  {
+   "id": "test_000257",
+   "snr_db": -2.557,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.31049466133117676,
+   "g_noise": 0.1516764611005783,
+   "stoi": 0.7634049936371141,
+   "stoi_noisy": 0.7387005786189106,
+   "pesq": 1.162810206413269,
+   "pesq_noisy": 1.2067493200302124,
+   "sisdr": 3.159358751517342,
+   "sisdr_noisy": -3.5868327114457017
+  },
+  {
+   "id": "test_000258",
+   "snr_db": -8.126,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.1537283957004547,
+   "g_noise": 0.12923042476177216,
+   "stoi": 0.47996265889152284,
+   "stoi_noisy": 0.47555540853726036,
+   "pesq": 1.071864366531372,
+   "pesq_noisy": 1.0442900657653809,
+   "sisdr": 4.624380356898037,
+   "sisdr_noisy": -9.090209002219492
+  },
+  {
+   "id": "test_000259",
+   "snr_db": 10.543,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.6339017748832703,
+   "g_noise": 0.09566909074783325,
+   "stoi": 0.9363250425578625,
+   "stoi_noisy": 0.8746422235007774,
+   "pesq": 2.165956497192383,
+   "pesq_noisy": 1.840155005455017,
+   "sisdr": 16.637601769846796,
+   "sisdr_noisy": 4.759593009388593
+  },
+  {
+   "id": "test_000260",
+   "snr_db": -2.262,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.2545005679130554,
+   "g_noise": 0.14024150371551514,
+   "stoi": 0.8195596489115109,
+   "stoi_noisy": 0.7851933219758959,
+   "pesq": 1.245700716972351,
+   "pesq_noisy": 1.0791897773742676,
+   "sisdr": 3.349224847272019,
+   "sisdr_noisy": -3.27436957891859
+  },
+  {
+   "id": "test_000261",
+   "snr_db": 16.729,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.8852301836013794,
+   "g_noise": 0.32924458384513855,
+   "stoi": 0.9643648456776728,
+   "stoi_noisy": 0.9490919426538805,
+   "pesq": 2.6172049045562744,
+   "pesq_noisy": 2.038278579711914,
+   "sisdr": 18.15262573774004,
+   "sisdr_noisy": 14.32261550523528
+  },
+  {
+   "id": "test_000262",
+   "snr_db": 6.37,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.720157265663147,
+   "g_noise": 0.21820729970932007,
+   "stoi": 0.954497470686751,
+   "stoi_noisy": 0.936363616623041,
+   "pesq": 1.5758222341537476,
+   "pesq_noisy": 1.679771900177002,
+   "sisdr": 10.493895006741134,
+   "sisdr_noisy": 3.321048175832975
+  },
+  {
+   "id": "test_000263",
+   "snr_db": 13.864,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.7725574970245361,
+   "g_noise": 0.3564007878303528,
+   "stoi": 0.9437062456076348,
+   "stoi_noisy": 0.9328251415114005,
+   "pesq": 1.9832038879394531,
+   "pesq_noisy": 1.4319548606872559,
+   "sisdr": 16.113363667014116,
+   "sisdr_noisy": 12.17566863357357
+  },
+  {
+   "id": "test_000264",
+   "snr_db": -8.364,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.39801347255706787,
+   "g_noise": 0.15436123311519623,
+   "stoi": 0.6731408069356638,
+   "stoi_noisy": 0.6386961788890444,
+   "pesq": 1.08793306350708,
+   "pesq_noisy": 1.0712165832519531,
+   "sisdr": -6.806046624934837,
+   "sisdr_noisy": -12.125003775959604
+  },
+  {
+   "id": "test_000265",
+   "snr_db": 17.907,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.8792729377746582,
+   "g_noise": 0.5111414790153503,
+   "stoi": 0.9275582053144567,
+   "stoi_noisy": 0.9020549333340662,
+   "pesq": 2.6118600368499756,
+   "pesq_noisy": 1.9089539051055908,
+   "sisdr": 18.314980800510355,
+   "sisdr_noisy": 15.819164483641938
+  },
+  {
+   "id": "test_000266",
+   "snr_db": 11.894,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.7838150262832642,
+   "g_noise": 0.291267067193985,
+   "stoi": 0.9438709861308311,
+   "stoi_noisy": 0.9593517810102606,
+   "pesq": 2.272948741912842,
+   "pesq_noisy": 1.3939026594161987,
+   "sisdr": 14.822673687037383,
+   "sisdr_noisy": 10.284044735294394
+  },
+  {
+   "id": "test_000267",
+   "snr_db": -2.983,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind"
+   ],
+   "g_speech": 0.632086992263794,
+   "g_noise": 0.15829570591449738,
+   "stoi": 0.8010681944311809,
+   "stoi_noisy": 0.7193798300068284,
+   "pesq": 1.1614290475845337,
+   "pesq_noisy": 1.1746476888656616,
+   "sisdr": 3.9695013885595625,
+   "sisdr_noisy": -7.01621534139062
+  },
+  {
+   "id": "test_000268",
+   "snr_db": 3.423,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.46961846947669983,
+   "g_noise": 0.2046138495206833,
+   "stoi": 0.8569047956808288,
+   "stoi_noisy": 0.8439964928735026,
+   "pesq": 1.3656917810440063,
+   "pesq_noisy": 1.1960995197296143,
+   "sisdr": 6.903374980828224,
+   "sisdr_noisy": 3.2334390460560662
+  },
+  {
+   "id": "test_000269",
+   "snr_db": -0.891,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.81229168176651,
+   "g_noise": 0.5759060978889465,
+   "stoi": 0.9114554548155235,
+   "stoi_noisy": 0.9036512802960271,
+   "pesq": 1.1209036111831665,
+   "pesq_noisy": 1.140699028968811,
+   "sisdr": 2.174910157919326,
+   "sisdr_noisy": -1.3009314566439718
+  },
+  {
+   "id": "test_000270",
+   "snr_db": -6.653,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.5241283774375916,
+   "g_noise": 0.40420758724212646,
+   "stoi": 0.6496326478773116,
+   "stoi_noisy": 0.6140192805733906,
+   "pesq": 1.0562695264816284,
+   "pesq_noisy": 1.0310733318328857,
+   "sisdr": -3.014501996574524,
+   "sisdr_noisy": -8.51649970021758
+  },
+  {
+   "id": "test_000271",
+   "snr_db": 12.582,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.6378016471862793,
+   "g_noise": 0.24746622145175934,
+   "stoi": 0.9468739528048026,
+   "stoi_noisy": 0.9299841187001892,
+   "pesq": 2.1398699283599854,
+   "pesq_noisy": 1.3470354080200195,
+   "sisdr": 14.476862796702672,
+   "sisdr_noisy": 10.964160733805127
+  },
+  {
+   "id": "test_000272",
+   "snr_db": -3.553,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.36673054099082947,
+   "g_noise": 0.22808052599430084,
+   "stoi": 0.8089958176091981,
+   "stoi_noisy": 0.7483108059589035,
+   "pesq": 1.2161346673965454,
+   "pesq_noisy": 1.1214444637298584,
+   "sisdr": 2.9609166199318038,
+   "sisdr_noisy": -4.92004186091678
+  },
+  {
+   "id": "test_000273",
+   "snr_db": -3.806,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.4245440363883972,
+   "g_noise": 0.02138371765613556,
+   "stoi": 1e-05,
+   "stoi_noisy": 1e-05,
+   "pesq": 1.1239231824874878,
+   "pesq_noisy": 1.0922073125839233,
+   "sisdr": 5.354472906442144,
+   "sisdr_noisy": -6.955877439786135
+  },
+  {
+   "id": "test_000274",
+   "snr_db": 19.829,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.9226566553115845,
+   "g_noise": 0.3514045476913452,
+   "stoi": 0.9710511904926394,
+   "stoi_noisy": 0.9576182123363327,
+   "pesq": 2.8808248043060303,
+   "pesq_noisy": 1.9731123447418213,
+   "sisdr": 21.280210708317462,
+   "sisdr_noisy": 16.986727758066777
+  },
+  {
+   "id": "test_000275",
+   "snr_db": 10.538,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "wind"
+   ],
+   "g_speech": 0.5804837346076965,
+   "g_noise": 0.24487750232219696,
+   "stoi": 0.9080958371823938,
+   "stoi_noisy": 0.9098856273840387,
+   "pesq": 1.6074771881103516,
+   "pesq_noisy": 1.3500549793243408,
+   "sisdr": 13.267421182698387,
+   "sisdr_noisy": 8.803227892685516
+  },
+  {
+   "id": "test_000276",
+   "snr_db": 11.26,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.6884704828262329,
+   "g_noise": 0.3030402660369873,
+   "stoi": 0.8707157497610968,
+   "stoi_noisy": 0.8223196530541297,
+   "pesq": 1.94047212600708,
+   "pesq_noisy": 1.534271001815796,
+   "sisdr": 14.898723298247848,
+   "sisdr_noisy": 10.855699990378172
+  },
+  {
+   "id": "test_000277",
+   "snr_db": 12.977,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.724047064781189,
+   "g_noise": 0.22630874812602997,
+   "stoi": 0.9113715591799563,
+   "stoi_noisy": 0.8915624329561049,
+   "pesq": 2.2465107440948486,
+   "pesq_noisy": 1.2916615009307861,
+   "sisdr": 17.943610132423174,
+   "sisdr_noisy": 11.890630881536524
+  },
+  {
+   "id": "test_000278",
+   "snr_db": -0.432,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.4661148488521576,
+   "g_noise": 0.2849556803703308,
+   "stoi": 0.6555385261572295,
+   "stoi_noisy": 0.6858791274291818,
+   "pesq": 1.067025899887085,
+   "pesq_noisy": 1.129357933998108,
+   "sisdr": 2.3423970671373358,
+   "sisdr_noisy": -3.106682542576638
+  },
+  {
+   "id": "test_000279",
+   "snr_db": 8.781,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.562191903591156,
+   "g_noise": 0.33433592319488525,
+   "stoi": 0.8228357472375929,
+   "stoi_noisy": 0.7360344693859133,
+   "pesq": 1.7723814249038696,
+   "pesq_noisy": 1.274125099182129,
+   "sisdr": 12.188670716429108,
+   "sisdr_noisy": 6.559700940333531
+  },
+  {
+   "id": "test_000280",
+   "snr_db": -0.726,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.428041011095047,
+   "g_noise": 0.1429975926876068,
+   "stoi": 0.5553894350104247,
+   "stoi_noisy": 0.5472091788692117,
+   "pesq": 1.0840909481048584,
+   "pesq_noisy": 1.0219838619232178,
+   "sisdr": 3.8365979516317084,
+   "sisdr_noisy": -2.2670454835735994
+  },
+  {
+   "id": "test_000281",
+   "snr_db": -6.22,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.8343029022216797,
+   "g_noise": 0.3420008420944214,
+   "stoi": 0.822869669198072,
+   "stoi_noisy": 0.8225669626612101,
+   "pesq": 1.1034220457077026,
+   "pesq_noisy": 1.0343958139419556,
+   "sisdr": -1.3678583680880438,
+   "sisdr_noisy": -7.134626902073734
+  },
+  {
+   "id": "test_000282",
+   "snr_db": -5.549,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.38727471232414246,
+   "g_noise": 0.1407056599855423,
+   "stoi": 0.7050353813950195,
+   "stoi_noisy": 0.6638189515476668,
+   "pesq": 1.0996339321136475,
+   "pesq_noisy": 1.102615475654602,
+   "sisdr": 2.0820361715134235,
+   "sisdr_noisy": -8.741450957426517
+  },
+  {
+   "id": "test_000283",
+   "snr_db": 6.99,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.8519454598426819,
+   "g_noise": 0.2775759994983673,
+   "stoi": 0.9253325574897994,
+   "stoi_noisy": 0.9214949550506853,
+   "pesq": 1.310835599899292,
+   "pesq_noisy": 1.0255646705627441,
+   "sisdr": 8.73222623507252,
+   "sisdr_noisy": 3.106569466964947
+  },
+  {
+   "id": "test_000284",
+   "snr_db": -9.968,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.1962955892086029,
+   "g_noise": 0.15732787549495697,
+   "stoi": 0.5237829345399795,
+   "stoi_noisy": 0.42731376731186094,
+   "pesq": 1.0512384176254272,
+   "pesq_noisy": 1.0624221563339233,
+   "sisdr": -4.798583206065402,
+   "sisdr_noisy": -11.155770172389998
+  },
+  {
+   "id": "test_000285",
+   "snr_db": 11.745,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery"
+   ],
+   "g_speech": 0.5604116320610046,
+   "g_noise": 0.14717040956020355,
+   "stoi": 0.8294784100680234,
+   "stoi_noisy": 0.7828989984423982,
+   "pesq": 1.6424371004104614,
+   "pesq_noisy": 1.1459314823150635,
+   "sisdr": 18.384919409898234,
+   "sisdr_noisy": 8.070846917773071
+  },
+  {
+   "id": "test_000286",
+   "snr_db": 3.364,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.5589601397514343,
+   "g_noise": 0.27939510345458984,
+   "stoi": 0.7461494605108234,
+   "stoi_noisy": 0.7246392184264716,
+   "pesq": 1.4527857303619385,
+   "pesq_noisy": 1.2629952430725098,
+   "sisdr": 7.713194773164382,
+   "sisdr_noisy": -0.45872492629386374
+  },
+  {
+   "id": "test_000287",
+   "snr_db": -7.798,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.27870631217956543,
+   "g_noise": 0.16006210446357727,
+   "stoi": 0.5175029512173556,
+   "stoi_noisy": 0.5022094250306265,
+   "pesq": 1.1139713525772095,
+   "pesq_noisy": 1.1571277379989624,
+   "sisdr": -2.0628125640658785,
+   "sisdr_noisy": -7.957183069052981
+  },
+  {
+   "id": "test_000288",
+   "snr_db": 14.154,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren"
+   ],
+   "g_speech": 0.7949077486991882,
+   "g_noise": 0.34134215116500854,
+   "stoi": 0.9489065740042921,
+   "stoi_noisy": 0.9359171593743986,
+   "pesq": 2.059281349182129,
+   "pesq_noisy": 1.5805327892303467,
+   "sisdr": 15.766444740507445,
+   "sisdr_noisy": 13.121108652235183
+  },
+  {
+   "id": "test_000289",
+   "snr_db": 19.704,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.8463435173034668,
+   "g_noise": 0.3417181074619293,
+   "stoi": 0.9634269210552496,
+   "stoi_noisy": 0.9586561811553249,
+   "pesq": 2.2924723625183105,
+   "pesq_noisy": 2.589801073074341,
+   "sisdr": 18.542313773027395,
+   "sisdr_noisy": 17.1427213790862
+  },
+  {
+   "id": "test_000290",
+   "snr_db": -0.098,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.459871768951416,
+   "g_noise": 0.2299502193927765,
+   "stoi": 0.7745448396958031,
+   "stoi_noisy": 0.7385284357606678,
+   "pesq": 1.1051255464553833,
+   "pesq_noisy": 1.0298206806182861,
+   "sisdr": 2.6103036678548888,
+   "sisdr_noisy": -0.8022807660667579
+  },
+  {
+   "id": "test_000291",
+   "snr_db": 7.53,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.6455144882202148,
+   "g_noise": 0.46774253249168396,
+   "stoi": 0.9243789187761613,
+   "stoi_noisy": 0.9217285370041127,
+   "pesq": 1.9966212511062622,
+   "pesq_noisy": 1.3315986394882202,
+   "sisdr": 9.911602393412464,
+   "sisdr_noisy": 7.204137347336492
+  },
+  {
+   "id": "test_000292",
+   "snr_db": 14.334,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "wind"
+   ],
+   "g_speech": 0.8642262816429138,
+   "g_noise": 0.13625937700271606,
+   "stoi": 0.9146160289419458,
+   "stoi_noisy": 0.9102230984974057,
+   "pesq": 1.600792646408081,
+   "pesq_noisy": 1.498267650604248,
+   "sisdr": 18.87995791223153,
+   "sisdr_noisy": 13.108726167167596
+  },
+  {
+   "id": "test_000293",
+   "snr_db": -6.21,
+   "stationarity": "stationary",
+   "classes": [
+    "machinery",
+    "machinery"
+   ],
+   "g_speech": 0.2687058746814728,
+   "g_noise": 0.13473178446292877,
+   "stoi": 0.6965163212577318,
+   "stoi_noisy": 0.5868775834265223,
+   "pesq": 1.1821757555007935,
+   "pesq_noisy": 1.052690029144287,
+   "sisdr": 3.648700381929591,
+   "sisdr_noisy": -8.30131489144809
+  },
+  {
+   "id": "test_000294",
+   "snr_db": 13.969,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "g_speech": 0.8115833401679993,
+   "g_noise": 0.2877877652645111,
+   "stoi": 0.8615107520989274,
+   "stoi_noisy": 0.8644020483040823,
+   "pesq": 1.9885684251785278,
+   "pesq_noisy": 1.6567522287368774,
+   "sisdr": 16.62380888035997,
+   "sisdr_noisy": 12.432380089142157
+  },
+  {
+   "id": "test_000295",
+   "snr_db": 8.564,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren",
+    "siren"
+   ],
+   "g_speech": 0.7264490723609924,
+   "g_noise": 0.2482651323080063,
+   "stoi": 0.9307034428388208,
+   "stoi_noisy": 0.9049281180257259,
+   "pesq": 1.528888463973999,
+   "pesq_noisy": 1.2049598693847656,
+   "sisdr": 12.224442530414862,
+   "sisdr_noisy": 5.482486205579715
+  },
+  {
+   "id": "test_000296",
+   "snr_db": 10.623,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind",
+    "siren"
+   ],
+   "g_speech": 0.8143637776374817,
+   "g_noise": 0.3584475517272949,
+   "stoi": 0.8393075665089488,
+   "stoi_noisy": 0.80775742895138,
+   "pesq": 1.2246917486190796,
+   "pesq_noisy": 1.1707656383514404,
+   "sisdr": 14.593708016770805,
+   "sisdr_noisy": 10.172479850280974
+  },
+  {
+   "id": "test_000297",
+   "snr_db": 16.311,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "g_speech": 0.9244177341461182,
+   "g_noise": 0.5181775093078613,
+   "stoi": 0.9486656934120005,
+   "stoi_noisy": 0.9434426089625273,
+   "pesq": 2.221404552459717,
+   "pesq_noisy": 1.857987880706787,
+   "sisdr": 18.89221285776461,
+   "sisdr_noisy": 15.90464574765406
+  },
+  {
+   "id": "test_000298",
+   "snr_db": 9.291,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery"
+   ],
+   "g_speech": 0.5627064108848572,
+   "g_noise": 0.32956892251968384,
+   "stoi": 0.890517651554173,
+   "stoi_noisy": 0.8572216069828568,
+   "pesq": 1.89055597782135,
+   "pesq_noisy": 1.251397728919983,
+   "sisdr": 11.26598159129702,
+   "sisdr_noisy": 6.72364657691149
+  },
+  {
+   "id": "test_000299",
+   "snr_db": -0.238,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "siren",
+    "machinery"
+   ],
+   "g_speech": 0.49877020716667175,
+   "g_noise": 0.32963505387306213,
+   "stoi": 0.8358545260606449,
+   "stoi_noisy": 0.7753204545543626,
+   "pesq": 1.2902264595031738,
+   "pesq_noisy": 1.1631617546081543,
+   "sisdr": 4.073053084339321,
+   "sisdr_noisy": -0.6648329238581858
+  }
+ ]
+}

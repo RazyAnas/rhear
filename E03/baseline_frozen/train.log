@@ -1,0 +1,11 @@
+  device mps   train 2000   val 300   (cached in RAM)
+  model 22,988 params, 59.2 MMAC/s
+  ep   0  loss   10.214   val SI-SDR   5.10 dB   best   5.10     1.8 min
+  ep   5  loss    0.552   val SI-SDR   8.97 dB   best   9.06    10.1 min
+  ep  10  loss   -1.036   val SI-SDR   9.32 dB   best   9.36    17.5 min
+  ep  15  loss   -1.756   val SI-SDR   9.92 dB   best   9.92    25.3 min
+  ep  20  loss   -2.108   val SI-SDR   9.87 dB   best   9.92    34.1 min
+  ep  25  loss   -2.448   val SI-SDR   9.97 dB   best   9.97    43.0 min
+  ep  30  loss   -2.882   val SI-SDR   9.75 dB   best   9.97    53.9 min
+  ep  35  loss   -3.123   val SI-SDR   9.58 dB   best   9.97    65.9 min
+  ep  40  loss   -2.624   val SI-SDR   9.43 dB   best   9.97    75.1 min

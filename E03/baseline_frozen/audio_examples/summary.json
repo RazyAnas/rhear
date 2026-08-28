@@ -1,0 +1,182 @@
+{
+ "WARNING": "INTERIM \u2014 real speech, SYNTHESISED noise. NOT a G3 result.",
+ "checkpoint": "runs/interim/best.pt",
+ "n_test": 300,
+ "model": {
+  "params": 22988,
+  "mmacs": 59.178,
+  "latency_ms": 8.0
+ },
+ "overall": {
+  "stoi_noisy": 0.8051,
+  "stoi_enhanced": 0.8296,
+  "pesq_noisy": 1.3822,
+  "pesq_enhanced": 1.621,
+  "sisdr_noisy": 2.6103,
+  "sisdr_enhanced": 8.5279
+ },
+ "by_stationarity": {
+  "mixed": {
+   "stoi_noisy": 0.765,
+   "stoi_enhanced": 0.7961,
+   "pesq_noisy": 1.3057,
+   "pesq_enhanced": 1.5203,
+   "sisdr_noisy": 2.0567,
+   "sisdr_enhanced": 8.0892
+  },
+  "stationary": {
+   "stoi_noisy": 0.7999,
+   "stoi_enhanced": 0.8324,
+   "pesq_noisy": 1.4185,
+   "pesq_enhanced": 1.8119,
+   "sisdr_noisy": 4.202,
+   "sisdr_enhanced": 12.8285
+  },
+  "nonstationary": {
+   "stoi_noisy": 0.8409,
+   "stoi_enhanced": 0.8574,
+   "pesq_noisy": 1.4361,
+   "pesq_enhanced": 1.6461,
+   "sisdr_noisy": 2.5762,
+   "sisdr_enhanced": 7.5318
+  }
+ },
+ "deltas": {
+  "d_stoi": 0.0245,
+  "d_pesq": 0.2388,
+  "d_sisdr": 5.918
+ },
+ "examples": [
+  {
+   "base": "ex00",
+   "id": "test_000284",
+   "snr_db": -9.968,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "siren"
+   ],
+   "stoi_noisy": 0.42731376731186094,
+   "stoi_enhanced": 0.5237829345399795,
+   "pesq_noisy": 1.0624221563339233,
+   "pesq_enhanced": 1.0512384176254272,
+   "sisdr_noisy": -11.155770172389998,
+   "sisdr_enhanced": -4.798583206065402
+  },
+  {
+   "base": "ex01",
+   "id": "test_000181",
+   "snr_db": -6.441,
+   "stationarity": "nonstationary",
+   "classes": [
+    "wind"
+   ],
+   "stoi_noisy": 0.6857529291199197,
+   "stoi_enhanced": 0.7175945722386982,
+   "pesq_noisy": 1.136458158493042,
+   "pesq_enhanced": 1.120330810546875,
+   "sisdr_noisy": -7.391266980468586,
+   "sisdr_enhanced": -4.012646965982703
+  },
+  {
+   "base": "ex02",
+   "id": "test_000134",
+   "snr_db": -2.112,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "machinery"
+   ],
+   "stoi_noisy": 0.7791056139531255,
+   "stoi_enhanced": 0.8155828165275896,
+   "pesq_noisy": 1.0967686176300049,
+   "pesq_enhanced": 1.394256591796875,
+   "sisdr_noisy": -3.717092584587493,
+   "sisdr_enhanced": 5.427672229256418
+  },
+  {
+   "base": "ex03",
+   "id": "test_000019",
+   "snr_db": 2.777,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren",
+    "wind"
+   ],
+   "stoi_noisy": 0.845498047288048,
+   "stoi_enhanced": 0.8797823366043759,
+   "pesq_noisy": 1.2247052192687988,
+   "pesq_enhanced": 1.3126311302185059,
+   "sisdr_noisy": 2.782716211679433,
+   "sisdr_enhanced": 7.004997903231137
+  },
+  {
+   "base": "ex04",
+   "id": "test_000001",
+   "snr_db": 6.996,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "siren"
+   ],
+   "stoi_noisy": 0.9230501762005948,
+   "stoi_enhanced": 0.9409284805312431,
+   "pesq_noisy": 1.8022632598876953,
+   "pesq_enhanced": 1.5423120260238647,
+   "sisdr_noisy": 3.3679401038335577,
+   "sisdr_enhanced": 13.11734090633263
+  },
+  {
+   "base": "ex05",
+   "id": "test_000276",
+   "snr_db": 11.26,
+   "stationarity": "mixed",
+   "classes": [
+    "siren",
+    "machinery",
+    "machinery"
+   ],
+   "stoi_noisy": 0.8223196530541297,
+   "stoi_enhanced": 0.8707157497610968,
+   "pesq_noisy": 1.534271001815796,
+   "pesq_enhanced": 1.94047212600708,
+   "sisdr_noisy": 10.855699990378172,
+   "sisdr_enhanced": 14.898723298247848
+  },
+  {
+   "base": "ex06",
+   "id": "test_000068",
+   "snr_db": 14.694,
+   "stationarity": "mixed",
+   "classes": [
+    "machinery",
+    "siren",
+    "siren"
+   ],
+   "stoi_noisy": 0.9688700266414731,
+   "stoi_enhanced": 0.9650993354177989,
+   "pesq_noisy": 1.5832164287567139,
+   "pesq_enhanced": 1.6620302200317383,
+   "sisdr_noisy": 11.692511019070565,
+   "sisdr_enhanced": 17.281875481889074
+  },
+  {
+   "base": "ex07",
+   "id": "test_000030",
+   "snr_db": 19.973,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "stoi_noisy": 0.9044896036660423,
+   "stoi_enhanced": 0.9213313815529175,
+   "pesq_noisy": 2.4979288578033447,
+   "pesq_enhanced": 2.819575309753418,
+   "sisdr_noisy": 19.023975905227857,
+   "sisdr_enhanced": 22.111570471698975
+  }
+ ]
+}

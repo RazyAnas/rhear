@@ -1,0 +1,78 @@
+{
+ "name": "RHEAR L1 interim baseline (FROZEN)",
+ "frozen_utc": "2026-08-28T15:26:59Z",
+ "git_rev": "adae4d2",
+ "checkpoint_sha256_16": "1c1452e4bdc5c848",
+ "eval_manifest_sha256_16": "54fa4551ca3dcf01",
+ "training": {
+  "stopped_at_epoch": 40,
+  "checkpoint_from_epoch": 25,
+  "why_stopped": "val SI-SDR declined 9.97->9.43 over ep25-40 AND train loss went backwards -3.12->-2.62; optimisation degrading, not overfitting"
+ },
+ "model": {
+  "params": 22988,
+  "mmacs": 59.178,
+  "latency_ms": 8.0
+ },
+ "metrics_heldout": {
+  "stoi_noisy": 0.8051,
+  "stoi_enhanced": 0.8296,
+  "pesq_noisy": 1.3822,
+  "pesq_enhanced": 1.621,
+  "sisdr_noisy": 2.6103,
+  "sisdr_enhanced": 8.5279
+ },
+ "deltas": {
+  "d_stoi": 0.0245,
+  "d_pesq": 0.2388,
+  "d_sisdr": 5.918
+ },
+ "by_stationarity": {
+  "mixed": {
+   "stoi_noisy": 0.765,
+   "stoi_enhanced": 0.7961,
+   "pesq_noisy": 1.3057,
+   "pesq_enhanced": 1.5203,
+   "sisdr_noisy": 2.0567,
+   "sisdr_enhanced": 8.0892
+  },
+  "stationary": {
+   "stoi_noisy": 0.7999,
+   "stoi_enhanced": 0.8324,
+   "pesq_noisy": 1.4185,
+   "pesq_enhanced": 1.8119,
+   "sisdr_noisy": 4.202,
+   "sisdr_enhanced": 12.8285
+  },
+  "nonstationary": {
+   "stoi_noisy": 0.8409,
+   "stoi_enhanced": 0.8574,
+   "pesq_noisy": 1.4361,
+   "pesq_enhanced": 1.6461,
+   "sisdr_noisy": 2.5762,
+   "sisdr_enhanced": 7.5318
+  }
+ },
+ "eval_set": {
+  "split": "test",
+  "n_clips": 300,
+  "speakers": [
+   "1919",
+   "1993",
+   "2428",
+   "2902",
+   "3752",
+   "6313",
+   "777"
+  ],
+  "n_speakers": 7,
+  "FIXED": "all future experiments MUST evaluate on exactly this split"
+ },
+ "PROVENANCE_WARNING": "INTERIM \u2014 real speech, SYNTHESISED noise. NOT a G3 result.",
+ "noise_provenance": "100% synthetically generated (5211/5211 layers) - NOT real recordings",
+ "known_limits": {
+  "siren_is_a_pure_swept_sine": "single sinusoid, no harmonics/AM/reverb - real sirens differ",
+  "oracle_stoi_ceiling_48band": 0.967,
+  "phase_head_ablation_worth": 0.006
+ }
+}

@@ -1,0 +1,27 @@
+{
+  "speaker_overlap": {},
+  "noise_group_overlap": {},
+  "room_overlap": {},
+  "content_hash_overlap": {},
+  "counts": {
+    "train": {
+      "speakers": 26,
+      "noise_groups": 21,
+      "rooms": 0
+    },
+    "val": {
+      "speakers": 7,
+      "noise_groups": 3,
+      "rooms": 0
+    },
+    "test": {
+      "speakers": 7,
+      "noise_groups": 3,
+      "rooms": 0
+    }
+  },
+  "clean": true,
+  "unreadable_sources": [
+    "/private/tmp/claude-501/-Users-mariyafatima-projectonboard/9740b1c3-cbf2-43bf-805d-45bfb359fbf4/scratchpad/e03/interim/_spk_train/3853/163249/3853-163249-0052.flac"
+  ]
+}
