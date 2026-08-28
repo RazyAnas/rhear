@@ -15,8 +15,9 @@ from . import headset
 
 STATIONARITY = {
     "stationary": ["ambient", "machinery", "technical", "vehicle", "engine"],
-    "nonstationary": ["crowd", "helicopter", "fighter", "siren", "wind", "footsteps"],
-    "impulsive": ["gunshot", "shelling"],
+    "nonstationary": ["crowd", "helicopter", "fighter", "siren", "wind",
+                      "footsteps", "rotor", "drone"],
+    "impulsive": ["gunshot", "shelling", "impulse", "blast"],
 }
 
 

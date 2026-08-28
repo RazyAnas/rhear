@@ -94,8 +94,19 @@ def index_rirs(root, real_only=True):
 
 
 # ------------------------------------------------------------------ io
+class UnreadableAudio(Exception):
+    pass
+
+
 def load_audio(path, fs=FS):
-    x, sr = sf.read(path, dtype="float32", always_2d=False)
+    """Public corpora contain occasional corrupt files (LibriSpeech dev-clean has
+    exactly one that fails to decode: 3853-163249-0052.flac). A build must not
+    die on one bad file, but it must not silently swallow it either -- the count
+    goes into the manifest header."""
+    try:
+        x, sr = sf.read(path, dtype="float32", always_2d=False)
+    except Exception as ex:
+        raise UnreadableAudio(f"{path}: {ex}") from ex
     if x.ndim > 1:
         x = x.mean(axis=1)
     if sr != fs:
@@ -108,16 +119,31 @@ def load_audio(path, fs=FS):
 # ------------------------------------------------------------------ build
 def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
           n_per_split=None, dur_s=4.0, seed=1234, snr_range=(-10.0, 20.0),
-          heldout_n=200, verbose=True):
-    """speech_roots: {"train": path, "val": path, "test": path}"""
+          heldout_n=200, verbose=True, noise_index=None):
+    """speech_roots: {"train": path, "val": path, "test": path}
+
+    noise_index: optional explicit list of noise entries, each a dict with
+    path/cls/source/corpus/provenance. Provided rather than inferred so a caller
+    cannot accidentally mislabel provenance -- inferring it from filenames
+    silently marked synthesised noise as "real recording" once, which is the one
+    mistake this field exists to prevent.
+    """
     n_per_split = n_per_split or {"train": 2000, "val": 250, "test": 250}
     rng = np.random.default_rng(seed)
     os.makedirs(out_dir, exist_ok=True)
+    unreadable = set()
 
     speech = {k: index_librispeech(v) for k, v in speech_roots.items()}
-    noise = index_musan_noise(musan_root) if musan_root else []
-    mad, mad_skipped = index_mad(mad_root) if mad_root else ([], 0)
-    noise = noise + mad
+    if noise_index is not None:
+        noise, mad_skipped = list(noise_index), 0
+        missing = [n for n in noise if "provenance" not in n]
+        if missing:
+            raise ValueError("every noise entry must state its provenance "
+                             f"explicitly; {len(missing)} do not")
+    else:
+        noise = index_musan_noise(musan_root) if musan_root else []
+        mad, mad_skipped = index_mad(mad_root) if mad_root else ([], 0)
+        noise = noise + mad
     rirs = index_rirs(rir_root) if rir_root else []
     if verbose:
         for k, v in speech.items():
@@ -165,9 +191,18 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
         os.makedirs(d, exist_ok=True)
         spks = sorted(spk_pool)
         for i in range(count):
-            spk = spks[int(rng.integers(len(spks)))]
-            utt, ppath = spk_pool[spk][int(rng.integers(len(spk_pool[spk])))]
-            sp = dict(audio=load_audio(ppath), speaker=spk, utt=utt)
+            for attempt in range(8):
+                spk = spks[int(rng.integers(len(spks)))]
+                utt, ppath = spk_pool[spk][int(rng.integers(len(spk_pool[spk])))]
+                try:
+                    sp = dict(audio=load_audio(ppath), speaker=spk, utt=utt)
+                    break
+                except UnreadableAudio as ex:
+                    unreadable.add(str(ex).split(":")[0])
+            else:
+                raise RuntimeError("8 consecutive unreadable speech files -- "
+                                   "the corpus is probably damaged, not just "
+                                   "missing one file")
             k = int(rng.integers(1, 4))
             picks = [nz_pool[int(rng.integers(len(nz_pool)))] for _ in range(k)]
             nz = [dict(audio=load_audio(p["path"]), cls=p["cls"],
@@ -196,7 +231,11 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
             if verbose and (i + 1) % 250 == 0:
                 print(f"    {split}: {i+1}/{count}")
     n = mw.close()
+    if unreadable:
+        print(f"  NOTE: skipped {len(unreadable)} unreadable source file(s): "
+              f"{sorted(unreadable)[:3]}")
     rep = audit.report()
+    rep["unreadable_sources"] = sorted(unreadable)
     with open(os.path.join(out_dir, "leakage_audit.json"), "w") as f:
         json.dump(rep, f, indent=2)
     if verbose:

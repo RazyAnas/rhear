@@ -138,6 +138,12 @@ canvas{display:block;width:100%;border-radius:3px;background:var(--panel2)}
   <div class="col">
     <div class="card"><h2>state</h2><div id="tiles"></div></div>
     <div class="card"><h2>vectors</h2><div id="vecs"></div></div>
+    <div class="card" id="abcard" style="display:none">
+      <h2>speech enhancement A/B <span id="abwarn"></span></h2>
+      <div class="note" id="abnote"></div>
+      <div id="abmetrics"></div>
+      <div id="ablist"></div>
+    </div>
   </div>
 </main>
 
@@ -387,6 +393,35 @@ function render(f){
 function setConn(s,t){$('#conn').className='badge '+s;$('#conntxt').textContent=t;}
 function show(i){cursor=i;const f=hist[i];if(f)render(f);
   $('#tpos').textContent=live?'live':'t='+(f?f.t.toFixed(2):'--')+'s';}
+
+fetch('/api/ab').then(r=>r.ok?r.json():null).then(ab=>{
+  if(!ab||!ab.examples)return;
+  $('#abcard').style.display='';
+  $('#abwarn').innerHTML='<span style="color:var(--warn)">INTERIM</span>';
+  $('#abnote').textContent=ab.WARNING+
+    `  |  ${ab.model.params.toLocaleString()} params, ${ab.model.mmacs.toFixed(1)} MMAC/s, `+
+    `${ab.model.latency_ms} ms  |  ${ab.n_test} held-out clips, speaker-disjoint`;
+  const o=ab.overall,d=ab.deltas;
+  const row=(n,a,b,dd,t)=>`<div class="tile ${dd>0?'good':''}"><div class="k">${n}</div>`+
+    `<div class="v">${b.toFixed(n==='SI-SDR'?1:2)}<span class="u">${n==='SI-SDR'?'dB':''}</span></div>`+
+    `<div class="k" style="margin-top:3px">from ${a.toFixed(n==='SI-SDR'?1:2)} &nbsp;(${dd>0?'+':''}${dd.toFixed(2)})</div>`+
+    `<div class="k">PS target ${t}</div></div>`;
+  $('#abmetrics').innerHTML='<div class="tiles">'+
+    row('STOI',o.stoi_noisy,o.stoi_enhanced,d.d_stoi,'> 0.85')+
+    row('PESQ',o.pesq_noisy,o.pesq_enhanced,d.d_pesq,'> 2.5')+
+    row('SI-SDR',o.sisdr_noisy,o.sisdr_enhanced,d.d_sisdr,'> 15 dB')+'</div>';
+  $('#ablist').innerHTML=ab.examples.map(e=>
+    `<div class="chan"><div class="lbl"><span>${e.classes.join('+')} @ ${e.snr_db.toFixed(1)} dB `+
+    `<span style="color:var(--dimmer)">${e.stationarity}</span></span>`+
+    `<span>STOI ${e.stoi_noisy.toFixed(2)}&rarr;${e.stoi_enhanced.toFixed(2)}</span></div>`+
+    `<div style="display:flex;gap:6px;align-items:center;margin:2px 0 6px">`+
+    `<span style="font-size:10px;color:var(--bad);width:52px">noisy</span>`+
+    `<audio controls preload="none" style="height:26px;flex:1" src="/ab/${e.base}_noisy.wav"></audio></div>`+
+    `<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">`+
+    `<span style="font-size:10px;color:var(--good);width:52px">enhanced</span>`+
+    `<audio controls preload="none" style="height:26px;flex:1" src="/ab/${e.base}_enhanced.wav"></audio></div>`+
+    `</div>`).join('');
+}).catch(()=>{});
 
 fetch('/api/meta').then(r=>r.json()).then(m=>{meta=m;buildFlow();
   fetch('/api/history?n=400').then(r=>r.json()).then(h=>{

@@ -12,8 +12,11 @@ import socketserver
 from urllib.parse import urlparse, parse_qs
 from .bus import BUS
 
-UI_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.abspath(__file__)))), "ui")
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+UI_DIR = os.path.join(ROOT, "ui")
+# A/B demo assets produced by E03/evaluate_interim.py. Absent until it has run,
+# in which case the panel simply does not appear -- no placeholder audio.
+AB_DIR = os.path.join(ROOT, "E03", "runs", "interim", "eval")
 
 
 class Handler(http.server.BaseHTTPRequestHandler):
@@ -53,6 +56,19 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 "producer": BUS.producer_info,
             }
             return self._send(200, "application/json", json.dumps(meta))
+        if u.path == "/api/ab":
+            f = os.path.join(AB_DIR, "summary.json")
+            if not os.path.exists(f):
+                return self._send(404, "application/json", "{}")
+            with open(f, "rb") as fh:
+                return self._send(200, "application/json", fh.read())
+        if u.path.startswith("/ab/"):
+            name = os.path.basename(u.path[4:])
+            f = os.path.join(AB_DIR, name)
+            if not (name.endswith(".wav") and os.path.exists(f)):
+                return self._send(404, "text/plain", "not found")
+            with open(f, "rb") as fh:
+                return self._send(200, "audio/wav", fh.read())
         if u.path == "/api/history":
             n = int(parse_qs(u.query).get("n", ["600"])[0])
             return self._send(200, "application/json",
