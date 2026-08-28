@@ -19,7 +19,7 @@ from ...core import signals as sg
 from ...core.anc import ImpulseDetector
 from ...core.state import frame_features
 from ...core.doa import gcc_phat, bearing_confidence, Gyro, BearingTracker
-from ...core.l0 import StreamingANC
+from ...core.l0 import StreamingANC, process_pair
 from ...core.streaming import StreamingHarmonic, StreamingBand, StreamingDelayLine
 from ...core.l2runtime import train_filter
 from ..schema import (TelemetryFrame, Channel, Spectrum, Scalar, Vector, Block,
@@ -291,11 +291,11 @@ class SimulationSource(TelemetrySource):
         for j in range(2):
             xhat[j], self.zi_sh[j] = signal.lfilter(self.s, [1.0], xs[j],
                                                     zi=self.zi_sh[j])
-        e = {}; y = {}
-        for ear in ("L", "R"):
-            ri = 0 if chosen[ear] == "L" else 1
-            e[ear], y[ear] = self.anc[ear].process_block_multiref(
-                xs, d[ear], ri, xhat=xhat)
+        eL, eR = process_pair(self.anc["L"], self.anc["R"], xs, d["L"], d["R"],
+                              0 if chosen["L"] == "L" else 1,
+                              0 if chosen["R"] == "L" else 1, xhat)
+        e = {"L": eL, "R": eR}
+        y = {"L": eL * 0.0, "R": eR * 0.0}     # anti-noise trace not retained here
         self.l0_us = (time.perf_counter() - t0) * 1e6
 
         # --- metrics ---
