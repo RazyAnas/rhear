@@ -1,0 +1,163 @@
+{
+ "WARNING": "INTERIM \u2014 real speech, SYNTHESISED noise. NOT a G3 result.",
+ "checkpoint": "runs/real/best.pt",
+ "n_test": 300,
+ "model": {
+  "params": 22988,
+  "mmacs": 59.178,
+  "latency_ms": 8.0
+ },
+ "overall": {
+  "stoi_noisy": 0.7989,
+  "stoi_enhanced": 0.8181,
+  "pesq_noisy": 1.2951,
+  "pesq_enhanced": 1.4807,
+  "sisdr_noisy": 1.8015,
+  "sisdr_enhanced": 8.1227
+ },
+ "by_stationarity": {
+  "unknown": {
+   "stoi_noisy": 0.7989,
+   "stoi_enhanced": 0.8181,
+   "pesq_noisy": 1.2951,
+   "pesq_enhanced": 1.4807,
+   "sisdr_noisy": 1.8015,
+   "sisdr_enhanced": 8.1227
+  }
+ },
+ "deltas": {
+  "d_stoi": 0.0192,
+  "d_pesq": 0.1856,
+  "d_sisdr": 6.321
+ },
+ "examples": [
+  {
+   "base": "ex00",
+   "id": "test_000063",
+   "snr_db": -9.863,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "stoi_noisy": 0.598749876317141,
+   "stoi_enhanced": 0.6225281418791218,
+   "pesq_noisy": 1.0424679517745972,
+   "pesq_enhanced": 1.0835763216018677,
+   "sisdr_noisy": -13.679586755543083,
+   "sisdr_enhanced": -1.9854505006086898
+  },
+  {
+   "base": "ex01",
+   "id": "test_000295",
+   "snr_db": -6.019,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "stoi_noisy": 0.5639342269966894,
+   "stoi_enhanced": 0.516357516466161,
+   "pesq_noisy": 1.0214717388153076,
+   "pesq_enhanced": 1.0312445163726807,
+   "sisdr_noisy": -6.462653003515575,
+   "sisdr_enhanced": -0.5876089958112641
+  },
+  {
+   "base": "ex02",
+   "id": "test_000266",
+   "snr_db": -2.303,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "stoi_noisy": 0.6435469966192517,
+   "stoi_enhanced": 0.7254033878258718,
+   "pesq_noisy": 1.0775378942489624,
+   "pesq_enhanced": 1.203803300857544,
+   "sisdr_noisy": -3.0528982193181124,
+   "sisdr_enhanced": 6.231696847710515
+  },
+  {
+   "base": "ex03",
+   "id": "test_000056",
+   "snr_db": 1.634,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental"
+   ],
+   "stoi_noisy": 0.6882743942014788,
+   "stoi_enhanced": 0.7225655802671324,
+   "pesq_noisy": 1.0406420230865479,
+   "pesq_enhanced": 1.0844885110855103,
+   "sisdr_noisy": 1.6282241700877373,
+   "sisdr_enhanced": 4.748000210462769
+  },
+  {
+   "base": "ex04",
+   "id": "test_000186",
+   "snr_db": 5.826,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "stoi_noisy": 0.9814641020670193,
+   "stoi_enhanced": 0.9800407378686429,
+   "pesq_noisy": 2.2781269550323486,
+   "pesq_enhanced": 1.888465166091919,
+   "sisdr_noisy": 2.679060180466253,
+   "sisdr_enhanced": 11.25516104589357
+  },
+  {
+   "base": "ex05",
+   "id": "test_000161",
+   "snr_db": 9.254,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "stoi_noisy": 0.860971559204156,
+   "stoi_enhanced": 0.8604070054705841,
+   "pesq_noisy": 1.2103763818740845,
+   "pesq_enhanced": 1.394017219543457,
+   "sisdr_noisy": 8.18667085325434,
+   "sisdr_enhanced": 11.404393198019566
+  },
+  {
+   "base": "ex06",
+   "id": "test_000168",
+   "snr_db": 14.322,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental",
+    "environmental",
+    "environmental"
+   ],
+   "stoi_noisy": 0.8673405918515233,
+   "stoi_enhanced": 0.9086807679654317,
+   "pesq_noisy": 1.4423654079437256,
+   "pesq_enhanced": 1.7843456268310547,
+   "sisdr_noisy": 13.444414678344856,
+   "sisdr_enhanced": 17.188475038924484
+  },
+  {
+   "base": "ex07",
+   "id": "test_000019",
+   "snr_db": 19.848,
+   "stationarity": "unknown",
+   "classes": [
+    "environmental"
+   ],
+   "stoi_noisy": 0.9847505858597185,
+   "stoi_enhanced": 0.9868152810515035,
+   "pesq_noisy": 2.581609010696411,
+   "pesq_enhanced": 2.748534917831421,
+   "sisdr_noisy": 18.571518239048295,
+   "sisdr_enhanced": 21.176838637044547
+  }
+ ]
+}

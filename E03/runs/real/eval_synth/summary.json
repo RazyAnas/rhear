@@ -1,0 +1,83 @@
+{
+ "WARNING": "INTERIM \u2014 real speech, SYNTHESISED noise. NOT a G3 result.",
+ "checkpoint": "runs/real/best.pt",
+ "n_test": 300,
+ "model": {
+  "params": 22988,
+  "mmacs": 59.178,
+  "latency_ms": 8.0
+ },
+ "overall": {
+  "stoi_noisy": 0.8051,
+  "stoi_enhanced": 0.8261,
+  "pesq_noisy": 1.3822,
+  "pesq_enhanced": 1.6595,
+  "sisdr_noisy": 2.6103,
+  "sisdr_enhanced": 9.8692
+ },
+ "by_stationarity": {
+  "mixed": {
+   "stoi_noisy": 0.765,
+   "stoi_enhanced": 0.784,
+   "pesq_noisy": 1.3057,
+   "pesq_enhanced": 1.5109,
+   "sisdr_noisy": 2.0567,
+   "sisdr_enhanced": 8.6949
+  },
+  "stationary": {
+   "stoi_noisy": 0.7999,
+   "stoi_enhanced": 0.8116,
+   "pesq_noisy": 1.4185,
+   "pesq_enhanced": 1.5552,
+   "sisdr_noisy": 4.202,
+   "sisdr_enhanced": 10.957
+  },
+  "nonstationary": {
+   "stoi_noisy": 0.8409,
+   "stoi_enhanced": 0.8667,
+   "pesq_noisy": 1.4361,
+   "pesq_enhanced": 1.8198,
+   "sisdr_noisy": 2.5762,
+   "sisdr_enhanced": 10.5264
+  }
+ },
+ "deltas": {
+  "d_stoi": 0.021,
+  "d_pesq": 0.2773,
+  "d_sisdr": 7.259
+ },
+ "examples": [
+  {
+   "base": "ex00",
+   "id": "test_000284",
+   "snr_db": -9.968,
+   "stationarity": "mixed",
+   "classes": [
+    "wind",
+    "machinery",
+    "siren"
+   ],
+   "stoi_noisy": 0.42731376731186094,
+   "stoi_enhanced": 0.4697719554296912,
+   "pesq_noisy": 1.0624221563339233,
+   "pesq_enhanced": 1.0899569988250732,
+   "sisdr_noisy": -11.155770172389998,
+   "sisdr_enhanced": -6.377813842535876
+  },
+  {
+   "base": "ex01",
+   "id": "test_000030",
+   "snr_db": 19.973,
+   "stationarity": "nonstationary",
+   "classes": [
+    "siren"
+   ],
+   "stoi_noisy": 0.9044896036660423,
+   "stoi_enhanced": 0.9302880440082634,
+   "pesq_noisy": 2.4979288578033447,
+   "pesq_enhanced": 3.596810817718506,
+   "sisdr_noisy": 19.023975905227857,
+   "sisdr_enhanced": 23.002375684331184
+  }
+ ]
+}
