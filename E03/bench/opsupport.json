@@ -1,0 +1,33 @@
+{
+ "supported": [
+  "Add",
+  "Concat",
+  "Conv",
+  "Reshape",
+  "Sigmoid",
+  "MatMul",
+  "Tanh",
+  "Sub"
+ ],
+ "partial": [
+  "Slice",
+  "PRelu",
+  "Transpose",
+  "BatchNormalization"
+ ],
+ "unsupported": [
+  "Pow",
+  "Sqrt",
+  "Einsum",
+  "GRU",
+  "LayerNormalization",
+  "ConvTranspose",
+  "Div",
+  "Atan",
+  "Greater",
+  "Where",
+  "Less",
+  "IsNaN"
+ ],
+ "unsupported_nodes": 25
+}
