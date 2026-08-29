@@ -68,3 +68,58 @@ Speech: real LibriSpeech. Noise: **real recordings** (MUSAN point-source).
 Rooms: **real measured RIRs**. This is the first RHEAR result trained and
 evaluated entirely on real recorded audio. It still licenses **no claim** about
 real sirens, rotor or military noise — those classes are not in this corpus.
+
+---
+
+# Part H.2 — numerical-stability fix
+
+**Cause (measured, not guessed).** Not `angle()`, not bad data — 0.0 % of clean
+targets fall below the near-silent guard, and a 62-step reproduction of epoch 1
+produced **zero** skips. The cause is the power-law compression's own gradient:
+d/dS of `|S|^0.3` goes as `|S|^-0.7`, which diverges as a bin approaches zero.
+
+That explains the timing. Early in training the mask sits near 0.5 everywhere and
+nothing is near zero. Late in training it becomes bimodal (measured p25 = 0.003),
+many bins reach zero, and the gradient explodes. **The failure was a consequence
+of the model learning to suppress confidently.**
+
+**Fix — two numerical changes, objective unchanged where it matters:**
+
+| | before | after |
+|---|---|---|
+| epsilon in the compression | 1e-8 | **1e-4** |
+| max &#124;gradient&#124; | 259.7 | **10.1** |
+| loss change above −60 dBFS | — | 3.4e-3 |
+
+plus replacing `(|S|+eps)^c · exp(j·angle(S))` with the algebraically identical
+`S · (|S|+eps)^(c-1)` (max difference 2.6e-7), which drops `angle()` — worth a
+further 3.5× near zero.
+
+**Result: skip rate 27.59 % → 0.00 %.** The instability is gone, verified with
+per-epoch logging. Training also ran faster (129 min vs 171 min).
+
+## But it was not the bottleneck
+
+| Δ vs noisy, real-noise test set | frozen | real-trained | **+ stabilised** | gain |
+|---|---|---|---|---|
+| STOI | +0.000 | +0.019 | **+0.022** | +0.003 |
+| PESQ | +0.085 | +0.186 | **+0.198** | +0.012 |
+| SI-SDR | +2.24 | +6.32 | **+6.57 dB** | +0.25 |
+
+**Prediction check.** Recorded before the run: *"if the 27.6 % of discarded steps
+were costing real progress, ΔSTOI should improve beyond +0.019; if it lands at
+roughly +0.019, the skipped batches were not the bottleneck."*
+
+**Actual +0.022 — a +0.003 gain.** The prediction resolves toward the second
+branch: **the discarded batches were not what was holding the model back.** The
+fix was correct and necessary — a 27.6 % skip rate is not something to ship — but
+it bought little.
+
+## What that leaves
+
+The remaining gap to the PS targets (STOI 0.821 vs 0.85) is therefore **not**
+training stability, and **not** the architecture (measured oracle ceiling 0.967).
+By elimination the candidates are **data volume** (2.9 h), **noise-class
+diversity** (this corpus is 100 % `environmental` — no engine, rotor, siren or
+military classes), and **model capacity** (23 k parameters). Those have not been
+tested and should not be asserted as the cause until they are.

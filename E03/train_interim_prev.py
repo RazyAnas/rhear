@@ -64,7 +64,7 @@ def si_sdr(est, ref, eps=1e-6):
     return 10 * torch.log10((t.pow(2).sum(-1) + eps) / ((est - t).pow(2).sum(-1) + eps))
 
 
-def loss_fn(est_wav, ref_wav, S_est, S_ref, spp, c=0.3, rho=8.0, eps=1e-4):
+def loss_fn(est_wav, ref_wav, S_est, S_ref, spp, c=0.3, rho=8.0):
     """SI-SDR + power-law-compressed ASYMMETRIC magnitude + RI + SPP.
 
     The asymmetry must live INSIDE the magnitude loss, not beside it. A first
@@ -75,29 +75,13 @@ def loss_fn(est_wav, ref_wav, S_est, S_ref, spp, c=0.3, rho=8.0, eps=1e-4):
     while SI-SDR climbed. Folding rho into the one magnitude term makes the
     effective ratio exactly rho.
     """
-    # NUMERICAL STABILITY (measured, not guessed).
-    # The derivative of power-law compression |S|^c goes as |S|^(c-1) = |S|^-0.7,
-    # so it diverges as a bin approaches zero. Early in training the mask sits
-    # near 0.5 everywhere and nothing is near zero; LATE in training the mask
-    # becomes bimodal (measured p25 = 0.003) and many bins do reach zero. That is
-    # why 27.6% of batches went non-finite in the previous run and why none did
-    # in epoch 1.
-    #
-    # Two fixes, both numerical -- the objective is unchanged where it matters:
-    #   eps 1e-8 -> 1e-4 bounds the gradient by eps^(c-1): max |grad| 259.7 -> 10.1,
-    #     for a loss change of 3.4e-3 on anything above -60 dBFS.
-    #   S * (|S|+eps)^(c-1) replaces (|S|+eps)^c * exp(j*angle(S)). Algebraically
-    #     identical (max |A-B| = 2.6e-7) but avoids angle(), whose gradient was a
-    #     further 3.5x larger near zero.
     l_sisdr = -si_sdr(est_wav, ref_wav).mean()
-    me = (S_est.abs() + eps) ** c
-    mr = (S_ref.abs() + eps) ** c
+    me = (S_est.abs() + 1e-8) ** c
+    mr = (S_ref.abs() + 1e-8) ** c
     d = mr - me                                        # >0 = speech was removed
     l_mag = (rho * torch.clamp(d, min=0).pow(2).mean()
              + torch.clamp(-d, min=0).pow(2).mean())
-    ce = S_est * (S_est.abs() + eps) ** (c - 1)
-    cr = S_ref * (S_ref.abs() + eps) ** (c - 1)
-    ri = ce - cr
+    ri = (me * torch.exp(1j * S_est.angle()) - mr * torch.exp(1j * S_ref.angle()))
     l_ri = (ri.real.pow(2) + ri.imag.pow(2)).mean()
     l_asym = torch.zeros((), device=me.device)
     # Speech-presence target, reduced to the encoder's band resolution.
@@ -153,11 +137,9 @@ if __name__ == "__main__":
     win = torch.hann_window(N_FFT, device=DEV)
 
     best, hist, skipped = -1e9, [], 0
-    ep_skips = []
     t0 = time.time()
     for ep in range(a.epochs):
         model.train(); tl = 0; n = 0
-        sk0 = skipped
         for x, y in tr:
             x, y = x.to(DEV), y.to(DEV)
             # A handful of mixtures have a near-silent clean target (the pair is
@@ -191,16 +173,13 @@ if __name__ == "__main__":
                 q = si_sdr(est, y)
                 vs += [float(t) for t in q if torch.isfinite(t)]
         v = float(np.mean(vs)) if vs else float("nan")
-        ep_skips.append(skipped - sk0)
-        hist.append(dict(epoch=ep, train_loss=tl / max(n, 1), val_sisdr=v,
-                         skipped=skipped - sk0))
+        hist.append(dict(epoch=ep, train_loss=tl / max(n, 1), val_sisdr=v))
         if v > best:
             best = v
             torch.save(model.state_dict(), os.path.join(a.out, "best.pt"))
         if ep % 5 == 0 or ep == a.epochs - 1:
             print(f"  ep {ep:3d}  loss {tl/max(n,1):8.3f}   val SI-SDR {v:6.2f} dB"
-                  f"   best {best:6.2f}   skip {skipped-sk0:2d}/{len(tr)}"
-                  f"   {(time.time()-t0)/60:5.1f} min")
+                  f"   best {best:6.2f}   {(time.time()-t0)/60:5.1f} min")
     json.dump(hist, open(os.path.join(a.out, "history.json"), "w"), indent=1)
     print(f"\n  done in {(time.time()-t0)/60:.1f} min, best val SI-SDR {best:.2f} dB")
     print(f"  skipped {skipped} batches as non-finite "
