@@ -142,6 +142,8 @@ canvas{display:block;width:100%;border-radius:3px;background:var(--panel2)}
       <h2>speech enhancement A/B <span id="abwarn"></span></h2>
       <div class="note" id="abnote"></div>
       <div id="abmetrics"></div>
+      <div id="abprog"></div>
+      <div class="grp">listen &mdash; noisy vs enhanced</div>
       <div id="ablist"></div>
     </div>
   </div>
@@ -401,6 +403,27 @@ fetch('/api/ab').then(r=>r.ok?r.json():null).then(ab=>{
   $('#abnote').textContent=ab.WARNING+
     `  |  ${ab.model.params.toLocaleString()} params, ${ab.model.mmacs.toFixed(1)} MMAC/s, `+
     `${ab.model.latency_ms} ms  |  ${ab.n_test} held-out clips, speaker-disjoint`;
+  // progression: how the result got here, and the measured ceiling
+  if(ab.progression){
+    const rows=ab.progression.map((p,i)=>{
+      const good=p.stoi>0.005, bad=Math.abs(p.stoi)<0.005;
+      return `<div style="display:flex;gap:8px;align-items:baseline;padding:4px 0;`+
+        `border-bottom:1px solid var(--panel2)">`+
+        `<span style="color:var(--dimmer);width:14px">${i+1}</span>`+
+        `<span style="flex:1;font-size:10.5px">${p.stage.replace(/^\d+\.\s*/,'')}`+
+        `<br><span style="color:var(--dimmer)">${p.note}</span></span>`+
+        `<span style="font-variant-numeric:tabular-nums;text-align:right;min-width:120px">`+
+        `<span style="color:${good?'var(--good)':(bad?'var(--bad)':'var(--fg)')}">`+
+        `STOI ${p.stoi>=0?'+':''}${p.stoi.toFixed(3)}</span>`+
+        `<br><span style="color:var(--dim);font-size:10px">SI-SDR ${p.sisdr>=0?'+':''}`+
+        `${p.sisdr.toFixed(2)} dB</span></span></div>`;}).join('');
+    const c=ab.ceiling;
+    $('#abprog').innerHTML=`<div class="grp">how we got here</div>${rows}`+
+      (c?`<div class="grp">measured ceiling</div><div style="font-size:10.5px;`+
+        `color:var(--dim);line-height:1.6">A <b style="color:var(--fg)">perfect</b> mask on this `+
+        `architecture reaches <b style="color:var(--good)">STOI ${c.oracle_stoi_48band}</b> `+
+        `(noisy ${c.noisy_stoi}). The design is not the limit &mdash; the training is.</div>`:'');
+  }
   const o=ab.overall,d=ab.deltas;
   const row=(n,a,b,dd,t)=>`<div class="tile ${dd>0?'good':''}"><div class="k">${n}</div>`+
     `<div class="v">${b.toFixed(n==='SI-SDR'?1:2)}<span class="u">${n==='SI-SDR'?'dB':''}</span></div>`+

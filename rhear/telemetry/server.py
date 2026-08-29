@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 UI_DIR = os.path.join(ROOT, "ui")
 # A/B demo assets produced by E03/evaluate_interim.py. Absent until it has run,
 # in which case the panel simply does not appear -- no placeholder audio.
-AB_DIR = os.path.join(ROOT, "E03", "runs", "interim", "eval")
+AB_DIR = os.path.join(ROOT, "E03", "runs", "demo_ab")
 
 
 class Handler(http.server.BaseHTTPRequestHandler):

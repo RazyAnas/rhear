@@ -32,15 +32,28 @@ def rms(x):
     return float(np.sqrt(np.mean(np.square(x)) + 1e-20))
 
 
-def _fit(x, n, rng, allow_tile=True):
-    """Take n samples from x, tiling or cropping as needed."""
+IMPULSIVE_CLASSES = {"gunshot", "shelling", "footsteps", "impulse", "blast"}
+
+
+def _fit(x, n, rng, allow_tile=True, impulsive=False):
+    """Take n samples from x, cropping, tiling, or PLACING as appropriate.
+
+    Impulsive noise must not be tiled. Measured on MAD: 55% of shelling clips and
+    27% of gunshot clips are shorter than the 4 s mixture window, and tiling them
+    turns a single blast into a periodic impulse train that does not occur in
+    nature and that a model could learn to exploit. Steady textures (vehicle,
+    rotor, wind) tile legitimately -- they ARE continuous.
+    """
     if len(x) == 0:
         return np.zeros(n)
     if len(x) >= n:
         i = int(rng.integers(0, len(x) - n + 1))
         return x[i:i + n].copy()
-    if not allow_tile:
-        y = np.zeros(n); y[:len(x)] = x; return y
+    if impulsive or not allow_tile:
+        y = np.zeros(n)
+        off = int(rng.integers(0, n - len(x) + 1))     # place once, at random offset
+        y[off:off + len(x)] = x
+        return y
     reps = int(np.ceil(n / len(x)))
     return np.tile(x, reps)[:n].copy()
 
@@ -127,7 +140,8 @@ def make_mixture(speech, noises, fs, rng, rir=None, dur_s=4.0,
     tot = np.zeros(n)
     layers = []
     for nz in noises:
-        a = _fit(np.asarray(nz["audio"], float), n, rng)
+        a = _fit(np.asarray(nz["audio"], float), n, rng,
+                 impulsive=nz.get("cls") in IMPULSIVE_CLASSES)
         a = a / (rms(a) + 1e-9)
         g, kind = level_trajectory(n, fs, rng)
         a = a * g

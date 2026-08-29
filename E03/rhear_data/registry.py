@@ -86,9 +86,17 @@ DATASETS = {
         url="https://github.com/kaen2891/military_audio_dataset",
         licence="CC BY 4.0", licence_ok=True, size_gb=1.4,
         content_kind="real recording",
-        verified="CC BY 4.0; 8,075 clips, ~12 h, 16 kHz mono WAV, 1-10 s; 5 "
-                 "annotators; sourced from real military footage with games and "
-                 "fiction excluded (Scientific Data 2024, PMC11193796)",
+        verified="CC BY 4.0 per the AUTHORS' REPOSITORY, which states explicitly: "
+                 "'This project, including the dataset, code, and paper, is licensed "
+                 "under CC BY 4.0' (github.com/kaen2891/military_audio_dataset). "
+                 "8,075 clips, ~12 h, 16 kHz mono WAV, 1-10 s, 5 annotators, real "
+                 "military footage with games/fiction excluded (Scientific Data 2024). "
+                 "DISCREPANCY: the Kaggle mirror's licence dropdown says CC-BY-SA-4.0. "
+                 "The repository statement is more specific and explicitly covers the "
+                 "DATASET, so it governs -- but if MAD ever enters a commercial "
+                 "release, confirm with the authors in writing. NOTE: an earlier "
+                 "version of this entry cited the PAPER's CC BY 4.0, which covers the "
+                 "ARTICLE only, not the data. Right answer, wrong evidence.",
         notes="USED AS A MILITARY-NOISE SOURCE ONLY. MAD is a CLASSIFICATION corpus "
               "with no clean-speech pairing, so it is never treated as a "
               "speech-enhancement pair. Its 'communication' class contains speech "

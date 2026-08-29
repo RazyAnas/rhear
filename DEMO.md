@@ -77,49 +77,47 @@ A headset has **four** microphone→ear paths, not two. At +90° the left cup's 
 mic is 102 µs non-causal while the *right* mic leads by 496 µs. Using both takes
 each ear from **38 % → 68 % of azimuth covered**.
 
-### 4b. Speech enhancement — how to present it (45 s)
+### 4b. Speech enhancement — how to present it (60 s)
 
-The A/B panel appears at the bottom right once evaluation has run. **Play a clip.**
-Judges respond to sound far more than to a metric table.
+The A/B panel is bottom-right. **Play a clip.** Judges respond to sound far more
+than to a metric table.
 
-Say this, in this order:
+> *"23,000 parameters, 59 MMAC/s, 8 ms latency, strictly causal. On held-out
+> speakers with **real recorded noise and real measured room responses**, it
+> improves all three metrics. We are below the PS targets — and we can tell you
+> exactly how far this design can go, because we measured the ceiling."*
 
-> *"This is our speech-enhancement model — 23,000 parameters, 59 MMAC/s, 8 ms
-> latency, strictly causal. On held-out, speaker-disjoint data it improves all
-> three metrics: SI-SDR +5.9 dB, PESQ +0.24, STOI +0.025.
-> It does not yet hit the PS targets, and we can tell you exactly how far the
-> architecture could go, because we measured the ceiling."*
-
-**Measured, held-out, 300 clips, speaker-disjoint:**
+**Measured, held-out, real noise:**
 
 | metric | noisy | enhanced | delta | PS target |
 |---|---|---|---|---|
-| STOI | 0.805 | **0.830** | +0.025 | > 0.85 |
-| PESQ | 1.382 | **1.621** | +0.239 | > 2.5 |
-| SI-SDR | 2.61 | **8.53** | +5.92 dB | > 15 dB |
+| STOI | 0.799 | **0.821** | +0.022 | > 0.85 |
+| PESQ | 1.295 | **1.493** | +0.198 | > 2.5 |
+| SI-SDR | 1.80 | **8.38** | +6.57 dB | > 15 dB |
 
-Best on **stationary** noise — vehicle and engine, i.e. the Smart Vehicles use
-case: STOI 0.800→0.832, PESQ 1.42→1.81, SI-SDR +4.2→+12.8 dB. Lead with that.
+### 4c. The progression — this is the strongest thing you have
 
-**The ceiling measurement — use it, it is the strongest thing here.**
-Apply a *perfect* mask (computed from the true clean signal, which no model can
-beat) at our architecture's resolution:
+The panel shows four stages. Walk the judge down it:
 
-| mask | STOI |
-|---|---|
-| noisy, unprocessed | 0.819 |
-| oracle at our 48 ERB bands | **0.967** |
-| oracle at full 257 bins | 0.979 |
+| stage | Δ STOI | what it shows |
+|---|---|---|
+| 1. trained on synthetic noise, tested on synthetic | **+0.025** | looked fine |
+| 2. same model, tested on **real** noise | **+0.000** | **the entire gain vanished** |
+| 3. retrained on real noise | +0.019 | recovered, and no cost on synthetic |
+| 4. + numerical instability fixed | **+0.022** | 27.6 % of batches were being discarded → 0.0 % |
 
-Resolution costs only 0.012 STOI. **So the architecture can reach 0.967 against a
-0.85 target — the design is not the limit, our current training is.** We also
-ruled out the phase head by ablation (worth 0.006).
+**Stage 2 is the point.** Most teams will show a number from step 1 and never
+discover step 2. We measured the synthetic-to-real gap, found it destroyed the
+result, and fixed it by changing the data — one variable, everything else held
+identical.
 
-That is a stronger answer than a borderline number, because it shows the ceiling,
-the ruled-out causes, and the remaining work.
+**And the ceiling:** a *perfect* mask on this exact architecture reaches
+**STOI 0.967** against a 0.799 noisy baseline. So the architecture is not the
+limit — the training is. We also ruled out mask resolution and the phase head by
+ablation, and found that every gain-floor variant made STOI worse in **two**
+independent domains.
 
-**Do not quote a STOI figure as a result.** The dataset behind it uses
-synthesised noise and is labelled INTERIM on the panel itself.
+**Do not quote a STOI figure as a headline result.** Quote the progression.
 
 ### 5. Honest close (30 s)
 *"Five of seven internal gates pass. The speech-enhancement model is specified
