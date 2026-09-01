@@ -1,0 +1,5 @@
+Command: /Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python /Users/mariyafatima/.espressif/v6.1/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem101 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/mariyafatima/PS#2/esp32_test/build/esp32_test.elf /Users/mariyafatima/PS#2/esp32_test/build/bootloader/bootloader.elf -m '/Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python' '/Users/mariyafatima/.espressif/v6.1/esp-idf/tools/idf.py' '-p' '/dev/cu.usbmodem101'
+[0;33m--- esp-idf-monitor 1.9.0 on /dev/cu.usbmodem101 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0m--- 0x40041a79: [0;33mets_delay_us[0m[0m in [0;32mROM[0m
+[0m

@@ -1,0 +1,64 @@
+{
+ "with_phase": {
+  "params": 22988,
+  "mac_per_frame": 236712,
+  "mmac_s": 59.18,
+  "flash_int8_kb": 22.4,
+  "act_ram_kb": 4.59,
+  "onnx_nodes": 105,
+  "onnx_distinct_ops": 24,
+  "unsupported": [
+   "Atan",
+   "ConvTranspose",
+   "Div",
+   "Einsum",
+   "GRU",
+   "Greater",
+   "IsNaN",
+   "LayerNormalization",
+   "Less",
+   "Pow",
+   "Sqrt",
+   "Where"
+  ],
+  "n_unsupported": 12
+ },
+ "no_phase": {
+  "params": 22956,
+  "mac_per_frame": 235176,
+  "mmac_s": 58.79,
+  "flash_int8_kb": 22.4,
+  "act_ram_kb": 4.59,
+  "onnx_nodes": 90,
+  "onnx_distinct_ops": 18,
+  "unsupported": [
+   "Abs",
+   "ConvTranspose",
+   "Einsum",
+   "GRU",
+   "LayerNormalization",
+   "Pow",
+   "Sqrt"
+  ],
+  "n_unsupported": 7
+ },
+ "no_phase_fullband": {
+  "params": 24975,
+  "mac_per_frame": 250971,
+  "mmac_s": 62.74,
+  "flash_int8_kb": 24.4,
+  "act_ram_kb": 4.59,
+  "onnx_nodes": 109,
+  "onnx_distinct_ops": 18,
+  "unsupported": [
+   "Abs",
+   "ConvTranspose",
+   "Einsum",
+   "GRU",
+   "LayerNormalization",
+   "Pow",
+   "Sqrt"
+  ],
+  "n_unsupported": 7
+ }
+}

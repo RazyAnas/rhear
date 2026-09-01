@@ -1,0 +1,12 @@
+{
+ "train": 20000,
+ "val": 300,
+ "noise_recordings": 8380,
+ "leakage": 0,
+ "snr_range": [
+  -10.0,
+  20.0
+ ],
+ "seed": 777,
+ "dur_s": 4.0
+}

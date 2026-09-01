@@ -1,0 +1,24 @@
+Command: ninja size
+[0/1] cd "/Users/mariyafatima/PS#2/esp32_test/build" && /Users/mariyafatima/.espressif/tools/cmake/4.0.3/CMake.app/Contents/bin/cmake -D "IDF_SIZE_TOOL=/Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python;-m;esp_idf_size" -D "MAP_FILE=/Users/mariyafatima/PS#2/esp32_test/build/esp32_test.map" -D OUTPUT_JSON= -P /Users/mariyafatima/.espressif/v6.1/esp-idf/tools/cmake/run_size_tool.cmake
+                            Memory Type Usage Summary                             
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃ Memory Type/Section ┃ Used [bytes] ┃ Used [%] ┃ Remain [bytes] ┃ Total [bytes] ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ Flash Code          │        71498 │          │                │               │
+│    .text            │        71498 │          │                │               │
+│ DIRAM               │        51826 │    15.16 │         289934 │        341760 │
+│    .text            │        35623 │    10.42 │                │               │
+│    .data            │        13523 │     3.96 │                │               │
+│    .bss             │         2680 │     0.78 │                │               │
+│ Flash Data          │        39880 │          │                │               │
+│    .rodata          │        39608 │          │                │               │
+│    .appdesc         │          256 │          │                │               │
+│    .tdata           │           16 │          │                │               │
+│ IRAM                │        16384 │    100.0 │              0 │         16384 │
+│    .text            │        15356 │    93.73 │                │               │
+│    .vectors         │         1028 │     6.27 │                │               │
+│ RTC SLOW            │           36 │     0.44 │           8156 │          8192 │
+│    .force_slow      │           36 │     0.44 │                │               │
+│ RTC FAST            │           24 │     0.29 │           8168 │          8192 │
+│    .rtc_reserved    │           24 │     0.29 │                │               │
+└─────────────────────┴──────────────┴──────────┴────────────────┴───────────────┘

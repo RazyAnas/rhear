@@ -1,0 +1,1 @@
+Command: /Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python -m esptool -p /dev/cu.usbmodem101 -b 460800 --before default-reset --after hard-reset --chip esp32s3 erase-flash

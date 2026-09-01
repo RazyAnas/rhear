@@ -119,8 +119,31 @@ class DualPathRNN(nn.Module):
 
 
 class GTCRNLite(nn.Module):
-    def __init__(self, ch=(16, 24, 24, 32), n_bands=48):
+    def __init__(self, ch=(16, 24, 24, 32), n_bands=48, phase=True,
+                 fullband=False, df=False, df_taps=5, df_bins=183, hop=HOP):
+        """phase=False removes the learned phase branch.
+
+        Measured on the final H3 checkpoint over 600 clips (E_def + E_env),
+        switching the branch off improves STOI +0.023/+0.022, PESQ
+        +0.041/+0.038 and SI-SAR +1.62/+1.65 dB. The rotation is emitted at
+        48 ERB bands and applied to every bin in a band, but phase is
+        circular and wraps quickly across frequency while our bands reach
+        19 bins wide -- one rotation per band is ill-posed in the wide ones.
+        Removing it also drops Atan, which CMSIS-NN cannot run.
+
+        Defaults to True so existing checkpoints load unchanged.
+        """
         super().__init__()
+        self.phase = phase
+        self.fullband = fullband
+        self.df = df
+        self.df_taps = df_taps
+        self.df_bins = df_bins
+        # Registered as a BUFFER so it lands in the state_dict and travels with
+        # the weights. A checkpoint trained at hop 256 and evaluated at hop 64
+        # produces plausible-looking garbage with no error, which is exactly the
+        # class of bug that is impossible to spot from a metrics table.
+        self.register_buffer("hop_", torch.tensor(int(hop)))
         self.erb = ERBSplit(n_bands=n_bands)
         c0, c1, c2, c3 = ch
         self.enc = nn.ModuleList([
@@ -134,9 +157,67 @@ class GTCRNLite(nn.Module):
             CausalDeconvBlock(c3 * 2, c2, stride=(1, 1)),
             CausalDeconvBlock(c2 * 2, c1, stride=(1, 2)),
             CausalDeconvBlock(c1 * 2, c0, stride=(1, 2)),
-            CausalDeconvBlock(c0 * 2, 2, stride=(1, 2), last=True),
+            CausalDeconvBlock(c0 * 2, 2 if phase else 1,
+                              stride=(1, 2), last=True),
         ])
         self.spp = nn.Conv2d(c3, 1, 1)          # speech-presence head (multi-task)
+
+        # G2: a parallel FULL-BAND branch over all 257 bins.
+        # The PS asks for "both full-band and sub-band features to capture
+        # global and local dependencies". Today every decision is made after
+        # 257 bins collapse to 48 ERB bands, so global structure is only ever
+        # seen through the band grid. This branch keeps the raw resolution,
+        # strides it down to the same (T, 6) shape as the encoder output, and
+        # fuses the two with a 1x1 projection back to c3 -- so the DPRNN, the
+        # decoder and the skip connections are all untouched. One variable.
+        if fullband:
+            # Strides (4,4,3) land 257 on exactly 6, the encoder's frequency
+            # width. (4,4,4) gives 5 and needs an interpolate to reconcile --
+            # which exports as Resize, an operator CMSIS-NN cannot run. Choosing
+            # the arithmetic to avoid an operator is cheaper than adding one.
+            self.fb = nn.ModuleList([
+                CausalConvBlock(3, 8, stride=(1, 4), groups=1),
+                CausalConvBlock(8, 12, stride=(1, 4)),
+                CausalConvBlock(12, 16, stride=(1, 3)),
+            ])
+            self.fuse = nn.Conv2d(c3 + 16, c3, 1, bias=False)
+
+        # DEEP FILTERING (stage 2). A real gain per band can only turn a band
+        # down; it cannot repair structure inside the band and cannot touch
+        # phase. The oracle ladder measured the consequence: a PERFECT real mask
+        # on our 48-band grid caps PESQ at 2.731 against a 2.5 target, so the
+        # target needs 92% of a flawless model. Adding this stage raises that
+        # ceiling to 3.297 (76% needed) and the SI-SAR ceiling from 14.71 to
+        # 17.81 dB -- and SI-SAR is our binding constraint.
+        #
+        # The head emits `df_taps` COMPLEX coefficients per bin, applied across
+        # TIME: Y[t,f] = sum_i c_i[t,f] * Ym[t-i,f], where Ym is the output of
+        # the ERB stage. Being complex and spanning frames, it is not bounded by
+        # the real-mask ceiling. It refines stage 1 rather than replacing it, so
+        # c = [1,0,0,0,0] recovers stage 1 exactly and the cascade can never be
+        # worse than the mask alone.
+        #
+        # PER-BIN, never per-band. Emitting one coefficient per ERB band and
+        # spreading it is precisely what made the phase branch harmful: one
+        # value applied across up to 19 bins, while phase wraps far faster.
+        #
+        # df_bins=183 (5.7 kHz) is not a round number on purpose. A transposed
+        # conv outputs (in-1)*stride + kernel, so from 6 the natural chain at
+        # strides (4,4,2) with k=3 is 6 -> 23 -> 91 -> 183. Asking for a rounder
+        # 24 -> 96 -> 192 makes each block short by one bin, and the block pads
+        # to compensate -- which exported as Pad, the only operator this stage
+        # added that CMSIS-NN cannot run. Taking the width the arithmetic
+        # actually produces removes it. Same reasoning as G2's (4,4,3) strides:
+        # choosing the shape is cheaper than adding an operator.
+        if df:
+            assert df_bins == 183, (
+                "df_bins must be 183: it is what strides (4,4,2) with k=3 "
+                "produce from 6 bins. Any other value pads or crops")
+            self.dfdec = nn.ModuleList([
+                CausalDeconvBlock(c3, 24, stride=(1, 4)),
+                CausalDeconvBlock(24, 16, stride=(1, 4)),
+                CausalDeconvBlock(16, 2 * df_taps, stride=(1, 2), last=True),
+            ])
 
     def forward(self, spec):
         """spec: (B,2,T,F) real/imag. Returns bounded complex mask and SPP."""
@@ -147,16 +228,43 @@ class GTCRNLite(nn.Module):
         for e in self.enc:
             x = e(x)
             skips.append(x); fdims.append(x.shape[3])
+        if self.fullband:
+            z = torch.cat([spec, mag], 1)            # (B,3,T,257), pre-ERB
+            for b in self.fb:
+                z = b(z)
+            assert z.shape[3] == x.shape[3], (
+                "full-band branch must land on the encoder's frequency width "
+                "without a resize: got %d vs %d" % (z.shape[3], x.shape[3]))
+            x = self.fuse(torch.cat([x, z], 1))
         spp = torch.sigmoid(self.spp(x))
         x = self.dprnn(x)
+        dfc = None
+        if self.df:
+            z = x
+            for i, d in enumerate(self.dfdec):
+                z = d(z, (23, 91, self.df_bins)[i])
+            # RESIDUAL PARAMETERISATION: c_0 = 1 + delta_0, c_i = delta_i.
+            # Adding 1 to the real part of tap 0 makes the identity filter the
+            # ORIGIN rather than something the head has to discover. Three
+            # consequences, all wanted: a freshly initialised head reproduces
+            # stage 1 almost exactly instead of destroying it, so G2's weights
+            # can be fine-tuned rather than retrained from scratch; the cascade
+            # starts at its own first stage's score and can only climb; and if
+            # deep filtering turns out not to help, the head can learn to stay
+            # at zero and cost nothing but compute.
+            dfc = z.clone()
+            dfc[:, 0] = dfc[:, 0] + 1.0
         out_f = fdims[-2:-1] + fdims[-3:-2] + fdims[-4:-3] + [self.erb.n_bands]
         for d, sk, of in zip(self.dec, reversed(skips), out_f):
             x = d(torch.cat([x, sk], 1), of)
         m = self.erb.inverse(x)                  # bands -> bins
+        if not self.phase:
+            # magnitude only; the noisy phase passes through untouched
+            return torch.tanh(torch.abs(m)), None, spp, dfc
         mr, mi = m[:, :1], m[:, 1:]
         mmag = torch.tanh(torch.sqrt(mr ** 2 + mi ** 2 + 1e-9))   # bounded
         mph = torch.atan2(mi, mr + 1e-9)
-        return mmag, mph, spp
+        return mmag, mph, spp, dfc
 
 
 # ------------------------------------------------------------------ analysis
@@ -190,6 +298,37 @@ def count_macs_per_frame(model, n_bands=48):
         macs += dw + pw; detail[f"dec{i}"] = dw + pw; fo = fu
     detail["spp"] = model.dprnn.gru_f.input_size * f
     macs += detail["spp"]
+    if getattr(model, "fullband", False):
+        # G2 branch: three stride-4 causal blocks over all 257 bins, then a
+        # 1x1 fuse. Counted the same way as the encoder above.
+        fb, ff = 0, N_BINS
+        for b in model.fb:
+            cin, cout = b.dw.in_channels, b.pw.out_channels
+            kt, kf = b.dw.kernel_size
+            st = b.dw.stride[1]
+            fo = math.ceil(ff / st)
+            fb += cin * kt * kf * fo + cin * cout * fo // b.groups
+            ff = fo
+        fuse = model.fuse.in_channels * model.fuse.out_channels * f
+        detail["fullband"] = fb
+        detail["fuse"] = fuse
+        macs += fb + fuse
+    if getattr(model, "df", False):
+        # Deep-filtering stage 2: the coefficient decoder, then applying the
+        # filter. Applying is trivially cheap (taps complex MACs per bin);
+        # emitting the coefficients is where the cost actually sits.
+        dfm, ff = 0, f
+        for i, d in enumerate(model.dfdec):
+            cin, cout = d.dw.in_channels, d.pw.out_channels
+            kt, kf = d.dw.kernel_size
+            st = d.dw.stride[1]
+            fo = (23, 91, model.df_bins)[i]
+            dfm += cin * kt * kf * fo + cin * cout * fo
+            ff = fo
+        apply_ = model.df_bins * model.df_taps * 4        # complex MAC = 4 real
+        detail["df_decoder"] = dfm
+        detail["df_apply"] = apply_
+        macs += dfm + apply_
     stft = 2 * (5 * N_FFT * math.log2(N_FFT))
     detail["stft+istft"] = int(stft)
     macs += int(stft)

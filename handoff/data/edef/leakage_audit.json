@@ -1,0 +1,32 @@
+{
+  "speaker_overlap": {
+    "train|test": [
+      "1993"
+    ],
+    "val|test": [
+      "1919"
+    ]
+  },
+  "noise_group_overlap": {},
+  "room_overlap": {},
+  "content_hash_overlap": {},
+  "counts": {
+    "train": {
+      "speakers": 1,
+      "noise_groups": 1,
+      "rooms": 0
+    },
+    "val": {
+      "speakers": 1,
+      "noise_groups": 1,
+      "rooms": 0
+    },
+    "test": {
+      "speakers": 7,
+      "noise_groups": 177,
+      "rooms": 1
+    }
+  },
+  "clean": false,
+  "unreadable_sources": []
+}

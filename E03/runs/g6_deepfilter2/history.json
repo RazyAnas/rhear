@@ -1,0 +1,32 @@
+[
+ {
+  "epoch": 0,
+  "train_loss": -8.788896294403076,
+  "val_sisdr": 9.9288646269838,
+  "skipped": 0
+ },
+ {
+  "epoch": 1,
+  "train_loss": -8.841669157791138,
+  "val_sisdr": 9.95047431665783,
+  "skipped": 0
+ },
+ {
+  "epoch": 2,
+  "train_loss": -8.901583984375,
+  "val_sisdr": 10.058495446344217,
+  "skipped": 0
+ },
+ {
+  "epoch": 3,
+  "train_loss": -8.96392343826294,
+  "val_sisdr": 10.090490141566843,
+  "skipped": 0
+ },
+ {
+  "epoch": 4,
+  "train_loss": -8.9996387840271,
+  "val_sisdr": 10.113619826945166,
+  "skipped": 0
+ }
+]

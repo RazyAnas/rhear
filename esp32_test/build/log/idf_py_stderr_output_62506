@@ -1,0 +1,687 @@
+Command: /Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python /Users/mariyafatima/.espressif/v6.1/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem101 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/mariyafatima/PS#2/esp32_test/build/esp32_test.elf /Users/mariyafatima/PS#2/esp32_test/build/bootloader/bootloader.elf -m '/Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python' '/Users/mariyafatima/.espressif/v6.1/esp-idf/tools/idf.py' '-p' '/dev/cu.usbmodem101'
+[0;33m--- esp-idf-monitor 1.9.0 on /dev/cu.usbmodem101 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0m--- 0x40048839: [0;33muart_tx_one_char_uart[0m[0m in [0;32mROM[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037adb1: [0;33mpanic_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/panic.c[0m[0m:[1;31m500[0m
+[0m--- 0x4037ad79: [0;33mesp_system_abort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/esp_system_chip.c[0m[0m:[1;31m87[0m
+[0m--- 0x4037a2d1: [0;33mabort[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_libc/src/abort.c[0m[0m:[1;31m38[0m
+[0m--- 0x42002473: [0;33mmspi_init[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m653[0m
+[0m--- 0x4037572f: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/cpu_start.c[0m[0m:[1;31m1007[0m
+[0m--- 0x403ccd63: [0;33mset_cache_and_start_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m1153[0m
+[0m--- (inlined by) [0;33munpack_load_app[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m888[0m
+[0m--- (inlined by) [0;33mload_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m798[0m
+[0m--- 0x403cd10d: [0;33mbootloader_utility_load_boot_image[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader_support/src/bootloader_utility.c[0m[0m:[1;31m600[0m
+[0m--- 0x403c8970: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m64[0m
+[0m--- 0x40045c01: [0;33mets_run_flash_bootloader[0m[0m in [0;32mROM[0m
+[0m--- 0x40043ab6: [0;33mmain[0m[0m in [0;32mROM[0m
+[0m--- 0x40034c45: [0;33m.stack_ok[0m[0m in [0;32mROM[0m
+[0m--- 0x4037af81: [0;33mesp_restart_noos[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c[0m[0m:[1;31m171[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8904: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/mariyafatima/.espressif/v6.1/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m

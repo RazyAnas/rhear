@@ -1,199 +1,326 @@
 {
- "WARNING": "REAL speech + REAL recorded noise + REAL measured room impulse responses. Held-out speakers and held-out noise sources. Below the PS targets; see the progression.",
- "checkpoint": "runs/real_stable/best.pt",
+ "WARNING": "REAL speech + REAL recorded DEFENCE noise (8 classes) + REAL measured room impulse responses. Held-out speakers and held-out noise sources, verified disjoint. Below the PS targets; see the progression and the ceiling.",
+ "checkpoint": "runs/g2_fullband/best.pt",
+ "eval_set": "E_def - 300 clips, 8 defence noise classes, 177 sources, 93 RIRs, 63% real reverberation",
  "n_test": 300,
  "model": {
-  "params": 22988,
-  "mmacs": 59.178,
-  "latency_ms": 8.0
+  "params": 24975,
+  "mmacs": 62.743,
+  "latency_ms": 8.0,
+  "phase_branch": "removed",
+  "fullband_branch": "present"
  },
  "overall": {
-  "stoi_noisy": 0.7989,
-  "stoi_enhanced": 0.8207,
-  "pesq_noisy": 1.2951,
-  "pesq_enhanced": 1.4928,
-  "sisdr_noisy": 1.8015,
-  "sisdr_enhanced": 8.3755
- },
- "by_stationarity": {
-  "unknown": {
-   "stoi_noisy": 0.7989,
-   "stoi_enhanced": 0.8207,
-   "pesq_noisy": 1.2951,
-   "pesq_enhanced": 1.4928,
-   "sisdr_noisy": 1.8015,
-   "sisdr_enhanced": 8.3755
-  }
+  "stoi_noisy": 0.7688,
+  "stoi_enhanced": 0.8141,
+  "pesq_noisy": 1.2915,
+  "pesq_enhanced": 1.6295,
+  "sisdr_noisy": 2.503,
+  "sisdr_enhanced": 10.045,
+  "si_sir": 16.4,
+  "si_sar": 11.89
  },
  "deltas": {
-  "d_stoi": 0.0218,
-  "d_pesq": 0.1977,
-  "d_sisdr": 6.574
+  "d_stoi": 0.0453,
+  "d_pesq": 0.338,
+  "d_sisdr": 7.543
+ },
+ "by_class": {
+  "drone": {
+   "n": 72,
+   "d_stoi": 0.046,
+   "d_pesq": 0.4,
+   "d_sisdr": 7.7
+  },
+  "environmental": {
+   "n": 68,
+   "d_stoi": 0.045,
+   "d_pesq": 0.3,
+   "d_sisdr": 7.2
+  },
+  "fighter": {
+   "n": 74,
+   "d_stoi": 0.05,
+   "d_pesq": 0.26,
+   "d_sisdr": 7.7
+  },
+  "footsteps": {
+   "n": 79,
+   "d_stoi": 0.044,
+   "d_pesq": 0.3,
+   "d_sisdr": 6.7
+  },
+  "gunshot": {
+   "n": 89,
+   "d_stoi": 0.053,
+   "d_pesq": 0.31,
+   "d_sisdr": 7.1
+  },
+  "helicopter": {
+   "n": 70,
+   "d_stoi": 0.045,
+   "d_pesq": 0.39,
+   "d_sisdr": 6.9
+  },
+  "shelling": {
+   "n": 61,
+   "d_stoi": 0.045,
+   "d_pesq": 0.35,
+   "d_sisdr": 8.2
+  },
+  "vehicle": {
+   "n": 67,
+   "d_stoi": 0.05,
+   "d_pesq": 0.33,
+   "d_sisdr": 7.4
+  }
+ },
+ "by_snr": {
+  "< -5 dB": {
+   "n": 49,
+   "d_stoi": 0.061,
+   "d_pesq": 0.11,
+   "d_sisdr": 9.9
+  },
+  "-5..0 dB": {
+   "n": 52,
+   "d_stoi": 0.061,
+   "d_pesq": 0.07,
+   "d_sisdr": 9.1
+  },
+  "0..5 dB": {
+   "n": 44,
+   "d_stoi": 0.074,
+   "d_pesq": 0.28,
+   "d_sisdr": 8.3
+  },
+  "5..10 dB": {
+   "n": 66,
+   "d_stoi": 0.036,
+   "d_pesq": 0.41,
+   "d_sisdr": 6.8
+  },
+  "10..15 dB": {
+   "n": 53,
+   "d_stoi": 0.026,
+   "d_pesq": 0.54,
+   "d_sisdr": 5.9
+  },
+  "> 15 dB": {
+   "n": 36,
+   "d_stoi": 0.012,
+   "d_pesq": 0.67,
+   "d_sisdr": 5.0
+  }
+ },
+ "by_stationarity": {
+  "all": {
+   "stoi_noisy": 0.7688,
+   "stoi_enhanced": 0.802,
+   "pesq_noisy": 1.2915,
+   "pesq_enhanced": 1.559,
+   "sisdr_noisy": 2.5026,
+   "sisdr_enhanced": 9.324
+  }
  },
  "examples": [
   {
    "base": "ex00",
-   "id": "test_000063",
-   "snr_db": -9.863,
-   "stationarity": "unknown",
+   "id": "test_000293",
+   "snr_db": 1.979,
+   "primary": "drone",
    "classes": [
-    "environmental",
-    "environmental"
+    "drone"
    ],
-   "stoi_noisy": 0.598749876317141,
-   "stoi_enhanced": 0.6025634161431455,
-   "pesq_noisy": 1.0424679517745972,
-   "pesq_enhanced": 1.103325605392456,
-   "sisdr_noisy": -13.679586755543083,
-   "sisdr_enhanced": -2.347089570796895
+   "reverb": "?",
+   "stoi_noisy": 0.798,
+   "stoi_enhanced": 0.894,
+   "pesq_noisy": 1.06,
+   "pesq_enhanced": 1.48
   },
   {
    "base": "ex01",
-   "id": "test_000295",
-   "snr_db": -6.019,
-   "stationarity": "unknown",
+   "id": "test_000198",
+   "snr_db": 1.935,
+   "primary": "gunshot",
    "classes": [
-    "environmental",
+    "gunshot",
     "environmental"
    ],
-   "stoi_noisy": 0.5639342269966894,
-   "stoi_enhanced": 0.49946915110437295,
-   "pesq_noisy": 1.0214717388153076,
-   "pesq_enhanced": 1.0418696403503418,
-   "sisdr_noisy": -6.462653003515575,
-   "sisdr_enhanced": -1.7511476884747248
+   "reverb": "?",
+   "stoi_noisy": 0.67,
+   "stoi_enhanced": 0.761,
+   "pesq_noisy": 1.03,
+   "pesq_enhanced": 1.11
   },
   {
    "base": "ex02",
-   "id": "test_000266",
-   "snr_db": -2.303,
-   "stationarity": "unknown",
+   "id": "test_000243",
+   "snr_db": 2.132,
+   "primary": "helicopter",
    "classes": [
-    "environmental",
-    "environmental"
+    "helicopter",
+    "drone"
    ],
-   "stoi_noisy": 0.6435469966192517,
-   "stoi_enhanced": 0.7420633352899374,
-   "pesq_noisy": 1.0775378942489624,
-   "pesq_enhanced": 1.2963910102844238,
-   "sisdr_noisy": -3.0528982193181124,
-   "sisdr_enhanced": 5.714739585853401
+   "reverb": "?",
+   "stoi_noisy": 0.521,
+   "stoi_enhanced": 0.673,
+   "pesq_noisy": 1.16,
+   "pesq_enhanced": 1.66
   },
   {
    "base": "ex03",
-   "id": "test_000056",
-   "snr_db": 1.634,
-   "stationarity": "unknown",
+   "id": "test_000280",
+   "snr_db": 1.864,
+   "primary": "shelling",
    "classes": [
-    "environmental",
-    "environmental"
+    "shelling",
+    "shelling",
+    "fighter"
    ],
-   "stoi_noisy": 0.6882743942014788,
-   "stoi_enhanced": 0.7155525517061333,
-   "pesq_noisy": 1.0406420230865479,
-   "pesq_enhanced": 1.0871827602386475,
-   "sisdr_noisy": 1.6282241700877373,
-   "sisdr_enhanced": 5.1502633089927485
+   "reverb": "?",
+   "stoi_noisy": 0.521,
+   "stoi_enhanced": 0.642,
+   "pesq_noisy": 1.14,
+   "pesq_enhanced": 1.5
   },
   {
    "base": "ex04",
-   "id": "test_000186",
-   "snr_db": 5.826,
-   "stationarity": "unknown",
+   "id": "test_000033",
+   "snr_db": 1.199,
+   "primary": "fighter",
    "classes": [
-    "environmental"
+    "fighter",
+    "helicopter",
+    "fighter"
    ],
-   "stoi_noisy": 0.9814641020670193,
-   "stoi_enhanced": 0.9803499482717338,
-   "pesq_noisy": 2.2781269550323486,
-   "pesq_enhanced": 1.8818166255950928,
-   "sisdr_noisy": 2.679060180466253,
-   "sisdr_enhanced": 15.765749418961379
+   "reverb": "?",
+   "stoi_noisy": 0.783,
+   "stoi_enhanced": 0.827,
+   "pesq_noisy": 1.07,
+   "pesq_enhanced": 1.25
   },
   {
    "base": "ex05",
-   "id": "test_000161",
-   "snr_db": 9.254,
-   "stationarity": "unknown",
+   "id": "test_000051",
+   "snr_db": 2.9,
+   "primary": "environmental",
    "classes": [
     "environmental",
-    "environmental",
-    "environmental"
+    "footsteps",
+    "fighter"
    ],
-   "stoi_noisy": 0.860971559204156,
-   "stoi_enhanced": 0.8655546356871017,
-   "pesq_noisy": 1.2103763818740845,
-   "pesq_enhanced": 1.474305272102356,
-   "sisdr_noisy": 8.18667085325434,
-   "sisdr_enhanced": 12.011545662081705
+   "reverb": "?",
+   "stoi_noisy": 0.742,
+   "stoi_enhanced": 0.809,
+   "pesq_noisy": 1.18,
+   "pesq_enhanced": 1.55
   },
   {
    "base": "ex06",
-   "id": "test_000168",
-   "snr_db": 14.322,
-   "stationarity": "unknown",
+   "id": "test_000009",
+   "snr_db": 1.075,
+   "primary": "vehicle",
    "classes": [
-    "environmental",
-    "environmental",
-    "environmental"
+    "vehicle",
+    "drone"
    ],
-   "stoi_noisy": 0.8673405918515233,
-   "stoi_enhanced": 0.9149954760964868,
-   "pesq_noisy": 1.4423654079437256,
-   "pesq_enhanced": 1.875025987625122,
-   "sisdr_noisy": 13.444414678344856,
-   "sisdr_enhanced": 17.511771477204707
+   "reverb": "?",
+   "stoi_noisy": 0.696,
+   "stoi_enhanced": 0.759,
+   "pesq_noisy": 1.04,
+   "pesq_enhanced": 1.12
   },
   {
    "base": "ex07",
-   "id": "test_000019",
-   "snr_db": 19.848,
-   "stationarity": "unknown",
+   "id": "test_000161",
+   "snr_db": 0.87,
+   "primary": "footsteps",
    "classes": [
-    "environmental"
+    "footsteps"
    ],
-   "stoi_noisy": 0.9847505858597185,
-   "stoi_enhanced": 0.9886147296727184,
-   "pesq_noisy": 2.581609010696411,
-   "pesq_enhanced": 2.746925115585327,
-   "sisdr_noisy": 18.571518239048295,
-   "sisdr_enhanced": 22.265941302042577
+   "reverb": "?",
+   "stoi_noisy": 0.905,
+   "stoi_enhanced": 0.926,
+   "pesq_noisy": 1.37,
+   "pesq_enhanced": 1.62
   }
  ],
- "provenance": "real recording (speech, noise and rooms)",
+ "provenance": "every noise recording is real; no synthetic noise in training or evaluation; eval sources verified disjoint from training by check_leakage.py",
  "progression": [
   {
-   "stage": "1. trained on SYNTHETIC noise, tested on SYNTHETIC",
-   "stoi": 0.0245,
-   "pesq": 0.2388,
-   "sisdr": 5.918,
-   "note": "looked fine -- but the test noise was synthetic too"
+   "stage": "1. trained on SYNTHETIC noise, tested on SYNTH",
+   "stoi": 0.025,
+   "pesq": 0.239,
+   "sisdr": 5.92
   },
   {
    "stage": "2. same model, tested on REAL noise",
-   "stoi": 0.0001,
-   "pesq": 0.0854,
-   "sisdr": 2.236,
-   "note": "the entire STOI gain vanished: it did not transfer"
+   "stoi": 0.0,
+   "pesq": 0.085,
+   "sisdr": 2.24
   },
   {
    "stage": "3. retrained on REAL noise",
-   "stoi": 0.0192,
-   "pesq": 0.1856,
-   "sisdr": 6.321,
-   "note": "gain recovered, and no cost on synthetic"
+   "stoi": 0.019,
+   "pesq": 0.186,
+   "sisdr": 6.32
   },
   {
    "stage": "4. + numerical instability fixed",
-   "stoi": 0.0218,
-   "pesq": 0.1977,
-   "sisdr": 6.574,
-   "note": "27.6% of batches were being discarded -> 0.0%"
+   "stoi": 0.022,
+   "pesq": 0.198,
+   "sisdr": 6.57
+  },
+  {
+   "stage": "5. 9-class real defence noise, tested on unseen defence noise",
+   "stoi": 0.033,
+   "pesq": 0.268,
+   "sisdr": 6.82
   }
  ],
  "ceiling": {
-  "oracle_stoi_48band": 0.967,
-  "noisy_stoi": 0.799,
-  "note": "a PERFECT mask on this architecture reaches 0.967, so the design is not the limit"
- }
+  "note": "oracle mask, 80 clips. A real gain per band cannot correct phase at any resolution; a complex gain at 48 bands can, and beats a perfect full-resolution real mask at 2.7x less output.",
+  "real_48_stoi": 0.967,
+  "real_48_pesq": 2.96,
+  "real_96_pesq": 3.52,
+  "real_257_pesq": 3.69
+ },
+ "findings": {
+  "headline": "We are not failing to remove noise. We remove 16.4 dB of it. Artefacts cap the net result at 11.9 dB.",
+  "sir_sar_split": {
+   "si_sir_noise_removed_db": 16.4,
+   "si_sar_damage_caused_db": 11.89,
+   "si_sdr_net_db": 10.05,
+   "ceiling_si_sar_db": 22.91,
+   "note": "SI-SDR alone cannot separate 'removed noise' from 'damaged speech'. Splitting it is what showed the bottleneck is distortion, not residue."
+  },
+  "phase_branch_removal": {
+   "d_stoi": 0.023,
+   "d_pesq": 0.041,
+   "d_si_sar_db": 1.62,
+   "note": "Deleting the learned phase branch IMPROVED all three, on 600 clips across both eval sets. One rotation per ERB band is ill-posed because phase wraps faster than the bands. Also drops Atan, which CMSIS-NN cannot run: unsupported operators 12 -> 7."
+  },
+  "e08_filter_length": {
+   "chosen_L": 128,
+   "mmac_s": 172,
+   "cost_vs_L512_db": {
+    "engine_50Hz": 0.4,
+    "rotor_200Hz": -7.5,
+    "hull_broadband": 0.1,
+    "wideband": 0.3
+   },
+   "note": "L=128 satisfies real-time compute constraints with negligible loss for broadband and engine conditions, while a 200 Hz tonal rotor component benefits from longer memory. L2 retuning may partially recover this penalty; E08 does not measure that."
+  },
+  "timing_budget_esp32s3": {
+   "core0_mmac_s": 178.4,
+   "core1_mmac_s": 80.8,
+   "total": 259.2,
+   "ceiling": 400.3,
+   "utilisation_pct": 65,
+   "verdict": "PASS",
+   "condition": "Requires Levinson-Durbin for the Toeplitz solve in predict.prediction_floor_db. As written it is O(n^3) = 350 MMAC/s alone and the budget FAILS at 150% utilisation."
+  }
+ },
+ "audio_from": "runs/cond_B/best.pt \u2014 the best checkpoint on STOI/PESQ. H3 (20k mixtures) scored slightly lower and is not used here."
 }

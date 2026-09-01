@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "rhear-demo",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-u", "rhear_twin.py", "--port", "8765"],
+      "port": 8765
+    }
+  ]
+}

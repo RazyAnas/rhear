@@ -1,0 +1,32 @@
+{
+  "speaker_overlap": {
+    "train|test": [
+      "7850"
+    ],
+    "val|test": [
+      "7976"
+    ]
+  },
+  "noise_group_overlap": {},
+  "room_overlap": {},
+  "content_hash_overlap": {},
+  "counts": {
+    "train": {
+      "speakers": 1,
+      "noise_groups": 3,
+      "rooms": 1
+    },
+    "val": {
+      "speakers": 1,
+      "noise_groups": 3,
+      "rooms": 1
+    },
+    "test": {
+      "speakers": 8,
+      "noise_groups": 85,
+      "rooms": 1
+    }
+  },
+  "clean": false,
+  "unreadable_sources": []
+}

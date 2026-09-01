@@ -422,7 +422,7 @@ class SimulationSource(TelemetrySource):
         sc["e06_gain_db"] = S(value=9.28, unit="dB", lo=0, hi=12, good=True,
                               group="gates", label="E06 selection gain after change")
         sc["l1_params_k"] = S(value=22.988, unit="k", lo=0, hi=100, good=True,
-                              group="gates", label="L1 params (E03, untrained)")
+                              group="gates", label="L1 params (trained; 22.956k no-phase)")
         sc["l1_mmacs"] = S(value=59.2, unit="MMAC/s", lo=0, hi=60, good=True,
                            group="gates", label="L1 MAC rate (E03)")
         sc["l1_latency_ms"] = S(value=8.0, unit="ms", lo=0, hi=15, good=True,
@@ -448,10 +448,12 @@ class SimulationSource(TelemetrySource):
                            detail="ADAU1772"),
             "l0": Block("active" if anc_on else "bypassed", load=l0_load,
                         latency_us=self.l0_us, rate_hz=FS,
-                        detail="2x FxNLMS L=%d, ref %s/%s" % (L, st["chosen"]["L"], st["chosen"]["R"])),
+                        detail="2x FxNLMS L=%d @ %d kHz (algorithm validation) | "
+                               "deploy target L=128 @ 192 kHz, see E08 | ref %s/%s"
+                               % (L, FS // 1000, st["chosen"]["L"], st["chosen"]["R"])),
             "l2": Block("active", latency_us=self.l2_us, rate_hz=FS / BLOCK,
                         detail=SCENES[self.sel_class]),
-            "l1": Block("idle", detail="E03 specified, 23k params, untrained"),
+            "l1": Block("idle", detail="trained on 9-class real noise; STOI 0.814, PESQ 1.63, SI-SAR 11.9 dB on held-out defence noise (G2: no phase branch + full-band)"),
             "driver": Block("active" if anc_on else "idle"),
             "ear": Block("fault" if self.mode == "PROTECT" else "active"),
             "radio": Block("idle"),

@@ -142,8 +142,14 @@ FLOW_NODES = [
     ("afe",        "Analog front end\n+ limiter", 0.24, 0.40),
     ("codec",      "ANC codec\nADC/DAC",          0.40, 0.40),
     ("l0",         "L0 control\n48 kHz FxNLMS",   0.58, 0.40),
-    ("l2",         "L2 scene engine\n62.5 Hz",    0.58, 0.12),
-    ("l1",         "L1 speech\nenhancer",         0.58, 0.86),
+    # L2 sits LEFT of the L0/L1 column on purpose. With l2, l0 and l1 all at
+    # x=0.58 the l2->l1 coefficient edge is a straight vertical line that passes
+    # straight through the L0 box, and it reads as "L1 feeds L0" -- an edge that
+    # does not exist and would be wrong if it did. L1 is the outgoing radio
+    # path; it never writes to the canceller. At x=0.30 the l2->l1 line crosses
+    # y=0.40 at x=0.41, well clear of L0.
+    ("l2",         "L2 scene engine\n62.5 Hz",    0.30, 0.12),
+    ("l1",         "L1 speech enhancer\n250 Hz",  0.58, 0.86),
     ("driver",     "Driver",         0.80, 0.40),
     ("ear",        "Ear",            0.94, 0.40),
     ("radio",      "Radio / PTT",    0.80, 0.86),

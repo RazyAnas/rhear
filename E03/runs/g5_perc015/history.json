@@ -1,0 +1,26 @@
+[
+ {
+  "epoch": 0,
+  "train_loss": -7.976385618400574,
+  "val_sisdr": 10.026049091061576,
+  "skipped": 0
+ },
+ {
+  "epoch": 1,
+  "train_loss": -8.057027486991883,
+  "val_sisdr": 9.98443111812075,
+  "skipped": 0
+ },
+ {
+  "epoch": 2,
+  "train_loss": -8.13174531135559,
+  "val_sisdr": 9.98614779750506,
+  "skipped": 0
+ },
+ {
+  "epoch": 3,
+  "train_loss": -8.1751502784729,
+  "val_sisdr": 9.983852246701717,
+  "skipped": 0
+ }
+]

@@ -1,0 +1,4 @@
+adau1772|https://www.analog.com/-/media/analog/en/products/image/chip-photo/adau1772.png
+esp32s3|https://www.espressif.com/sites/default/files/modules/ESP32-S3-WROOM-1.png
+inmp441|https://robu.in/wp-content/uploads/2021/03/INMP441-Omnidirectional-Microphone-Module-MEMS-High-Precision-Low-Power-I2S-Interface-2.jpg
+peltor_x3a|https://m.media-amazon.com/images/I/71xLQFQKPCL._SL1500_.jpg

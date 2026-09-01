@@ -1,0 +1,26 @@
+{
+ "chip": {
+  "cores": 2,
+  "mmac_s_per_core": 200.16
+ },
+ "as_written": {
+  "core0": 178.43712000000002,
+  "core1": 422.1393333333333,
+  "total": 600.5764533333333,
+  "pass_": false
+ },
+ "with_levinson": {
+  "core0": 178.43712000000002,
+  "core1": 80.80600000000001,
+  "total": 259.24312000000003,
+  "pass_": true
+ },
+ "components": {
+  "l0": 172.032,
+  "l1": 58.79,
+  "l2_features": 13.824,
+  "l2_solve_generic": 349.5253333333333,
+  "l2_solve_levinson": 8.192,
+  "io": 6.40512
+ }
+}

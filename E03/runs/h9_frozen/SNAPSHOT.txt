@@ -1,0 +1,2 @@
+h3_snapshot.pt sha256[:16]=53cde5a772f9d636
+copied mid-training; both H9 arms use this one file

@@ -1,0 +1,125 @@
+{
+  "project": "RHEAR",
+  "checkpoint": {
+    "hop": 256,
+    "keys": 108,
+    "missing_keys": [],
+    "unexpected_keys": [],
+    "file_bytes": 328337,
+    "file_mb": 0.3131265640258789
+  },
+  "environment": {
+    "python": "3.12.12 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 20:07:49) [Clang 20.1.8 ]",
+    "platform": "macOS-26.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm",
+    "torch": "2.10.0",
+    "root_exists": true,
+    "model_dir_exists": true,
+    "checkpoint_exists": true,
+    "git_commit": "dc548792c292d497449e83262fd248eefe4f8bf2"
+  },
+  "configuration": {
+    "hop": 256,
+    "fullband": true,
+    "df": true,
+    "phase": false,
+    "frame_rate_hz": 62.5
+  },
+  "model": {
+    "trainable_parameters": 49663,
+    "state_values": 75058,
+    "floating_state_values": 75047,
+    "integer_state_values": 11,
+    "parameter_bytes": 198652,
+    "buffer_bytes": 101624,
+    "state_bytes": 300276,
+    "int8_parameter_bytes_estimate": 49663,
+    "int8_with_light_scale_overhead_estimate": 51215
+  },
+  "dtypes": {
+    "tensor_counts": {
+      "torch.int64": 11,
+      "torch.float32": 97
+    },
+    "bytes": {
+      "torch.int64": 88,
+      "torch.float32": 300188
+    }
+  },
+  "parameter_breakdown": {
+    "enc": 5307,
+    "dprnn": 27872,
+    "dec": 10816,
+    "spp": 65,
+    "fb": 483,
+    "fuse": 5120
+  },
+  "module_types": {
+    "ERBSplit": 1,
+    "ModuleList": 3,
+    "CausalConvBlock": 7,
+    "Conv2d": 20,
+    "BatchNorm2d": 10,
+    "PReLU": 10,
+    "DualPathRNN": 1,
+    "GRU": 2,
+    "Linear": 2,
+    "LayerNorm": 2,
+    "CausalDeconvBlock": 4,
+    "ConvTranspose2d": 4,
+    "Identity": 2
+  },
+  "operator_risks": {
+    "GRU": {
+      "count": 2,
+      "note": "sequential recurrent computation; needs an embedded implementation"
+    },
+    "LayerNorm": {
+      "count": 2,
+      "note": "normalization implementation must be supported/ported"
+    }
+  },
+  "compute": {
+    "mac_per_frame": 517371,
+    "frames_per_second": 62.5,
+    "mac_per_second": 32335687.5,
+    "mmac_per_second": 32.3356875,
+    "breakdown": {
+      "enc0": 2952,
+      "enc1": 12672,
+      "enc2": 9504,
+      "enc3": 11808,
+      "dprnn_freq": 94464,
+      "dprnn_time": 67584,
+      "dec0": 43776,
+      "dec1": 65664,
+      "dec2": 94464,
+      "dec3": 30720,
+      "spp": 384,
+      "fullband": 6579,
+      "fuse": 30720,
+      "stft+istft": 46080
+    }
+  },
+  "audio_files_found": 168,
+  "deployment_packages": {
+    "onnx": "1.22.0",
+    "onnxruntime": "1.27.0",
+    "onnxruntime_tools": null,
+    "numpy": "2.0.0",
+    "scipy": "1.16.1",
+    "librosa": null
+  },
+  "sanity_checks": {
+    "checkpoint exists": true,
+    "checkpoint hop == 256": true,
+    "model params == 26479": false,
+    "MAC/frame == 389151": false,
+    "state_dict loads with no missing keys": true,
+    "state_dict loads with no unexpected keys": true,
+    "fullband enabled": true,
+    "df enabled": true,
+    "phase disabled": true
+  }
+}

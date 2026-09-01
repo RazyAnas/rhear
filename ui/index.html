@@ -143,6 +143,7 @@ canvas{display:block;width:100%;border-radius:3px;background:var(--panel2)}
       <div class="note" id="abnote"></div>
       <div id="abmetrics"></div>
       <div id="abprog"></div>
+      <div id="abfind"></div>
       <div class="grp">listen &mdash; noisy vs enhanced</div>
       <div id="ablist"></div>
     </div>
@@ -411,7 +412,7 @@ fetch('/api/ab').then(r=>r.ok?r.json():null).then(ab=>{
         `border-bottom:1px solid var(--panel2)">`+
         `<span style="color:var(--dimmer);width:14px">${i+1}</span>`+
         `<span style="flex:1;font-size:10.5px">${p.stage.replace(/^\d+\.\s*/,'')}`+
-        `<br><span style="color:var(--dimmer)">${p.note}</span></span>`+
+        `${p.note?`<br><span style="color:var(--dimmer)">${p.note}</span>`:``}</span>`+
         `<span style="font-variant-numeric:tabular-nums;text-align:right;min-width:120px">`+
         `<span style="color:${good?'var(--good)':(bad?'var(--bad)':'var(--fg)')}">`+
         `STOI ${p.stoi>=0?'+':''}${p.stoi.toFixed(3)}</span>`+
@@ -421,8 +422,35 @@ fetch('/api/ab').then(r=>r.ok?r.json():null).then(ab=>{
     $('#abprog').innerHTML=`<div class="grp">how we got here</div>${rows}`+
       (c?`<div class="grp">measured ceiling</div><div style="font-size:10.5px;`+
         `color:var(--dim);line-height:1.6">A <b style="color:var(--fg)">perfect</b> mask on this `+
-        `architecture reaches <b style="color:var(--good)">STOI ${c.oracle_stoi_48band}</b> `+
-        `(noisy ${c.noisy_stoi}). The design is not the limit &mdash; the training is.</div>`:'');
+        `architecture reaches <b style="color:var(--good)">STOI ${c.real_48_stoi??'--'}</b> and `+
+        `<b style="color:var(--good)">PESQ ${c.real_48_pesq??'--'}</b>. `+
+        `The design is not the limit &mdash; the training is.</div>`:'');
+  }
+  // findings: the results that are not audible in an A/B clip
+  if(ab.findings){
+    const F=ab.findings, hl=F.headline||'';
+    const box=(t,b)=>`<div style="padding:5px 0;border-bottom:1px solid var(--panel2);`+
+      `font-size:10.5px;line-height:1.55"><b style="color:var(--fg)">${t}</b><br>`+
+      `<span style="color:var(--dim)">${b}</span></div>`;
+    let h=`<div class="grp">what the audio cannot show you</div>`+
+      `<div style="font-size:11px;color:var(--good);line-height:1.55;padding:4px 0 8px">${hl}</div>`;
+    const s2=F.sir_sar_split;
+    if(s2) h+=box('noise removed vs damage caused',
+      `SI-SIR <b style="color:var(--good)">${s2.si_sir_noise_removed_db} dB</b> of noise removed &mdash; `+
+      `past the 15 dB requirement. But SI-SAR <b style="color:var(--bad)">${s2.si_sar_damage_caused_db} dB</b> `+
+      `of damage caps the net at ${s2.si_sdr_net_db} dB. Ceiling is ${s2.ceiling_si_sar_db} dB.`);
+    const ph=F.phase_branch_removal;
+    if(ph) h+=box('deleting the learned phase branch HELPS',
+      `STOI +${ph.d_stoi}, PESQ +${ph.d_pesq}, SI-SAR +${ph.d_si_sar_db} dB across 600 clips. `+
+      `Also drops Atan: unsupported operators 12 &rarr; 7.`);
+    const e8=F.e08_filter_length;
+    if(e8) h+=box(`L0 filter length = ${e8.chosen_L} (${e8.mmac_s} MMAC/s)`,
+      `Costs ${Math.abs(e8.cost_vs_L512_db.rotor_200Hz)} dB on 200 Hz tonal rotor only; `+
+      `~0 dB on engine, hull and wideband. Keeps the &#8377;409 processor.`);
+    const tb=F.timing_budget_esp32s3;
+    if(tb) h+=box(`whole system fits: ${tb.verdict} at ${tb.utilisation_pct}% of the chip`,
+      `core 0 ${tb.core0_mmac_s} + core 1 ${tb.core1_mmac_s} = ${tb.total} of ${tb.ceiling} MMAC/s.`);
+    $('#abfind').innerHTML=h;
   }
   const o=ab.overall,d=ab.deltas;
   const row=(n,a,b,dd,t)=>`<div class="tile ${dd>0?'good':''}"><div class="k">${n}</div>`+
@@ -434,8 +462,8 @@ fetch('/api/ab').then(r=>r.ok?r.json():null).then(ab=>{
     row('PESQ',o.pesq_noisy,o.pesq_enhanced,d.d_pesq,'> 2.5')+
     row('SI-SDR',o.sisdr_noisy,o.sisdr_enhanced,d.d_sisdr,'> 15 dB')+'</div>';
   $('#ablist').innerHTML=ab.examples.map(e=>
-    `<div class="chan"><div class="lbl"><span>${e.classes.join('+')} @ ${e.snr_db.toFixed(1)} dB `+
-    `<span style="color:var(--dimmer)">${e.stationarity}</span></span>`+
+    `<div class="chan"><div class="lbl"><span>${e.primary||e.classes.join('+')} @ ${e.snr_db.toFixed(1)} dB `+
+    `<span style="color:var(--dimmer)">${e.reverb||''}</span></span>`+
     `<span>STOI ${e.stoi_noisy.toFixed(2)}&rarr;${e.stoi_enhanced.toFixed(2)}</span></div>`+
     `<div style="display:flex;gap:6px;align-items:center;margin:2px 0 6px">`+
     `<span style="font-size:10px;color:var(--bad);width:52px">noisy</span>`+

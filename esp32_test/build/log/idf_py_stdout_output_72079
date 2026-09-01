@@ -1,0 +1,8 @@
+Command: ninja all
+[1/4] cd "/Users/mariyafatima/PS#2/esp32_test/build" && /Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python /Users/mariyafatima/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/mariyafatima/PS#2/esp32_test/build/partition_table/partition-table.bin /Users/mariyafatima/PS#2/esp32_test/build/esp32_test.bin
+esp32_test.bin binary size 0x2b3a0 bytes. Smallest app partition is 0x100000 bytes. 0xd4c60 bytes (83%) free.
+[2/4] Performing build step for 'bootloader'
+[1/1] cd "/Users/mariyafatima/PS#2/esp32_test/build/bootloader" && /Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python /Users/mariyafatima/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /Users/mariyafatima/PS#2/esp32_test/build/bootloader/bootloader.bin
+Bootloader binary size 0x5280 bytes. 0x2d80 bytes (36%) free.
+[3/4] No install step for 'bootloader'
+[4/4] Completed 'bootloader'

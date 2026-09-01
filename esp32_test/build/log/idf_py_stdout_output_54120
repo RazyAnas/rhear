@@ -1,0 +1,43 @@
+Command: ninja flash
+[1/5] cd "/Users/mariyafatima/PS#2/esp32_test/build" && /Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python /Users/mariyafatima/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/mariyafatima/PS#2/esp32_test/build/partition_table/partition-table.bin /Users/mariyafatima/PS#2/esp32_test/build/esp32_test.bin
+esp32_test.bin binary size 0x29770 bytes. Smallest app partition is 0x100000 bytes. 0xd6890 bytes (84%) free.
+[2/5] Performing build step for 'bootloader'
+[1/1] cd "/Users/mariyafatima/PS#2/esp32_test/build/bootloader" && /Users/mariyafatima/.espressif/tools/python/v6.1/venv/bin/python /Users/mariyafatima/.espressif/v6.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 /Users/mariyafatima/PS#2/esp32_test/build/bootloader/bootloader.bin
+Bootloader binary size 0x5280 bytes. 0x2d80 bytes (36%) free.
+[3/5] No install step for 'bootloader'
+[4/5] Completed 'bootloader'
+[4/5] Running utility command for flash
+esptool --chip esp32s3 -p /dev/cu.usbmodem101 -b 460800 --before=default-reset --after=hard-reset write-flash --flash-mode dio --flash-freq 80m --flash-size 2MB 0x0 bootloader/bootloader.bin 0x8000 partition_table/partition-table.bin 0x10000 esp32_test.bin --diff-with bootloader/bootloader_flashed.bin partition_table/partition-table_flashed.bin esp32_test_flashed.bin
+esptool v5.3.1
+Serial port /dev/cu.usbmodem101:
+Connecting...
+[1A[2K[1A[2KConnected to ESP32-S3 on /dev/cu.usbmodem101:
+Chip type:          ESP32-S3 (QFN56) (revision v0.2)
+Features:           Wi-Fi, BT 5 (LE), Dual Core + LP Core, 240MHz, Embedded PSRAM 8MB (AP_3v3)
+Crystal frequency:  40MHz
+USB mode:           USB-Serial/JTAG
+MAC:                7c:4f:ad:bb:65:3c
+
+Uploading stub flasher...
+Running stub flasher...
+[1A[2K[1A[2KStub flasher running.
+Changing baud rate to 460800...
+Changed.
+
+Configuring flash size...
+
+Writing 'bootloader/bootloader.bin' at 0x00000000...
+SHA digest in image updated.
+SHA digest in image updated.
+No changed sectors found, verifying if data is in flash...
+[1A[2K'bootloader/bootloader.bin' at 0x00000000 verified.
+
+Writing 'partition_table/partition-table.bin' at 0x00008000...
+No changed sectors found, verifying if data is in flash...
+[1A[2K'partition_table/partition-table.bin' at 0x00008000 verified.
+
+Writing 'esp32_test.bin' at 0x00010000...
+No changed sectors found, verifying if data is in flash...
+[1A[2K'esp32_test.bin' at 0x00010000 verified.
+
+Hard resetting via RTS pin...
