@@ -1,0 +1,21 @@
+{
+  "dataset_name": "g7_finetune_ms_snsd_0db",
+  "purpose": "G7 fine-tuning",
+  "sample_rate": 16000,
+  "duration_seconds": 4.0,
+  "snr_min_db": 0.0,
+  "snr_max_db": 0.0,
+  "generated_samples": 10000,
+  "speech_source": "H3",
+  "speech_pool": 16146,
+  "real_noise_source": "MAD + DEMAND",
+  "real_noise_weight": 0.7,
+  "ms_snsd_noise_source": "MS-SNSD noise_train",
+  "ms_snsd_noise_files": 128,
+  "ms_snsd_weight": 0.3,
+  "clip_probability": 0.15,
+  "distortion_probability": 0.1,
+  "rir_enabled": false,
+  "architecture_changed": false,
+  "seed": 45
+}
