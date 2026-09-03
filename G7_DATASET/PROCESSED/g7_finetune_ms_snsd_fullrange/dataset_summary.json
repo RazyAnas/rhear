@@ -1,0 +1,22 @@
+{
+  "dataset_name": "g7_finetune_ms_snsd_fullrange",
+  "purpose": "G7 fine-tuning -- full SNR range (fix for the 0dB regression)",
+  "sample_rate": 16000,
+  "duration_seconds": 4.0,
+  "snr_min_db": -10.0,
+  "snr_max_db": 20.0,
+  "generated_samples": 10000,
+  "speech_source": "H3",
+  "speech_pool": 16146,
+  "real_noise_source": "MAD + DEMAND",
+  "real_noise_weight": 0.7,
+  "ms_snsd_noise_source": "MS-SNSD noise_train",
+  "ms_snsd_noise_files": 128,
+  "ms_snsd_weight": 0.3,
+  "clip_probability": 0.15,
+  "distortion_probability": 0.1,
+  "rir_enabled": false,
+  "architecture_changed": false,
+  "seed": 45,
+  "note": "This dataset differs from g7_finetune_ms_snsd_0db in exactly one variable: SNR range (-10..20 dB here, was fixed 0 dB). Everything else -- noise sources, mix ratio, augmentation, seed -- is identical."
+}
