@@ -1,0 +1,207 @@
+{
+ "nets": {
+  "+3V3": [
+   "C1.1",
+   "C10.1",
+   "C11.1",
+   "C2.1",
+   "C3.1",
+   "C4.1",
+   "MIC1.VCC",
+   "MIC2.VCC",
+   "MIC3.VCC",
+   "MIC4.VCC",
+   "MIC5.VDD",
+   "U1.3V3"
+  ],
+  "+5V": [
+   "C5.1",
+   "U1.5V",
+   "U2.VIN"
+  ],
+  "GND": [
+   "C1.2",
+   "C10.2",
+   "C11.2",
+   "C2.2",
+   "C3.2",
+   "C4.2",
+   "C5.2",
+   "C6.2",
+   "C7.2",
+   "C8.2",
+   "C9.2",
+   "MIC1.GND",
+   "MIC2.GND",
+   "MIC3.GND",
+   "MIC4.GND",
+   "MIC5.GND",
+   "MIC5.LR",
+   "U1.GND",
+   "U2.GND"
+  ],
+  "N$1": [
+   "MIC1.OUT",
+   "R1.1"
+  ],
+  "N$2": [
+   "C6.1",
+   "R1.2",
+   "U1.GPIO1"
+  ],
+  "N$3": [
+   "MIC2.OUT",
+   "R2.1"
+  ],
+  "N$4": [
+   "C7.1",
+   "R2.2",
+   "U1.GPIO2"
+  ],
+  "N$5": [
+   "MIC3.OUT",
+   "R3.1"
+  ],
+  "N$6": [
+   "C8.1",
+   "R3.2",
+   "U1.GPIO4"
+  ],
+  "N$7": [
+   "MIC4.OUT",
+   "R4.1"
+  ],
+  "N$8": [
+   "C9.1",
+   "R4.2",
+   "U1.GPIO5"
+  ],
+  "N$9": [
+   "MIC5.SCK",
+   "U1.GPIO38"
+  ],
+  "N$10": [
+   "MIC5.WS",
+   "U1.GPIO39"
+  ],
+  "N$11": [
+   "MIC5.SD",
+   "U1.GPIO40"
+  ],
+  "N$12": [
+   "U1.GPIO15",
+   "U2.BCLK"
+  ],
+  "N$13": [
+   "U1.GPIO16",
+   "U2.LRC"
+  ],
+  "N$14": [
+   "U1.GPIO17",
+   "U2.DIN"
+  ],
+  "N$15": [
+   "LS1.+",
+   "LS2.+",
+   "U2.OUT+"
+  ],
+  "N$16": [
+   "LS1.-",
+   "LS2.-",
+   "U2.OUT-"
+  ]
+ },
+ "no_connect": [
+  "U1.GPIO10",
+  "U1.GPIO11",
+  "U1.GPIO12",
+  "U1.GPIO13",
+  "U1.GPIO14",
+  "U1.GPIO21",
+  "U1.GPIO8",
+  "U1.GPIO9",
+  "U2.GAIN",
+  "U2.SD",
+  "U3.GND",
+  "U3.SCL",
+  "U3.SDA",
+  "U3.VCC"
+ ],
+ "values": {
+  "U1": "ESP32-S3-DevKitC-1",
+  "MIC1": "MAX4466",
+  "R1": "1 k\u03a9",
+  "C6": "47 nF",
+  "MIC2": "MAX4466",
+  "R2": "1 k\u03a9",
+  "C7": "47 nF",
+  "MIC3": "MAX4466",
+  "R3": "1 k\u03a9",
+  "C8": "47 nF",
+  "MIC4": "MAX4466",
+  "R4": "1 k\u03a9",
+  "C9": "47 nF",
+  "MIC5": "INMP441",
+  "U2": "MAX98357A",
+  "LS1": "SPEAKER_16R",
+  "LS2": "SPEAKER_16R",
+  "C1": "10 \u00b5F",
+  "C2": "100 nF",
+  "C3": "100 nF",
+  "C4": "100 nF",
+  "C10": "100 nF",
+  "C11": "100 nF",
+  "C5": "100 nF",
+  "U3": "AT24C256"
+ },
+ "silkscreen": {
+  "GPIO1": "1",
+  "GPIO2": "2",
+  "GPIO4": "4",
+  "GPIO5": "5",
+  "GPIO38": "38",
+  "GPIO39": "39",
+  "GPIO40": "40",
+  "GPIO15": "15",
+  "GPIO16": "16",
+  "GPIO17": "17",
+  "GPIO8": "8",
+  "GPIO9": "9",
+  "GPIO10": "10",
+  "GPIO11": "11",
+  "GPIO12": "12",
+  "GPIO13": "13",
+  "GPIO14": "14",
+  "GPIO21": "21",
+  "3V3": "3V3",
+  "5V": "5V",
+  "GND": "GND"
+ },
+ "parts": {
+  "U1": "ESP32-S3 N16R8 dev board (bill 2917 item 1)",
+  "MIC1": "electret mic + adjustable amp (bills 2917/2935, 8 off)",
+  "R1": "resistor",
+  "C6": "capacitor",
+  "MIC2": "electret mic + adjustable amp (bills 2917/2935, 8 off)",
+  "R2": "resistor",
+  "C7": "capacitor",
+  "MIC3": "electret mic + adjustable amp (bills 2917/2935, 8 off)",
+  "R3": "resistor",
+  "C8": "capacitor",
+  "MIC4": "electret mic + adjustable amp (bills 2917/2935, 8 off)",
+  "R4": "resistor",
+  "C9": "capacitor",
+  "MIC5": "I2S MEMS microphone (bill 2917 item 2)",
+  "U2": "I2S class-D amplifier breakout",
+  "LS1": "16 ohm 0.25 W 35 mm driver (bill 2917 item 4, 2 off)",
+  "LS2": "16 ohm 0.25 W 35 mm driver (bill 2917 item 4, 2 off)",
+  "C1": "capacitor",
+  "C2": "capacitor",
+  "C3": "capacitor",
+  "C4": "capacitor",
+  "C10": "capacitor",
+  "C11": "capacitor",
+  "C5": "capacitor",
+  "U3": "I2C EEPROM module (bill 2917 item 9) -- PHASE 1"
+ }
+}
