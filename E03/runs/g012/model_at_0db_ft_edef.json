@@ -1,0 +1,14 @@
+{
+ "ckpt": "/Users/mariyafatima/PS#2/E03/runs/g7_finetune_fullrange/best.pt",
+ "data": "/Users/mariyafatima/PS#2/handoff/data/edef",
+ "n_clips": 54,
+ "snr_window_db": 2.5,
+ "metrics": {
+  "stoi": 0.7104622242790634,
+  "pesq": 1.2412217720499579,
+  "sdr": 6.251068810621898,
+  "sir": 14.354913024703423,
+  "sar": 7.668981369939166,
+  "dsisdr": 8.906130964005435
+ }
+}

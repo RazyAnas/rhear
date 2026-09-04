@@ -1,0 +1,14 @@
+{
+ "ckpt": "/Users/mariyafatima/PS#2/E03/runs/g7_hop256_50k/best.pt",
+ "data": "/Users/mariyafatima/PS#2/handoff/data/edef",
+ "n_clips": 54,
+ "snr_window_db": 2.5,
+ "metrics": {
+  "stoi": 0.724207062415399,
+  "pesq": 1.2780414707255814,
+  "sdr": 6.638948207652128,
+  "sir": 13.786107324936687,
+  "sar": 8.17589339796143,
+  "dsisdr": 9.294010361035665
+ }
+}

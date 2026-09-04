@@ -1,0 +1,26 @@
+{
+ "ckpt": "/Users/mariyafatima/PS#2/E03/runs/g7_hop256_50k/best.pt",
+ "dataset": "VoiceBank+DEMAND testset",
+ "targets": {
+  "stoi": 0.85,
+  "pesq": 2.5,
+  "snr_out": 15.0
+ },
+ "result": {
+  "n": 824,
+  "stoi_in": 0.9210894342640091,
+  "stoi_out": 0.930869060391707,
+  "pesq_in": 1.9667510838763227,
+  "pesq_out": 2.3544370652113145,
+  "sisdr_in": 8.449433205940013,
+  "sisdr_out": 17.709237099561875,
+  "sir": 31.152652035811084,
+  "sar": 18.329514616551453,
+  "dsisdr": 9.259803893621863,
+  "ps_met": {
+   "stoi": true,
+   "pesq": false,
+   "snr_out": true
+  }
+ }
+}

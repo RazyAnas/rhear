@@ -1,0 +1,149 @@
+{
+ "ckpt": "/Users/mariyafatima/PS#2/E03/runs/g7_hop256_50k/best.pt",
+ "gates": {
+  "G7-base weights load into the variant": true,
+  "ONNX export": true,
+  "variant can be warm-started from G7-base": false,
+  "loss is finite": true,
+  "no NaN or Inf gradients": true,
+  "phase head has a non-zero gradient": true,
+  "phase head gradient is not vanishing vs the decoder": true,
+  "training loss falls substantially": true,
+  "SI-SDR on the memorised set climbs": true,
+  "phase head moves toward the oracle target": false,
+  "oracle-target loss falls": false
+ },
+ "results": {
+  "forward_equivalence": {
+   "noisy": {
+    "stoi": 0.6571833872865698,
+    "pesq": 1.0794651845716081,
+    "sdr": -2.6550621533835375,
+    "dsisdr": 0.0
+   },
+   "g7": {
+    "stoi": 0.724207062415399,
+    "pesq": 1.2780414707255814,
+    "sdr": 6.638948207652128,
+    "dsisdr": 9.294010361035665
+   },
+   "new": {
+    "stoi": 0.5586766405904436,
+    "pesq": 1.1330952037055537,
+    "sdr": -4.0722297038193105,
+    "dsisdr": -1.417167550435773
+   }
+  },
+  "grad_norms": {
+   "erb/enc": 19.390085220336914,
+   "fullband": 13.445735931396484,
+   "fuse": 14.412772178649902,
+   "dprnn": 29.83246612548828,
+   "decoder": 32.81340408325195,
+   "spp": 6.429918721551076e-05,
+   "phase head": 4.781445503234863
+  },
+  "overfit": [
+   {
+    "step": 0,
+    "loss": 5.674531936645508,
+    "sisdr": 0.4774085283279419
+   },
+   {
+    "step": 75,
+    "loss": -7.29189395904541,
+    "sisdr": 10.26925277709961
+   },
+   {
+    "step": 150,
+    "loss": -8.268644332885742,
+    "sisdr": 11.054346084594727
+   },
+   {
+    "step": 225,
+    "loss": -8.702399253845215,
+    "sisdr": 11.401001930236816
+   },
+   {
+    "step": 300,
+    "loss": -8.99622631072998,
+    "sisdr": 11.645726203918457
+   },
+   {
+    "step": 375,
+    "loss": -9.291679382324219,
+    "sisdr": 11.893590927124023
+   },
+   {
+    "step": 450,
+    "loss": -9.616592407226562,
+    "sisdr": 12.17216682434082
+   },
+   {
+    "step": 525,
+    "loss": -9.768294334411621,
+    "sisdr": 12.305233001708984
+   },
+   {
+    "step": 599,
+    "loss": -9.910995483398438,
+    "sisdr": 12.424906730651855
+   }
+  ],
+  "oracle_phase": {
+   "history": [
+    {
+     "step": 0,
+     "loss": 0.3231678307056427,
+     "align": 0.8384160995483398
+    },
+    {
+     "step": 187,
+     "loss": 0.2966775894165039,
+     "align": 0.8516612648963928
+    },
+    {
+     "step": 374,
+     "loss": 0.29201024770736694,
+     "align": 0.8539949059486389
+    },
+    {
+     "step": 561,
+     "loss": 0.28415632247924805,
+     "align": 0.8579218983650208
+    },
+    {
+     "step": 748,
+     "loss": 0.2772829830646515,
+     "align": 0.8613584637641907
+    },
+    {
+     "step": 935,
+     "loss": 0.2764304280281067,
+     "align": 0.8617847561836243
+    },
+    {
+     "step": 1122,
+     "loss": 0.2723231613636017,
+     "align": 0.8638384342193604
+    },
+    {
+     "step": 1309,
+     "loss": 0.26947706937789917,
+     "align": 0.8652614951133728
+    },
+    {
+     "step": 1496,
+     "loss": 0.267598032951355,
+     "align": 0.8662009239196777
+    },
+    {
+     "step": 1499,
+     "loss": 0.2675556242465973,
+     "align": 0.8662222027778625
+    }
+   ],
+   "identity_alignment": 0.8510310649871826
+  }
+ }
+}

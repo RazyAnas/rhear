@@ -750,6 +750,65 @@ Run: `E03/runs/g7_hop256_50k/`. Flags: `--hop 256 --ch 32,48,48,64 --no-phase --
 
 ---
 
+## G7-finetune (Suryansh, hop256+50k+deep-filter, MS-SNSD/MAD/DEMAND @ 0dB): REJECTED
+
+Suryansh combined three changes at once from his own GPU: G7's hop256+50k
+capacity, the G6 deep-filter cascade, and a retrain on new noise sources
+(MS-SNSD, MAD, DEMAND) fixed at exactly 0 dB SNR. His own eval script reports
+STOI and SI-SDR only -- no PESQ, no SI-SIR/SI-SAR. Downloaded the real
+checkpoint (342,633 bytes, verified against the LFS pointer's declared size)
+and ran our full `eval_stratified.py` on our standard E_def/realnoise sets so
+it is directly comparable to every other checkpoint in this document.
+
+51,839 params (vs G7-base's 49,663 -- the deep-filter head accounts for the
+difference), hop 256, phase removed, full-band present, deep-filter present.
+
+| | STOI | PESQ | SI-SDR | SI-SIR | SI-SAR |
+|---|---|---|---|---|---|
+| E_def G7-base | 0.8151 | 1.6351 | 10.05 | 16.47 | 11.91 |
+| E_def G7-finetune | 0.7927 | 1.5257 | 8.22 | 16.91 | 9.64 |
+| **delta** | -0.0224 | **-0.1094** | -1.83 | +0.45 | **-2.27** |
+| realnoise G7-base | 0.8428 | 1.6128 | 9.61 | 16.01 | 11.65 |
+| realnoise G7-finetune | 0.8301 | 1.5632 | 9.14 | 17.06 | 10.73 |
+| **delta** | -0.0127 | **-0.0496** | -0.46 | +1.05 | **-0.92** |
+
+**REJECT on the standing rule, both sets.** This is the SI-SIR/SI-SAR trade-off
+this project has hit before (H11): SI-SIR is UP on both sets (+0.45, +1.05 --
+the model suppresses more), but SI-SAR is down hard (-2.27, -0.92 -- it damages
+more), and the net is worse everywhere that matters: PESQ -0.11/-0.05, STOI
+down on both sets, SI-SDR down 1.8/0.5 dB.
+
+**Three variables changed at once, so the cause cannot be isolated from this
+run alone:**
+
+1. hop256+50k capacity -- already independently verified to HELP (G7-base
+   passed the standing rule cleanly against G2)
+2. the deep-filter cascade -- previously INCONCLUSIVE at 5 epochs (G6):
+   9/10 cells positive but undertrained, val SI-SDR still rising at the cut
+3. new training data -- MS-SNSD/MAD/DEMAND, but fixed at EXACTLY 0 dB SNR,
+   narrower than H3's -10..+20 dB range and skewed toward the hardest end
+
+Given (1) is already known-good, the regression is in (2), (3), or their
+interaction. The single-SNR training distribution is the most likely
+suspect: training only ever seeing 0 dB may have taught the model that
+aggressive suppression is always correct, which is exactly the SIR-up/SAR-down
+signature measured here, and it would explain why the SAME deep-filter head
+that moved 9/10 cells positive in G6 (trained on the -10..+20 dB H3 range)
+now hurts.
+
+**Do not deploy this checkpoint.** G7-base remains the current best.
+
+**The recommended next step is one variable, not three:** retrain hop256+50k
++deep-filter on the ORIGINAL H3 -10..+20 dB range with the new noise sources
+mixed in (MS-SNSD/MAD/DEMAND replacing or supplementing the existing pool,
+same SNR distribution), so the new-data question is answered without also
+re-asking the already-answered deep-filter and capacity questions.
+
+Checkpoint: `E03/runs/g7_finetune_ms_snsd_0db_v2/best.pt`. Downloaded from the
+GitHub PR (`SuryanshSinha2801/g7-integration`), evaluated locally.
+
+---
+
 ## Standing decision
 
 Do **not** run further mask-floor, power-compression or temporal-smoothing
@@ -758,3 +817,658 @@ sweeps unless a new hypothesis specifically predicts a measurable benefit.
 The next intervention targets one of: **training loss**, **perceptual
 optimisation**, **model capacity**, or **representation** — chosen only after the
 phase-free retrain result, and **one variable at a time**.
+
+---
+
+## G7 full-range rerun — the fix worked, the checkpoint still loses
+
+`SuryanshSinha2801/rhear-g7-pr` @ `ae5a549`, 24 epochs on RTX 5060, 12.8 min.
+Same architecture as the rejected 0dB run (51,839 params, hop 256, df=True),
+same 70/30 MAD+DEMAND/MS-SNSD mix, SNR range corrected to −10..+20 dB.
+
+| E_def | STOI | PESQ | ΔSI-SDR | SI-SIR | SI-SAR |
+|---|---|---|---|---|---|
+| 0dB run − G7-base | −0.022 | −0.109 | — | +0.45 | **−2.27** |
+| full-range − G7-base | −0.011 | −0.053 | +0.36 | +0.12 | **−0.74** |
+
+**The SNR-range hypothesis is confirmed.** Every symptom of the 0dB run moved
+toward zero: the SI-SAR loss shrank from −2.27 to −0.74 dB and the PESQ loss
+halved. Single-point SNR training was the cause, as predicted.
+
+**The checkpoint still fails the standing rule.** SI-SIR is still up and SI-SAR
+still down — the same signature, weaker. G7-base remains current best. The
+residual is now attributable to the deep-filter head, the one variable the
+full-range run did not remove, and rows G/Gb below explain why that head cannot
+help on the metrics we are graded on.
+
+---
+
+## The PS targets, measured at the SNR the PS actually specifies
+
+`E03/oracle_at_0db.py` · `runs/g012/oracle_at_0db.json`,
+`oracle_at_0db_realnoise.json`
+
+**Every number this project has ever reported is a mean over a −10..+20 dB
+mix. Every PS acceptance target in `02-architecture.md` §10 is written "at 0 dB
+input SNR".** Those are not the same quantity and we had never measured the
+second one. This runs the oracle rows on the 54 held-out clips whose manifest
+`snr_db` is within ±2.5 dB of zero. No checkpoint is loaded — these are
+oracles, so no model of that family can beat them.
+
+| row | STOI | PESQ | ΔSI-SDR |
+|---|---|---|---|
+| **PS target** | **≥ 0.85** | **≥ 2.5** | **≥ 15** |
+| A noisy | 0.657 | 1.079 | 0.00 |
+| **B ideal mask @48 ERB, noisy phase** ← our design | **0.938** | **2.392** | **13.02** |
+| F ideal mask @257 bins, noisy phase | 0.953 | 2.899 | 14.05 |
+| C ideal @48 + CLEAN phase | 0.983 | 3.946 | 22.63 |
+| D ideal @257 + CLEAN phase | 0.995 | 4.480 | 26.90 |
+
+E_def shown; realnoise agrees within 0.06 PESQ and 0.05 dB ΔSI-SDR on row B
+(0.956 / 2.446 / 12.97).
+
+**Three conclusions, and they are architectural, not about training:**
+
+1. **STOI ≥ 0.85 is the only target inside our current design.** Ceiling 0.938,
+   G7-base sits at 0.75 (E_def) / 0.81 (realnoise) around 0 dB. Reachable.
+2. **PESQ ≥ 2.5 is unreachable with a 48-band ERB mask.** A *perfect* mask
+   scores 2.392. The binding constraint is frequency resolution, and lifting it
+   alone crosses the line (row F, 2.899).
+3. **ΔSI-SDR ≥ 15 dB is unreachable by any magnitude-only method.** Even a
+   perfect 257-bin mask reaches 14.05. Only phase crosses it: clean phase is
+   worth **+9.61 dB** of ΔSI-SDR at 48 bands, where resolution is worth +1.04.
+
+**This retires the deep-filter direction for these targets.** On the full-mix
+ladder the deep-filter oracle scores PESQ 2.256 / STOI 0.895 against the plain
+ideal mask's 2.838 / 0.955 — it buys SI-SIR (28.2 vs 20.6) at the cost of the
+two metrics we are graded on. It is the wrong lever, and no amount of training
+changes an oracle.
+
+**Correction to an earlier reading:** the "deep filter raises the ceiling to
+3.3" note was a misreading of row **F** (ideal@257, 3.275), not row G.
+
+**Consequences for what to build next**, in the order the ceilings justify:
+
+- **Phase, not capacity.** G7 runs `phase=False`. That was decided on overall
+  PESQ, which is the metric phase helps least; ΔSI-SDR at 0 dB is where the
+  +9.6 dB sits. Re-open the phase branch and judge it on ΔSI-SDR at 0 dB.
+- **Frequency resolution.** 48 ERB bands is what caps PESQ. More bands, or a
+  hybrid — fine bins across 300 Hz–3.4 kHz, ERB elsewhere.
+- **STOI is a training problem.** It is the one target bankable without an
+  architecture change.
+
+**Report both conditions from now on.** A mix-average PESQ flatters us relative
+to the 0 dB target; a mix-average ΔSI-SDR understates us. Quoting one number
+against a target defined at a point is a category error in both directions.
+
+---
+
+## Which plan can clear the PS targets — priced, then chosen
+
+`E03/plan_ladder_0db.py`, `E03/model_at_0db.py`, `E03/plan_demand.py`,
+`E03/mac_by_bands.py` · 54 clips at 0 dB ±2.5 dB, both eval sets.
+
+### What the oracles rule out
+
+| row (E_def / realnoise) | STOI | PESQ | ΔSI-SDR | clears all three |
+|---|---|---|---|---|
+| **target** | ≥ 0.85 | ≥ 2.5 | ≥ 15 | |
+| mask@24 bands | 0.915 / 0.949 | 1.908 / 2.152 | 11.66 / 12.62 | no |
+| **mask@48 bands** ← today | 0.938 / 0.956 | 2.392 / 2.446 | 13.02 / 12.97 | no |
+| mask@64 | 0.945 / 0.962 | 2.601 / 2.700 | 13.41 / 13.60 | no |
+| mask@96 | 0.949 / 0.967 | 2.760 / 2.877 | 13.71 / 14.16 | no |
+| mask@257 bins | 0.953 / 0.974 | 2.899 / 3.214 | 14.05 / 14.95 | **no** |
+| mask@48 + phase < 1 kHz | 0.974 / 0.974 | 3.492 / 3.213 | 18.98 / 17.89 | yes |
+| mask@96 + phase < 2 kHz | 0.987 / 0.986 | 4.102 / 3.834 | 21.98 / 20.89 | yes |
+| **mask@96 + phase < 4 kHz** | 0.991 / 0.989 | 4.261 / 3.997 | 24.10 / 22.71 | yes |
+| mask@257 + phase < 2 kHz | 0.991 / 0.993 | 4.352 / 4.328 | 23.22 / 22.85 | yes |
+
+**Frequency resolution alone never reaches ΔSI-SDR 15.** A *perfect* 257-bin
+mask reaches 14.05 / 14.95. Both sets agree. Resolution is not the lever.
+
+**Phase is.** Substituting clean phase below 1 kHz alone — 32 of 257 bins —
+takes ΔSI-SDR from 13.02 to 18.98 and PESQ from 2.392 to 3.492.
+
+### What each survivor demands
+
+G7-base on the identical clips: STOI 0.724, PESQ 1.278, ΔSI-SDR 9.29 — that is
+**77.2% / 53.4% / 71.4%** of the ceiling it works against today. A plan is only
+credible if it demands a similar fraction.
+
+| plan | STOI need | PESQ need | ΔSI-SDR need | worst gap vs today |
+|---|---|---|---|---|
+| mask@48 + phase < 1 kHz | 87.3% | 71.6% | 79.0% | **+18.2 pts** |
+| mask@48 + phase < 4 kHz | 86.5% | 64.8% | 68.3% | +11.4 pts |
+| mask@96 + phase < 2 kHz | 86.1% | 60.9% | 68.2% | +8.9 pts |
+| **mask@96 + phase < 4 kHz** | 85.8% | 58.7% | 62.2% | **+8.6 pts** |
+| mask@257 + phase < 2 kHz | 85.7% | 57.4% | 64.6% | +8.5 pts |
+
+Counter-intuitive and load-bearing: **the richer plans are easier to hit.** The
+cheapest surviving architecture (phase below 1 kHz only) needs 71.6% of its PESQ
+ceiling where we have never exceeded 53.4%. Buying more headroom lowers the
+fraction you have to extract from it.
+
+### What fits the board
+
+`mac_by_bands.py`, forward-hook count, hop 256 at 62.5 fps:
+
+| variant | params | MMAC/s (hook) | scaled to preflight accounting |
+|---|---|---|---|
+| 48 bands + fullband (today) | 49,663 | 20.9 | 32.3 (measured) |
+| 96 bands | 44,060 | 36.4 | ≈ 56 |
+| 256 bands | 44,060 | 96.1 | ≈ 149 |
+
+Budgets: ESP32-S3 ≈ 200 MMAC/s per core; PS caps compute at **125 MMAC/s** and
+model size at 200 KB. The hook counter reads 20.9 where the preflight measured
+32.3 for the same configuration — it omits the STFT/ISTFT and counts transposed
+convolutions by input rather than output — so the last column scales by that
+1.55× ratio. **This is what eliminates the 257-bin plan: ≈149 MMAC/s breaks the
+PS's own compute cap**, while 96 bands sits at ≈56.
+
+Parameters do not move with the band count (the ERB matrix is fixed, the
+convolutions are channel-wise), so every variant stays around 48 KB int8 against
+a 200 KB limit. Compute is the only thing being spent.
+
+### Chosen: 96 ERB bands + per-bin phase below 4 kHz
+
+Highest ceiling that fits the PS compute cap, and the joint-lowest demand on
+training (+8.6 pts worst case). ΔSI-SDR — the target that was impossible for
+every magnitude-only design — arrives with **9.2 points of slack**: the plan
+needs 62.2% of its ceiling where we already extract 71.4% of ours. The real work
+is STOI (+8.6) and PESQ (+5.2).
+
+**Why this does not repeat the phase branch's failure.** `gtcrn_lite.py:124`
+records why phase was removed: the rotation was emitted per ERB band and applied
+to every bin in it, "ill-posed in the wide ones" at bands up to **19 bins**. Two
+things change here. The band count doubles — below 4 kHz at 96 bands the widest
+band is **5 bins, mean 1.8** — and the new head is **per-bin**, not per-band, so
+the ill-posedness is designed out rather than survived. That removal was also
+scored on overall PESQ, the metric phase helps least; the +9.6 dB sits in
+ΔSI-SDR at 0 dB, which was never the criterion it was judged on.
+
+**Two build items this exposes, neither optional:** the full-band branch is
+hardwired to the 48-band encoder width (`gtcrn_lite.py:235` asserts 6 vs 12 at
+96 bands), so the band count is an architecture edit, not a flag; and a per-bin
+phase head below 4 kHz has to be added and its MACs counted for real rather than
+estimated.
+
+**What this proves and what it does not.** Every row below a target is a proof
+of impossibility — an oracle cannot be beaten by any model of its family, so no
+training changes it. Every row above a target proves only that the target is not
+ruled out. The demand table is the honest bridge between the two, and it is a
+prior from one architecture's history, not a guarantee.
+
+---
+
+## Local confidence checks on the plan — and two corrections they forced
+
+Four checks were run against the plan before handing it to anyone.
+`E03/plan_confidence.py`, `E03/df_at_0db.py`, `E03/check_plan_arch.py`.
+
+### Check 1 — bootstrap the margins. One claim did not survive.
+
+10,000-resample percentile bootstrap over clips, 54 clips per set, seed 7:
+
+| row | metric | mean | 95% CI | target | verdict |
+|---|---|---|---|---|---|
+| mask@257, E_def | ΔSI-SDR | 14.05 | [13.07, **15.18**] | 15 | **straddles** |
+| mask@257, realnoise | ΔSI-SDR | 14.95 | [13.78, **16.19**] | 15 | **straddles** |
+| mask@96 + phase <4 kHz, E_def | ΔSI-SDR | 24.10 | [23.12, 25.22] | 15 | clears |
+| mask@96 + phase <4 kHz, realnoise | ΔSI-SDR | 22.71 | [21.66, 23.77] | 15 | clears |
+
+**Correction.** The earlier statement that "resolution alone can never reach
+ΔSI-SDR 15 — a perfect 257-bin mask reaches only 14.05" is **not supportable at
+n = 54**. The interval crosses the target on both sets. The honest form is: a
+perfect full-resolution mask lands *at* the target with the sampling error of
+this measurement, so resolution alone is not a safe route — not that it is a
+proven impossibility. Settling it needs more clips.
+
+The chosen plan's margins are unaffected: every interval clears every target on
+both sets, ΔSI-SDR by more than 6 dB at the lower bound.
+
+### Check 2 — the deep-filter contradiction. My retirement of it was wrong.
+
+`oracle_w24.json` and `oracle_ladder.json` disagree on the same row at the same
+hold window (H = 3.297 vs 2.275). Re-measured with the current code at 0 dB
+across the hold length the result is known to be sensitive to:
+
+| row | STOI | PESQ | ΔSI-SDR | clears all three |
+|---|---|---|---|---|
+| B ideal@48, noisy phase | 0.938 | 2.392 | 13.02 | no |
+| H deep filter <5 kHz + ERB, hold 8 | 0.986 | 3.996 | 22.57 | **yes** |
+| H, hold 24 | 0.954 | 3.098 | 17.38 | **yes** |
+| H, hold 48 | 0.939 | 2.849 | 16.11 | **yes** |
+
+**Correction.** "This retires the deep-filter direction" was wrong, and it was
+wrong because it read `oracle_ladder.json`, which was produced by the earlier
+cascade the ladder's own docstring describes as "a different (and worse)
+architecture" — the deep filter *replacing* the mask below 5 kHz rather than
+refining it. The current cascade clears all three targets at every hold length
+tested, and the source comment at `gtcrn_lite.py:193` was substantially right.
+
+The deep filter is a **viable second lever**, not a dead one. It is still not
+the chosen one, on demand rather than on ceiling: at the conservative hold 48 it
+needs 90.5% / 87.8% / 93.1% of its own ceiling against the 77.2% / 53.4% / 71.4%
+we currently extract — gaps of +13 to +34 points, where the chosen plan's worst
+gap is +8.6. Note also that this oracle holds its coefficients fixed per clip,
+so it understates what a per-frame predictor could do; the hold-8 row is the
+fairer read of that family's real ceiling and is competitive.
+
+### Check 3 — the architecture builds, fits, trains and stays causal
+
+`check_plan_arch.py`, 11/11 passed. Both blockers have cheap fixes:
+
+- **Full-band branch hardwired to 48 bands.** Fix: take the encoder's last
+  stride from 1 to 2, so 96 → 48 → 24 → 12 → 6. The encoder width is 6 again,
+  the full-band branch is untouched, the DPRNN sees exactly today's shape, and
+  the decoder mirrors with strides (2,2,2,2). No resize, no padding, no new
+  operator — every constraint that drove the original stride choices still holds.
+- **No per-bin phase head.** The deep-filter head already has the geometry: a
+  deconv chain from width 6 to 183 bins (5.7 kHz), per bin. 4 kHz is bin 128,
+  inside it. The phase head is that chain with 2 output channels (cos, sin)
+  instead of 2·taps — no atan2, which is the operator CMSIS-NN cannot run and
+  one of the reasons the original branch was removed.
+
+Measured, not estimated:
+
+| | value | budget |
+|---|---|---|
+| parameters | **51,711** (base 49,663) | ~50 KB int8 vs 200 KB |
+| compute | **48.0 MMAC/s** | PS cap 125; 24% of one ESP32-S3 core |
+| gradients | every parameter finite and non-zero | |
+| causality | rewriting frames 20+ moves frames 0–19 by **0.00e+00** | mask and phase head both |
+| fresh head | max rotation **0.015 rad** | starts as identity |
+
+The last one matters for the schedule: the head initialises as a no-op, so the
+variant fine-tunes from G7-base rather than training from scratch.
+
+### Where this leaves the plan
+
+**Unchanged: 96 ERB bands + per-bin phase below 4 kHz.** It survived both
+corrections — it was never the claim that failed — and it is now the only
+candidate that is simultaneously (a) statistically clear of all three targets on
+both sets, (b) the joint-lowest training demand, (c) measured at 48 MMAC/s and
+51,711 parameters inside every budget, and (d) built and verified to train
+causally from the current checkpoint.
+
+---
+
+## Pre-training gates — the phase plan does not survive them
+
+`E03/gates_bc.py`, `E03/gate_c_headfix.py`, `E03/gate_c_deepfilter.py`
+· `runs/g012/gates_bc.json`, `gate_c_headfix.json`, `gate_c_deepfilter_1500.json`
+
+The oracle ladder says a *perfect* model of a family would pass. It says nothing
+about whether this network, with this loss and this optimiser, can get there. The
+argument used to pick the plan — "G7-base extracted 53% of its PESQ ceiling, so a
+plan needing 59% is reachable" — is a heuristic borrowed from a different
+architecture. These gates measure the actual model instead.
+
+### Gate A — export · 2/2 PASS
+
+| check | result |
+|---|---|
+| G7-base weights load into the 96-band variant | 108 tensors, 0 unmatched |
+| ONNX export, opset 17 | works |
+
+Weight *shapes* are compatible because the band count changes only the fixed ERB
+buffer and the strides, never a weight tensor.
+
+### Gate B — optimisation · 6/7 PASS
+
+**B1 FAIL — the variant cannot be warm-started from G7-base.**
+
+| on the 54 clips at 0 dB | STOI | PESQ | ΔSI-SDR |
+|---|---|---|---|
+| noisy input | 0.657 | 1.079 | 0.00 |
+| G7-base | 0.724 | 1.278 | **+9.29** |
+| 96-band variant, G7-base weights, untrained | 0.559 | 1.133 | **−1.42** |
+
+Shape-compatible is not semantically compatible: the decoder was trained to emit
+a mask on the 48-band grid, and on the 96-band grid the same weights are
+meaningless — worse than passing the noisy input through. **Correction to the
+plan as written: it needs a from-scratch run, not a 6-epoch fine-tune.** The
+"starts as a near-copy of G7-base" claim was wrong.
+
+**B2 PASS — the gradient is healthy and reaches the phase head.**
+
+| branch | grad norm |
+|---|---|
+| erb/enc | 1.94e+01 |
+| fullband | 1.34e+01 |
+| fuse | 1.44e+01 |
+| dprnn | 2.98e+01 |
+| decoder | 3.28e+01 |
+| **phase head** | **4.78e+00** |
+| spp | 6.43e−05 |
+
+No NaN or Inf. Phase/decoder ratio 0.146 — not vanishing. (The SPP head's
+near-zero gradient is pre-existing, not introduced here.)
+
+**B3 PASS — it overfits 16 clips easily.** Loss 5.675 → −9.911, SI-SDR on the
+memorised set 0.48 → 12.42 dB over 600 steps. The architecture can learn.
+
+### Gate C — learnability · FAIL, and the fix did not work
+
+Everything frozen except the phase head; target is the per-bin rotation from
+noisy phase to clean phase, magnitude-weighted — exactly what the oracle row
+substitutes. Alignment 1.0 means the phase is recovered; the identity rotation
+(leave the noisy phase alone) scores 0.8510.
+
+| steps | 0 | 250 | 500 | 750 | 1000 | 1250 | 1499 |
+|---|---|---|---|---|---|---|---|
+| no skips | 0.8341 | 0.8517 | 0.8572 | 0.8620 | 0.8632 | 0.8654 | **0.8667** |
+| + full-band skips | 0.7896 | 0.8511 | 0.8543 | 0.8607 | 0.8655 | 0.8646 | **0.8699** |
+
+It beats the identity — by **+0.016**, after 1500 steps, on a 16-clip
+*memorisation* task, and the increments are shrinking. The oracle prices perfect
+phase at +9.6 dB of ΔSI-SDR; this recovers a small fraction of the way there.
+
+The bottleneck hypothesis was that the head reads a 6-wide frequency bottleneck
+and upsamples ~30×, while the decoder has skips and the head has none. Adding
+skips from the full-band branch's own bin-domain activations gives **1.20×** —
+not a fix. **The limit is not the bottleneck: the per-bin phase residual is not
+predictable from this trunk.** That is consistent with why DeepFilterNet-family
+work applies complex *filtering* instead of regressing phase directly.
+
+### Gate C on the other lever — the deep filter PASSES
+
+Identical protocol, identical budget: frozen trunk, 16 clips, 1500 steps, only
+the 2,176-parameter deep-filter head trainable.
+
+| steps | 0 | 250 | 500 | 750 | 1000 | 1250 | 1499 |
+|---|---|---|---|---|---|---|---|
+| SI-SDR (dB) | 3.50 | 9.29 | 9.85 | 10.20 | 10.38 | 10.51 | **10.60** |
+| vs mask alone (9.14) | −5.64 | +0.15 | +0.72 | +1.06 | +1.24 | +1.37 | **+1.46** |
+
+**+1.46 dB over the mask alone, still climbing at the cut**, from a head with
+2,176 parameters and every other weight frozen. The phase head's comparable
+result was +0.016 of alignment, decelerating.
+
+### Consequence — the recommendation changes
+
+**Drop the phase plan. Build the deep-filter cascade.** Not on ceiling — both
+families clear the PS targets at oracle strength — but on *learnability*, which
+is the thing the ceiling analysis could not see and the gates could:
+
+- phase: ceiling 24.10 dB ΔSI-SDR, **reachable fraction measured as negligible**
+- deep filter: ceiling 16.11–22.57 dB ΔSI-SDR depending on hold, **+1.46 dB
+  demonstrated in 1500 steps on a frozen trunk with 2,176 parameters**
+
+This is the third correction in this thread and it lands on the same conclusion
+each time: **Suryansh's `df=True` was the right architectural call.** His run
+failed on the training distribution (fixed 0 dB), not on the architecture — and
+the full-range rerun already fixed most of that regression.
+
+**Recommended next experiment, one variable:** G7-base + deep-filter head,
+fine-tuned on the full-range −10..+20 dB dataset he has already built, evaluated
+against our standard sets *and* stratified at 0 dB. That is his
+`g7_finetune_fullrange` run with nothing changed except adding the 0 dB
+stratified report — the checkpoint already exists.
+
+**Still open, and it is the real risk:** at 0 dB his full-range checkpoint scored
+STOI 0.804 / PESQ 1.582 / ΔSI-SDR ~8, against targets of 0.85 / 2.5 / 15. Gate C
+shows the deep filter *can* climb; it does not show it climbs far enough. Nothing
+short of the training run answers that.
+
+---
+
+## The full-range deep-filter checkpoint, measured at 0 dB
+
+`E03/model_at_0db.py` on `runs/g7_finetune_fullrange/best.pt`, fetched from
+`SuryanshSinha2801/rhear-g7-pr@ae5a549`. 54 clips at 0 dB ±2.5 dB, both sets.
+`runs/g012/model_at_0db_ft_edef.json`, `model_at_0db_ft_realnoise.json`.
+
+| checkpoint | set | STOI | PESQ | ΔSI-SDR | SI-SIR | SI-SAR |
+|---|---|---|---|---|---|---|
+| G7-base | E_def | 0.724 | 1.278 | 9.29 | 13.79 | 8.18 |
+| G7-base | realnoise | 0.820 | 1.301 | 9.18 | 14.42 | 8.76 |
+| full-range, df=True | E_def | 0.710 | 1.241 | 8.91 | 14.35 | 7.67 |
+| full-range, df=True | realnoise | 0.816 | 1.287 | 9.11 | 15.27 | 8.48 |
+| **PS target** | | **0.85** | **2.5** | **15.0** | | |
+
+Delta vs G7-base at 0 dB:
+
+| set | STOI | PESQ | ΔSI-SDR | SI-SIR | SI-SAR |
+|---|---|---|---|---|---|
+| E_def | −0.014 | −0.037 | −0.39 | **+0.57** | **−0.51** |
+| realnoise | −0.004 | −0.014 | −0.07 | **+0.86** | **−0.28** |
+
+The same SI-SIR-up / SI-SAR-down signature as the 0 dB run, weaker again but not
+gone. **The deep-filter checkpoint is still marginally behind G7-base at the
+condition the PS grades.** G7-base remains current best.
+
+### Distance to target, as a fraction of the deep filter's own ceiling
+
+Against H at hold 24 (STOI 0.954, PESQ 3.098, ΔSI-SDR 17.38):
+
+| | STOI | PESQ | ΔSI-SDR |
+|---|---|---|---|
+| achieved, E_def | 74.5% | 40.1% | 51.2% |
+| achieved, realnoise | 85.5% | 41.5% | 52.4% |
+| **needed** | **89.1%** | **80.7%** | **86.3%** |
+
+STOI is within reach — realnoise is at 85.5% of 89.1%. PESQ and ΔSI-SDR are at
+roughly half of what the targets demand.
+
+### The finding that matters, and it is about training, not architecture
+
+Two measurements of the *same* deep-filter head, on the same trunk:
+
+| | what trains | result |
+|---|---|---|
+| Gate C | **head only**, 2,176 params, trunk frozen | **+1.46 dB** over mask alone, still climbing |
+| this checkpoint | everything, jointly, 24 epochs | **−0.39 / −0.07 dB** vs no head at all |
+
+When only the head trains, it earns +1.46 dB. When the whole network trains
+jointly, the head earns nothing. The head is not the problem — it demonstrably
+works when it is the only thing that can improve the loss.
+
+**Hypothesis, consistent with both numbers but not yet proven:** joint training
+lets the mask absorb the capacity, and nothing ever drives the deep-filter head
+to do the job the oracle says it can do. The residual parameterisation makes this
+easy to fall into — the head starts at identity, so leaving it at identity is
+always a valid local solution.
+
+**The test is cheap and it is the next experiment:** staged training. Train the
+mask to convergence, freeze it, train the deep-filter head alone the way Gate C
+did, then unfreeze both at a low learning rate. If the +1.46 dB survives into a
+jointly-trained checkpoint, the deep filter is the lever. If it evaporates the
+moment the trunk unfreezes, that is worth knowing before more epochs are spent.
+
+**Stated plainly: no checkpoint we have reaches any PS target at 0 dB.** The
+closest is STOI on realnoise (0.816 against 0.850). PESQ (1.287 against 2.500)
+and ΔSI-SDR (9.11 against 15.00) are not close, and nothing measured so far
+shows a path that closes them inside this project's remaining time.
+
+---
+
+## Is it us, or the test set? Three published models answer it
+
+`E03/crossbench.py`, `E03/crossbench_metricgan.py`
+· `runs/g012/crossbench/*.json`
+
+Published models, their own pretrained weights, their own published inference
+paths, run over OUR held-out defence clips and scored by OUR scorer:
+
+| model | params | published PESQ on VoiceBank+DEMAND | our E_def, all 300 | | our E_def at 0 dB | |
+|---|---|---|---|---|---|---|
+| | | | **PESQ** | **STOI** | **PESQ** | **ΔSI-SDR** |
+| GTCRN, VCTK ckpt | 23.7k | 2.87 | 1.444 | 0.765 | — | — |
+| GTCRN, DNS3 ckpt | 23.7k | 2.87 | 1.643 | 0.818 | — | — |
+| MetricGAN+ | ~1.9M | 3.15 | 1.820 | 0.755 | 1.442 | **−0.13** |
+| **G7-base (ours)** | **49.7k** | — | **1.635** | **0.815** | **1.278** | **+9.29** |
+| **PS target at 0 dB** | | | | | **2.50** | **+15.00** |
+
+**Nothing is wrong with our model.** Three published systems — one of them 38×
+larger and a GAN trained to maximise PESQ directly — all land in the 1.44–1.82
+band on our data. None comes close to 2.5. MetricGAN+ scores higher PESQ than us
+because it optimises PESQ directly, and pays for it everywhere else: STOI 0.755
+vs our 0.815, and ΔSI-SDR of **−2.97 dB overall / −0.13 dB at 0 dB** against our
++9.29 — it makes the signal worse in SI-SDR terms while making it sound better
+to PESQ.
+
+### Why the benchmark numbers do not transfer
+
+VoiceBank+DEMAND's test set — the source of nearly every headline PESQ figure in
+the field — is mixed at **2.5 / 7.5 / 12.5 / 17.5 dB**, a mean near 10 dB, over
+five benign noises (bus, cafe, office, public square, living room), on clean
+studio speech, with no clipping, no preamp distortion, no microphone mismatch.
+
+Our evaluation is at **0 dB**, on MAD/DEMAND defence noise, with 15% clipping,
+10% preamp distortion, microphone tilt, level mismatch and mic self-noise.
+
+Published results that *do* report at 0 dB on ordinary noise land around
+**PESQ 1.83–2.39**. We have found no published system reporting PESQ ≥ 2.5 at
+0 dB on impulsive or military noise.
+
+**So the PS's "PESQ ≥ 2.5" is very likely quoted from benchmark-average
+conditions, not from 0 dB.** Our own numbers agree: G7-base scores PESQ 2.44 in
+the > 15 dB bucket of E_def — benchmark-like conditions, benchmark-like result.
+
+### The one lever this measurement does identify
+
+The same GTCRN architecture scores **1.444 with VCTK-DEMAND training and 1.643
+with DNS3 training** — +0.199 PESQ and +0.053 STOI from nothing but a more
+diverse training corpus. That is the largest single improvement attributable to
+one change anywhere in this project's log, and it is a **data** lever, not an
+architecture one.
+
+### What to report
+
+Report both conditions and the cross-benchmark table. "We match published
+state-of-the-art on our own data, and here is what those same systems score on
+it" is a defensible and unusual claim. Reporting a mix-average PESQ against a
+target defined at 0 dB is not, in either direction.
+
+---
+
+## Evaluated against PS 26052 as the PS words it
+
+`E03/eval_ps.py` · `runs/g012/eval_ps.json`
+
+The PS describes the **dataset** as covering "varying SNR levels" and then states
+three targets flatly — `SNR > 15 dB`, `STOI > 0.85`, `PESQ > 2.5`. It names no
+evaluation SNR and no test set. So the primary number is the **whole mixed-SNR
+test set**, not a slice: our sets span −10..+20 dB with a mean of +4.7 dB, which
+is exactly the condition described. Earlier entries in this document graded at
+0 dB; that was our own stricter reading, and it is not what the PS asks for.
+
+| set | cut | n | STOI | PESQ | out SNR | ΔSNR | met |
+|---|---|---|---|---|---|---|---|
+| E_def | all | 300 | 0.815 | 1.635 | 10.05 | 7.54 | 0/3 |
+| E_def | no clipping/distortion | 241 | 0.819 | 1.651 | 10.34 | 7.30 | 0/3 |
+| E_def | SNR ≥ 2.5 dB | 177 | **0.911** | 1.925 | 14.37 | 6.17 | 1/3 |
+| realnoise | all | 300 | 0.843 | 1.613 | 9.61 | 7.80 | 0/3 |
+| realnoise | no clipping/distortion | 229 | **0.850** | 1.634 | 10.03 | 7.87 | 1/3 |
+| realnoise | SNR ≥ 2.5 dB | 160 | **0.933** | 1.958 | **15.10** | 6.65 | 2/3 |
+
+**PESQ is the only real gap.** STOI reaches 0.933 and output SNR reaches 15.10 dB
+at benign SNR — both targets met on realnoise at the SNR range published PESQ
+figures are measured over. PESQ never gets above 1.96 anywhere.
+
+**A hypothesis this kills:** removing our own clipping and preamp-distortion
+augmentation from the test set buys almost nothing — **+0.004 STOI, +0.016
+PESQ**. The harshness of our evaluation is the *noise and the SNR*, not the
+capture degradations. Worth knowing, because it was the obvious suspect.
+
+### What the PESQ gap would take
+
+Over the full mix the oracle ceiling for our architecture is **PESQ 2.838**
+(ideal 48-band mask, `oracle_ladder.json`), so the 2.5 target *is* inside this
+model class at the PS's stated condition — unlike at 0 dB, where the ceiling is
+2.392 and the target is unreachable. We sit at 1.635, which is **57.6% of that
+ceiling**; the target needs **88.1%**.
+
+Levers, ranked by measured evidence rather than by expectation:
+
+| lever | evidence | verdict |
+|---|---|---|
+| training-data diversity | GTCRN, same architecture, VCTK→DNS3 weights: **+0.199 PESQ, +0.053 STOI** on our data | largest single-change gain measured anywhere in this project |
+| frequency resolution 48→96 bands | ceiling 2.392→2.760 at 0 dB; params unchanged, 36 MMAC/s | raises the ceiling, cheap |
+| deep-filter head | +1.46 dB SI-SDR on a frozen trunk in 1500 steps (Gate C) | works when trained alone; absorbed by the mask in joint training |
+| perceptual loss | **spent.** G1 (`perc 1.0`) 1.493 vs G0 1.604; G5 (`perc 0.15`) 1.617 vs G2 1.629 | too strong hurts, mild is a wash |
+
+**Nothing here closes a 0.9 PESQ gap before 7 Sep**, and the honest position for
+the round is that STOI and output-SNR are met at benign SNR while PESQ is short,
+with the ceiling analysis showing exactly how much of the shortfall is
+architectural.
+
+---
+
+## VoiceBank+DEMAND fine-tune — two of three targets cleared, PESQ lands *at* the line
+
+`E03/prep_vbdemand_parquet.py`, `E03/finetune_vbdemand.py`, `E03/eval_vbdemand.py`,
+`E03/vbd_margin.py` · `runs/g7_vbdemand/best.pt`
+
+G7-base, architecture unchanged (49,663 params, hop 256), fine-tuned on
+VoiceBank+DEMAND's own 28-speaker training set — 10,700 pairs, 26 speakers, with
+**p286 and p287 held out entirely for checkpoint selection**. 12 epochs, best
+validation SI-SDR 14.31 dB. The 824-utterance test set was scored **once**.
+
+Corpus came from `JacobLinCool/VoiceBank-DEMAND-16k` on HuggingFace: the
+Edinburgh datashare host stopped serving mid-download, going from working to
+returning zero bytes and leaving both training zips truncated at ~10%. The HF
+copy is already at 16 kHz, which removed the resampling step.
+
+| | noisy in | enhanced | 95% CI | target | verdict |
+|---|---|---|---|---|---|
+| STOI | 0.921 | **0.936** | [0.932, 0.940] | > 0.85 | **clears** |
+| PESQ (wb) | 1.967 | **2.524** | [2.481, 2.567] | > 2.5 | **straddles** |
+| output SI-SDR | 8.45 | **18.35** | [18.06, 18.63] | > 15 | **clears** |
+
+10,000-resample bootstrap over clips, seed 11.
+
+**The honest claim is two of three cleared, with PESQ at the threshold.** The
+point estimate is over the line and the fine-tune bought a real +0.170 PESQ over
+zero-shot, but the interval contains 2.5 — 824 utterances cannot distinguish
+2.524 from exactly 2.5. Saying "meets all three" would be the same overclaim the
+bootstrap caught twice before in this document.
+
+Under the improvement reading of "SNR > 15 dB", ΔSI-SDR is **+9.90 dB** and does
+not meet it. Report both readings.
+
+### The domain trade, measured
+
+The same fine-tuned checkpoint, on our defence sets:
+
+| set | cut | STOI | PESQ | out SNR |
+|---|---|---|---|---|
+| E_def | all | 0.789 | 1.495 | 6.91 |
+| realnoise | all | 0.814 | 1.513 | 6.26 |
+| | *(G7-base, same cut)* | *0.815 / 0.843* | *1.635 / 1.613* | *10.05 / 9.61* |
+
+Fine-tuning on the benchmark costs **−0.14 PESQ and −3.1 dB output SNR** on
+defence noise. **There are now two checkpoints for two domains and neither is
+universally better** — `g7_hop256_50k` is the defence model,
+`g7_vbdemand` is the benchmark model. Presenting the benchmark number as if it
+described defence performance would be dishonest, and the two-row table above is
+the antidote.
+
+### Continued to 20 epochs — the plateau is real
+
+`runs/g7_vbdemand_x24/best.pt` · `runs/g012/vbd_margin_x24.json`
+
+Validation was still creeping at epoch 12 (14.25 → 14.30 → 14.31), so training
+continued at lr 2e-4 with selection still on the held-out speakers. It
+**early-stopped at epoch 8** of the continuation — four epochs without
+improvement — after the scheduler had cut the rate three times to 2.5e-5. Best
+validation SI-SDR moved 14.31 → 14.34.
+
+Both test scorings, reported together rather than picking the better one:
+
+| checkpoint | STOI | PESQ | 95% CI on PESQ | output SI-SDR |
+|---|---|---|---|---|
+| zero-shot (no fine-tune) | 0.931 | 2.354 | — | 17.71 |
+| 12 epochs | 0.936 | 2.524 | [2.481, 2.567] | 18.35 |
+| + 8 more epochs | 0.936 | **2.529** | [2.487, 2.570] | 18.34 |
+
+**Eight further epochs bought +0.005 PESQ and the interval still contains 2.5.**
+STOI and output SI-SDR are unchanged to three figures. This axis is exhausted:
+more training on VoiceBank+DEMAND does not move the metric that matters, and the
+conclusion is stable across two independently selected checkpoints.
+
+**Final position on the benchmark: STOI and output-SNR cleared with confidence;
+PESQ reaches the target and cannot be shown to exceed it.** Raising it further
+needs a higher ceiling — frequency resolution or training-data diversity — not
+more epochs.

@@ -1,0 +1,26 @@
+{
+ "ckpt": "/Users/mariyafatima/PS#2/E03/runs/g7_vbdemand/best.pt",
+ "dataset": "VoiceBank+DEMAND testset",
+ "targets": {
+  "stoi": 0.85,
+  "pesq": 2.5,
+  "snr_out": 15.0
+ },
+ "result": {
+  "n": 824,
+  "stoi_in": 0.9210894342640091,
+  "stoi_out": 0.9364023366338609,
+  "pesq_in": 1.9667510838763227,
+  "pesq_out": 2.5243975527367546,
+  "sisdr_in": 8.449433205940013,
+  "sisdr_out": 18.34782421820372,
+  "sir": 26.192338574856706,
+  "sar": 19.541762908763587,
+  "dsisdr": 9.898391012263707,
+  "ps_met": {
+   "stoi": true,
+   "pesq": true,
+   "snr_out": true
+  }
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "ckpt": "/Users/mariyafatima/PS#2/E03/runs/g7_vbdemand_x24/best.pt",
+ "n": 824,
+ "bootstrap": 10000,
+ "result": {
+  "stoi": {
+   "mean": 0.9362830376501108,
+   "ci": [
+    0.9323343140037672,
+    0.9402271945568893
+   ],
+   "target": 0.85,
+   "verdict": "clears"
+  },
+  "pesq": {
+   "mean": 2.529474003801068,
+   "ci": [
+    2.487391447883497,
+    2.570496769864293
+   ],
+   "target": 2.5,
+   "verdict": "STRADDLES"
+  },
+  "sdr": {
+   "mean": 18.342801101578093,
+   "ci": [
+    18.060442383298017,
+    18.62731871762611
+   ],
+   "target": 15.0,
+   "verdict": "clears"
+  }
+ }
+}
