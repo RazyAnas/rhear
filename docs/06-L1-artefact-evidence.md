@@ -1472,3 +1472,130 @@ conclusion is stable across two independently selected checkpoints.
 PESQ reaches the target and cannot be shown to exceed it.** Raising it further
 needs a higher ceiling — frequency resolution or training-data diversity — not
 more epochs.
+
+---
+
+## G8 — 96 ERB bands. A clean KEEP, and it relocates the bottleneck.
+
+`E03/train_interim.py --bands 96` · `runs/g8_bands96/best.pt` ·
+`E03/paired_compare.py` · `runs/g012/paired_g7_g8.json`
+
+Single variable against G7: the band count. The encoder now derives its stride
+count from `n_bands` so it always lands on frequency width 6 (the full-band
+branch strides 257 onto exactly 6 and the two are fused), which leaves the
+DPRNN, skips and fuse untouched. Parameters are identical at 49,663 — the ERB
+matrix is fixed and the convolutions are channel-wise — so only compute moved,
+20.9 → 25.9 MMAC/s.
+
+G8 beat G7 at **every epoch** on the identical recipe; final validation SI-SDR
+10.39 against 9.95.
+
+### Paired bootstrap, 10,000 resamples, same clips scored by both
+
+| set | PESQ | STOI | SI-SDR | SI-SAR |
+|---|---|---|---|---|
+| E_def | **+0.043** [+0.029, +0.057] | +0.007 [+0.005, +0.009] | +0.528 [+0.382, +0.684] | +0.238 [+0.099, +0.380] |
+| realnoise | **+0.041** [+0.028, +0.053] | +0.005 [+0.003, +0.007] | +0.221 [+0.019, +0.409] | +0.236 [+0.100, +0.372] |
+
+Every interval is entirely above zero. **SI-SIR and SI-SAR both rose** — the
+first checkpoint in this log to gain suppression without paying for it in speech
+damage, which is what every rejected candidate did.
+
+A note on method that matters for reading the rest of this document: the
+*absolute* CI on PESQ over 300 clips is about ±0.06, wider than this
+improvement. That does not make the improvement noise. Most of that width is
+clip-to-clip variation, and it **cancels** when the same clips are scored by
+both models. Paired differences are the correct test, and they are what the
+table above reports.
+
+### Where the ceiling actually moved, and where the model did not
+
+`runs/g012/ceiling_by_bands.json` — ideal-mask PESQ over the full E_def mix:
+
+| mask resolution | ceiling | model TRAIN fit | extraction |
+|---|---|---|---|
+| 48 bands | 2.866 | 1.979 (G7) | **69.0%** |
+| 96 bands | 3.168 | 2.049 (G8) | **64.7%** |
+| 257 bins | 3.304 | — | — |
+
+**The ceiling rose 0.302 and the model captured 0.070 of it.** Extraction fell
+from 69.0% to 64.7% — G8 is taking a *smaller* share of a larger ceiling.
+
+**So resolution is no longer the binding constraint.** Pushing to 257 bins buys
+only 0.136 more ceiling and, on this trend, less of it would be captured. The
+limit is extraction: the model cannot fit even the data it was trained on to
+better than ~two-thirds of what its own architecture allows. That is capacity,
+loss or optimisation — not frequency resolution, and not primarily data.
+
+The train-val gap also widened slightly, 0.264 → 0.289, so the data lever
+remains live and independent.
+
+**Next experiment, one variable: capacity.** G9 = G8 with channels
+(48, 64, 64, 96) — 77,695 parameters, 77.2 MMAC/s, 76 KB int8. Inside the PS's
+125 MMAC/s cap and the ESP32-S3's ~200 per core, and inside the 200 KB model
+limit. If extraction rises, capacity was the constraint. If it stays near 65%,
+the loss function is, and that redirects the work again.
+
+---
+
+## G9 — 56% more capacity. Rejected, and it settles where the limit is.
+
+`runs/g9_cap96/best.pt` · `runs/g012/paired_g8_g9.json` ·
+`runs/g012/train_vs_test_g9.json`
+
+Single variable against G8: channels (32,48,48,64) → (48,64,64,96), 49,663 →
+**77,695 parameters**, 96 bands unchanged. Validation SI-SDR 10.39 → 10.48.
+
+### Paired bootstrap against G8, 10,000 resamples, identical clips
+
+| set | PESQ | STOI | SI-SDR | SI-SAR |
+|---|---|---|---|---|
+| E_def | +0.006 [−0.007, +0.020] *unresolved* | **−0.002** [−0.005, −0.000] *worse* | +0.061 *unresolved* | **−0.134** [−0.261, −0.005] *worse* |
+| realnoise | −0.009 *unresolved* | −0.001 *unresolved* | +0.291 [+0.076, +0.511] *better* | −0.064 *unresolved* |
+
+**REJECT.** The standing rule needs PESQ up with STOI and SI-SAR held on *both*
+sets; on E_def, PESQ is unresolved while STOI and SI-SAR both regress. **G8
+remains best.**
+
+### The number that answers the question
+
+| model | params | TRAIN-set PESQ | approx. extraction |
+|---|---|---|---|
+| G7 (48 bands) | 49,663 | 1.979 | 69.0% of 2.866 |
+| G8 (96 bands) | 49,663 | 2.049 | 64.7% of 3.168 |
+| **G9 (96 bands, wider)** | **77,695** | **2.050** | **64.7%** |
+
+**Fifty-six percent more parameters moved the fit on data the model was trained
+on by +0.001 PESQ.** Not a small gain — no gain. The train-val gap was
+unmoved too (0.289 → 0.297).
+
+*(Caveat: the ceiling was measured on the E_def test clips while the TRAIN fit
+is on train clips, so the percentages are indicative rather than exact. The
++0.001 is not.)*
+
+### What this rules in and out
+
+Three candidate explanations for why the model only reaches ~two-thirds of its
+own ceiling. Two are now eliminated by measurement:
+
+| candidate | test | verdict |
+|---|---|---|
+| frequency resolution | G8: 48 → 96 bands | helped (+0.043 PESQ) but extraction **fell** 69% → 65% |
+| model capacity | G9: +56% parameters | **no effect at all** — +0.001 on train |
+| the objective | — | **the remaining explanation** |
+
+The training loss converged (flat over the last epochs) and more capacity does
+not lower it further. So the model **has minimised the loss it was given**, and
+that minimum sits at PESQ ~2.05 on data it has memorised, where ~3.17 is
+representable. **The loss function's optimum is not PESQ's optimum.** That is an
+objective-mismatch finding, not a capacity or architecture one.
+
+This does not simply mean "add a perceptual term". G1 (`perc 1.0`) scored 1.493
+against G0's 1.604 and G5 (`perc 0.15`) was a wash — that specific term is spent
+at both strengths tried. The finding is narrower and more useful: **any further
+work on this axis has to change what the model is asked to optimise, and
+capacity and resolution can be set aside.**
+
+Separately and independently, the train-val gap of ~0.30 PESQ has survived every
+architecture change so far, which leaves **training-data diversity** as the one
+lever nothing in this document has yet moved.

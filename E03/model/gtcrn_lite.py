@@ -146,15 +146,29 @@ class GTCRNLite(nn.Module):
         self.register_buffer("hop_", torch.tensor(int(hop)))
         self.erb = ERBSplit(n_bands=n_bands)
         c0, c1, c2, c3 = ch
+        # The encoder must always land on a frequency width of 6, because the
+        # full-band branch strides 257 onto exactly 6 and the two are fused.
+        # At 48 bands that needs three halvings (48 -> 24 -> 12 -> 6); at 96 it
+        # needs four. Everything downstream -- DPRNN, skips, fuse -- is then
+        # unchanged, which is what keeps a band-count change a single variable.
+        if n_bands % 6 != 0 or (n_bands // 6) & (n_bands // 6 - 1):
+            raise ValueError(
+                "n_bands must be 6 * a power of two so the encoder lands on 6; "
+                "got %d" % n_bands)
+        n_halvings = (n_bands // 6).bit_length() - 1
+        if not 3 <= n_halvings <= 4:
+            raise ValueError("only 48 and 96 bands are wired: got %d" % n_bands)
+        last_enc_stride = 2 if n_halvings == 4 else 1
+        first_dec_stride = last_enc_stride
         self.enc = nn.ModuleList([
             CausalConvBlock(3, c0, stride=(1, 2), groups=1),
             CausalConvBlock(c0, c1, stride=(1, 2)),
             CausalConvBlock(c1, c2, stride=(1, 2)),
-            CausalConvBlock(c2, c3, stride=(1, 1)),
+            CausalConvBlock(c2, c3, stride=(1, last_enc_stride)),
         ])
         self.dprnn = DualPathRNN(c3)
         self.dec = nn.ModuleList([
-            CausalDeconvBlock(c3 * 2, c2, stride=(1, 1)),
+            CausalDeconvBlock(c3 * 2, c2, stride=(1, first_dec_stride)),
             CausalDeconvBlock(c2 * 2, c1, stride=(1, 2)),
             CausalDeconvBlock(c1 * 2, c0, stride=(1, 2)),
             CausalDeconvBlock(c0 * 2, 2 if phase else 1,

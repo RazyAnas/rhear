@@ -14,13 +14,21 @@ from .registry import DATASETS, derived_licence
 FS = 16_000
 
 
+def _is_junk(fn):
+    """macOS writes AppleDouble sidecars (._name.flac) onto exFAT/NTFS volumes.
+    They end in .flac/.wav so every endswith() check below matches them, and a
+    4 KB metadata blob indexed as speech or noise is silently corrupt data.
+    106,735 of them appeared when the corpora were copied to an exFAT drive."""
+    return fn.startswith("._") or fn == ".DS_Store"
+
+
 # ------------------------------------------------------------------ indexing
 def index_librispeech(root):
     """-> {speaker: [(utt_id, path), ...]}  (REAL recordings)"""
     out = {}
     for d, _, fs in os.walk(root, followlinks=True):   # split roots may be symlinks
         for f in fs:
-            if f.endswith((".flac", ".wav")):
+            if f.endswith((".flac", ".wav")) and not _is_junk(f):
                 p = os.path.join(d, f)
                 spk, utt = S.librispeech_speaker(p)
                 if spk:
@@ -42,7 +50,7 @@ def index_musan_noise(root):
         if has_noise_dir and "noise" not in d.replace(os.sep, "/").split("/"):
             continue
         for f in fs:
-            if not f.endswith(".wav"):
+            if not f.endswith(".wav") or _is_junk(f):
                 continue
             p = os.path.join(d, f)
             sub = "free-sound" if "free-sound" in d else (
@@ -64,7 +72,7 @@ def index_mad(root):
     for d, _, fs in os.walk(root, followlinks=True):
         cls = os.path.basename(d).lower()
         for f in fs:
-            if not f.endswith((".wav", ".flac")):
+            if not f.endswith((".wav", ".flac")) or _is_junk(f):
                 continue
             if cls in MAD_EXCLUDE:
                 skipped += 1
@@ -85,7 +93,7 @@ def index_rirs(root, real_only=True):
         if real_only and not is_real:
             continue
         for f in fs:
-            if f.endswith(".wav"):
+            if f.endswith(".wav") and not _is_junk(f):
                 p = os.path.join(d, f)
                 out.append(dict(path=p, id=os.path.splitext(f)[0],
                                 kind="real measured" if is_real else "simulated",
@@ -203,19 +211,41 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
                 raise RuntimeError("8 consecutive unreadable speech files -- "
                                    "the corpus is probably damaged, not just "
                                    "missing one file")
+            # Noise and RIR get the SAME retry-and-skip protection as speech.
+            # Without it a single transient read error -- an external drive
+            # dropping for one instant -- kills a build that is 25% done. That
+            # happened on the G12 build at clip 4750/20000; the file in question
+            # read back perfectly a minute later.
             k = int(rng.integers(1, 4))
-            picks = [nz_pool[int(rng.integers(len(nz_pool)))] for _ in range(k)]
-            nz = [dict(audio=load_audio(p["path"]), cls=p["cls"],
-                       source=p["source"],
-                       provenance=p.get("provenance", "real recording"))
-                  for p in picks]
-            rir = None
+            picks, nz = [], []
+            for _ in range(k):
+                for attempt in range(8):
+                    p = nz_pool[int(rng.integers(len(nz_pool)))]
+                    try:
+                        nz.append(dict(audio=load_audio(p["path"]), cls=p["cls"],
+                                       source=p["source"],
+                                       provenance=p.get("provenance", "real recording")))
+                        picks.append(p)
+                        break
+                    except UnreadableAudio as ex:
+                        unreadable.add(str(ex).split(":")[0])
+                else:
+                    raise RuntimeError("8 consecutive unreadable noise files -- "
+                                       "the corpus or the volume it lives on is "
+                                       "not healthy")
+            rir, room = None, None
             if rir_pool and rng.random() < 0.6:
-                rp = rir_pool[int(rng.integers(len(rir_pool)))]
-                rir = dict(audio=load_audio(rp["path"]), id=rp["id"], kind=rp["kind"])
-                room = rp["room"]
-            else:
-                room = None
+                for attempt in range(8):
+                    rp = rir_pool[int(rng.integers(len(rir_pool)))]
+                    try:
+                        rir = dict(audio=load_audio(rp["path"]), id=rp["id"],
+                                   kind=rp["kind"])
+                        room = rp["room"]
+                        break
+                    except UnreadableAudio as ex:
+                        unreadable.add(str(ex).split(":")[0])
+                else:
+                    rir, room = None, None      # dry mixture rather than a dead build
             noisy, clean, meta = mixing.make_mixture(
                 sp, nz, FS, rng, rir=rir, dur_s=dur_s, snr_range=snr_range)
             base = f"{split}_{i:06d}"

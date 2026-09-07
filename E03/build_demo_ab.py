@@ -48,10 +48,17 @@ def main():
     model, (has_phase, has_fb) = load_model(a.ckpt)
     params = count_params(model)
     macs, _ = count_macs_per_frame(model)
+    # The hop belongs to the CHECKPOINT, not to the module default. Using the
+    # global HOP here reported 129.34 MMAC/s for a hop-256 model whose real
+    # figure is 32.34 -- a 4x overstatement, written straight into the pack the
+    # demo reads. Frame period and latency come from the same place.
+    mdl_hop = int(model.hop_.item())
+    mmacs = macs * (FS / mdl_hop) / 1e6
+    frame_ms = 1000.0 * mdl_hop / FS
     print("  ckpt %s" % a.ckpt)
-    print("  %d params | phase %s | full-band %s | %.2f MMAC/s"
+    print("  %d params | phase %s | full-band %s | hop %d | %.2f MMAC/s"
           % (params, "PRESENT" if has_phase else "REMOVED",
-             "PRESENT" if has_fb else "absent", macs * (FS / HOP) / 1e6))
+             "PRESENT" if has_fb else "absent", mdl_hop, mmacs))
 
     ck_hop = int(model.hop_.item())
     if ck_hop != HOP:
@@ -125,8 +132,9 @@ def main():
     out.update(
         checkpoint=os.path.relpath(a.ckpt, HERE),
         n_test=len(scored),
-        model=dict(params=params, mmacs=round(macs * (FS / HOP) / 1e6, 3),
-                   latency_ms=8.0,
+        model=dict(params=params, mmacs=round(mmacs, 3),
+                   hop=mdl_hop, frame_ms=round(frame_ms, 1),
+                   latency_ms=round(2 * frame_ms, 1),
                    phase_branch="removed" if not has_phase else "present",
                    fullband_branch="present" if has_fb else "absent"),
         # KEY NAMES ARE A UI CONTRACT. ui/index.html reads stoi_noisy /

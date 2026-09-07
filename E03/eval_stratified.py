@@ -53,8 +53,12 @@ def load_model(ckpt):
     hop = int(sd["hop_"].item())
     ch = (sd["enc.0.pw.weight"].shape[0], sd["enc.1.pw.weight"].shape[0],
           sd["enc.2.pw.weight"].shape[0], sd["enc.3.pw.weight"].shape[0])
-    m = GTCRNLite(ch=ch, phase=has_phase, fullband=has_fb, df=has_df,
-                  df_taps=taps, hop=hop).to(DEV)
+    # The band count is a buffer, so it travels with the weights. Reading it
+    # here is what lets a 96-band checkpoint load without every caller knowing
+    # about it; a default of 48 would fail on erb.M's shape instead.
+    n_bands = sd["erb.M"].shape[0] if "erb.M" in sd else 48
+    m = GTCRNLite(ch=ch, n_bands=n_bands, phase=has_phase, fullband=has_fb,
+                  df=has_df, df_taps=taps, hop=hop).to(DEV)
     m.load_state_dict(sd)
     m.eval()
     return m, (has_phase, has_fb)

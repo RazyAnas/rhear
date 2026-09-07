@@ -297,6 +297,22 @@ if __name__ == "__main__":
                          "256 = 62.5 frames/s, matching GTCRN and comparable "
                          "published systems, cutting inference rate 4x. Affects "
                          "the COMMS path only -- L0's 146 us budget is separate.")
+    ap.add_argument("--rho", type=float, default=8.0,
+                    help="Asymmetry of the magnitude loss: removing speech is "
+                         "penalised rho times harder than leaving noise in. 8.0 "
+                         "is every checkpoint to date, and it is why this model "
+                         "has the best SI-SAR of anything measured on our data "
+                         "(11.9 vs GTCRN 10.8, SepFormer 6.6). It also makes the "
+                         "model deliberately under-suppress, which is most of "
+                         "what the 'extraction gap' against a symmetric ideal "
+                         "mask was measuring. Lower it to trade SI-SAR for PESQ.")
+    ap.add_argument("--bands", type=int, default=48,
+                    help="ERB bands. 48 is every checkpoint to date. 96 doubles "
+                         "the mask's frequency resolution, which is what caps "
+                         "PESQ -- a PERFECT 48-band mask reaches 2.838 over this "
+                         "mix and 2.392 at 0 dB. Parameters are unchanged (the "
+                         "ERB matrix is fixed and the convolutions are "
+                         "channel-wise); only compute moves.")
     ap.add_argument("--ch", default="16,24,24,32",
                     help="encoder/decoder channel widths, comma separated")
     ap.add_argument("--fullband", action="store_true",
@@ -327,10 +343,10 @@ if __name__ == "__main__":
           f"   (cache: {cache})")
 
     ch = tuple(int(v) for v in a.ch.split(","))
-    model = GTCRNLite(ch=ch, phase=not a.no_phase, fullband=a.fullband,
-                      df=a.df, hop=a.hop).to(DEV)
-    print("  hop %d (%.1f frames/s)   channels %s"
-          % (a.hop, FS / a.hop, str(ch)))
+    model = GTCRNLite(ch=ch, n_bands=a.bands, phase=not a.no_phase,
+                      fullband=a.fullband, df=a.df, hop=a.hop).to(DEV)
+    print("  hop %d (%.1f frames/s)   channels %s   bands %d"
+          % (a.hop, FS / a.hop, str(ch), a.bands))
     if a.init:
         # Fine-tune. The architecture flags must still match the checkpoint --
         # load_state_dict is strict, so a mismatch fails loudly here rather
@@ -380,7 +396,7 @@ if __name__ == "__main__":
             # at hop 256 this produced 1001 frames against 251.
             Sr = stft(y, win, a.hop)
             loss, parts = loss_fn(est, y, Se, Sr, spp,
-                                  perc=a.perceptual, erb_M=erb_M)
+                                  perc=a.perceptual, erb_M=erb_M, rho=a.rho)
             if not torch.isfinite(loss):
                 skipped += 1
                 opt.zero_grad()
