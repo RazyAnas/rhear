@@ -1,116 +1,118 @@
 {
  "WARNING": "REAL speech + REAL recorded DEFENCE noise (8 classes) + REAL measured room impulse responses. Held-out speakers and held-out noise sources, verified disjoint. Below the PS targets; see the progression and the ceiling.",
- "checkpoint": "runs/g2_fullband/best.pt",
+ "checkpoint": "runs/g12_noise232/best.pt",
  "eval_set": "E_def - 300 clips, 8 defence noise classes, 177 sources, 93 RIRs, 63% real reverberation",
  "n_test": 300,
  "model": {
-  "params": 24975,
-  "mmacs": 62.743,
-  "latency_ms": 8.0,
+  "params": 49663,
+  "mmacs": 25.931,
+  "hop": 256,
+  "frame_ms": 16.0,
+  "latency_ms": 32.0,
   "phase_branch": "removed",
   "fullband_branch": "present"
  },
  "overall": {
   "stoi_noisy": 0.7688,
-  "stoi_enhanced": 0.8141,
+  "stoi_enhanced": 0.8242,
   "pesq_noisy": 1.2915,
-  "pesq_enhanced": 1.6295,
+  "pesq_enhanced": 1.6969,
   "sisdr_noisy": 2.503,
-  "sisdr_enhanced": 10.045,
-  "si_sir": 16.4,
-  "si_sar": 11.89
+  "sisdr_enhanced": 10.629,
+  "si_sir": 17.4,
+  "si_sar": 12.28
  },
  "deltas": {
-  "d_stoi": 0.0453,
-  "d_pesq": 0.338,
-  "d_sisdr": 7.543
+  "d_stoi": 0.0553,
+  "d_pesq": 0.4054,
+  "d_sisdr": 8.126
  },
  "by_class": {
   "drone": {
    "n": 72,
-   "d_stoi": 0.046,
-   "d_pesq": 0.4,
-   "d_sisdr": 7.7
+   "d_stoi": 0.05,
+   "d_pesq": 0.46,
+   "d_sisdr": 8.2
   },
   "environmental": {
    "n": 68,
-   "d_stoi": 0.045,
-   "d_pesq": 0.3,
-   "d_sisdr": 7.2
+   "d_stoi": 0.06,
+   "d_pesq": 0.39,
+   "d_sisdr": 8.3
   },
   "fighter": {
    "n": 74,
-   "d_stoi": 0.05,
-   "d_pesq": 0.26,
-   "d_sisdr": 7.7
+   "d_stoi": 0.059,
+   "d_pesq": 0.32,
+   "d_sisdr": 8.3
   },
   "footsteps": {
    "n": 79,
-   "d_stoi": 0.044,
-   "d_pesq": 0.3,
-   "d_sisdr": 6.7
+   "d_stoi": 0.054,
+   "d_pesq": 0.36,
+   "d_sisdr": 7.3
   },
   "gunshot": {
    "n": 89,
-   "d_stoi": 0.053,
-   "d_pesq": 0.31,
-   "d_sisdr": 7.1
+   "d_stoi": 0.061,
+   "d_pesq": 0.35,
+   "d_sisdr": 7.6
   },
   "helicopter": {
    "n": 70,
-   "d_stoi": 0.045,
-   "d_pesq": 0.39,
-   "d_sisdr": 6.9
+   "d_stoi": 0.051,
+   "d_pesq": 0.45,
+   "d_sisdr": 7.3
   },
   "shelling": {
    "n": 61,
-   "d_stoi": 0.045,
-   "d_pesq": 0.35,
-   "d_sisdr": 8.2
+   "d_stoi": 0.054,
+   "d_pesq": 0.4,
+   "d_sisdr": 8.3
   },
   "vehicle": {
    "n": 67,
-   "d_stoi": 0.05,
-   "d_pesq": 0.33,
-   "d_sisdr": 7.4
+   "d_stoi": 0.062,
+   "d_pesq": 0.41,
+   "d_sisdr": 7.9
   }
  },
  "by_snr": {
   "< -5 dB": {
    "n": 49,
-   "d_stoi": 0.061,
-   "d_pesq": 0.11,
-   "d_sisdr": 9.9
+   "d_stoi": 0.072,
+   "d_pesq": 0.13,
+   "d_sisdr": 10.5
   },
   "-5..0 dB": {
    "n": 52,
-   "d_stoi": 0.061,
-   "d_pesq": 0.07,
-   "d_sisdr": 9.1
+   "d_stoi": 0.079,
+   "d_pesq": 0.11,
+   "d_sisdr": 10.1
   },
   "0..5 dB": {
    "n": 44,
-   "d_stoi": 0.074,
-   "d_pesq": 0.28,
-   "d_sisdr": 8.3
+   "d_stoi": 0.086,
+   "d_pesq": 0.34,
+   "d_sisdr": 9.0
   },
   "5..10 dB": {
    "n": 66,
-   "d_stoi": 0.036,
-   "d_pesq": 0.41,
-   "d_sisdr": 6.8
+   "d_stoi": 0.042,
+   "d_pesq": 0.48,
+   "d_sisdr": 6.7
   },
   "10..15 dB": {
    "n": 53,
-   "d_stoi": 0.026,
-   "d_pesq": 0.54,
-   "d_sisdr": 5.9
+   "d_stoi": 0.034,
+   "d_pesq": 0.65,
+   "d_sisdr": 6.9
   },
   "> 15 dB": {
    "n": 36,
-   "d_stoi": 0.012,
-   "d_pesq": 0.67,
-   "d_sisdr": 5.0
+   "d_stoi": 0.017,
+   "d_pesq": 0.79,
+   "d_sisdr": 5.3
   }
  },
  "by_stationarity": {
@@ -134,9 +136,9 @@
    ],
    "reverb": "?",
    "stoi_noisy": 0.798,
-   "stoi_enhanced": 0.894,
+   "stoi_enhanced": 0.896,
    "pesq_noisy": 1.06,
-   "pesq_enhanced": 1.48
+   "pesq_enhanced": 1.46
   },
   {
    "base": "ex01",
@@ -149,9 +151,9 @@
    ],
    "reverb": "?",
    "stoi_noisy": 0.67,
-   "stoi_enhanced": 0.761,
+   "stoi_enhanced": 0.766,
    "pesq_noisy": 1.03,
-   "pesq_enhanced": 1.11
+   "pesq_enhanced": 1.1
   },
   {
    "base": "ex02",
@@ -164,9 +166,9 @@
    ],
    "reverb": "?",
    "stoi_noisy": 0.521,
-   "stoi_enhanced": 0.673,
+   "stoi_enhanced": 0.606,
    "pesq_noisy": 1.16,
-   "pesq_enhanced": 1.66
+   "pesq_enhanced": 1.49
   },
   {
    "base": "ex03",
@@ -180,9 +182,9 @@
    ],
    "reverb": "?",
    "stoi_noisy": 0.521,
-   "stoi_enhanced": 0.642,
+   "stoi_enhanced": 0.664,
    "pesq_noisy": 1.14,
-   "pesq_enhanced": 1.5
+   "pesq_enhanced": 1.55
   },
   {
    "base": "ex04",
@@ -196,9 +198,9 @@
    ],
    "reverb": "?",
    "stoi_noisy": 0.783,
-   "stoi_enhanced": 0.827,
+   "stoi_enhanced": 0.828,
    "pesq_noisy": 1.07,
-   "pesq_enhanced": 1.25
+   "pesq_enhanced": 1.24
   },
   {
    "base": "ex05",
@@ -212,9 +214,9 @@
    ],
    "reverb": "?",
    "stoi_noisy": 0.742,
-   "stoi_enhanced": 0.809,
+   "stoi_enhanced": 0.835,
    "pesq_noisy": 1.18,
-   "pesq_enhanced": 1.55
+   "pesq_enhanced": 1.65
   },
   {
    "base": "ex06",
@@ -227,9 +229,9 @@
    ],
    "reverb": "?",
    "stoi_noisy": 0.696,
-   "stoi_enhanced": 0.759,
+   "stoi_enhanced": 0.789,
    "pesq_noisy": 1.04,
-   "pesq_enhanced": 1.12
+   "pesq_enhanced": 1.21
   },
   {
    "base": "ex07",
@@ -241,9 +243,9 @@
    ],
    "reverb": "?",
    "stoi_noisy": 0.905,
-   "stoi_enhanced": 0.926,
+   "stoi_enhanced": 0.924,
    "pesq_noisy": 1.37,
-   "pesq_enhanced": 1.62
+   "pesq_enhanced": 1.74
   }
  ],
  "provenance": "every noise recording is real; no synthetic noise in training or evaluation; eval sources verified disjoint from training by check_leakage.py",
@@ -287,11 +289,11 @@
   "real_257_pesq": 3.69
  },
  "findings": {
-  "headline": "We are not failing to remove noise. We remove 16.4 dB of it. Artefacts cap the net result at 11.9 dB.",
+  "headline": "We are not failing to remove noise. We remove 17.4 dB of it. Artefacts cap the net result at 12.3 dB.",
   "sir_sar_split": {
-   "si_sir_noise_removed_db": 16.4,
-   "si_sar_damage_caused_db": 11.89,
-   "si_sdr_net_db": 10.05,
+   "si_sir_noise_removed_db": 17.4,
+   "si_sar_damage_caused_db": 12.28,
+   "si_sdr_net_db": 10.63,
    "ceiling_si_sar_db": 22.91,
    "note": "SI-SDR alone cannot separate 'removed noise' from 'damaged speech'. Splitting it is what showed the bottleneck is distortion, not residue."
   },

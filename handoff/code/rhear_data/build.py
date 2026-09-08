@@ -127,7 +127,8 @@ def load_audio(path, fs=FS):
 # ------------------------------------------------------------------ build
 def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
           n_per_split=None, dur_s=4.0, seed=1234, snr_range=(-10.0, 20.0),
-          heldout_n=200, verbose=True, noise_index=None):
+          heldout_n=200, verbose=True, noise_index=None,
+          interferer_index=None, interferer_prob=0.0, sir_range=(12.0, 24.0)):
     """speech_roots: {"train": path, "val": path, "test": path}
 
     noise_index: optional explicit list of noise entries, each a dict with
@@ -166,6 +167,17 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
     # noise and rooms split by SOURCE GROUP, never by clip
     ngroups = S.split_groups([n["source"] for n in noise],
                              np.random.default_rng(seed + 1))
+    itf = list(interferer_index or [])
+    if itf:
+        igroups = S.split_groups([i["source"] for i in itf],
+                                 np.random.default_rng(seed + 3))
+        itf_by = {s: [i for i in itf if i["source"] in igroups[s]] for s in S.SPLITS}
+        if verbose:
+            print(f"  interferers: {len(itf)} clips, "
+                  f"{len({i['source'] for i in itf})} source groups, "
+                  f"p={interferer_prob:.2f} per clip, SIR {sir_range[0]:.0f}-{sir_range[1]:.0f} dB")
+    else:
+        itf_by = {s: [] for s in S.SPLITS}
     rgroups = S.split_groups([r["room"] for r in rirs],
                              np.random.default_rng(seed + 2)) if rirs else \
         {k: set() for k in S.SPLITS}
@@ -190,6 +202,7 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
         spk_pool = speech.get(src, {})
         nz_pool = noise_by[src]
         rir_pool = rir_by[src]
+        itf_pool = itf_by[src]
         if not spk_pool or not nz_pool:
             raise RuntimeError(
                 f"split '{split}' has no data (speakers={len(spk_pool)}, "
@@ -224,6 +237,7 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
                     try:
                         nz.append(dict(audio=load_audio(p["path"]), cls=p["cls"],
                                        source=p["source"],
+                                       gain_db=p.get("gain_db", 0.0),
                                        provenance=p.get("provenance", "real recording")))
                         picks.append(p)
                         break
@@ -246,8 +260,19 @@ def build(out_dir, speech_roots, musan_root, mad_root, rir_root,
                         unreadable.add(str(ex).split(":")[0])
                 else:
                     rir, room = None, None      # dry mixture rather than a dead build
+            itf_pick = None
+            if itf_pool and rng.random() < interferer_prob:
+                for _ in range(8):
+                    cand = itf_pool[int(rng.integers(len(itf_pool)))]
+                    try:
+                        itf_pick = dict(audio=load_audio(cand["path"]),
+                                        source=cand["source"], sub=cand.get("sub", "?"))
+                        break
+                    except UnreadableAudio as ex:
+                        unreadable.add(str(ex).split(":")[0])
             noisy, clean, meta = mixing.make_mixture(
-                sp, nz, FS, rng, rir=rir, dur_s=dur_s, snr_range=snr_range)
+                sp, nz, FS, rng, rir=rir, dur_s=dur_s, snr_range=snr_range,
+                interferer=itf_pick, sir_range=sir_range)
             base = f"{split}_{i:06d}"
             sf.write(os.path.join(d, base + "_noisy.wav"), noisy, FS)
             sf.write(os.path.join(d, base + "_clean.wav"), clean, FS)

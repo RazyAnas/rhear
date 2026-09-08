@@ -145,26 +145,36 @@ block("U2",
 for a, b in (("BCLK", "GPIO15"), ("LRC", "GPIO16"), ("DIN", "GPIO17")):
     wire(A["U1"][SILK[b]], A["U2"][a], net_of(f"U2.{a}"))
 
-XSP, XSM = 15.6, 17.2
+XA = 14.4                       # where both output rails begin
 yp, ym = A["U2"]["OUT+"][1], A["U2"]["OUT-"][1]
-d.add(elm.Line().at(A["U2"]["OUT+"]).to((XSP, yp)).color(INK))
-d.add(elm.Line().at(A["U2"]["OUT-"]).to((XSM, ym)).color(INK))
-d.add(elm.Line().at((XSM, ym)).to((XSM, ym - 4.6)).color(INK))
-d.add(elm.Line().at((XSP, yp)).to((XSP, yp - 4.6)).color(INK))
-for i, (ref, dy) in enumerate((("LS1", -0.4), ("LS2", -3.6))):
-    yy = yp - 1.0 + dy
-    s = elm.Speaker().at((XSP, yy)).right()
-    d.add(s)
-    d.add(elm.Dot(radius=.10).at((XSP, yy)))
-    d.add(elm.Dot(radius=.10).at((XSM, yy - 0.6)))
-    d.add(elm.Line().at((XSM, yy - 0.6)).to(s.absanchors["in2"]).color(INK))
-    d.add(elm.Label().at((XSP + 2.6, yy - 0.5)).label(
-        f"{ref}\n16 Ω  ·  {'LEFT' if ref == 'LS1' else 'RIGHT'} cup",
-        fontsize=8.5, halign="left"))
+Y_TOP, Y_BOT = yp, ym - 3.6     # + rail above the drivers, - rail below
+
+# Two buses that both have to reach terminals on the SAME side of a symbol
+# always end up crossing or running parallel. Putting one rail above the
+# drivers and one below removes both -- which is what made VIN and OUT- read
+# as a single net in the previous version of this drawing.
+d.add(elm.Line().at(A["U2"]["OUT+"]).to((XA, yp)).color(INK))
+d.add(elm.Line().at((XA, Y_TOP)).to((21.2, Y_TOP)).color(INK))
+d.add(elm.Line().at(A["U2"]["OUT-"]).to((XA, ym)).color(INK))
+d.add(elm.Line().at((XA, ym)).to((XA, Y_BOT)).color(INK))
+d.add(elm.Line().at((XA, Y_BOT)).to((21.2, Y_BOT)).color(INK))
+d.add(elm.Label().at((21.4, Y_TOP)).label("OUT+", fontsize=9, color=INK, halign="left"))
+d.add(elm.Label().at((21.4, Y_BOT)).label("OUT\u2212", fontsize=9, color=INK, halign="left"))
+
+for ref, xs, side, ha in (("LS1", 16.4, "LEFT", "right"),
+                          ("LS2", 19.2, "RIGHT", "left")):
+    d.add(elm.Line().at((xs, Y_TOP)).to((xs, Y_BOT)).color(INK))
+    d.add(elm.Dot(radius=.11).at((xs, Y_TOP)))
+    d.add(elm.Dot(radius=.11).at((xs, Y_BOT)))
+    d.add(elm.Speaker().at((xs, (Y_TOP + Y_BOT) / 2 + 0.55)).down())
+    # labels on opposite sides so neither sits on a cone or the other bus
+    dx = -0.85 if ha == "right" else 0.85
+    d.add(elm.Label().at((xs + dx, (Y_TOP + Y_BOT) / 2 - 0.65)).label(
+        f"{ref}\n16 \u03a9 \u00b7 {side} cup", fontsize=8.5, halign=ha))
 drawn |= {net_of("U2.OUT+"), net_of("U2.OUT-")}
-d.add(elm.Label().at((XSP - 1.2, yp - 5.6)).label(
-    "two 16 Ω drivers in parallel = 8 Ω — the amp drives down to 4 Ω",
-    fontsize=8.5, color=GREY, halign="left"))
+d.add(elm.Label().at((XA - 0.2, Y_BOT - 1.2)).label(
+    "both drivers across the same pair \u2014 16 \u03a9 \u2225 16 \u03a9 = 8 \u03a9, "
+    "and the amp drives down to 4 \u03a9", fontsize=8.5, color=GREY, halign="left"))
 
 # ------------------------------------------------------------------- rails
 Y33, YGND, Y5 = -EH / 2 - 1.5, -EH / 2 - 2.5, -EH / 2 - 0.6
@@ -190,10 +200,15 @@ d.add(elm.Label().at((lr[0] - 1.9, lr[1] + 0.32)).label("L/R → GND", fontsize=
 drawn |= {"+3V3", "GND"}
 
 v5 = A["U1"]["5V"]
+# Approach VIN from the LEFT and from below. Bringing 5V in from the right at
+# VIN's height made it run alongside OUT- and read as the same net.
+XV = A["U2"]["VIN"][0] - 1.7
 d.add(elm.Line().at(v5).to((v5[0], Y5)).color(RED))
-d.add(elm.Line().at((v5[0], Y5)).to((XRR, Y5)).color(RED))
-d.add(elm.Line().at((XRR, Y5)).to((XRR, A["U2"]["VIN"][1])).color(RED))
-d.add(elm.Line().at((XRR, A["U2"]["VIN"][1])).to(A["U2"]["VIN"]).color(RED))
+d.add(elm.Line().at((v5[0], Y5)).to((XV, Y5)).color(RED))
+d.add(elm.Line().at((XV, Y5)).to((XV, A["U2"]["VIN"][1])).color(RED))
+d.add(elm.Line().at((XV, A["U2"]["VIN"][1])).to(A["U2"]["VIN"]).color(RED))
+d.add(elm.Label().at((XV - 0.15, A["U2"]["VIN"][1] + 0.42)).label(
+    "5V", fontsize=9, color=RED, halign="right"))
 d.add(elm.Label().at((6.4, Y5 + 0.34)).label(
     "5V from the powerbank rail — VIN off 3V3 makes the amp quiet and clip",
     fontsize=8.5, color=RED, halign="left"))

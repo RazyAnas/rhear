@@ -105,7 +105,8 @@ def speech_activity(n, fs, rng):
     return g, float(np.mean(g > 0.5))
 
 
-def make_mixture(speech, noises, fs, rng, rir=None, dur_s=4.0,
+def make_mixture(speech, noises, fs, rng, rir=None, dur_s=4.0, interferer=None,
+                 sir_range=(12.0, 24.0),
                  snr_range=(-10.0, 20.0), clip_prob=0.15, distort_prob=0.10):
     """Build one training pair.
 
@@ -145,9 +146,17 @@ def make_mixture(speech, noises, fs, rng, rir=None, dur_s=4.0,
         a = a / (rms(a) + 1e-9)
         g, kind = level_trajectory(n, fs, rng)
         a = a * g
+        # Optional per-layer gain. A boom mic sits ~3 cm from the wearer's mouth
+        # while a competing talker is >=1.5 m away, so inverse-square alone puts
+        # the interferer ~30 dB down before reverberation is considered. Layers
+        # that model a distant source carry that offset here; everything else
+        # defaults to 0 dB and behaves exactly as before.
+        gdb = float(nz.get("gain_db", 0.0))
+        if gdb:
+            a = a * (10.0 ** (gdb / 20.0))
         tot += a
         layers.append(dict(cls=nz["cls"], source=nz["source"],
-                           level_traj=kind,
+                           level_traj=kind, gain_db=gdb,
                            provenance=nz.get("provenance", "real recording"),
                            stationarity=classify_stationarity(nz["cls"])))
     meta["noise_layers"] = layers
@@ -178,6 +187,45 @@ def make_mixture(speech, noises, fs, rng, rir=None, dur_s=4.0,
     pn = rms(tot[act]) if act.any() else rms(tot)
     tot = tot * (ps / (pn + 1e-12)) * 10 ** (-snr / 20.0)
     meta["snr_db"] = round(snr, 3)
+
+    # ---- competing talker, mixed at an EXPLICIT SIR against the target ----
+    #
+    # Evidence for this path and its numbers:
+    #   * DNS5 (ICASSP 2023, arXiv 2303.11510) runs a Headset track whose whole
+    #     premise is that "when a primary talker wears a headphone, certain
+    #     acoustic properties of their speech such as direct-to-reverberation
+    #     (DRR) and signal to noise ratio (SNR) make it possible to suppress
+    #     neighboring talkers even without enrollment data for primary talker."
+    #   * Hush (huggingface.co/weya-ai/hush, Apache-2.0), the first open-source
+    #     model trained explicitly for background-SPEAKER suppression, uses
+    #     "60% of training samples include a competing human speaker at
+    #     12-24 dB SIR".
+    #
+    # The interferer is scaled against the TARGET independently of the noise
+    # SNR, because deriving its level from snr_db + a per-layer gain made the
+    # actual SIR a function of three interacting terms and it landed at ~2 dB
+    # instead of the intended ~15 dB. It gets the room impulse response and the
+    # wearer's mic response, so it is reverberant and far-field while the target
+    # stays dry and close -- that DRR contrast is the cue the model can learn.
+    if interferer is not None:
+        a = _fit(np.asarray(interferer["audio"], float), n, rng, allow_tile=True)
+        a = a / (rms(a) + 1e-9)
+        if rir is not None:
+            a = headset.apply_rir(a, rir["audio"])          # far-field: in the room
+        a, _ = headset.mic_frequency_response(a, fs, rng,
+                                              hp_hz=mic_meta["mic_hp_hz"],
+                                              lp_hz=mic_meta["mic_lp_hz"],
+                                              tilt_db=mic_meta["mic_tilt_db"])
+        a = a * g_lvl
+        sir = float(rng.uniform(*sir_range))
+        pa = rms(a[act]) if act.any() else rms(a)
+        a = a * (ps / (pa + 1e-12)) * 10 ** (-sir / 20.0)
+        tot = tot + a                       # in the mixture, NEVER in the target
+        meta["interferer"] = dict(source=interferer.get("source", "?"),
+                                  sub=interferer.get("sub", "?"),
+                                  sir_db=round(sir, 2))
+    else:
+        meta["interferer"] = None
 
     noisy = target + tot
 

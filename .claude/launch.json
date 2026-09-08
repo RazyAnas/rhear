@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "rhear-demo",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-u", "rhear_twin.py", "--port", "8765"],
+      "name": "rhear-twin",
+      "runtimeExecutable": "/opt/anaconda3/bin/python",
+      "runtimeArgs": ["rhear_twin.py", "--source", "sim", "--no-reload"],
       "port": 8765
     }
   ]
