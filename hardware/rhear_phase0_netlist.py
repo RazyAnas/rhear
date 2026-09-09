@@ -169,7 +169,16 @@ U2["GND"] += GND
 U2["BCLK"] += U1["GPIO15"]
 U2["LRC"]  += U1["GPIO16"]
 U2["DIN"]  += U1["GPIO17"]
-no_connect(U2["GAIN"], U2["SD"])     # breakout's own dividers: 9 dB, enabled, (L+R)/2
+# SD_MODE is an ANALOG mode select, not a logic enable. The MAX98357A reads
+# the VOLTAGE on it:  <0.16 V shutdown | 0.16-0.77 V (L+R)/2 | 0.77-1.4 V right
+# | >1.4 V left.  Adafruit's breakout fits a divider that lands ~0.45 V when
+# the pin is open; the breakout actually on this bench fits only a pull-down,
+# so "open" sits at 0 V -- SHUTDOWN. That is silent on any firmware, with any
+# speaker, in either polarity, and it cost us a bench session to find.
+# Tying SD to +3V3 selects the left channel, which is the slot the ESP32 fills
+# in I2S mono mode. VERIFIED SILENT WITH THIS PIN OPEN; VERIFIED WORKING TIED.
+U2["SD"] += V33
+no_connect(U2["GAIN"])               # open = 9 dB, the breakout's own divider
 
 # Two 16 ohm drivers in parallel present 8 ohm; the amp drives down to 4 ohm.
 LS1 = spk(ref="LS1"); LS2 = spk(ref="LS2")

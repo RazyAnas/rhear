@@ -8,7 +8,7 @@
  *  GPIO 17 ------- DIN
  *  GND     ------- GND
  *  5V      ------- VIN
- *  3V3     ------- SD      <-- ADD THIS WIRE. See below.
+ *  3V3     ------- SD      <-- REQUIRED. Verified on this bench.
  *
  *  SD IS NOT AN OPTIONAL PIN.
  *  On the MAX98357A, SD_MODE is an analog mode select, not a logic enable:

@@ -19,6 +19,7 @@
    "R5.1",
    "R6.1",
    "U1.3V3",
+   "U2.SD",
    "U4.AVDD_1",
    "U4.AVDD_2",
    "U4.AVDD_3",
@@ -189,7 +190,6 @@
  "no_connect": [
   "U1.GPIO8",
   "U2.GAIN",
-  "U2.SD",
   "U3.GND",
   "U3.SCL",
   "U3.SDA",

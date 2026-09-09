@@ -8,7 +8,7 @@
  *
  * Pins are verbatim from hardware/rhear_phase0_netlist.py (ERC-clean):
  *   INMP441   SCK->38  WS->39  SD->40      VDD 3V3, GND, L/R->GND   [I2S_NUM_1]
- *   MAX98357A BCLK->15 LRC->16 DIN->17     VIN 5V,  GND             [I2S_NUM_0]
+ *   MAX98357A BCLK->15 LRC->16 DIN->17     VIN 5V, GND, SD->3V3             [I2S_NUM_0]
  *
  * The INMP441 sends 24 bits left-justified in a 32-bit slot, so samples are
  * read 32-bit and shifted >>8 then >>8 again to int16. Reading them as 16-bit
