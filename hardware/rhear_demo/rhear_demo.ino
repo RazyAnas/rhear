@@ -83,6 +83,12 @@ static volatile uint32_t gL0Blocks = 0;
 static volatile float    gL0UsPerBlock = 0, gL0UsWorst = 0;
 static volatile float    gL1UsPerFrame = 0, gL1UsWorst = 0;
 static volatile float    gAncDb    = 0;       /* live convergence, dB       */
+static volatile float    gInDb     = -99;     /* mic level, dBFS            */
+static volatile float    gOutDb    = -99;     /* speaker level, dBFS        */
+static volatile float    gFsMeas   = 0;       /* ACHIEVED rate, samples/s   */
+static volatile uint32_t gLowZero  = 0;       /* INMP441 format liveness    */
+static volatile uint32_t gRails    = 0;       /* stuck-at-rail samples      */
+static volatile bool     gHeartbeat = true;
 static volatile uint32_t gAiFrames = 0;
 static volatile uint32_t gUnderruns = 0;
 
@@ -117,6 +123,16 @@ static void audioTask(void *) {
     size_t n = readFrame();
     if (!n) { gUnderruns++; continue; }
 
+    /* INMP441 sends 24 bits left-justified in a 32-bit slot, so the low 8
+     * bits of every word must be zero. If they are not, the mic is not
+     * actually driving the bus and we are reading a floating pin -- the exact
+     * failure that once made us believe a dead mic was working. */
+    for (size_t i = 0; i < n; i++) {
+      if ((rawbuf[i] & 0xFF) == 0) gLowZero++;
+      if (rawbuf[i] == (int32_t)0xFFFFFFFF || rawbuf[i] == 0) gRails++;
+    }
+    double sumIn = 0, sumOut = 0;
+
     for (size_t i = 0; i < n; i++) {
       float mic_s = (float)(rawbuf[i] >> 8) / 8388608.0f;   /* 24-in-32      */
       float out_s = mic_s;
@@ -130,6 +146,7 @@ static void audioTask(void *) {
       if (out_s >  1.0f) out_s =  1.0f;
       if (out_s < -1.0f) out_s = -1.0f;
       outbuf[i] = (int16_t)(out_s * 30000.0f);
+      sumIn += (double)mic_s * mic_s; sumOut += (double)out_s * out_s;
       if ((i % DECIM) == 0 && (i/DECIM) < BLK16) l1acc[i/DECIM] = mic_s;
     }
     uint32_t t1 = micros();
@@ -157,11 +174,20 @@ static void audioTask(void *) {
     }
     amp.write((uint8_t *)outbuf, n*sizeof(int16_t));
 
+    gInDb  = 0.9f*gInDb  + 0.1f*(10.0f*log10f((float)(sumIn /n) + 1e-12f));
+    gOutDb = 0.9f*gOutDb + 0.1f*(10.0f*log10f((float)(sumOut/n) + 1e-12f));
     float us = (float)(t1 - t0);
     gL0UsPerBlock = 0.99f*gL0UsPerBlock + 0.01f*us;
     if (us > gL0UsWorst) gL0UsWorst = us;
     gL0Blocks++;
     gAncDb = 10.0f*log10f((ancDen + 1e-12f)/(ancNum + 1e-12f));
+    static uint32_t rt0 = 0, rb0 = 0;
+    uint32_t now = millis();
+    if (rt0 == 0) { rt0 = now; rb0 = gL0Blocks; }
+    else if (now - rt0 >= 1000) {
+      gFsMeas = (float)(gL0Blocks - rb0) * BLK48 * 1000.0f / (now - rt0);
+      rt0 = now; rb0 = gL0Blocks;
+    }
   }
 }
 
@@ -181,6 +207,168 @@ static void aiTask(void *) {
   }
 }
 
+
+/* ======================= SELF TEST -- run this FIRST ===================== */
+/* Answers, separately and unambiguously: is the amp wired and audible, and is
+ * the mic actually driving the I2S bus. A silent demo is almost always one of
+ * these two, and guessing which wastes the five minutes you have. */
+static void selfTest() {
+  Mode save = gMode; gMode = MODE_OFF; vTaskDelay(pdMS_TO_TICKS(50));
+
+  Serial.println(F("\n================ RHEAR SELF TEST ================"));
+
+  /* --- 1. AMPLIFIER: a loud 1 kHz tone. Purely an output test. --------- */
+  Serial.println(F("[1/3] AMP  -- you should HEAR a 1 kHz tone for 2 seconds NOW"));
+  static int16_t tone[480];
+  for (int i = 0; i < 480; i++)
+    tone[i] = (int16_t)(12000.0f * sinf(2.0f*(float)M_PI*1000.0f*i/FS48));
+  uint32_t t0 = millis(); size_t wrote = 0;
+  while (millis() - t0 < 2000) wrote += amp.write((uint8_t*)tone, sizeof(tone));
+  Serial.printf("      wrote %u bytes to the amp\n", (unsigned)wrote);
+  Serial.println(F("      heard nothing? check: MAX98357A VIN on 5V (not 3V3),"));
+  Serial.println(F("      SD pin NOT tied low, GND shared with the ESP32,"));
+  Serial.println(F("      speaker across the + and - screw terminals."));
+
+  /* --- 2. MICROPHONE: format and level. ------------------------------- */
+  Serial.println(F("\n[2/3] MIC  -- speak or tap the mic for the next 3 seconds"));
+  uint32_t lz = 0, rails = 0, tot = 0; double sum = 0; int32_t pk = 0;
+  t0 = millis();
+  while (millis() - t0 < 3000) {
+    size_t n = mic.readBytes((char*)rawbuf, sizeof(rawbuf)) / sizeof(int32_t);
+    for (size_t i = 0; i < n; i++) {
+      int32_t w = rawbuf[i];
+      if ((w & 0xFF) == 0) lz++;
+      if (w == (int32_t)0xFFFFFFFF || w == 0) rails++;
+      int32_t v = w >> 8; if (v < 0) v = -v; if (v > pk) pk = v;
+      float f = (float)(w >> 8) / 8388608.0f; sum += (double)f*f;
+      tot++;
+    }
+  }
+  float rms = tot ? 10.0f*log10f((float)(sum/tot) + 1e-12f) : -99;
+  float lzp = tot ? 100.0f*lz/tot : 0, rp = tot ? 100.0f*rails/tot : 0;
+  Serial.printf("      samples %lu   rate %.0f Hz (nominal %d)\n",
+                (unsigned long)tot, tot/3.0f, FS48);
+  Serial.printf("      level   %.1f dBFS   peak %ld\n", rms, (long)pk);
+  Serial.printf("      low-8-bits-zero %.1f%%   stuck-at-rail %.1f%%\n", lzp, rp);
+  if (tot == 0)          Serial.println(F("      VERDICT: NO DATA -- mic not clocking. Check SCK 38 / WS 39 / SD 40."));
+  else if (lzp < 95.0f)  Serial.println(F("      VERDICT: BAD FORMAT -- low bits not zero. SD pin floating, or L/R not tied to GND."));
+  else if (rp > 50.0f)   Serial.println(F("      VERDICT: RAILED -- reading a floating pin, not a microphone."));
+  else if (rms < -75.0f) Serial.println(F("      VERDICT: ALIVE but very quiet. Check VDD 3V3 and try tapping it."));
+  else                   Serial.println(F("      VERDICT: MIC OK."));
+
+  /* --- 3. LOOPBACK: prove the whole chain moves audio. ----------------- */
+  Serial.println(F("\n[3/3] LOOP -- 3 s of mic straight to speaker. TALK NOW."));
+  t0 = millis();
+  while (millis() - t0 < 3000) {
+    size_t n = mic.readBytes((char*)rawbuf, sizeof(rawbuf)) / sizeof(int32_t);
+    for (size_t i = 0; i < n; i++) {
+      float f = (float)(rawbuf[i] >> 8) / 8388608.0f * 8.0f;   /* +18 dB */
+      if (f >  1.0f) f =  1.0f; if (f < -1.0f) f = -1.0f;
+      outbuf[i] = (int16_t)(f * 30000.0f);
+    }
+    amp.write((uint8_t*)outbuf, n*sizeof(int16_t));
+  }
+  Serial.println(F("      heard your own voice? then mic AND amp are both good."));
+  Serial.println(F("=================================================\n"));
+  gMode = save;
+}
+
+/* live one-line meter, printed once a second so the demo is never silent */
+static void heartbeat() {
+  static uint32_t last = 0;
+  if (!gHeartbeat || millis() - last < 1000) return;
+  last = millis();
+  if (gMode == MODE_OFF) return;
+  char bar[21]; int lv = (int)((gInDb + 60.0f) / 3.0f);
+  if (lv < 0) lv = 0; if (lv > 20) lv = 20;
+  for (int i = 0; i < 20; i++) bar[i] = i < lv ? '#' : '.';
+  bar[20] = 0;
+  Serial.printf("[%s] in %6.1f  out %6.1f dBFS | ANC %+5.1f dB | %.0f Hz | L0 %.2f us/smp | AI %s\n",
+      bar, gInDb, gOutDb, gAncDb, gFsMeas, gL0UsPerBlock/BLK48,
+      gAiAlive ? "ok" : "KILLED");
+}
+
+
+/* ================== A/B CAPTURE -- hear your own voice ================== */
+/* Records 4 s from the mic, runs the SAME L1 that the radio path uses over
+ * it, and streams both the original and the processed audio to the host.
+ * ab_capture.py writes them as two WAVs you can play back to back. This is
+ * the answer to "what does my voice sound like after the ESP32 filters it". */
+#define AB_SECS   4
+#define AB_LEN    (FS16 * AB_SECS)
+static int16_t *abRaw = NULL, *abEnh = NULL;
+
+static void abCapture() {
+  Mode save = gMode; gMode = MODE_OFF; vTaskDelay(pdMS_TO_TICKS(50));
+  if (!abRaw) abRaw = (int16_t*)ps_malloc(AB_LEN*sizeof(int16_t));
+  if (!abEnh) abEnh = (int16_t*)ps_malloc(AB_LEN*sizeof(int16_t));
+  if (!abRaw || !abEnh) { Serial.println(F("AB: out of PSRAM")); gMode=save; return; }
+
+  Serial.printf("AB: recording %d s at %d Hz -- TALK NOW\n", AB_SECS, FS16);
+  int got = 0;
+  while (got < AB_LEN) {
+    size_t n = mic.readBytes((char*)rawbuf, sizeof(rawbuf)) / sizeof(int32_t);
+    for (size_t i = 0; i < n && got < AB_LEN; i += DECIM) {
+      float f = (float)(rawbuf[i] >> 8) / 8388608.0f;
+      if (f >  1.0f) f =  1.0f; if (f < -1.0f) f = -1.0f;
+      abRaw[got++] = (int16_t)(f * 32000.0f);
+    }
+  }
+  Serial.println(F("AB: recorded. enhancing..."));
+
+  l1_init();
+  static float fin[L1_NFFT], fout[L1_HOP];
+  memset(abEnh, 0, AB_LEN*sizeof(int16_t));
+  uint32_t t0 = millis();
+  int hops = (AB_LEN - L1_NFFT) / L1_HOP;
+  for (int h = 0; h < hops; h++) {
+    for (int i = 0; i < L1_NFFT; i++) fin[i] = abRaw[h*L1_HOP + i] / 32000.0f;
+    l1_frame(fin, fout, /*removeVoices=*/true);
+    for (int i = 0; i < L1_HOP; i++) {
+      float v = fout[i] * 3.0f;                 /* makeup for the AGC-less path */
+      if (v >  1.0f) v =  1.0f; if (v < -1.0f) v = -1.0f;
+      abEnh[h*L1_HOP + i] = (int16_t)(v * 32000.0f);
+    }
+  }
+  uint32_t ms = millis() - t0;
+  Serial.printf("AB: %d frames in %lu ms -> %.2f ms/frame, RTF %.3f (16 ms budget)\n",
+                hops, (unsigned long)ms, (float)ms/hops, ((float)ms/hops)/16.0f);
+
+  /* measure what it actually did, on the device, in dB */
+  double ri=0, re=0;
+  for (int i = 0; i < AB_LEN; i++) { ri += (double)abRaw[i]*abRaw[i];
+                                     re += (double)abEnh[i]*abEnh[i]; }
+  Serial.printf("AB: raw %.1f dBFS   enhanced %.1f dBFS\n",
+      10*log10(ri/AB_LEN/(32000.0*32000.0)+1e-12),
+      10*log10(re/AB_LEN/(32000.0*32000.0)+1e-12));
+
+  Serial.printf("ABDATA %d %d\n", AB_LEN, AB_LEN);   /* host sync marker */
+  delay(50);
+  Serial.write((uint8_t*)abRaw, AB_LEN*sizeof(int16_t));
+  Serial.write((uint8_t*)abEnh, AB_LEN*sizeof(int16_t));
+  Serial.flush();
+  Serial.println(F("\nAB: done"));
+
+  /* and play them back through the speaker, raw then enhanced */
+  Serial.println(F("AB: playing RAW..."));
+  for (int i = 0; i < AB_LEN; i += 256) {
+    static int16_t up[768]; int m = 0;
+    for (int j = 0; j < 256 && i+j < AB_LEN; j++)
+      for (int k = 0; k < DECIM; k++) up[m++] = abRaw[i+j];
+    amp.write((uint8_t*)up, m*sizeof(int16_t));
+  }
+  vTaskDelay(pdMS_TO_TICKS(400));
+  Serial.println(F("AB: playing ENHANCED..."));
+  for (int i = 0; i < AB_LEN; i += 256) {
+    static int16_t up[768]; int m = 0;
+    for (int j = 0; j < 256 && i+j < AB_LEN; j++)
+      for (int k = 0; k < DECIM; k++) up[m++] = abEnh[i+j];
+    amp.write((uint8_t*)up, m*sizeof(int16_t));
+  }
+  Serial.println(F("AB: finished"));
+  gMode = save;
+}
+
 /* ================================ SHELL ================================= */
 static void telemetry() {
   float budget48 = 1e6f / FS48;                      /* 20.83 us per sample  */
@@ -193,6 +381,12 @@ static void telemetry() {
   Serial.printf("AI core         : %s\n", gAiAlive ? "ALIVE" : "*** KILLED ***");
   Serial.printf("L0 blocks       : %lu   underruns %lu\n",
                 (unsigned long)gL0Blocks, (unsigned long)gUnderruns);
+  Serial.printf("achieved rate   : %.0f Hz  (nominal %d)  %s\n", gFsMeas, FS48,
+                (gFsMeas > FS48*0.95f) ? "OK" : "*** NOT KEEPING UP ***");
+  Serial.printf("levels          : in %.1f dBFS   out %.1f dBFS\n", gInDb, gOutDb);
+  Serial.printf("mic format      : low-8-zero %.1f%%   railed %.1f%%\n",
+      gL0Blocks ? 100.0f*gLowZero/(gL0Blocks*(float)BLK48) : 0.0f,
+      gL0Blocks ? 100.0f*gRails  /(gL0Blocks*(float)BLK48) : 0.0f);
   Serial.printf("L0 per sample   : %.2f us  (worst %.2f)  budget %.2f us  %s\n",
       perSample, gL0UsWorst/BLK48, budget48,
       (gL0UsWorst/BLK48) < budget48 ? "PASS" : "OVER");
@@ -220,12 +414,17 @@ void setup() {
   l0_init(); l1_init(); osc_init();
   xTaskCreatePinnedToCore(audioTask, "audio", 8192, NULL, 24, NULL, 1);
   xTaskCreatePinnedToCore(aiTask,    "ai",    16384, NULL, 5,  NULL, 0);
-  Serial.println(F("E ear | C radio | P pass | K kill AI | R revive | N noise | T telemetry"));
+  Serial.println(F("\n>>> PRESS  D  FIRST -- self test: is the amp audible, is the mic alive? <<<\n"));
+  Serial.println(F("D self-test | P pass | E ear | C radio | K kill AI | R revive"));
+  Serial.println(F("N noise | A<x> alpha | T telemetry | H heartbeat"));
+  Serial.println(F("W = record 4 s of your voice, enhance it, play BOTH back"));
 }
 
 void loop() {
-  if (!Serial.available()) { delay(20); return; }
+  heartbeat();
+  if (!Serial.available()) { delay(5); return; }
   char c = Serial.read();
+  if (c == '\n' || c == '\r' || c == ' ') return;   /* line endings */
   switch (c) {
     case 'E': gMode = MODE_EAR;   l0_init(); Serial.println(F("EAR path")); break;
     case 'C': gMode = MODE_RADIO; Serial.println(F("RADIO path")); break;
@@ -237,6 +436,10 @@ void loop() {
     case 'Q': gInject = false; Serial.println(F("injection off")); break;
     case 'A': gAlpha  = Serial.parseFloat(); Serial.printf("alpha %.2f\n", gAlpha); break;
     case 'G': gGateDb = Serial.parseFloat(); Serial.printf("gate %.1f dB\n", gGateDb); break;
+    case 'D': selfTest(); break;
+    case 'W': abCapture(); break;
+    case 'H': gHeartbeat = !gHeartbeat;
+              Serial.printf("heartbeat %s\n", gHeartbeat?"on":"off"); break;
     case 'T': case '?': telemetry(); break;
     default: break;
   }
