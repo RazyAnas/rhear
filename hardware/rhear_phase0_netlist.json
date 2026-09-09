@@ -4,6 +4,10 @@
    "C1.1",
    "C10.1",
    "C11.1",
+   "C14.1",
+   "C15.1",
+   "C16.1",
+   "C17.1",
    "C2.1",
    "C3.1",
    "C4.1",
@@ -12,7 +16,13 @@
    "MIC3.VCC",
    "MIC4.VCC",
    "MIC5.VDD",
-   "U1.3V3"
+   "R5.1",
+   "R6.1",
+   "U1.3V3",
+   "U4.AVDD_1",
+   "U4.AVDD_2",
+   "U4.AVDD_3",
+   "U4.IOVDD"
   ],
   "+5V": [
    "C5.1",
@@ -23,6 +33,14 @@
    "C1.2",
    "C10.2",
    "C11.2",
+   "C12.2",
+   "C13.2",
+   "C14.2",
+   "C15.2",
+   "C16.2",
+   "C17.2",
+   "C18.2",
+   "C19.2",
    "C2.2",
    "C3.2",
    "C4.2",
@@ -38,7 +56,15 @@
    "MIC5.GND",
    "MIC5.LR",
    "U1.GND",
-   "U2.GND"
+   "U2.GND",
+   "U4.ADDR0",
+   "U4.ADDR1",
+   "U4.AGND_1",
+   "U4.AGND_2",
+   "U4.AGND_3",
+   "U4.DGND",
+   "U4.EP",
+   "U4.SELFBOOT"
   ],
   "N$1": [
    "MIC1.OUT",
@@ -109,23 +135,82 @@
    "LS1.-",
    "LS2.-",
    "U2.OUT-"
+  ],
+  "N$17": [
+   "C18.1",
+   "U4.DVDD",
+   "U4.REG_OUT"
+  ],
+  "N$18": [
+   "C12.1",
+   "U4.XTALI",
+   "Y1.A"
+  ],
+  "N$19": [
+   "C13.1",
+   "U4.XTALO",
+   "Y1.B"
+  ],
+  "N$20": [
+   "R5.2",
+   "U1.GPIO9",
+   "U4.SDA"
+  ],
+  "N$21": [
+   "R6.2",
+   "U1.GPIO10",
+   "U4.SCL"
+  ],
+  "N$22": [
+   "U1.GPIO11",
+   "U4.PD"
+  ],
+  "N$23": [
+   "U1.GPIO12",
+   "U4.BCLK"
+  ],
+  "N$24": [
+   "U1.GPIO13",
+   "U4.LRCLK"
+  ],
+  "N$25": [
+   "U1.GPIO14",
+   "U4.DAC_SDATA"
+  ],
+  "N$26": [
+   "U1.GPIO21",
+   "U4.ADC_SDATA0"
+  ],
+  "N$27": [
+   "C19.1",
+   "U4.CM"
   ]
  },
  "no_connect": [
-  "U1.GPIO10",
-  "U1.GPIO11",
-  "U1.GPIO12",
-  "U1.GPIO13",
-  "U1.GPIO14",
-  "U1.GPIO21",
   "U1.GPIO8",
-  "U1.GPIO9",
   "U2.GAIN",
   "U2.SD",
   "U3.GND",
   "U3.SCL",
   "U3.SDA",
-  "U3.VCC"
+  "U3.VCC",
+  "U4.ADC_SDATA1",
+  "U4.AIN0",
+  "U4.AIN0REF",
+  "U4.AIN1",
+  "U4.AIN1REF",
+  "U4.AIN2",
+  "U4.AIN2REF",
+  "U4.AIN3",
+  "U4.AIN3REF",
+  "U4.DMIC0_1",
+  "U4.DMIC2_3",
+  "U4.LOUTLN",
+  "U4.LOUTLP",
+  "U4.LOUTRN",
+  "U4.LOUTRP",
+  "U4.MICBIAS0",
+  "U4.MICBIAS1"
  ],
  "values": {
   "U1": "ESP32-S3-DevKitC-1",
@@ -152,6 +237,18 @@
   "C10": "100 nF",
   "C11": "100 nF",
   "C5": "100 nF",
+  "U4": "ADAU1772BCPZ",
+  "Y1": "12.000 MHz",
+  "C12": "22 pF",
+  "C13": "22 pF",
+  "R5": "2.0 kohm",
+  "R6": "2.0 kohm",
+  "C14": "100 nF",
+  "C15": "100 nF",
+  "C16": "100 nF",
+  "C17": "100 nF",
+  "C18": "100 nF",
+  "C19": "100 nF",
   "U3": "AT24C256"
  },
  "silkscreen": {
@@ -202,6 +299,18 @@
   "C10": "capacitor",
   "C11": "capacitor",
   "C5": "capacitor",
+  "U4": "ANC codec, 4 ADC / 2 DAC, 40-LFCSP on QFN40->DIP adapter",
+  "Y1": "12.000 MHz crystal (KNS), ADAU1772 XTALI/XTALO",
+  "C12": "capacitor",
+  "C13": "capacitor",
+  "R5": "resistor",
+  "R6": "resistor",
+  "C14": "capacitor",
+  "C15": "capacitor",
+  "C16": "capacitor",
+  "C17": "capacitor",
+  "C18": "capacitor",
+  "C19": "capacitor",
   "U3": "I2C EEPROM module (bill 2917 item 9) -- PHASE 1"
  }
 }

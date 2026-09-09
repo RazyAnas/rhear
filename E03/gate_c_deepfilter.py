@@ -65,6 +65,7 @@ def main() -> None:
     ap.add_argument("--train-data", default=os.path.join(HERE, "..", "handoff", "data", "h3_20k"))
     ap.add_argument("--clips", type=int, default=16)
     ap.add_argument("--steps", type=int, default=1500)
+    ap.add_argument("--bands", type=int, default=48)
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--out", default=os.path.join(HERE, "runs", "g012", "gate_c_deepfilter.json"))
     a = ap.parse_args()
@@ -72,7 +73,7 @@ def main() -> None:
     torch.manual_seed(0)
     win = torch.hann_window(N_FFT, device=DEV)
 
-    m = GTCRNLite(ch=(32, 48, 48, 64), n_bands=48, phase=False,
+    m = GTCRNLite(ch=(32, 48, 48, 64), n_bands=a.bands, phase=False,
                   fullband=True, df=True, hop=256).to(DEV)
     loaded, skipped = load_g7_into(m, a.ckpt)
     print(f"\nloaded    {len(loaded)} tensors from G7-base, "

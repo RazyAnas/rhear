@@ -1,0 +1,96 @@
+noise pool: 930 MUSAN + 6485 MAD + 115 NOISEX/etc = 7530   (981 MAD 'communication' speech clips EXCLUDED)
+noise source groups: 1558
+  speech[train]: 251 speakers, 28539 utterances
+  speech[val]: 40 speakers, 2703 utterances
+  speech[test]: 40 speakers, 2620 utterances
+  noise: 7530 clips (930 MUSAN, 6485 MAD; 0 MAD 'communication' clips excluded)
+  rirs: 417 real measured
+    train: 250/20000
+    train: 500/20000
+    train: 750/20000
+    train: 1000/20000
+    train: 1250/20000
+    train: 1500/20000
+    train: 1750/20000
+    train: 2000/20000
+    train: 2250/20000
+    train: 2500/20000
+    train: 2750/20000
+    train: 3000/20000
+    train: 3250/20000
+    train: 3500/20000
+    train: 3750/20000
+    train: 4000/20000
+    train: 4250/20000
+    train: 4500/20000
+    train: 4750/20000
+    train: 5000/20000
+    train: 5250/20000
+    train: 5500/20000
+    train: 5750/20000
+    train: 6000/20000
+    train: 6250/20000
+    train: 6500/20000
+    train: 6750/20000
+    train: 7000/20000
+    train: 7250/20000
+    train: 7500/20000
+    train: 7750/20000
+    train: 8000/20000
+    train: 8250/20000
+    train: 8500/20000
+    train: 8750/20000
+    train: 9000/20000
+    train: 9250/20000
+    train: 9500/20000
+    train: 9750/20000
+    train: 10000/20000
+    train: 10250/20000
+    train: 10500/20000
+    train: 10750/20000
+    train: 11000/20000
+    train: 11250/20000
+    train: 11500/20000
+    train: 11750/20000
+    train: 12000/20000
+    train: 12250/20000
+    train: 12500/20000
+    train: 12750/20000
+    train: 13000/20000
+    train: 13250/20000
+    train: 13500/20000
+    train: 13750/20000
+    train: 14000/20000
+    train: 14250/20000
+    train: 14500/20000
+    train: 14750/20000
+    train: 15000/20000
+    train: 15250/20000
+    train: 15500/20000
+    train: 15750/20000
+    train: 16000/20000
+    train: 16250/20000
+    train: 16500/20000
+    train: 16750/20000
+    train: 17000/20000
+    train: 17250/20000
+    train: 17500/20000
+    train: 17750/20000
+    train: 18000/20000
+    train: 18250/20000
+    train: 18500/20000
+    train: 18750/20000
+    train: 19000/20000
+    train: 19250/20000
+    train: 19500/20000
+    train: 19750/20000
+    train: 20000/20000
+    val: 250/500
+    val: 500/500
+    test: 250/500
+    test: 500/500
+  wrote 21000 samples -> /Users/mariyafatima/PS#2/handoff/data/g11_20k
+  leakage audit: CLEAN
+
+wrote 21000 samples -> /Users/mariyafatima/PS#2/handoff/data/g11_20k
+leakage: CLEAN

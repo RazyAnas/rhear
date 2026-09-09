@@ -1,0 +1,23 @@
+
+loaded    108 tensors from G7-base, 0 unmatched
+trainable 2,176 params (deep-filter head only), rest frozen
+
+  noisy input                   2.98 dB
+  mask alone (head=identity)   10.54 dB   <- the bar the head must beat
+
+    step     0   loss   -2.8571   SI-SDR    6.48 dB   (-4.07 vs mask alone)
+    step   666   loss   -9.2608   SI-SDR   12.18 dB   (+1.64 vs mask alone)
+    step  1332   loss   -9.5428   SI-SDR   12.46 dB   (+1.91 vs mask alone)
+    step  1998   loss   -9.6625   SI-SDR   12.58 dB   (+2.03 vs mask alone)
+    step  2664   loss   -9.7696   SI-SDR   12.68 dB   (+2.14 vs mask alone)
+    step  3330   loss   -9.8341   SI-SDR   12.74 dB   (+2.20 vs mask alone)
+    step  3996   loss   -9.8894   SI-SDR   12.80 dB   (+2.25 vs mask alone)
+    step  3999   loss   -9.8873   SI-SDR   12.79 dB   (+2.25 vs mask alone)
+
+  deep-filter head gain over the mask alone   +2.25 dB
+  (the phase head's comparable result was a +0.019 alignment gain,
+   which the oracle prices at a fraction of a dB)
+
+  [PASS] the deep-filter head learns a real improvement on a frozen trunk
+
+written   runs/g012/gate_c_deepfilter_long.json

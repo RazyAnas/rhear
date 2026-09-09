@@ -1,0 +1,114 @@
+noise pool:
+   MUSAN       930
+   MAD        6485   (981 'communication' speech clips EXCLUDED)
+   NOISEX      115
+   ESC-50     1760   (240 human-vocal clips EXCLUDED)
+   FSD50K    37582   (3384 speech-labelled clips EXCLUDED)
+   DNS5       8000
+   US8K       7732   (1000 children_playing clips EXCLUDED)
+
+   after reweighting to match E_def's 88% military composition:
+     mad        39000   65.0%
+     fsd50k      7800   13.0%
+     noisex      6000   10.0%
+     musan       3000    5.0%
+     esc50       2400    4.0%
+     dns5        1200    2.0%
+     us8k         600    1.0%
+   MILITARY share: 75.0%   (E_def is 88%, G11 trained at 86%)
+   TOTAL     60000   source groups: 12261
+   distinct classes: 236
+  speech[train]: 251 speakers, 28539 utterances
+  speech[val]: 40 speakers, 2703 utterances
+  speech[test]: 40 speakers, 2620 utterances
+  noise: 60000 clips (3000 MUSAN, 39000 MAD; 0 MAD 'communication' clips excluded)
+  rirs: 417 real measured
+    train: 250/20000
+    train: 500/20000
+    train: 750/20000
+    train: 1000/20000
+    train: 1250/20000
+    train: 1500/20000
+    train: 1750/20000
+    train: 2000/20000
+    train: 2250/20000
+    train: 2500/20000
+    train: 2750/20000
+    train: 3000/20000
+    train: 3250/20000
+    train: 3500/20000
+    train: 3750/20000
+    train: 4000/20000
+    train: 4250/20000
+    train: 4500/20000
+    train: 4750/20000
+    train: 5000/20000
+    train: 5250/20000
+    train: 5500/20000
+    train: 5750/20000
+    train: 6000/20000
+    train: 6250/20000
+    train: 6500/20000
+    train: 6750/20000
+    train: 7000/20000
+    train: 7250/20000
+    train: 7500/20000
+    train: 7750/20000
+    train: 8000/20000
+    train: 8250/20000
+    train: 8500/20000
+    train: 8750/20000
+    train: 9000/20000
+    train: 9250/20000
+    train: 9500/20000
+    train: 9750/20000
+    train: 10000/20000
+    train: 10250/20000
+    train: 10500/20000
+    train: 10750/20000
+    train: 11000/20000
+    train: 11250/20000
+    train: 11500/20000
+    train: 11750/20000
+    train: 12000/20000
+    train: 12250/20000
+    train: 12500/20000
+    train: 12750/20000
+    train: 13000/20000
+    train: 13250/20000
+    train: 13500/20000
+    train: 13750/20000
+    train: 14000/20000
+    train: 14250/20000
+    train: 14500/20000
+    train: 14750/20000
+    train: 15000/20000
+    train: 15250/20000
+    train: 15500/20000
+    train: 15750/20000
+    train: 16000/20000
+    train: 16250/20000
+    train: 16500/20000
+    train: 16750/20000
+    train: 17000/20000
+    train: 17250/20000
+    train: 17500/20000
+    train: 17750/20000
+    train: 18000/20000
+    train: 18250/20000
+    train: 18500/20000
+    train: 18750/20000
+    train: 19000/20000
+    train: 19250/20000
+    train: 19500/20000
+    train: 19750/20000
+    train: 20000/20000
+    val: 250/500
+    val: 500/500
+    test: 250/500
+    test: 500/500
+  wrote 21000 samples -> /Users/mariyafatima/PS#2/handoff/data/g12_20k
+  leakage audit: CLEAN
+
+wrote 21000 -> /Users/mariyafatima/PS#2/handoff/data/g12_20k
+leakage: CLEAN

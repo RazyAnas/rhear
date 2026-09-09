@@ -1,0 +1,8 @@
+  device mps   train 20000   val 300   (cache: False)
+  hop 256 (62.5 frames/s)   channels (32, 48, 48, 64)   bands 96
+  initialised from runs/g8_bands96/best.pt (fine-tune)
+  model 49,663 params, 25.9 MMAC/s (62.5 frames/s)
+  ep   0  loss  -10.026   val SI-SDR  10.40 dB   best  10.40   skip  0/625     6.3 min
+  ep   1  loss  -10.051   val SI-SDR  10.42 dB   best  10.42   skip  0/625    16.2 min
+  ep   2  loss  -10.069   val SI-SDR  10.42 dB   best  10.42   skip  0/625    33.0 min
+  ep   3  loss  -10.101   val SI-SDR  10.37 dB   best  10.42   skip  0/625    56.8 min

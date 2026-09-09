@@ -1,0 +1,128 @@
+  device mps   train 20000   val 500   (cache: int16)
+  hop 256 (62.5 frames/s)   channels (32, 48, 48, 64)   bands 96
+  initialised from runs/g8_bands96/best.pt (fine-tune)
+  model 49,663 params, 25.9 MMAC/s (62.5 frames/s)
+  ep   0  loss   -8.463   val SI-SDR  10.45 dB   best  10.45   skip  0/625     5.4 min
+  ep   1  loss   -8.558   val SI-SDR  10.50 dB   best  10.50   skip  0/625    12.3 min
+  ep   2  loss   -8.621   val SI-SDR  10.48 dB   best  10.50   skip  0/625    18.9 min
+  ep   3  loss   -8.668   val SI-SDR  10.59 dB   best  10.59   skip  0/625    24.5 min
+  ep   4  loss   -8.709   val SI-SDR  10.58 dB   best  10.59   skip  0/625    30.6 min
+  ep   5  loss   -8.753   val SI-SDR  10.65 dB   best  10.65   skip  0/625    36.8 min
+  ep   6  loss   -8.784   val SI-SDR  10.60 dB   best  10.65   skip  0/625    43.6 min
+  ep   7  loss   -8.815   val SI-SDR  10.64 dB   best  10.65   skip  0/625    52.8 min
+  ep   8  loss   -8.831   val SI-SDR  10.67 dB   best  10.67   skip  0/625    60.0 min
+  ep   9  loss   -8.850   val SI-SDR  10.63 dB   best  10.67   skip  0/625    67.7 min
+
+  done in 67.7 min, best val SI-SDR 10.67 dB
+  skipped 0 batches as non-finite (0.00% of steps)
+  checkpoints -> runs/g11_spk251/best.pt (best val SI-SDR)
+                 runs/g11_spk251/last.pt (final epoch)
+  For a run targeting PESQ or perceptual quality, evaluate BOTH --
+  best.pt is selected on SI-SDR and is biased against such runs.
+G11_TRAIN_DONE
+  model: 49663 params | hop 256 | phase branch REMOVED | full-band branch PRESENT
+  g11_on_edef | 300 clips | ckpt runs/g11_spk251/best.pt
+    60/300
+    120/300
+    180/300
+    240/300
+    300/300
+
+=== g11_on_edef ===
+  OVERALL          n= 300  STOI 0.769->0.823 (+0.054)  PESQ 1.29->1.69 (+0.40)  SI-SDR +10.6 (+8.1)  SIR +17.4  SAR +12.3
+
+--- by input SNR ---
+  < -5 dB          n=  49  STOI 0.557->0.626 (+0.069)  PESQ 1.06->1.19 (+0.13)  SI-SDR  +1.2 (+10.4)  SIR  +9.3  SAR  +3.1
+  -5..0 dB         n=  52  STOI 0.638->0.714 (+0.076)  PESQ 1.12->1.23 (+0.11)  SI-SDR  +6.0 (+10.0)  SIR +13.6  SAR  +7.3
+  0..5 dB          n=  44  STOI 0.721->0.804 (+0.084)  PESQ 1.13->1.47 (+0.34)  SI-SDR  +9.1 (+9.0)  SIR +16.4  SAR +10.3
+  5..10 dB         n=  66  STOI 0.865->0.907 (+0.042)  PESQ 1.27->1.75 (+0.47)  SI-SDR +12.3 (+6.8)  SIR +18.8  SAR +13.9
+  10..15 dB        n=  53  STOI 0.893->0.928 (+0.035)  PESQ 1.47->2.11 (+0.64)  SI-SDR +16.7 (+7.0)  SIR +22.5  SAR +18.4
+  > 15 dB          n=  36  STOI 0.946->0.963 (+0.017)  PESQ 1.82->2.62 (+0.80)  SI-SDR +20.1 (+5.4)  SIR +25.1  SAR +22.3
+
+--- by noise class (per layer; a clip counts in each) ---
+  drone            n=  72  STOI 0.772->0.819 (+0.048)  PESQ 1.29->1.76 (+0.47)  SI-SDR +11.0 (+8.1)  SIR +17.5  SAR +12.7
+  environmental    n=  68  STOI 0.754->0.811 (+0.057)  PESQ 1.24->1.61 (+0.37)  SI-SDR +10.1 (+8.2)  SIR +17.1  SAR +11.7
+  fighter          n=  74  STOI 0.716->0.775 (+0.058)  PESQ 1.24->1.57 (+0.33)  SI-SDR  +8.9 (+8.3)  SIR +16.0  SAR +10.4
+  footsteps        n=  79  STOI 0.766->0.819 (+0.053)  PESQ 1.28->1.64 (+0.36)  SI-SDR +10.8 (+7.4)  SIR +17.1  SAR +12.6
+  gunshot          n=  89  STOI 0.759->0.819 (+0.060)  PESQ 1.32->1.67 (+0.35)  SI-SDR +10.5 (+7.6)  SIR +17.0  SAR +12.3
+  helicopter       n=  70  STOI 0.766->0.815 (+0.050)  PESQ 1.30->1.75 (+0.45)  SI-SDR +11.1 (+7.3)  SIR +17.6  SAR +12.6
+  shelling         n=  61  STOI 0.754->0.806 (+0.052)  PESQ 1.28->1.68 (+0.40)  SI-SDR +10.1 (+8.4)  SIR +17.1  SAR +11.8
+  vehicle          n=  67  STOI 0.763->0.823 (+0.060)  PESQ 1.25->1.66 (+0.41)  SI-SDR +10.0 (+8.0)  SIR +16.6  SAR +11.6
+
+--- by reverberation ---
+  none (anechoic)  n= 112  STOI 0.727->0.791 (+0.064)  PESQ 1.23->1.59 (+0.36)  SI-SDR +10.0 (+8.3)  SIR +17.4  SAR +11.5
+  real measured    n= 188  STOI 0.794->0.842 (+0.048)  PESQ 1.33->1.76 (+0.43)  SI-SDR +11.0 (+8.0)  SIR +17.4  SAR +12.8
+
+  -> runs/g012/eval/eval_g11_on_edef.json
+  model: 49663 params | hop 256 | phase branch REMOVED | full-band branch PRESENT
+  g11_on_realnoise | 300 clips | ckpt runs/g11_spk251/best.pt
+    60/300
+    120/300
+    180/300
+    240/300
+    300/300
+
+=== g11_on_realnoise ===
+  OVERALL          n= 300  STOI 0.799->0.848 (+0.049)  PESQ 1.30->1.65 (+0.36)  SI-SDR  +9.9 (+8.1)  SIR +16.5  SAR +11.9
+
+--- by input SNR ---
+  < -5 dB          n=  56  STOI 0.610->0.670 (+0.061)  PESQ 1.15->1.15 (+0.00)  SI-SDR  -0.3 (+9.4)  SIR  +7.3  SAR  +2.6
+  -5..0 dB         n=  53  STOI 0.693->0.769 (+0.075)  PESQ 1.09->1.27 (+0.18)  SI-SDR  +5.0 (+9.7)  SIR +12.5  SAR  +6.7
+  0..5 dB          n=  50  STOI 0.792->0.858 (+0.065)  PESQ 1.12->1.43 (+0.32)  SI-SDR  +9.5 (+9.4)  SIR +17.2  SAR +10.7
+  5..10 dB         n=  62  STOI 0.877->0.922 (+0.045)  PESQ 1.26->1.76 (+0.50)  SI-SDR +13.0 (+7.8)  SIR +19.2  SAR +14.6
+  10..15 dB        n=  40  STOI 0.932->0.956 (+0.023)  PESQ 1.43->2.09 (+0.66)  SI-SDR +17.2 (+6.6)  SIR +22.6  SAR +19.2
+  > 15 dB          n=  39  STOI 0.961->0.969 (+0.008)  PESQ 1.94->2.55 (+0.61)  SI-SDR +19.6 (+4.6)  SIR +23.8  SAR +22.2
+
+--- by noise class (per layer; a clip counts in each) ---
+  environmental    n= 300  STOI 0.799->0.848 (+0.049)  PESQ 1.30->1.65 (+0.36)  SI-SDR  +9.9 (+8.1)  SIR +16.5  SAR +11.9
+
+--- by reverberation ---
+  none (anechoic)  n= 122  STOI 0.799->0.853 (+0.053)  PESQ 1.23->1.59 (+0.36)  SI-SDR +10.6 (+8.3)  SIR +17.3  SAR +12.3
+  real measured    n= 178  STOI 0.799->0.844 (+0.046)  PESQ 1.34->1.69 (+0.35)  SI-SDR  +9.5 (+8.0)  SIR +15.9  SAR +11.7
+
+  -> runs/g012/eval/eval_g11_on_realnoise.json
+
+A  runs/g8_bands96/best.pt  (96 bands)
+B  runs/g11_spk251/best.pt  (96 bands)
+paired bootstrap, 10,000 resamples over clips
+
+  edef 100/300  edef 200/300  edef 300/300
+
+edef
+  metric           A        B      B-A           95% CI on B-A  verdict
+  --------------------------------------------------------------------
+  PESQ         1.678    1.695   +0.016   [+0.007, +0.026]      BETTER
+  STOI         0.822    0.823   +0.001   [-0.000, +0.003]      not resolved
+  SI-SDR      10.574   10.634   +0.060   [-0.049, +0.164]      not resolved
+  SI-SAR      12.150   12.278   +0.129   [+0.019, +0.233]      BETTER
+
+  realnoise 100/300  realnoise 200/300  realnoise 300/300
+
+realnoise
+  metric           A        B      B-A           95% CI on B-A  verdict
+  --------------------------------------------------------------------
+  PESQ         1.654    1.651   -0.003   [-0.011, +0.006]      not resolved
+  STOI         0.848    0.848   -0.000   [-0.001, +0.001]      not resolved
+  SI-SDR       9.828    9.926   +0.098   [-0.017, +0.229]      not resolved
+  SI-SAR      11.887   11.926   +0.039   [-0.061, +0.137]      not resolved
+
+written runs/g012/paired_g8_g11.json
+ckpt runs/g11_spk251/best.pt  (96 bands)
+  train 100/300  train 200/300  train 300/300
+  val 100/300  val 200/300  val 300/300
+  edef 100/300  edef 200/300  edef 300/300
+
+cut                                         n    STOI    PESQ   SI-SDR    ΔSDR   SI-SAR
+---------------------------------------------------------------------------------------
+TRAIN (clips the model was fitted on)     300   0.878   2.043    13.26    9.57    14.41
+VAL (held out, same corpus)               300   0.836   1.759    10.42    7.65    12.17
+TEST E_def (held out, harder)             300   0.823   1.695    10.63    8.13    12.28
+
+train - val   PESQ +0.284   STOI +0.043
+train - test  PESQ +0.348   STOI +0.055
+
+GENERALISATION GAP: the model fits its training data much better
+than held-out data. More or harder data is the lever.
+
+written runs/g012/train_vs_test.json
+G11_ALL_DONE

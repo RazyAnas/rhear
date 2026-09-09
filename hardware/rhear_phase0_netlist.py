@@ -9,8 +9,11 @@ this description, so the drawing cannot drift from the checked design.
 
 Scope: the parts on Vellore Electronics bills 2917 / 2921 / 2935, the
 MAX98357A, and the passives the design actually needs. The ADAU1772, its QFN40
-adapter and the 12.288 MHz crystal are NOT here -- their eight GPIOs are
-deliberately left open, declared as intentional no-connects.
+adapter and the 12.000 MHz crystal ARE now here: the QFN40->DIP adapter is in
+hand, so the codec is declared with its real ADAU1772BCPZ pinout and the eight
+reserved GPIOs are wired instead of left open. The chip itself has not arrived;
+soldering it to the adapter needs hot air because of the thermal pad (EP, pin
+41), and until then the adapter simply sits empty in the socket.
 
 WHY THE RC FILTERS EXIST. The two ANC microphones feed the ESP32's own ADC,
 sampled at 8 kHz, so anything above 4 kHz folds back into the measurement band.
@@ -181,11 +184,121 @@ for ref, rail in (("C2", V33), ("C3", V33), ("C4", V33),
     c = cap(ref=ref, value="100 nF")   # one beside each module's power pins
     c[1] += rail; c[2] += GND
 
-# ------------------------------------------------- phase 1, deliberately open
-RESERVED = ["GPIO8", "GPIO9", "GPIO10", "GPIO11",
-            "GPIO12", "GPIO13", "GPIO14", "GPIO21"]
-for p in RESERVED:
-    no_connect(U1[p])
+# ------------------------------------------------- ADAU1772 on the QFN40 adapter
+#
+# Pinout is the ADAU1772BCPZ 40-LFCSP as printed on the datasheet symbol, NOT
+# from memory. Pin 41 is the exposed thermal pad underneath the package: it is
+# a GROUND connection and also the only path for heat out of the part, so it
+# must be soldered, which is why this needs hot air rather than an iron.
+adau = Part(name="ADAU1772BCPZ", tool=SKIDL, dest=TEMPLATE,
+            description="ANC codec, 4 ADC / 2 DAC, 40-LFCSP on QFN40->DIP adapter",
+            pins=[Pin(num="1",  name="SDA",      func=Pin.types.BIDIR),
+                  Pin(num="2",  name="SCL",      func=Pin.types.INPUT),
+                  Pin(num="3",  name="ADDR1",    func=Pin.types.INPUT),
+                  Pin(num="4",  name="ADDR0",    func=Pin.types.INPUT),
+                  Pin(num="5",  name="SELFBOOT", func=Pin.types.INPUT),
+                  Pin(num="6",  name="MICBIAS0", func=Pin.types.PWROUT),
+                  Pin(num="7",  name="MICBIAS1", func=Pin.types.PWROUT),
+                  Pin(num="8",  name="AIN0REF",  func=Pin.types.INPUT),
+                  Pin(num="9",  name="AIN0",     func=Pin.types.INPUT),
+                  Pin(num="10", name="AVDD_1",   func=Pin.types.PWRIN),
+                  Pin(num="11", name="AGND_1",   func=Pin.types.PWRIN),
+                  Pin(num="12", name="CM",       func=Pin.types.PASSIVE),
+                  Pin(num="13", name="AIN1REF",  func=Pin.types.INPUT),
+                  Pin(num="14", name="AIN1",     func=Pin.types.INPUT),
+                  Pin(num="15", name="AIN2REF",  func=Pin.types.INPUT),
+                  Pin(num="16", name="AIN2",     func=Pin.types.INPUT),
+                  Pin(num="17", name="AIN3REF",  func=Pin.types.INPUT),
+                  Pin(num="18", name="AIN3",     func=Pin.types.INPUT),
+                  Pin(num="19", name="AVDD_2",   func=Pin.types.PWRIN),
+                  Pin(num="20", name="AGND_2",   func=Pin.types.PWRIN),
+                  Pin(num="21", name="LOUTLN",   func=Pin.types.OUTPUT),
+                  Pin(num="22", name="LOUTLP",   func=Pin.types.OUTPUT),
+                  Pin(num="23", name="AGND_3",   func=Pin.types.PWRIN),
+                  Pin(num="24", name="AVDD_3",   func=Pin.types.PWRIN),
+                  Pin(num="25", name="LOUTRN",   func=Pin.types.OUTPUT),
+                  Pin(num="26", name="LOUTRP",   func=Pin.types.OUTPUT),
+                  Pin(num="27", name="PD",       func=Pin.types.INPUT),
+                  Pin(num="28", name="REG_OUT",  func=Pin.types.PWROUT),
+                  Pin(num="29", name="DVDD",     func=Pin.types.PWRIN),
+                  Pin(num="30", name="DGND",     func=Pin.types.PWRIN),
+                  Pin(num="31", name="LRCLK",    func=Pin.types.BIDIR),
+                  Pin(num="32", name="BCLK",     func=Pin.types.BIDIR),
+                  Pin(num="33", name="DAC_SDATA", func=Pin.types.INPUT),
+                  Pin(num="34", name="ADC_SDATA0", func=Pin.types.OUTPUT),
+                  Pin(num="35", name="ADC_SDATA1", func=Pin.types.OUTPUT),
+                  Pin(num="36", name="DMIC2_3",  func=Pin.types.BIDIR),
+                  Pin(num="37", name="DMIC0_1",  func=Pin.types.BIDIR),
+                  Pin(num="38", name="XTALO",    func=Pin.types.OUTPUT),
+                  Pin(num="39", name="XTALI",    func=Pin.types.INPUT),
+                  Pin(num="40", name="IOVDD",    func=Pin.types.PWRIN),
+                  Pin(num="41", name="EP",       func=Pin.types.PWRIN)])
+
+xtal = Part(name="XTAL_12M", tool=SKIDL, dest=TEMPLATE,
+            description="12.000 MHz crystal (KNS), ADAU1772 XTALI/XTALO",
+            pins=[Pin(num="1", name="A", func=Pin.types.PASSIVE),
+                  Pin(num="2", name="B", func=Pin.types.PASSIVE)])
+
+U4 = adau(ref="U4")
+
+# --- supplies. AVDD/IOVDD accept 1.8-3.3 V; DVDD is fed from the part's own
+#     on-board regulator via REG_OUT, NOT from the 3V3 rail.
+for pin in ("AVDD_1", "AVDD_2", "AVDD_3", "IOVDD"):
+    U4[pin] += V33
+for pin in ("AGND_1", "AGND_2", "AGND_3", "DGND", "EP"):
+    U4[pin] += GND
+U4["DVDD"] += U4["REG_OUT"]          # internal regulator supplies the digital core
+
+# --- 12.000 MHz crystal across XTALI/XTALO with its two load capacitors.
+#     12.000 MHz is inside the part's 8-27 MHz crystal-amplifier range; the PLL
+#     multiplies it to the 24.576 MHz the audio clocks need.
+Y1 = xtal(ref="Y1", value="12.000 MHz")
+U4["XTALI"] += Y1[1]
+U4["XTALO"] += Y1[2]
+for ref, pin in (("C12", Y1[1]), ("C13", Y1[2])):
+    c = cap(ref=ref, value="22 pF")  # load caps, one per crystal leg
+    c[1] += pin
+    c[2] += GND
+
+# --- I2C to the ESP32, with the pull-ups the datasheet specifies (2.0 kohm,
+#     not the 4.7 kohm rule of thumb).
+U4["SDA"] += U1["GPIO9"]
+U4["SCL"] += U1["GPIO10"]
+for ref, net in (("R5", U4["SDA"]), ("R6", U4["SCL"])):
+    r = res(ref=ref, value="2.0 kohm")
+    r[1] += V33
+    r[2] += net
+
+# --- I2C address = base: both select pins low. SELFBOOT low so the ESP32
+#     configures the part over I2C instead of it booting from an EEPROM.
+U4["ADDR0"] += GND
+U4["ADDR1"] += GND
+U4["SELFBOOT"] += GND
+U4["PD"] += U1["GPIO11"]             # power-down / reset under host control
+
+# --- I2S on the ESP32's peripheral 0. The INMP441 keeps peripheral 1.
+U4["BCLK"]       += U1["GPIO12"]
+U4["LRCLK"]      += U1["GPIO13"]
+U4["DAC_SDATA"]  += U1["GPIO14"]     # ESP32 -> codec (anti-noise out)
+U4["ADC_SDATA0"] += U1["GPIO21"]     # codec -> ESP32 (four mic channels)
+
+# --- decoupling: one 100 nF per supply pin, plus REG_OUT and CM.
+for ref, pin in (("C14", U4["AVDD_1"]), ("C15", U4["AVDD_2"]),
+                 ("C16", U4["AVDD_3"]), ("C17", U4["IOVDD"]),
+                 ("C18", U4["REG_OUT"]), ("C19", U4["CM"])):
+    c = cap(ref=ref, value="100 nF")
+    c[1] += pin
+    c[2] += GND
+
+# --- the four analog mics move onto the codec's differential inputs. Each
+#     MAX4466 is single-ended, so its REF pin sits at the codec's own common
+#     mode. In phase 0 they stay on the ESP32 ADC; these are the phase-1 seats.
+no_connect(U4["AIN0"], U4["AIN0REF"], U4["AIN1"], U4["AIN1REF"],
+           U4["AIN2"], U4["AIN2REF"], U4["AIN3"], U4["AIN3REF"])
+no_connect(U4["LOUTLN"], U4["LOUTLP"], U4["LOUTRN"], U4["LOUTRP"])
+no_connect(U4["MICBIAS0"], U4["MICBIAS1"])
+no_connect(U4["ADC_SDATA1"], U4["DMIC0_1"], U4["DMIC2_3"])
+no_connect(U1["GPIO8"])              # codec MCLK not needed: the crystal drives it
 
 U3 = eeprom(ref="U3")                # shares the codec's I2C bus, so it waits
 no_connect(U3["VCC"], U3["GND"], U3["SDA"], U3["SCL"])

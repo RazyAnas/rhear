@@ -265,10 +265,10 @@ for seg in d.elements[-1].segments:
     if hasattr(seg, "lw"):
         seg.lw = 1.3
 d.add(elm.Label().at((cbb.xmin, cbb.ymax + 1.05)).label(
-    "ADAU1772  —  PHASE 1, NOT WIRED ON THE 7th", fontsize=10.5, color=GREY,
+    "ADAU1772BCPZ  —  QFN40 adapter in hand, chip not yet arrived", fontsize=10.5, color=GREY,
     halign="left"))
 d.add(elm.Label().at((cbb.xmin, cbb.ymax + 0.55)).label(
-    "leave this block of the breadboard empty  ·  QFN40 needs a DIP adapter",
+    "pinout is the datasheet 40-LFCSP  ·  EP (pin 41) is GROUND and needs hot air",
     fontsize=8.5, color=GREY, halign="left"))
 
 rsv = A["U1"]["8·9·10·11·12·13·14·21"]
@@ -277,14 +277,27 @@ d.add(elm.Label().at((rsv[0] + 1.4, rsv[1])).label(
     "the eight reserved pins →", fontsize=8.5, color=GREY, halign="left"))
 
 # the eight reserved ESP32 pins, each to its destination on the codec
-for gpio, cpin in (("GPIO9", "SDA"), ("GPIO10", "SCL"), ("GPIO11", "PD"),
-                   ("GPIO12", "BCLK"), ("GPIO13", "LRCLK"),
-                   ("GPIO14", "DAC_SDATA"), ("GPIO21", "ADC_SDATA0"),
-                   ("GPIO8", "ADC_SDATA1")):
+for gpio, cpin, cnum in (("GPIO9", "SDA", 1), ("GPIO10", "SCL", 2),
+                         ("GPIO11", "PD", 27), ("GPIO12", "BCLK", 32),
+                         ("GPIO13", "LRCLK", 31), ("GPIO14", "DAC_SDATA", 33),
+                         ("GPIO21", "ADC_SDATA0", 34), ("GPIO8", None, None)):
+    if cpin is None:                 # GPIO8 is free: the crystal drives MCLK
+        continue
     d.add(elm.Label().at((CX - 3.4, CA[cpin][1])).label(
         f"pin {SILK[gpio]}", fontsize=8.5, color=GREY, halign="right"))
     d.add(elm.Line().at((CX - 3.3, CA[cpin][1])).to(CA[cpin])
           .color(GREY).linestyle("--"))
+    d.add(elm.Label().at((CX - 1.7, CA[cpin][1] + 0.30)).label(
+        f"{cnum}", fontsize=7.5, color=GREY))
+    n = net_of(f"U4.{cpin}")
+    if n: drawn.add(n)
+# the two I2C pull-ups the datasheet asks for
+for lbl, cpin in (("R5  2.0 kΩ", "SDA"), ("R6  2.0 kΩ", "SCL")):
+    d.add(elm.Label().at((CX - 3.4, CA[cpin][1] - 0.42)).label(
+        lbl + " → 3V3", fontsize=7.5, color=GREY, halign="right"))
+for extra in ("U4.DVDD", "U4.XTALI", "U4.XTALO", "U4.CM"):
+    n = net_of(extra)
+    if n: drawn.add(n)
 
 # 12.000 MHz crystal and its two load capacitors
 XX = CX + 5.2
