@@ -97,6 +97,17 @@ static volatile uint32_t gUnderruns = 0;
 /* ------------------------------------------------------------- plumbing */
 static int32_t rawbuf[BLK48];
 static int16_t outbuf[BLK48];
+static int16_t stereo[BLK48*2];      /* both slots filled -- see ampWrite() */
+
+/* SD tied to 3V3 puts the MAX98357A in LEFT-CHANNEL-ONLY mode. If the I2S
+ * driver places a mono frame in the right slot, the amplifier is silent even
+ * though everything else is correct. Duplicating into both slots removes the
+ * question entirely, and costs one memory write per sample. */
+static size_t ampWrite(const int16_t *mono, size_t n) {
+  if (n > BLK48) n = BLK48;
+  for (size_t i = 0; i < n; i++) { stereo[2*i] = mono[i]; stereo[2*i+1] = mono[i]; }
+  return amp.write((uint8_t *)stereo, n * 2 * sizeof(int16_t));
+}
 static float   l1in[L1_NFFT];      /* sliding 16 kHz analysis buffer        */
 static int     l1fill = 0;
 static float   l1out[L1_HOP];
@@ -172,7 +183,7 @@ static void audioTask(void *) {
         outbuf[i] = (int16_t)(v * 30000.0f);
       }
     }
-    amp.write((uint8_t *)outbuf, n*sizeof(int16_t));
+    ampWrite(outbuf, n);
 
     gInDb  = 0.9f*gInDb  + 0.1f*(10.0f*log10f((float)(sumIn /n) + 1e-12f));
     gOutDb = 0.9f*gOutDb + 0.1f*(10.0f*log10f((float)(sumOut/n) + 1e-12f));
@@ -219,11 +230,12 @@ static void selfTest() {
 
   /* --- 1. AMPLIFIER: a loud 1 kHz tone. Purely an output test. --------- */
   Serial.println(F("[1/3] AMP  -- you should HEAR a 1 kHz tone for 2 seconds NOW"));
-  static int16_t tone[480];
-  for (int i = 0; i < 480; i++)
+  static int16_t tone[BLK48];
+  const int TN = BLK48;
+  for (int i = 0; i < TN; i++)
     tone[i] = (int16_t)(12000.0f * sinf(2.0f*(float)M_PI*1000.0f*i/FS48));
   uint32_t t0 = millis(); size_t wrote = 0;
-  while (millis() - t0 < 2000) wrote += amp.write((uint8_t*)tone, sizeof(tone));
+  while (millis() - t0 < 2000) wrote += ampWrite(tone, TN);
   Serial.printf("      wrote %u bytes to the amp\n", (unsigned)wrote);
   Serial.println(F("      heard nothing? check: MAX98357A VIN on 5V (not 3V3),"));
   Serial.println(F("      SD pin NOT tied low, GND shared with the ESP32,"));
@@ -266,7 +278,7 @@ static void selfTest() {
       if (f >  1.0f) f =  1.0f; if (f < -1.0f) f = -1.0f;
       outbuf[i] = (int16_t)(f * 30000.0f);
     }
-    amp.write((uint8_t*)outbuf, n*sizeof(int16_t));
+    ampWrite(outbuf, n);
   }
   Serial.println(F("      heard your own voice? then mic AND amp are both good."));
   Serial.println(F("=================================================\n"));
@@ -351,19 +363,19 @@ static void abCapture() {
 
   /* and play them back through the speaker, raw then enhanced */
   Serial.println(F("AB: playing RAW..."));
-  for (int i = 0; i < AB_LEN; i += 256) {
-    static int16_t up[768]; int m = 0;
-    for (int j = 0; j < 256 && i+j < AB_LEN; j++)
+  for (int i = 0; i < AB_LEN; i += 32) {
+    static int16_t up[BLK48]; int m = 0;
+    for (int j = 0; j < 32 && i+j < AB_LEN; j++)
       for (int k = 0; k < DECIM; k++) up[m++] = abRaw[i+j];
-    amp.write((uint8_t*)up, m*sizeof(int16_t));
+    ampWrite(up, m);
   }
   vTaskDelay(pdMS_TO_TICKS(400));
   Serial.println(F("AB: playing ENHANCED..."));
-  for (int i = 0; i < AB_LEN; i += 256) {
-    static int16_t up[768]; int m = 0;
-    for (int j = 0; j < 256 && i+j < AB_LEN; j++)
+  for (int i = 0; i < AB_LEN; i += 32) {
+    static int16_t up[BLK48]; int m = 0;
+    for (int j = 0; j < 32 && i+j < AB_LEN; j++)
       for (int k = 0; k < DECIM; k++) up[m++] = abEnh[i+j];
-    amp.write((uint8_t*)up, m*sizeof(int16_t));
+    ampWrite(up, m);
   }
   Serial.println(F("AB: finished"));
   gMode = save;
@@ -409,7 +421,7 @@ void setup() {
   mic.setPins(MIC_SCK, MIC_WS, -1, MIC_SD, -1);
   bool mok = mic.begin(I2S_MODE_STD, FS48, I2S_DATA_BIT_WIDTH_32BIT, I2S_SLOT_MODE_MONO);
   amp.setPins(AMP_BCLK, AMP_LRC, AMP_DIN, -1, -1);
-  bool aok = amp.begin(I2S_MODE_STD, FS48, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO);
+  bool aok = amp.begin(I2S_MODE_STD, FS48, I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_STEREO);
   Serial.printf("mic %s   amp %s\n", mok?"OK":"FAIL", aok?"OK":"FAIL");
   l0_init(); l1_init(); osc_init();
   xTaskCreatePinnedToCore(audioTask, "audio", 8192, NULL, 24, NULL, 1);
