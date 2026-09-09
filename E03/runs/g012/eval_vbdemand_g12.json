@@ -1,0 +1,26 @@
+{
+ "ckpt": "runs/g12_noise232/best.pt",
+ "dataset": "VoiceBank+DEMAND testset",
+ "targets": {
+  "stoi": 0.85,
+  "pesq": 2.5,
+  "snr_out": 15.0
+ },
+ "result": {
+  "n": 824,
+  "stoi_in": 0.9210894342640091,
+  "stoi_out": 0.9281036674970583,
+  "pesq_in": 1.9667510838763227,
+  "pesq_out": 2.3238860961881658,
+  "sisdr_in": 8.449433205940013,
+  "sisdr_out": 18.14519502526348,
+  "sir": 32.016080421775776,
+  "sar": 18.633274041850562,
+  "dsisdr": 9.695761819323467,
+  "ps_met": {
+   "stoi": true,
+   "pesq": false,
+   "snr_out": true
+  }
+ }
+}
