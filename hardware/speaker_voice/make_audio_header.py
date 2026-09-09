@@ -28,20 +28,35 @@ def load(path):
          "-f", "s16le", "-"], capture_output=True, check=True).stdout
     return np.frombuffer(raw, "<i2").astype(np.float64) / 32768.0
 
-def loudify(x):
-    x = sosfilt(butter(2, 150.0, "hp", fs=FS, output="sos"), x)   # cone can't do bass
-    x /= (np.abs(x).max() + 1e-9)
-    # soft-knee compression: lift the quiet parts toward the loud ones
-    env = np.abs(x)
-    for _ in range(2):                       # cheap two-pass smoothing
-        env = np.maximum(env, np.roll(env, 1) * 0.999)
-    env = np.convolve(env, np.ones(64) / 64, mode="same")
-    gain = 1.0 / np.maximum(env, 0.06) ** 0.65
-    y = x * gain
-    y = np.tanh(y * 0.9)                     # soft limit, no hard clipping
-    return y
+def limiter(y, thr=0.95, atk=8, rel=1200):
+    """Gain reduction on PEAKS only. Never raises anything, so the noise
+    floor is untouched -- which is the entire difference from what this
+    replaced."""
+    env = np.abs(y)
+    g = np.ones_like(y)
+    cur = 1.0
+    for i in range(len(y)):
+        want = min(1.0, thr / (env[i] + 1e-9))
+        if want < cur: cur += (want - cur) / atk      # fast attack
+        else:          cur += (want - cur) / rel      # slow release
+        g[i] = cur
+    return y * g
 
-def match_speech(y, target_dbfs=-14.0):
+def loudify(x):
+    """High-pass, then level by SPEECH, then limit peaks. No upward
+    compression of any kind.
+
+    The previous version raised quiet passages with 1/env**0.65, which lifted
+    the background 12.6 dB and collapsed the speech-to-background gap from
+    14.0 dB to 8.8 dB. On a small speaker that is heard as a constant buzz
+    with the voice buried in it. Loudness has to come from removing headroom
+    above the peaks, never from raising the floor.
+    """
+    x = sosfilt(butter(2, 150.0, "hp", fs=FS, output="sos"), x)  # cone can't do bass
+    x /= (np.abs(x).max() + 1e-9)
+    return x
+
+def match_speech(y, target_dbfs=-15.0):
     """Level by SPEECH, not by overall RMS.
 
     The gated clip has real silence between words, so its overall RMS is
@@ -56,10 +71,9 @@ def match_speech(y, target_dbfs=-14.0):
     loud = e >= np.quantile(e, 0.70)
     rms = np.sqrt(e[loud].mean() + 1e-20)
     y = y * (10 ** (target_dbfs / 20) / rms)
-    pk = np.abs(y).max()
-    if pk > 0.97:
-        y = np.tanh(y / pk * 1.6) * 0.97 / np.tanh(1.6)
-    return y
+    if np.abs(y).max() > 0.95:
+        y = limiter(y)
+    return np.clip(y, -0.99, 0.99)
 
 def mulaw(x):
     MU = 255.0

@@ -34,7 +34,17 @@
 #define FS   16000
 
 I2SClass amp(I2S_NUM_0);
-static float gGain = 3.0f;          /* software makeup, soft-limited below */
+static float gGain = 1.5f;          /* modest. see softclip() for why       */
+
+/* Transparent below 0.7, gently limiting above. The previous version ran
+ * tanh() over the WHOLE signal at gain 3, which squashed peaks by ~9 dB and
+ * turned speech into a buzz. Distortion has to be confined to the peaks. */
+static inline float softclip(float v) {
+  const float T = 0.7f;
+  float a = fabsf(v);
+  if (a <= T) return v;
+  return (v < 0 ? -1.0f : 1.0f) * (T + (1.0f - T) * tanhf((a - T) / (1.0f - T)));
+}
 
 static void startAmp() {
   amp.setPins(BCLK, LRC, DIN, -1, -1);
@@ -52,12 +62,27 @@ static void playClip(const uint8_t *pcm, uint32_t len, const char *name) {
     uint32_t m = (len - i < 256) ? (len - i) : 256;
     for (uint32_t j = 0; j < m; j++) {
       int16_t s = (int16_t)pgm_read_word(&ULAW_TBL[pgm_read_byte(&pcm[i + j])]);
-      float v = (float)s / 32000.0f * gGain;
-      v = tanhf(v);                              /* soft limit, never clips  */
+      float v = softclip((float)s / 32000.0f * gGain);
       int16_t o = (int16_t)(v * 30000.0f);
       out[2 * j] = o; out[2 * j + 1] = o;
     }
     amp.write((uint8_t *)out, m * 2 * sizeof(int16_t));
+  }
+}
+
+/* Pure 440 Hz. If this is clean but the speech is not, the audio is at fault.
+ * If THIS buzzes too, the fault is the amplifier, its 5 V supply, or grounding
+ * -- and no amount of changing the audio will help. */
+static void testTone() {
+  Serial.println(F(">> clean 440 Hz reference tone, 3 s"));
+  static int16_t out[512];
+  for (int b = 0; b < FS * 3 / 256; b++) {
+    for (int j = 0; j < 256; j++) {
+      float v = sinf(2.0f * (float)M_PI * 440.0f * (b * 256 + j) / FS) * 0.5f;
+      int16_t o = (int16_t)(v * 30000.0f);
+      out[2*j] = o; out[2*j+1] = o;
+    }
+    amp.write((uint8_t *)out, 256 * 2 * sizeof(int16_t));
   }
 }
 
@@ -75,15 +100,18 @@ void setup() {
   Serial.printf("BEFORE %lu samples   AFTER %lu samples   %.0f KB in flash\n",
                 (unsigned long)BEFORE_LEN, (unsigned long)AFTER_LEN,
                 (BEFORE_LEN + AFTER_LEN) / 1024.0f);
-  Serial.println(F("1 BEFORE | 2 AFTER | 3 A/B loop | + louder | - quieter"));
+  Serial.println(F("0 clean test tone | 1 BEFORE | 2 AFTER | 3 A/B loop | +/- gain"));
   startAmp();
+  testTone();      /* establishes whether the amp itself is clean */
+  delay(500);
   ab();
 }
 
 void loop() {
   if (Serial.available()) {
     char c = Serial.read();
-    if (c == '1') playClip(BEFORE_ULAW, BEFORE_LEN, "BEFORE");
+    if (c == '0') testTone();
+    else if (c == '1') playClip(BEFORE_ULAW, BEFORE_LEN, "BEFORE");
     else if (c == '2') playClip(AFTER_ULAW, AFTER_LEN, "AFTER");
     else if (c == '3') ab();
     else if (c == '+') { gGain *= 1.4f; Serial.printf("gain %.1f\n", gGain); }
