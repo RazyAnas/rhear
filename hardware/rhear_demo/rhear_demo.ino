@@ -8,8 +8,10 @@
  *  WHAT THIS DEMONSTRATES, AND WHAT IT HONESTLY CANNOT
  *  ---------------------------------------------------
  *  The ADAU1772 is required for ACOUSTIC cancellation: L0 has a 146 us
- *  causality budget and the INMP441's sigma-delta decimation filter spends
- *  more than that on its own, before a single instruction runs. So this
+ *  causality budget, computed from a 7 cm reference-to-ear geometry. Digital
+ *  I2S MEMS mics of the INMP441's class carry several hundred us of
+ *  decimation-filter delay, so the design specifies a low-latency codec. We
+ *  have NOT measured this microphone's group delay ourselves. Either way this
  *  firmware does NOT claim live acoustic ANC.
  *
  *  What it DOES do, all of it real and all of it measured on-chip:

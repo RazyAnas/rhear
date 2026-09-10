@@ -2,7 +2,8 @@
  * RHEAR L1 communication layer -- mic in, speaker out, host in the loop.
  *
  * This is the whole comms path that does NOT depend on the ADAU1772. The codec
- * is required for L0 (the 146 us causality budget for active cancellation);
+ * is required for L0 (the 146 us causality budget for active cancellation,
+ * computed from the headset geometry -- see docs/05-digital-twin.md);
  * L1 is a 16 ms frame-rate speech enhancer with no such constraint, so it runs
  * on the ESP32-S3's own converters.
  *

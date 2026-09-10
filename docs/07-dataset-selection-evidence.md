@@ -86,9 +86,17 @@ manifest for the best numbers. The audio is shared, so this costs nothing.
 
 The architecture is frozen. Every corpus is resampled to 16 kHz mono and cut to
 the same 4 s manifest contract h3_20k already uses. The model stays 49,663
-params, 96 bands, hop 256, 25.9 MMAC/s, ~200 KB int8 -- inside the ESP32-S3
-N16R8's 16 MB flash and 8 MB PSRAM. More data changes WEIGHTS, never the graph,
-so the psram_test.c port stays valid.
+params, 96 bands, hop 256 -- inside the ESP32-S3 N16R8's 16 MB flash and 8 MB
+PSRAM. Weight storage at int8 is ~48.5 KB; 200 KB is the PS *cap*, not our
+footprint, and an earlier draft of this line conflated the two.
+
+**Correction.** This paragraph previously ended "so the psram_test.c port stays
+valid." That is wrong and was wrong when written. `psram_test.c:12` builds at
+`N_BANDS 48` -- it ports G7. Every model from G8 onward is 96 bands, so the
+existing C port does NOT cover the shipping model, and re-porting is real work
+rather than a recompile. The port is also front-half only (encoder, full-band
+branch, fuse, spp); the DPRNN, decoder and ISTFT are not in it. See
+`demo/README.md:76-79`, which has always stated this correctly.
 
 ## Sources
 

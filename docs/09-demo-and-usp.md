@@ -10,9 +10,23 @@ Hardware already on the bench: ESP32-S3-N16R8, INMP441, MAX98357A.
 
 ## 0. The one thing we will NOT claim
 
-L0's causality budget is **146 µs**. The INMP441's sigma-delta decimation
-filter spends more than that on its own, before a single instruction runs. So
-**we do not demonstrate live acoustic cancellation**, and we say so first,
+L0's causality budget is **146 µs**, computed from an assumed 7 cm
+reference-mic-to-ear geometry against Kuo & Morgan's causality condition
+(`docs/05-digital-twin.md:73-77`). Digital I2S MEMS microphones of the
+INMP441's class carry several hundred microseconds of decimation-filter group
+delay (`docs/04b-bom-verified.md:17-21`), which is why the design specifies a
+low-latency codec instead.
+
+**Stated precisely, because this will be probed:** we have not measured the
+INMP441's group delay and no datasheet figure for it is quoted anywhere in this
+repo. What is cited is the ADAU1772's own 38 µs at 192 kHz (datasheet Table 6).
+`docs/04b-bom-verified.md:143-148` already records that the full ADC-to-DAC
+latency of the chosen path "does not exist on paper and has to be measured on
+hardware." So the correct claim is that the codec is specified for a budget the
+digital-mic path is not designed to meet -- not that we measured the microphone
+and found it wanting.
+
+**We do not demonstrate live acoustic cancellation**, and we say so first,
 unprompted.
 
 What we demonstrate instead is the *actual L0 algorithm* — same tap count, same
@@ -107,6 +121,9 @@ Every one of these is measured, and the file that produced it is in the repo.
 
 | claim | number | where |
 |---|---|---|
+| **beats GTCRN's own published weights on our domain** | PESQ **1.716 vs 1.643**, STOI 0.824 vs 0.818, SI-SDR **10.76 vs 9.61** | `runs/g012/crossbench/gtcrn_dns3_edef.json` |
+| **beats SepFormer at 1/516th the size** | **10.76 vs 5.56 dB** SI-SDR; 49,663 vs **25,613,569** params | `crossbench/sepformer_edef.json` |
+| MetricGAN+ scores higher PESQ and *damages* the signal | PESQ 1.820, SI-SDR **−0.46 dB** | `crossbench/metricgan_edef.json` |
 | L0 cost vs budget | printed live by `T` | on-chip telemetry |
 | FxNLMS convergence | **+12.6 dB**, host-verified | `test_dsp.c` |
 | kill the AI, protection survives | architectural | live |
@@ -120,11 +137,14 @@ Every one of these is measured, and the file that produced it is in the repo.
 
 ### Three "wow" lines that are all true
 
-1. **"You can kill our AI mid-demo and the ear protection doesn't flinch."**
-2. **"We separate your voice from the person next to you using nothing but the
+1. **"Our fifty-thousand-parameter model beats a twenty-five-million-parameter
+   transformer on defence noise by 5.2 dB — and beats the published weights of
+   the architecture we derive from, on all three metrics."**
+2. **"You can kill our AI mid-demo and the ear protection doesn't flinch."**
+3. **"We separate your voice from the person next to you using nothing but the
    curvature of the sound wave — no enrolment, no training on your voice, and
    it still works when you shout."**
-3. **"We can tell you the exact PESQ score a *perfect* version of our model
+4. **"We can tell you the exact PESQ score a *perfect* version of our model
    would get — 2.392 at 0 dB — which is how we knew to stop training and start
    changing the physics."**
 
@@ -134,7 +154,8 @@ Every one of these is measured, and the file that produced it is in the repo.
 
 **"Where is the codec?"**
 Not arrived. L0's acoustic loop needs it because of a 146 µs causality budget
-the INMP441 cannot meet. Everything else — the algorithm, the timing, the
+computed from the headset geometry, which the digital-MEMS-microphone path is
+not designed to meet (we have not measured the INMP441 ourselves). Everything else — the algorithm, the timing, the
 architecture, both signal paths — is running in front of you.
 
 **"Is this just noise suppression?"**

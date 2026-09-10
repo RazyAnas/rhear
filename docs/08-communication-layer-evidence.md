@@ -44,10 +44,49 @@ met. Below that, STOI holds down to about 5 dB and PESQ does not.** The gap at
 0 dB is the open problem, and sections 3–5 explain why closing it by training a
 better model does not work.
 
+## 2b. Against published models, on our own defence noise
+
+`E03/runs/g012/crossbench/`. Every row is the same 300-clip `edef` set, scored
+the same way. Parameter counts are from our own measurement where recorded
+(`sepformer_edef.json` reports `params = 25,613,569`) and from the published
+paper for GTCRN.
+
+| model | params | STOI | PESQ | SI-SDR out |
+|---|---|---|---|---|
+| **RHEAR G13b** | **49,663** | **0.8236** | **1.7159** | **10.76** |
+| GTCRN, DNS3 weights | 23.7k | 0.8182 | 1.6430 | 9.61 |
+| GTCRN, VCTK weights | 23.7k | 0.7648 | 1.4442 | 6.45 |
+| SepFormer, WHAM16k | **25.6M** | 0.8021 | 1.5963 | 5.56 |
+| MetricGAN+, VoiceBank | — | 0.7546 | 1.8197 | **−0.46** |
+
+Two things follow.
+
+**RHEAR beats GTCRN's own published weights on all three metrics** — the
+architecture we derive from, run on our domain. +0.073 PESQ, +0.005 STOI,
++1.15 dB SI-SDR against the stronger (DNS3) checkpoint.
+
+**It beats SepFormer by 5.2 dB SI-SDR at 1/516th the parameter count.** A
+25.6-million-parameter transformer scores 5.56 dB on this material; a
+49,663-parameter model scores 10.76 dB. Neither of the large models was trained
+on defence noise, which is precisely the point: general-purpose capacity does
+not substitute for domain-matched training.
+
+**The caveat to state before anyone else does.** MetricGAN+ posts the highest
+PESQ in the table (1.8197) and the worst SI-SDR (**−0.46 dB**, ΔSI-SDR
+**−2.97 dB**). It is optimised directly against PESQ, and on this material it
+degrades the signal while scoring well on the metric. This is the clearest
+argument in the project for why the decision rule requires PESQ **and** STOI
+**and** SI-SAR together, on both eval sets, rather than any single number.
+
+
 ## 3. The model ladder, and why it stopped moving
 
-Model frozen throughout at GTCRNLite, 96 ERB bands, hop 256, ~49.7k params,
-25.9 MMAC/s, ~200 KB int8.
+Model frozen throughout at GTCRNLite, hop 256, **49,663 params**. The trained
+models from G11 on use 96 ERB bands; **the C port on the ESP32 is the earlier
+48-band G7** (`psram_test.c:12`). Cost, from `E03/g7_esp32_preflight.json`:
+**32.34 MMAC/s** at 62.5 fps. Weight storage at int8 is **~48.5 KB** — 200 KB is
+the PS *cap*, not our size, and an earlier draft of this document wrongly stated
+it as though it were the model's footprint.
 
 Standing decision rule: **keep a change only if PESQ improves AND STOI does not
 regress AND SI-SAR does not regress, on BOTH eval sets**, judged by paired

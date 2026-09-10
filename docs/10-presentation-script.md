@@ -17,6 +17,7 @@ problems. Everyone else is building "a denoiser."
 
 | # | claim | proof |
 |---|---|---|
+| 0 | **It is measurably better than the published state of the art on defence noise.** Beats GTCRN's own weights on all three metrics, and SepFormer — 516× larger — by 5.2 dB SI-SDR. | `E03/runs/g012/crossbench/`, 300 clips |
 | 1 | **Physics, not machine learning.** We tell your voice from his using the *curvature of the sound wave*. Your mouth is 5 cm from the boom; he is 2 m away. No voice enrolment, no training on you, still works when you shout. | 100% separation, +10.1 dB, `nearfield_sim.py`, 2,160 scenes |
 | 2 | **The AI never touches the audio.** It tunes the canceller; it never carries the sound. Kill the AI mid-demo and hearing protection does not flinch. | live, one keystroke |
 | 3 | **We measured our own ceiling.** We can tell you the score a *perfect* version of our model would get. That is how we knew to stop training and start changing the physics. | PESQ 2.392 at 0 dB, docs/08 §5 |
@@ -117,9 +118,29 @@ Rehearse. Know the failure modes. Have the recorded audio ready as a fallback.
 
 ---
 
-### 5 — EVIDENCE, AND THE CEILING (2 min) — **the technical high point**
+### 5 — EVIDENCE (2.5 min) — **the technical high point**
 
-> "We asked a question most projects never ask: **what is the best score our
+> "Let me start with the comparison that matters. We ran three published models
+> on our own defence evaluation set — three hundred clips, same scoring, same
+> conditions.
+>
+> **GTCRN**, the architecture we derive from, using its authors' own published
+> weights: PESQ 1.64, STOI 0.818, SI-SDR 9.6 dB.
+> **SepFormer**, a twenty-five-million-parameter transformer: SI-SDR 5.6 dB.
+> **Ours: PESQ 1.72, STOI 0.824, SI-SDR 10.8 dB — with forty-nine thousand
+> parameters.**
+>
+> We beat the model we are derived from on all three metrics, and we beat a
+> transformer **five hundred and sixteen times our size by 5.2 dB**.
+>
+> One number in that table is higher than ours and I want to be the one to point
+> at it. **MetricGAN+ scores PESQ 1.82 — and its SI-SDR is minus 0.46 dB.** It is
+> trained directly against PESQ, and on this material it damages the signal while
+> scoring well on the metric. That is exactly why our decision rule requires PESQ
+> **and** STOI **and** SI-SAR together, on two independent evaluation sets, before
+> any change ships. We rejected four of our own models under that rule.
+>
+> Now — the second question, which most projects never ask: **what is the best score our
 > model could *possibly* get, if it were perfect?**
 >
 > So we built the oracle. We gave the system the correct answer — the ideal
@@ -155,10 +176,13 @@ Rehearse. Know the failure modes. Have the recorded audio ready as a fallback.
 > "The codec has not arrived. I will tell you exactly what that costs us,
 > because you will ask.
 >
-> L0's acoustic loop needs a **146 microsecond** causality budget. The
-> microphone's own decimation filter spends more than that before a single
-> instruction runs. So **we are not going to stand here and claim acoustic
-> cancellation we cannot do today.**
+> L0's acoustic loop has a **146 microsecond** causality budget — that is
+> geometry, seven centimetres from the reference microphone to the ear, against
+> the standard causality condition. Digital MEMS microphones of this class carry
+> several hundred microseconds of decimation delay, so the design calls for a
+> low-latency codec. **We have not measured this microphone ourselves, and we
+> are not going to stand here and claim acoustic cancellation we cannot do
+> today.**
 >
 > What you saw was the real algorithm — same taps, same update, same timing,
 > measured on this chip. The codec is a component swap, not an architecture
@@ -193,6 +217,23 @@ Rehearse. Know the failure modes. Have the recorded audio ready as a fallback.
 **"Why not just use a bigger model?"**
 > "We tried, and measured it. +56% parameters gave +0.001 PESQ. The limit is
 > the information in one microphone, not the size of the network."
+
+**"The problem statement names emergency sirens. Where are they?"**
+> "That is our real gap and I would rather say it than have you find it. Sirens
+> are 0.24% of our noise layers and they are in neither evaluation set, so we
+> cannot show you a siren number. A dedicated siren corpus was in an earlier
+> build — three thousand layers — and it was dropped when we rebuilt the noise
+> pool for a larger run. The loader is still in the codebase. Restoring it is a
+> dataset rebuild and a retrain, and we will not claim performance we have not
+> measured."
+
+**"Is the neural network running on the ESP32?"**
+> "Partly, and I will be precise. L0's canceller runs fully at 48 kHz. For L1,
+> the encoder, the full-band branch and the fusion are ported to C and validated
+> against reference tensors to two parts in a hundred thousand. The recurrent
+> stage and the decoder are not ported — those run on the host. We do not claim
+> full on-chip neural inference, and the roadmap for closing it is a quantised
+> TFLite-Micro path on esp-nn."
 
 **"What is genuinely new here?"**
 > "Three things. Using near-field wavefront curvature to separate the wearer

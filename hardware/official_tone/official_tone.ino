@@ -60,7 +60,7 @@
 #define I2S_DIN  17   // was 26 in the stock example
 
 const int frequency = 440;    // frequency of square wave in Hz
-const int amplitude = 500;    // amplitude of square wave  <-- ~ -36 dBFS, deliberately quiet.
+const int amplitude = 16000;    // amplitude of square wave  <-- ~ -36 dBFS, deliberately quiet.
                               // Raise to 8000 or 16000 ONLY after you hear it at 500.
 const int sampleRate = 8000;  // sample rate in Hz
 
