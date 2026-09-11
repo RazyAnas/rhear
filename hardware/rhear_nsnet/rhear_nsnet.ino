@@ -41,10 +41,20 @@
  */
 #include <Arduino.h>
 #include <driver/i2s.h>
-#include "model_path.h"
+#include "model_path.h"          /* has its own extern "C" */
+#include "esp_ns.h"               /* has its own extern "C" */
+/* esp_nsn_iface.h and esp_nsn_models.h ship WITHOUT an extern "C" guard --
+ * verified in the installed headers, which contain zero occurrences of it
+ * while esp_ns.h and model_path.h both have one. The library exports the
+ * plain C symbol (nm shows "T esp_nsnet_handle_from_name"), so compiling the
+ * declaration as C++ mangles the call site and the link fails with
+ *     undefined reference to `_Z26esp_nsnet_handle_from_namePc'
+ * The leading _Z is the giveaway: that is a C++ mangled name being looked up
+ * against a C symbol. Wrapping the includes is the fix. */
+extern "C" {
 #include "esp_nsn_iface.h"
 #include "esp_nsn_models.h"
-#include "esp_ns.h"
+}
 #include "esp_random.h"
 
 #define MIC_PORT  I2S_NUM_0
