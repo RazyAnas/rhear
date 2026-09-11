@@ -135,12 +135,15 @@ static void fft(float *re, float *im, int n) {
  * This is a DSP enhancer, and it is labelled as one -- see docs/09.
  */
 static float nfloor[L1_NFFT/2+1];      /* noise PSD estimate               */
+static float xi_prev[L1_NFFT/2+1];     /* a priori SNR, previous frame     */
+static float gain_prev[L1_NFFT/2+1];   /* gain, previous frame             */
 static float psm[L1_NFFT/2+1];         /* smoothed periodogram             */
 static float nmin[L1_NFFT/2+1];        /* running minimum, current window  */
 static float ntmp[L1_NFFT/2+1];        /* running minimum, next window     */
 static uint32_t l1Frames = 0, l1MinCnt = 0;
 #define L1_MINWIN   60                 /* ~1 s of 16 ms frames             */
 #define L1_MINBIAS  2.5f               /* min-of-smoothed underestimates    */
+#define DD_ALPHA    0.98f              /* decision-directed smoothing       */
 static float ovl[L1_NFFT];
 static float win[L1_NFFT];
 static bool  l1Ready = false;
@@ -150,6 +153,7 @@ static void l1_init() {
     win[i] = sqrtf(0.5f - 0.5f * cosf(2.0f*(float)M_PI*i/L1_NFFT));
   for (int i = 0; i <= L1_NFFT/2; i++) {
     nfloor[i] = 0.0f; psm[i] = 0.0f; nmin[i] = 1e30f; ntmp[i] = 1e30f;
+    xi_prev[i] = 1.0f; gain_prev[i] = 1.0f;
   }
   l1Frames = 0; l1MinCnt = 0;
   memset(ovl, 0, sizeof ovl);
@@ -187,10 +191,42 @@ static void l1_frame(const float *in, float *out, bool removeVoices) {
 
   for (int k = 0; k <= L1_NFFT/2; k++) {
     float m2 = fre[k]*fre[k] + fim[k]*fim[k];
-    float nf = L1_MINBIAS * (l1Frames < L1_MINWIN ? psm[k] : nfloor[k]);
-    float g  = m2 / (m2 + nf + 1e-20f);              /* Wiener-ish gain      */
-    g = powf(g, gAlpha);                             /* validated sharpening */
-    if (g < 0.01f) g = 0.01f;                        /* floor: no dead bins  */
+    float nf = L1_MINBIAS * (l1Frames < L1_MINWIN ? psm[k] : nfloor[k]) + 1e-20f;
+
+    /* --- decision-directed log-MMSE (Ephraim & Malah 1984/85) -------------
+     * A plain Wiener gain m2/(m2+nf) is computed from ONE noisy frame, so the
+     * gain jitters bin-to-bin and frame-to-frame with the periodogram's own
+     * chi-square variance. Audibly that is musical noise: the watery,
+     * warbling residue that made the first on-device version sound worse
+     * than the offline result even at the same suppression depth.
+     *
+     * The decision-directed estimator fixes the cause rather than smoothing
+     * the symptom: it forms the a priori SNR mostly from the PREVIOUS frame's
+     * own clean estimate, so the gain is temporally coherent by construction.
+     * This is the standard estimator behind essentially every classical
+     * enhancer that sounds clean. */
+    float gamma = m2 / nf;                        /* a posteriori SNR        */
+    if (gamma > 40.0f) gamma = 40.0f;             /* keep exp() in range     */
+    float inst  = gamma - 1.0f; if (inst < 0.0f) inst = 0.0f;
+    float xi    = DD_ALPHA * (gain_prev[k]*gain_prev[k]*xi_prev[k])
+                + (1.0f - DD_ALPHA) * inst;       /* a priori SNR            */
+    if (xi < 1e-4f) xi = 1e-4f;
+
+    float nu = xi / (1.0f + xi) * gamma;
+    if (nu < 1e-4f) nu = 1e-4f;
+    /* exponential integral E1(nu), Loizou's piecewise approximation */
+    float ei;
+    if      (nu < 0.1f) ei = -2.31f * log10f(nu) - 0.6f;
+    else if (nu > 1.0f) ei = powf(10.0f, -0.52f * nu - 0.26f);
+    else                ei = -1.544f * log10f(nu) + 0.166f;
+
+    float g = (xi / (1.0f + xi)) * expf(0.5f * ei);
+    if (g > 1.0f) g = 1.0f;
+    xi_prev[k]   = gamma * g * g;                 /* feeds the next frame    */
+    gain_prev[k] = g;
+
+    g = powf(g, gAlpha);                          /* validated sharpening    */
+    if (g < 0.01f) g = 0.01f;                     /* floor: no dead bins     */
     g *= frameGate;
     fre[k] *= g; fim[k] *= g;
     if (k > 0 && k < L1_NFFT/2) { fre[L1_NFFT-k] =  fre[k];

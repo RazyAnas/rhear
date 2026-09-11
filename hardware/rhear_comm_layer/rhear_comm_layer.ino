@@ -29,7 +29,8 @@
  *    R  record 10 s and stream raw int16 to the host   (record.py)
  *    L  live passthrough, mic -> speaker
  *    E  live ENHANCED, mic -> L1 -> speaker
- *    A  A/B: record 5 s, play it RAW, then play it ENHANCED
+ *    A  A/B: record 5 s, play it RAW, then play it ENHANCED (on-device DSP)
+ *    N  A/B with the REAL neural model -- host runs it (neural_ab.py)
  *    M  level meter, 5 s of dBFS + mic format check
  *    T  1 kHz tone -- isolates the amp
  *    + / -  output level      X stop      ?  status
@@ -227,6 +228,47 @@ static void cmdAB() {
   Serial.println(F("A/B: done"));
 }
 
+
+/* ---------------------------------------------------------------- neural */
+/* The full GTCRNLite is NOT on this chip. Its encoder, full-band branch and
+ * fusion are ported (psram_test.c) but the recurrent stage, decoder and ISTFT
+ * are not, so the real model runs on the host. This mode is honest about that
+ * split: the ESP32 captures and plays, the laptop does the network.
+ *
+ * On the device the log-MMSE path (mode A) reaches about 70 % of the neural
+ * model's background reduction on real recordings -- 16.8 dB speech-to-noise
+ * gap against the network's 18.9, from a raw 11.9. Use A when the laptop is
+ * not in the loop, N when it is. */
+static void cmdNeural() {
+  const int N = FS_MIC * AB_SECS;
+  static int16_t *rec = NULL, *net = NULL;
+  if (!rec) rec = (int16_t *)ps_malloc(N * sizeof(int16_t));
+  if (!net) net = (int16_t *)ps_malloc(N * sizeof(int16_t));
+  if (!rec || !net) { Serial.println(F("no PSRAM -- enable OPI PSRAM")); return; }
+
+  Serial.printf("NEURAL %d\n", N);          /* host sync marker + length */
+  int got = 0;
+  while (got < N) got += micRead(rec + got, (N - got > CHUNK) ? CHUNK : N - got);
+  Serial.write((uint8_t *)rec, N * sizeof(int16_t));
+  Serial.flush();
+
+  /* the host writes exactly N int16 back */
+  int need = N * sizeof(int16_t), have = 0;
+  uint8_t *dst = (uint8_t *)net;
+  uint32_t t0 = millis();
+  while (have < need) {
+    if (millis() - t0 > 60000) { Serial.println(F("\ntimeout waiting for host")); return; }
+    int n = Serial.readBytes((char *)(dst + have), need - have);
+    if (n > 0) { have += n; t0 = millis(); }
+  }
+  Serial.printf("\nneural returned, raw %.1f dBFS  enhanced %.1f dBFS\n",
+                dbfs(rec, N), dbfs(net, N));
+  Serial.println(F("playing RAW"));      ampPlay(rec, N);
+  delay(600);
+  Serial.println(F("playing NEURAL"));   ampPlay(net, N);
+  Serial.println(F("done"));
+}
+
 static void cmdMeter() {
   Serial.println(F("meter, 5 s -- speak, tap the mic"));
   static int32_t raw[CHUNK];
@@ -268,7 +310,8 @@ void setup() {
   Serial.printf("mic %s   amp %s\n", micInit() ? "OK" : "FAIL", ampInit() ? "OK" : "FAIL");
   Serial.printf("mic %d Hz -> amp %d Hz (x%d)   output level %.0f%%\n",
                 FS_MIC, FS_AMP, UPS, gOut * 100);
-  Serial.println(F("R record10 | L live raw | E live enhanced | A A/B | M meter | T tone | +/- level"));
+  Serial.println(F("M meter | L live raw | E live DSP | A A/B on-device | N A/B neural via host"));
+  Serial.println(F("R record10 | T tone | +/- level | ? status"));
 }
 
 void loop() {
@@ -280,6 +323,7 @@ void loop() {
     case 'L': cmdLive(false); break;
     case 'E': cmdLive(true);  break;
     case 'A': cmdAB(); break;
+    case 'N': cmdNeural(); break;
     case 'M': cmdMeter(); break;
     case 'T': cmdTone(); break;
     case '+': gOut *= 1.4f; if (gOut > 0.25f) gOut = 0.25f;
