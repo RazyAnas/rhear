@@ -116,10 +116,11 @@ static float gBoost = 4.0f;
 static float gFloor = 0.0f, gGateG = 0.0f;
 static bool  gFloorInit = false, gVoiced = false;
 static int   gHang = 0;
-static float gVadOpen = 6.0f;
+static float gVadOpen = 9.0f;   /* room bursts reached 6.3 dB over floor */
 static float gVadThr  = 0.20f;      /* neural VAD detection threshold */
 static uint32_t gVadSpeech = 0, gVadTotal = 0;
 static bool gVadNet = false;   /* the network's arm, before the AND */
+static int  gOpenRun = 0;      /* consecutive agreeing frames */
 static float gLastAbove = 0.0f;
 static bool  gGateOn = true;
 
@@ -164,14 +165,30 @@ static void gateApply(int16_t *y, int n, const int16_t *raw) {
     if (e < gFloor) gFloor += 0.25f  * (e - gFloor);
     else            gFloor += 0.005f * (e - gFloor);
     gLastAbove = e - gFloor;
+    /* OPEN must be EARNED, closing must be FAST.
+     *
+     * The diagnostic showed "OPEN no" beside "gain 1.00" for line after line:
+     * the decision was right and the gain never followed it. Two reasons,
+     * both here. The close ramp was 0.10 per frame, so 1.0 -> 0.002 took
+     * about 59 frames (590 ms); and a SINGLE open decision armed a 12-frame
+     * hangover. With isolated blips arriving every ~300 ms the gain was
+     * re-armed long before it could decay, so it sat near 1.0 permanently
+     * while the decision said no. A slow ramp plus a trigger-happy re-arm
+     * is a gate that can never close.
+     *
+     * Now: two consecutive agreeing frames are required to OPEN, so a single
+     * burst of room noise cannot arm anything; and the close ramp is 0.35,
+     * reaching digital zero in about 15 frames (150 ms). */
     bool loud = gLastAbove > gVadOpen;
-    if (gVoiced) gVoiced = gVadNet && (gLastAbove > gVadOpen - 3.0f);
-    else         gVoiced = gVadNet && loud;
+    bool want = gVoiced ? (gVadNet && gLastAbove > gVadOpen - 3.0f)
+                        : (gVadNet && loud);
+    if (want) { if (gOpenRun < 4) gOpenRun++; } else gOpenRun = 0;
+    gVoiced = (gOpenRun >= 2);                 /* debounce the OPEN side */
 
-    if (gVoiced) gHang = 12; else if (gHang > 0) gHang--;
+    if (gVoiced) gHang = 8; else if (gHang > 0) gHang--;
     float w = (gHang > 0) ? 1.0f : 0.0f;
-    gGateG += ((w > gGateG) ? 0.50f : 0.10f) * (w - gGateG);
-    if (gGateG < 0.002f) gGateG = 0.0f;
+    gGateG += ((w > gGateG) ? 0.60f : 0.35f) * (w - gGateG);
+    if (gGateG < 0.01f) gGateG = 0.0f;
     for (int i = 0; i < n; i++) y[i] = (int16_t)(y[i] * gGateG);
     return;
   }
@@ -499,11 +516,13 @@ static void cmdGateDiag() {
   int16_t in[512], out[512];
   gFloorInit = false; gVoiced = false; gGateG = 0.0f; gHang = 0;
   gVadSpeech = 0; gVadTotal = 0;
-  uint32_t t0 = millis(); int n = 0, blanked = 0;
+  uint32_t t0 = millis(); int n = 0, blanked = 0, fullyShut = 0, nAll = 0;
   while (millis() - t0 < 12000) {
     micRead(in, nsChunk);
     nsRun(in, out);
     gateApply(out, nsChunk, in);
+    if (gGateG < 0.01f) fullyShut++;
+    nAll++;
     if (++n % 3) continue;                    /* ~31 lines/s, readable */
     float lvl = dbfs(in, nsChunk);
     float o   = dbfs(out, nsChunk);
@@ -520,8 +539,8 @@ static void cmdGateDiag() {
     Serial.printf("neural VAD: %lu of %lu windows were SPEECH (%.0f%%)\n",
                   (unsigned long)gVadSpeech, (unsigned long)gVadTotal,
                   100.0f * gVadSpeech / gVadTotal);
-  Serial.printf("gate was fully shut on %.0f%% of the printed frames\n",
-                100.0f * blanked / (n / 3 + 1));
+  Serial.printf("gate reached digital zero on %.0f%% of ALL %d frames\n",
+                100.0f * fullyShut / (nAll ? nAll : 1), nAll);
   Serial.println(F("\nHOW TO READ THIS"));
   Serial.println(F("  VAD SPEECH the whole time, even when quiet"));
   Serial.println(F("      -> network is too permissive. Press V (stricter)."));
