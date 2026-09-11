@@ -151,6 +151,9 @@ static float dbfs(const int16_t *x, int n) {
 }
 
 
+
+#include "rhear_post.h"
+
 /* --------------------------------------------- makeup and measurement */
 /* A note on something that was tried and MEASURED WORSE, so it is not here:
  * priming the minimum-statistics tracker on ~1.5 s of ambient before
@@ -237,7 +240,8 @@ static void cmdLive(bool enhance) {
   static int16_t buf[CHUNK];
   static float win_[L1_NFFT], outf[L1_HOP];
   static int fill = 0;
-  if (enhance) { l1_init(); memset(win_, 0, sizeof win_); fill = 0; }
+  if (enhance) { l1_init(); aleReset(); memset(win_, 0, sizeof win_); fill = 0;
+                 gSpk = -30.0f; gGateG = 1.0f; gHang = 0; }
   static float liveGain = 1.0f;
   while (!Serial.available()) {
     int n = micRead(buf, CHUNK);
@@ -265,6 +269,7 @@ static void cmdLive(bool enhance) {
       if (v > 0.99f) v = 0.99f; if (v < -0.99f) v = -0.99f;
       eo[i] = (int16_t)(v * 32000.0f);
     }
+    gateStream(eo, L1_HOP);
     ampPlay(eo, L1_HOP);
   }
   while (Serial.available()) Serial.read();
@@ -290,6 +295,7 @@ static void cmdAB() {
   uint32_t t0 = millis();
   for (int h = 0; h < hops; h++) {
     for (int i = 0; i < L1_NFFT; i++) fin[i] = rec[h * L1_HOP + i] / 32768.0f;
+    if (gAleOn) for (int i = L1_NFFT - L1_HOP; i < L1_NFFT; i++) fin[i] = aleStep(fin[i], 0.02f);
     l1_frame(fin, fout, false);
     for (int i = 0; i < L1_HOP; i++) {
       float v = fout[i];
@@ -304,7 +310,9 @@ static void cmdAB() {
     if (v < -32000.0f) v = -32000.0f;
     enh[i] = (int16_t)v;
   }
-  Serial.printf("A/B: speech-matched makeup %.2fx\n", mk);
+  Serial.printf("A/B: speech-matched makeup %.2fx%s\n", mk, gAleOn ? "  [ALE on]" : "");
+  int closed = gateBuffer(enh, N);
+  Serial.printf("A/B: gate closed %d%% of frames -- silence between words\n", closed);
   uint32_t ms = millis() - t0;
   Serial.printf("A/B: %d frames in %lu ms = %.2f ms/frame, RTF %.3f of the 16 ms budget\n",
                 hops, (unsigned long)ms, (float)ms / hops, ((float)ms / hops) / 16.0f);
@@ -400,7 +408,7 @@ void setup() {
   Serial.printf("mic %d Hz -> amp %d Hz (x%d)   output level %.0f%%\n",
                 FS_MIC, FS_AMP, UPS, gOut * 100);
   Serial.println(F("M meter | L live raw | E live DSP | A A/B on-device | N A/B neural via host"));
-  Serial.println(F("R record10 | T tone | +/- level | ? status"));
+  Serial.println(F("R record10 | T tone | F FxNLMS on/off | +/- level | ? status"));
 }
 
 void loop() {
@@ -414,6 +422,8 @@ void loop() {
     case 'A': cmdAB(); break;
     case 'N': cmdNeural(); break;
     case 'M': cmdMeter(); break;
+    case 'F': gAleOn = !gAleOn; aleReset();
+              Serial.printf("FxNLMS line enhancer %s\n", gAleOn ? "ON" : "off"); break;
     case 'T': cmdTone(); break;
     case '+': gOut *= 1.4f; if (gOut > 0.25f) gOut = 0.25f;
               Serial.printf("level %.0f%% (ceiling 25%%)\n", gOut * 100); break;
