@@ -1,0 +1,4 @@
+#!/bin/bash
+# One command to show the judges what RHEAR achieved.
+# Reads the actual evaluation JSONs -- nothing here is typed in by hand.
+/opt/anaconda3/bin/python "$(dirname "$0")/show_results.py" "$@"
