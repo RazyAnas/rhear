@@ -97,9 +97,88 @@ print(f"    · richer output head     {Y}→ landed 1.4 PESQ below its own oracl
 print(f"    · 30 GB → 100 GB of data {Y}→ about 1%{X}")
 print("  So we changed the information, not the network.")
 
+
+# ── 5. how the model was trained ───────────────────────────────────────────
+rule("━")
+print(B + "  5. HOW WE GOT HERE — DATA, RECIPE, AND THE LADDER" + X)
+rule()
+print(B + "  Dataset pipeline" + X + D + "  (handoff/code/rhear_data/)" + X)
+print("    100+ GB of noisy-clean pairs generated, not collected:")
+print(f"      {C}251 speakers{X}, {C}235 noise classes{X}, 4 s clips at 16 kHz")
+print("      SNR drawn uniformly −10..+20 dB, 1–3 noise layers per clip")
+print("      real measured room impulse responses, applied at p=0.6")
+print("    Defence noise, by share of layers:")
+print(f"      gunshot {C}16.0%{X} · vehicle {C}10.4%{X} · helicopter {C}9.8%{X}"
+      f" · shelling {C}9.4%{X}")
+print("    Twelve augmentations, three of them named by the PS:")
+print("      noise mixing · reverberation · clipping (p=0.15)")
+print("      + mic frequency-response randomisation, mic self-noise,")
+print("        preamp nonlinearity, level trajectories, gain jitter,")
+print("        competing talkers at explicit SIR 12–24 dB (p=0.60)")
+print(f"    {D}Impulsive classes are never tiled — a gunshot is placed once,{X}")
+print(f"    {D}so the model cannot learn an artificial repetition rate.{X}")
+
+print()
+print(B + "  Training recipe" + X + D + "  (E03/train_interim.py)" + X)
+print(f"    architecture   GTCRNLite — sub-band (96 ERB) {C}+{X} full-band (257 bin)")
+print("                   encoder → dual-path RNN → decoder, causal in time")
+print("    loss           SI-SNR + 30·magnitude + 15·complex RI + 0.5·SPP")
+print(f"    asymmetry      {C}rho = 8{X}: removing speech is penalised 8× harder")
+print(f"                   than leaving noise. {D}Deleting a word is worse than{X}")
+print(f"                   {D}passing one through.{X}")
+print("    optimiser      AdamW, lr 5e-4, cosine anneal, grad-clip 5.0")
+print("    frames         16 ms hop, 62.5 frames/s")
+
+print()
+print(B + "  The ladder — every change kept or killed by measurement" + X)
+print(D + "    Paired bootstrap, 10,000 resamples, on TWO independent eval sets." + X)
+print(D + "    A change ships only if PESQ improves AND STOI and SI-SAR do not" + X)
+print(D + "    regress, on BOTH. Four of our own models failed that test." + X)
+print()
+print(f"    {'run':<7}{'what changed':<33}{'PESQ':>8}  {'verdict':<9}why")
+LADDER = [
+    ("g7",   "baseline, 48 ERB bands",          None,              None),
+    ("g8",   "48 -> 96 ERB bands",              "paired_g7_g8",    "KEPT"),
+    ("g9",   "+56% parameters",                 "paired_g8_g9",    "REJECTED"),
+    ("g10",  "asymmetry rho 8 -> 4",            "paired_g8_g10",   "REJECTED"),
+    ("g11",  "26 -> 251 speakers",              "paired_g8_g11",   "KEPT"),
+    ("g12",  "9 -> 236 noise classes",          "paired_g11_g12",  "KEPT"),
+    ("g13b", "competing talkers, SIR 12-24 dB", "paired_g12_g13b", "KEPT"),
+    ("g15",  "deep-filter output head",         "paired_g12_g15",  "REJECTED"),
+]
+for tag, what, pf, verd in LADDER:
+    d = load(f"eval/eval_{tag}_on_edef.json")
+    if not d:
+        print(f"    {tag:<7}{what:<33}{'-':>8}")
+        continue
+    p = d["overall"]["pesq_e"]
+    # the verdict column is read from the ACTUAL paired bootstrap, not asserted
+    why = ""
+    pt = load(f"{pf}.json") if pf else None
+    if pt and "report" in pt:
+        bad = []
+        for setname, metrics in pt["report"].items():
+            for mname, m in metrics.items():
+                if isinstance(m, dict) and m.get("verdict") == "worse":
+                    bad.append(f"{mname.upper()} worse on {setname}")
+        pe = pt["report"].get("edef", {}).get("pesq", {})
+        why = bad[0] if (verd == "REJECTED" and bad) else f"PESQ {pe.get('verdict', '?')}"
+    col = G if verd == "KEPT" else (Y if verd == "REJECTED" else "")
+    e = X if col else ""
+    ship = "  <- shipping" if tag == "g13b" else ""
+    print(f"    {col}{tag:<7}{what:<33}{p:>8.4f}  {(verd or 'start'):<9}{e}"
+          f"{D}{why}{X}{G}{ship}{X}")
+print(f"    {D}g9 gained +0.006 PESQ and was rejected anyway: the bootstrap{X}")
+print(f"    {D}found STOI and SI-SAR significantly WORSE. That is the rule{X}")
+print(f"    {D}working -- a favourable headline number is not enough.{X}")
+print()
+print(f"    {D}g7 → g13b is +0.081 PESQ. Small, and honestly reported: the{X}")
+print(f"    {D}oracle in section 3 explains why the ceiling, not the effort,{X}")
+print(f"    {D}is what bounded it.{X}")
+
 # ── 4. on device ───────────────────────────────────────────────────────────
 rule("━")
-print(B + "  4. ON THE HARDWARE" + X)
+print(B + "  6. ON THE HARDWARE" + X)
 rule()
 print(f"  model size           49,663 params · {G}97.4 KB int8{X} vs a 200 KB cap")
 print(f"  compute              ~26–32 MMAC/s vs ~200 MMAC/s per core ({G}~15%{X})")
