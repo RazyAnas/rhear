@@ -45,6 +45,7 @@
 #include "esp_nsn_iface.h"
 #include "esp_nsn_models.h"
 #include "esp_ns.h"
+#include "esp_random.h"
 
 #define MIC_PORT  I2S_NUM_0
 #define AMP_PORT  I2S_NUM_1
@@ -55,7 +56,21 @@
 #define AMP_LRC  16
 #define AMP_DIN  17
 #define FS_MIC   16000
-#define FS_AMP   48000
+/* THE AMP RUNS AT THE MIC'S RATE. It used to run at 48 kHz with each sample
+ * repeated three times, and zero-order-hold upsampling is not free: repeating
+ * a sample convolves the signal with a 3-sample rectangle, which leaves
+ * spectral images of the 0-8 kHz baseband sitting at 8-24 kHz, attenuated
+ * only by that rectangle's sinc. A class-D amplifier happily reproduces them
+ * and they intermodulate. Heard on a speaker that is a hard, electrical edge
+ * riding on the voice -- present exactly when there IS voice, which is what
+ * was reported, and which no amount of noise suppression can remove because
+ * the suppressor never saw it.
+ *
+ * Matching the rates removes the entire problem rather than filtering it
+ * afterwards. The MAX98357A supports 8-96 kHz, so 16 kHz is well inside spec.
+ * Set FS_AMP back to 48000 only if 16 kHz misbehaves on a particular board;
+ * the upsampling path below still works, it is simply no longer used. */
+#define FS_AMP   16000
 #define UPS      (FS_AMP / FS_MIC)
 #define AB_SECS  5
 
@@ -138,6 +153,24 @@ static bool ampInit() {
   i2s_zero_dma_buffer(AMP_PORT); return true;
 }
 
+/* DC blocker. MEMS microphones carry a standing DC offset, and the INMP441
+ * is no exception. A frame-based suppressor sees that offset as signal, and
+ * any per-frame gain change then steps the DC level at the frame boundary --
+ * which is heard as a tick or crackle on every frame, 100 times a second.
+ * That is "electrical noise added to the voice", and it is not the amplifier.
+ * One-pole high pass at ~20 Hz: y[n] = x[n] - x[n-1] + 0.995*y[n-1]. */
+static float dcX1 = 0.0f, dcY1 = 0.0f;
+static double gDcSum = 0; static uint32_t gDcN = 0;
+static inline int16_t dcBlock(int32_t s24) {
+  float x = (float)s24;
+  float y = x - dcX1 + 0.995f * dcY1;
+  dcX1 = x; dcY1 = y;
+  gDcSum += x; gDcN++;
+  if (y >  32767.0f) y =  32767.0f;
+  if (y < -32768.0f) y = -32768.0f;
+  return (int16_t)lrintf(y);
+}
+
 static int micRead(int16_t *dst, int want) {
   static int32_t raw[512];
   int got = 0;
@@ -145,7 +178,7 @@ static int micRead(int16_t *dst, int want) {
     size_t nb = 0; int n = want - got; if (n > 512) n = 512;
     i2s_read(MIC_PORT, raw, n * sizeof(int32_t), &nb, portMAX_DELAY);
     int m = nb / sizeof(int32_t);
-    for (int i = 0; i < m; i++) dst[got + i] = (int16_t)(raw[i] >> 16);
+    for (int i = 0; i < m; i++) dst[got + i] = dcBlock(raw[i] >> 16);
     got += m; if (!m) break;
   }
   return got;
@@ -159,7 +192,18 @@ static void ampPlay(const int16_t *src, int n) {
     int m = n - i; if (m > 512) m = 512;
     int k = 0;
     for (int j = 0; j < m; j++) {
-      int16_t v = (int16_t)(src[i + j] * gOut);
+      /* Scaling to 10% throws away 3.3 bits before a 16-bit DAC. Truncating
+       * on top of that -- which is what an (int16_t) cast does -- leaves a
+       * signal-correlated error, and signal-correlated error is distortion,
+       * not noise: it is heard riding on the voice rather than behind it.
+       * Round, and add TPDF dither so what is left is white and inaudible. */
+      float fv = src[i + j] * gOut;
+      float d = ((float)(esp_random() >> 16) - 32767.5f) / 65535.0f
+              + ((float)(esp_random() >> 16) - 32767.5f) / 65535.0f;
+      long q = lrintf(fv + d);
+      if (q >  32767) q =  32767;
+      if (q < -32768) q = -32768;
+      int16_t v = (int16_t)q;
       for (int u = 0; u < UPS; u++) { out[k++] = v; out[k++] = v; }
     }
     size_t w = 0;
@@ -219,6 +263,15 @@ static void cmdAB() {
                 nf, us / 1000.0f, (float)us / nf, budget,
                 ((float)us / nf / 1000.0f) / budget);
   Serial.printf("A/B: raw %.1f dBFS   denoised %.1f dBFS\n", dbfs(rec, N), dbfs(den, N));
+  if (gDcN) Serial.printf("A/B: mic DC offset was %.0f counts (%.1f%% of full scale)"
+                          " -- removed before processing\n",
+                          gDcSum / gDcN, 100.0 * fabs(gDcSum / gDcN) / 32768.0);
+  /* how much headroom the 10%% output level is actually using */
+  int16_t pk = 0; for (int i = 0; i < N; i++) { int16_t a = den[i] < 0 ? -den[i] : den[i];
+                                                if (a > pk) pk = a; }
+  Serial.printf("A/B: peak %d -> %d after the %.0f%% level"
+                "  (%.1f bits of the DAC in use)\n", pk, (int)(pk * gOut), gOut * 100,
+                log2f((float)(pk * gOut) + 1.0f));
 
   Serial.println(F("playing RAW"));      ampPlay(rec, N);
   delay(700);
@@ -255,6 +308,8 @@ void setup() {
   delay(1200);
   Serial.println(F("\nRHEAR + NSNet -- neural noise suppression on the ESP32-S3"));
   Serial.printf("mic %s   amp %s\n", micInit() ? "OK" : "FAIL", ampInit() ? "OK" : "FAIL");
+  Serial.printf("mic %d Hz -> amp %d Hz  (x%d, %s)\n", FS_MIC, FS_AMP, UPS,
+                UPS == 1 ? "no resampling" : "zero-order hold, expect images");
   nsInit();
   Serial.printf("PSRAM free %u KB   output level %.0f%%\n",
                 (unsigned)(ESP.getFreePsram() / 1024), gOut * 100);
