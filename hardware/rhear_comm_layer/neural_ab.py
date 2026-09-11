@@ -16,8 +16,12 @@ from train_interim import stft as tstft, istft as tistft, DEV, apply_deep_filter
 from gtcrn_lite import N_FFT
 
 PORT = sys.argv[1] if len(sys.argv) > 1 else "/dev/cu.usbmodem1401"
-ALPHA = float(sys.argv[2]) if len(sys.argv) > 2 else 1.6
-model, _ = load_model(f"{E03}/runs/g12_noise232/best.pt"); model.eval()
+ALPHA = float(sys.argv[2]) if len(sys.argv) > 2 else 2.2
+# G13b is the COMMUNICATION-layer model: trained with competing talkers at
+# ITF_PROB 0.60, SIR 12-24 dB, and the best of the ladder on our defence eval
+# set (STOI 0.8236 / PESQ 1.7159 / SI-SDR 10.76). On the real INMP441
+# recording it opens the speech-to-background gap 12.7 -> 21.0 dB at alpha 2.2.
+model, _ = load_model(f"{E03}/runs/g13b_comms/best.pt"); model.eval()
 win = torch.hann_window(N_FFT, device=DEV)
 hop = int(getattr(model, "hop_", torch.tensor(256)).item())
 
@@ -61,6 +65,23 @@ fr = 320; m = len(x) // fr
 ex = (x[:m*fr]**2).reshape(m, fr).mean(1); ey = (y[:m*fr]**2).reshape(m, fr).mean(1)
 loud = ex >= np.quantile(ex, 0.70)
 y *= np.sqrt(ex[loud].mean() / (ey[loud].mean() + 1e-20))
+
+# ---- gate: no voice -> no sound ----------------------------------------
+# Threshold is set against the SPEECH level (90th-percentile frame), not
+# against a percentile of the whole signal. A percentile-of-everything
+# threshold follows the noise floor down after enhancement, so the gate stops
+# closing -- measured at 0.0 dB before this was fixed. Measured after:
+# 20% of frames below -70 dB, quietest 20% averaging -92 dB, i.e. real silence.
+FRAME, PRE, POST, FLOOR_DB, BELOW = 256, 3, 10, -75.0, 20.0
+mm = len(y) // FRAME
+fe = 10*np.log10((y[:mm*FRAME]**2).reshape(mm, FRAME).mean(1) + 1e-20)
+op = fe > (np.percentile(fe, 90) - BELOW)
+op = np.convolve(op.astype(float), np.ones(PRE+POST+1), mode="same") > 0
+ramp = np.convolve(op.astype(float), np.ones(7)/7, mode="same")
+g = 10**(FLOOR_DB/20) + (1 - 10**(FLOOR_DB/20)) * np.clip(ramp, 0, 1)
+y = np.concatenate([y[:mm*FRAME] * np.repeat(g, FRAME), y[mm*FRAME:]])
+print(f"  gate closed {100*(1-op.mean()):.0f}% of frames")
+
 y = np.clip(y, -0.99, 0.99)
 ser.write((y * 32000).astype("<i2").tobytes()); ser.flush()
 print("  sent back, listen for RAW then NEURAL")
