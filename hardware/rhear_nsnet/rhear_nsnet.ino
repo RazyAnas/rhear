@@ -55,6 +55,9 @@ extern "C" {
 #include "esp_nsn_iface.h"
 #include "esp_nsn_models.h"
 }
+#include "esp_vad.h"
+#include "esp_vadn_iface.h"       /* these two DO guard themselves */
+#include "esp_vadn_models.h"
 #include "esp_random.h"
 
 #define MIC_PORT  I2S_NUM_0
@@ -86,6 +89,12 @@ extern "C" {
 
 /* 10 % is the verified clean operating point on this amplifier; well past it
  * distorts audibly. */
+/* neural VAD state -- declared here because gateApply() below uses it */
+static const esp_vadn_iface_t *vadIface = NULL;
+static model_iface_data_t     *vadModel = NULL;
+static int  vadChunk = 0;
+static bool vadIsNeural = false;
+
 static float gOut = 0.10f;
 
 /* ---- input boost --------------------------------------------------------
@@ -108,11 +117,43 @@ static float gFloor = 0.0f, gGateG = 0.0f;
 static bool  gFloorInit = false, gVoiced = false;
 static int   gHang = 0;
 static float gVadOpen = 6.0f;
+static float gVadThr  = 0.20f;      /* neural VAD detection threshold */
+static uint32_t gVadSpeech = 0, gVadTotal = 0;
 static float gLastAbove = 0.0f;
 static bool  gGateOn = true;
 
 static void gateApply(int16_t *y, int n, const int16_t *raw) {
   if (!gGateOn) { gGateG = 1.0f; return; }
+
+  /* Neural VAD if the model loaded: it answers "is a human speaking", which
+   * is the question. Energy only answers "is it loud", which is why the
+   * hand-tuned gate kept holding open on background noise.
+   *
+   * The rates do not line up: vadnet wants 512 samples (32 ms) and the
+   * suppressor runs 160 (10 ms). An earlier version tested n >= vadChunk,
+   * which is never true, so the neural path was silently dead and the energy
+   * gate ran instead. Accumulate into a 512-sample window, run the network
+   * when it fills, and hold its decision across the frames in between. */
+  if (vadIsNeural) {
+    static int16_t vbuf[1024];
+    static int vfill = 0;
+    for (int i = 0; i < n; i++) {
+      vbuf[vfill++] = raw[i];
+      if (vfill >= vadChunk) {
+        vad_state_t st = vadIface->detect(vadModel, vbuf);
+        gVoiced = (st == VAD_SPEECH);
+        gVadTotal++; if (gVoiced) gVadSpeech++;
+        vfill = 0;
+      }
+    }
+    if (gVoiced) gHang = 12; else if (gHang > 0) gHang--;
+    float w = (gHang > 0) ? 1.0f : 0.0f;
+    gGateG += ((w > gGateG) ? 0.50f : 0.10f) * (w - gGateG);
+    if (gGateG < 0.002f) gGateG = 0.0f;
+    for (int i = 0; i < n; i++) y[i] = (int16_t)(y[i] * gGateG);
+    return;
+  }
+
   double s = 0;
   for (int i = 0; i < n; i++) { double v = raw[i] / 32768.0; s += v * v; }
   float e = 10.0f * log10f((float)(s / n) + 1e-20f);
@@ -136,8 +177,42 @@ static ns_handle_t            nsPro   = NULL;   /* fallback, not neural         
 static int  nsChunk = 160;                      /* samples per process() call   */
 static bool nsIsNeural = false;
 
+/* ---- neural VAD ---------------------------------------------------------
+ * The Arduino core's srmodels.bin does NOT contain NSNet. Verified by
+ * inspecting the image: it holds wn9_hiesp (WakeNet), mn7_en (MultiNet) and
+ * vadnet1_medium, and nothing matching "nsnet". No partition setting can
+ * conjure a model that is not in the bundle; getting NSNet means rebuilding
+ * srmodels.bin under ESP-IDF menuconfig.
+ *
+ * But vadnet1_medium IS there, and it is a neural network trained for exactly
+ * the question that has been the actual problem: is a human speaking right
+ * now. It replaces the hand-tuned energy gate, which could never tell loud
+ * noise from a voice. This is a genuine neural network, running on the chip,
+ * deciding when the channel goes silent. */
+static void vadInit(srmodel_list_t *models) {
+  char *name = models ? esp_srmodel_filter(models, ESP_VADN_PREFIX, NULL) : NULL;
+  if (!name) { Serial.println(F("VAD: no vadnet model found -- energy gate only")); return; }
+  vadIface = esp_vadn_handle_from_name(name);
+  if (!vadIface) { Serial.println(F("VAD: handle_from_name failed")); return; }
+  /* mode, channels, min speech ms, min noise ms. 64/192 ms gives a quick
+   * open and a slow close, so word onsets survive and tails are not chopped. */
+  vadModel = vadIface->create(name, VAD_MODE_3, 1, 64, 192);
+  if (!vadModel) { Serial.println(F("VAD: create failed")); return; }
+  vadChunk = vadIface->get_samp_chunksize(vadModel);
+  vadIsNeural = true;
+  Serial.printf("VAD:    NEURAL '%s'  %d samples/frame (%.1f ms)  rate %d Hz\n",
+                name, vadChunk, 1000.0f * vadChunk / FS_MIC,
+                vadIface->get_samp_rate(vadModel));
+}
+
 static void nsInit() {
   srmodel_list_t *models = esp_srmodel_init("model");
+  if (models) {
+    Serial.printf("srmodels partition holds %d model(s):", models->num);
+    for (int i = 0; i < models->num; i++) Serial.printf(" %s", models->model_name[i]);
+    Serial.println();
+  } else Serial.println(F("no 'model' partition found"));
+  vadInit(models);
   char *name = models ? esp_srmodel_filter(models, ESP_NSNET_PREFIX, NULL) : NULL;
   if (name) {
     nsIface = esp_nsnet_handle_from_name(name);
@@ -159,16 +234,16 @@ static void nsInit() {
   nsPro = ns_pro_create(10, 2, FS_MIC);         /* 10 ms, aggressive, 16 kHz */
   nsChunk = FS_MIC / 100;                       /* 10 ms = 160 samples       */
   nsIsNeural = false;
-  Serial.println(F("\n*********************************************************"));
-  Serial.println(F("*  NSNet did NOT load. Running ns_pro, which is NOT a   *"));
-  Serial.println(F("*  neural network and typically moves the level by well *"));
-  Serial.println(F("*  under 1 dB. Do not demo this and call it neural.     *"));
-  Serial.println(F("*                                                       *"));
-  Serial.println(F("*  Tools > Board          : ESP32S3 Dev Module          *"));
-  Serial.println(F("*        > Flash Size     : 16MB (128Mb)                *"));
-  Serial.println(F("*        > Partition      : ESP SR 16M                  *"));
-  Serial.println(F("*  ESP32-S3-Box will NOT work -- it has no SR scheme.   *"));
-  Serial.println(F("*********************************************************\n"));
+  Serial.println(F("\n---------------------------------------------------------"));
+  Serial.println(F(" NSNet is NOT in the Arduino model bundle. Inspecting"));
+  Serial.println(F(" srmodels.bin shows wakenet, multinet and vadnet only --"));
+  Serial.println(F(" no nsnet. This is not a settings problem and no"));
+  Serial.println(F(" partition scheme can fix it; the model would have to be"));
+  Serial.println(F(" rebuilt under ESP-IDF menuconfig."));
+  Serial.println(F(" Suppression therefore falls back to ns_pro, which is"));
+  Serial.println(F(" classical, NOT neural. The VAD above IS neural and is"));
+  Serial.println(F(" what decides when the channel goes silent."));
+  Serial.println(F("---------------------------------------------------------\n"));
 }
 
 static inline void nsRun(int16_t *in, int16_t *out) {
@@ -301,9 +376,10 @@ static void cmdLive(bool bypass) {
                     dbfs(in, nsChunk), dbfs(out, nsChunk),
                     (float)usTotal / frames, budget,
                     ((float)usTotal / frames / 1000.0f) / budget);
-      Serial.printf("        %s  %+5.1f dB over floor  gate %s\n",
-                    gVoiced ? "VOICE" : " --  ", gLastAbove,
-                    gGateG > 0.5f ? "OPEN" : "SHUT");
+      Serial.printf("        %s  gate %s   (%s VAD)\n",
+                    gVoiced ? "VOICE" : " --  ",
+                    gGateG > 0.5f ? "OPEN" : "SHUT",
+                    vadIsNeural ? "neural" : "energy");
       frames = 0; usTotal = 0;
     }
   }
@@ -319,6 +395,7 @@ static void cmdAB() {
   if (!rec || !den) { Serial.println(F("no PSRAM -- enable OPI PSRAM")); return; }
 
   gFloorInit = false; gVoiced = false; gGateG = 0.0f; gHang = 0;
+  gVadSpeech = 0; gVadTotal = 0;
   Serial.printf("A/B: recording %d s -- TALK, then STOP so you can hear the gaps\n", AB_SECS);
   int got = 0; while (got < N) got += micRead(rec + got, nsChunk);
 
@@ -341,6 +418,14 @@ static void cmdAB() {
   /* how much headroom the 10%% output level is actually using */
   int16_t pk = 0; for (int i = 0; i < N; i++) { int16_t a = den[i] < 0 ? -den[i] : den[i];
                                                 if (a > pk) pk = a; }
+  if (gVadTotal) {
+    Serial.printf("A/B: neural VAD called %lu of %lu frames speech (%.0f%%)\n",
+                  (unsigned long)gVadSpeech, (unsigned long)gVadTotal,
+                  100.0f * gVadSpeech / gVadTotal);
+    if (gVadSpeech == 0)
+      Serial.println(F("A/B: NOTHING was called speech -- output is digital silence."
+                       " If you DID talk, lower the threshold with 'v'."));
+  }
   Serial.printf("A/B: peak %d -> %d after the %.0f%% level"
                 "  (%.1f bits of the DAC in use)\n", pk, (int)(pk * gOut), gOut * 100,
                 log2f((float)(pk * gOut) + 1.0f));
@@ -386,7 +471,7 @@ void setup() {
   Serial.printf("PSRAM free %u KB   output level %.0f%%\n",
                 (unsigned)(ESP.getFreePsram() / 1024), gOut * 100);
   Serial.println(F("L live | A A/B | B bypass | M meter"));
-  Serial.println(F("N gate on/off | G/g gate harder/softer | I/i input boost | +/- level"));
+  Serial.println(F("N gate on/off | V/v VAD stricter/easier | I/i input boost | +/- level"));
 }
 
 void loop() {
@@ -402,6 +487,12 @@ void loop() {
     case 'G': gVadOpen += 1.0f; Serial.printf("gate opens above %.0f dB\n", gVadOpen); break;
     case 'g': gVadOpen -= 1.0f; if (gVadOpen < 1.0f) gVadOpen = 1.0f;
               Serial.printf("gate opens above %.0f dB\n", gVadOpen); break;
+    case 'V': if (vadIsNeural) { gVadThr += 0.05f;
+                vadIface->set_det_threshold(vadModel, gVadThr);
+                Serial.printf("VAD threshold %.2f (higher = stricter)\n", gVadThr); } break;
+    case 'v': if (vadIsNeural) { gVadThr -= 0.05f; if (gVadThr < 0.05f) gVadThr = 0.05f;
+                vadIface->set_det_threshold(vadModel, gVadThr);
+                Serial.printf("VAD threshold %.2f (lower = opens easier)\n", gVadThr); } break;
     case 'I': gBoost *= 1.5f; Serial.printf("input boost %.1fx\n", gBoost); break;
     case 'i': gBoost /= 1.5f; Serial.printf("input boost %.1fx\n", gBoost); break;
     case '+': gOut *= 1.4f; if (gOut > 0.25f) gOut = 0.25f;
