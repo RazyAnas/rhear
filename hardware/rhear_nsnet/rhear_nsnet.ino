@@ -119,6 +119,7 @@ static int   gHang = 0;
 static float gVadOpen = 6.0f;
 static float gVadThr  = 0.20f;      /* neural VAD detection threshold */
 static uint32_t gVadSpeech = 0, gVadTotal = 0;
+static bool gVadNet = false;   /* the network's arm, before the AND */
 static float gLastAbove = 0.0f;
 static bool  gGateOn = true;
 
@@ -135,17 +136,38 @@ static void gateApply(int16_t *y, int n, const int16_t *raw) {
    * gate ran instead. Accumulate into a 512-sample window, run the network
    * when it fills, and hold its decision across the frames in between. */
   if (vadIsNeural) {
+    /* BOTH tests must agree before the channel opens.
+     *
+     * Measured on this hardware with nobody speaking: the neural VAD called
+     * 96% of ambient room noise SPEECH, and sweeping its threshold from 0.20
+     * to 0.50 changed that by less than 4 points -- the threshold is simply
+     * not the lever. Meanwhile frame energy separated speech from silence at
+     * d' 5.11 on a real recording. Neither detector is reliable alone here:
+     * the network fires on room activity, and energy cannot tell a shout
+     * from a slammed door. Requiring both is what makes the pair strong. */
     static int16_t vbuf[1024];
     static int vfill = 0;
     for (int i = 0; i < n; i++) {
       vbuf[vfill++] = raw[i];
       if (vfill >= vadChunk) {
         vad_state_t st = vadIface->detect(vadModel, vbuf);
-        gVoiced = (st == VAD_SPEECH);
-        gVadTotal++; if (gVoiced) gVadSpeech++;
+        gVadNet = (st == VAD_SPEECH);
+        gVadTotal++; if (gVadNet) gVadSpeech++;
         vfill = 0;
       }
     }
+    /* energy arm: level against a tracked noise floor */
+    double s2 = 0;
+    for (int i = 0; i < n; i++) { double v = raw[i] / 32768.0; s2 += v * v; }
+    float e = 10.0f * log10f((float)(s2 / n) + 1e-20f);
+    if (!gFloorInit) { gFloor = e; gFloorInit = true; }
+    if (e < gFloor) gFloor += 0.25f  * (e - gFloor);
+    else            gFloor += 0.005f * (e - gFloor);
+    gLastAbove = e - gFloor;
+    bool loud = gLastAbove > gVadOpen;
+    if (gVoiced) gVoiced = gVadNet && (gLastAbove > gVadOpen - 3.0f);
+    else         gVoiced = gVadNet && loud;
+
     if (gVoiced) gHang = 12; else if (gHang > 0) gHang--;
     float w = (gHang > 0) ? 1.0f : 0.0f;
     gGateG += ((w > gGateG) ? 0.50f : 0.10f) * (w - gGateG);
@@ -460,6 +482,59 @@ static void cmdMeter() {
                 100.0f * lz / tot, 100.0f * rails / tot);
 }
 
+
+/* ----------------------------------------------------- gate diagnosis ---- */
+/* Prints what the gate is actually deciding, 31 times a second, for 12 s.
+ * Every previous round of "the gate is not working" was diagnosed by ear,
+ * and by ear you cannot tell "the VAD says speech constantly" from "the VAD
+ * says silence constantly" from "the gate gain is not being applied". This
+ * separates all three: the level, the network's verdict, and the gain that
+ * actually multiplied the samples. */
+static void cmdGateDiag() {
+  Serial.println(F("\ngate diagnosis, 12 s. TALK for a few seconds, then GO QUIET."));
+  Serial.println(F("  level  = input frame level, dBFS"));
+  Serial.println(F("  VAD    = what the neural network decided"));
+  Serial.println(F("  gain   = what actually multiplied the output (0.00 = silent)"));
+  Serial.println(F("--------------------------------------------------------------"));
+  int16_t in[512], out[512];
+  gFloorInit = false; gVoiced = false; gGateG = 0.0f; gHang = 0;
+  gVadSpeech = 0; gVadTotal = 0;
+  uint32_t t0 = millis(); int n = 0, blanked = 0;
+  while (millis() - t0 < 12000) {
+    micRead(in, nsChunk);
+    nsRun(in, out);
+    gateApply(out, nsChunk, in);
+    if (++n % 3) continue;                    /* ~31 lines/s, readable */
+    float lvl = dbfs(in, nsChunk);
+    float o   = dbfs(out, nsChunk);
+    if (gGateG < 0.01f) blanked++;
+    int b = (int)((lvl + 60) / 3); if (b < 0) b = 0; if (b > 18) b = 18;
+    char bar[19]; for (int i = 0; i < 18; i++) bar[i] = i < b ? '#' : '.'; bar[18] = 0;
+    Serial.printf("[%s] %6.1f dB  net %-6s +%4.1f dB over floor  OPEN %-3s"
+                  "  gain %.2f  out %6.1f dB\n",
+                  bar, lvl, gVadNet ? "SPEECH" : "silent", gLastAbove,
+                  gVoiced ? "yes" : "no", gGateG, o);
+  }
+  Serial.println(F("--------------------------------------------------------------"));
+  if (gVadTotal)
+    Serial.printf("neural VAD: %lu of %lu windows were SPEECH (%.0f%%)\n",
+                  (unsigned long)gVadSpeech, (unsigned long)gVadTotal,
+                  100.0f * gVadSpeech / gVadTotal);
+  Serial.printf("gate was fully shut on %.0f%% of the printed frames\n",
+                100.0f * blanked / (n / 3 + 1));
+  Serial.println(F("\nHOW TO READ THIS"));
+  Serial.println(F("  VAD SPEECH the whole time, even when quiet"));
+  Serial.println(F("      -> network is too permissive. Press V (stricter)."));
+  Serial.println(F("  VAD silent the whole time, even when you talk"));
+  Serial.println(F("      -> too strict, or the mic is not being heard."));
+  Serial.println(F("         Press v (easier). If the level bar never moves"));
+  Serial.println(F("         when you speak, the problem is the MIC, not the gate."));
+  Serial.println(F("  VAD tracks you correctly but gain never reaches 0.00"));
+  Serial.println(F("      -> the gate logic is broken; tell me and I will fix it."));
+  Serial.printf("  current VAD threshold %.2f   suppressor %s\n",
+                gVadThr, nsIsNeural ? "NSNET" : "ns_pro");
+}
+
 void setup() {
   Serial.begin(2000000);
   delay(1200);
@@ -470,7 +545,7 @@ void setup() {
   nsInit();
   Serial.printf("PSRAM free %u KB   output level %.0f%%\n",
                 (unsigned)(ESP.getFreePsram() / 1024), gOut * 100);
-  Serial.println(F("L live | A A/B | B bypass | M meter"));
+  Serial.println(F("D DIAGNOSE GATE  <- run this first | L live | A A/B | B bypass | M meter"));
   Serial.println(F("N gate on/off | V/v VAD stricter/easier | I/i input boost | +/- level"));
 }
 
@@ -483,6 +558,7 @@ void loop() {
     case 'B': cmdLive(true);  break;
     case 'A': cmdAB(); break;
     case 'M': cmdMeter(); break;
+    case 'D': cmdGateDiag(); break;
     case 'N': gGateOn = !gGateOn; Serial.printf("gate %s\n", gGateOn?"ON":"off"); break;
     case 'G': gVadOpen += 1.0f; Serial.printf("gate opens above %.0f dB\n", gVadOpen); break;
     case 'g': gVadOpen -= 1.0f; if (gVadOpen < 1.0f) gVadOpen = 1.0f;
@@ -498,8 +574,12 @@ void loop() {
     case '+': gOut *= 1.4f; if (gOut > 0.25f) gOut = 0.25f;
               Serial.printf("level %.0f%%\n", gOut * 100); break;
     case '-': gOut /= 1.4f; Serial.printf("level %.0f%%\n", gOut * 100); break;
-    case '?': Serial.printf("engine %s  chunk %d  level %.0f%%\n",
-                            nsIsNeural ? "NSNET" : "ns_pro", nsChunk, gOut * 100); break;
+    case '?': Serial.printf("suppressor %s (%s)   VAD %s   chunk %d   level %.0f%%"
+                            "   gate %s\n",
+                            nsIsNeural ? "NSNET" : "ns_pro",
+                            nsIsNeural ? "neural" : "classical",
+                            vadIsNeural ? "NEURAL vadnet1_medium" : "energy",
+                            nsChunk, gOut * 100, gGateOn ? "on" : "off"); break;
     default: break;
   }
 }
