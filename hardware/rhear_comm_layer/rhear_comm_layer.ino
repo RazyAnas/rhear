@@ -241,7 +241,7 @@ static void cmdLive(bool enhance) {
   static float win_[L1_NFFT], outf[L1_HOP];
   static int fill = 0;
   if (enhance) { l1_init(); aleReset(); memset(win_, 0, sizeof win_); fill = 0;
-                 gSpk = -30.0f; gGateG = 1.0f; gHang = 0; }
+                 gGateG = 0.0f; gHang = 0; gFloorInit = false; gVoiced = false; }
   static float liveGain = 1.0f;
   while (!Serial.available()) {
     int n = micRead(buf, CHUNK);
@@ -269,8 +269,17 @@ static void cmdLive(bool enhance) {
       if (v > 0.99f) v = 0.99f; if (v < -0.99f) v = -0.99f;
       eo[i] = (int16_t)(v * 32000.0f);
     }
-    gateStream(eo, L1_HOP);
+    gateStream(eo, L1_HOP, buf);
     ampPlay(eo, L1_HOP);
+    /* show the gate decision ~4x a second so the threshold can be tuned by
+     * ear against what the gate actually thinks it is hearing */
+    static int tick = 0;
+    if (++tick >= 16) {
+      tick = 0;
+      Serial.printf("%s  %+5.1f dB over floor (%.0f dBFS)  open>%.0f close<%.0f\n",
+                    gVoiced ? "VOICE" : "  --  ", gLastAbove, gFloor,
+                    gVadOpen, gVadClose);
+    }
   }
   while (Serial.available()) Serial.read();
   Serial.println(F("stopped"));
@@ -408,7 +417,7 @@ void setup() {
   Serial.printf("mic %d Hz -> amp %d Hz (x%d)   output level %.0f%%\n",
                 FS_MIC, FS_AMP, UPS, gOut * 100);
   Serial.println(F("M meter | L live raw | E live DSP | A A/B on-device | N A/B neural via host"));
-  Serial.println(F("R record10 | T tone | F FxNLMS on/off | +/- level | ? status"));
+  Serial.println(F("R record10 | T tone | F FxNLMS | G/g gate harder/softer | +/- level"));
 }
 
 void loop() {
@@ -422,6 +431,11 @@ void loop() {
     case 'A': cmdAB(); break;
     case 'N': cmdNeural(); break;
     case 'M': cmdMeter(); break;
+    case 'G': gVadOpen += 1.0f; gVadClose = gVadOpen - 3.0f;
+              Serial.printf("gate opens above %.0f dB over floor\n", gVadOpen); break;
+    case 'g': gVadOpen -= 1.0f; if (gVadOpen < 1.0f) gVadOpen = 1.0f;
+              gVadClose = gVadOpen - 3.0f;
+              Serial.printf("gate opens above %.0f dB over floor\n", gVadOpen); break;
     case 'F': gAleOn = !gAleOn; aleReset();
               Serial.printf("FxNLMS line enhancer %s\n", gAleOn ? "ON" : "off"); break;
     case 'T': cmdTone(); break;

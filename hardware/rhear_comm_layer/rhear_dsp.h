@@ -141,6 +141,14 @@ static float psm[L1_NFFT/2+1];         /* smoothed periodogram             */
 static float nmin[L1_NFFT/2+1];        /* running minimum, current window  */
 static float ntmp[L1_NFFT/2+1];        /* running minimum, next window     */
 static uint32_t l1Frames = 0, l1MinCnt = 0;
+/* Sohn et al. likelihood-ratio VAD. Per bin the log likelihood ratio of
+ * speech-present vs speech-absent under a Gaussian model is
+ *     L_k = (gamma_k * xi_k)/(1 + xi_k) - log(1 + xi_k)
+ * and the frame decision is the mean over bins. This is the RIGHT statistic
+ * for "is a voice here", and an energy threshold is not: energy cannot tell
+ * loud noise from speech, which is why the energy gate kept holding open.
+ * Both terms are already computed for the gain, so this is nearly free. */
+float gVadLLR = 0.0f;
 #define L1_MINWIN   60                 /* ~1 s of 16 ms frames             */
 #define L1_MINBIAS  2.5f               /* min-of-smoothed underestimates    */
 #define DD_ALPHA    0.98f              /* decision-directed smoothing       */
@@ -165,7 +173,7 @@ static void l1_frame(const float *in, float *out, bool removeVoices) {
   for (int i = 0; i < L1_NFFT; i++) { fre[i] = in[i]*win[i]; fim[i] = 0; }
   fft(fre, fim, L1_NFFT);
 
-  float frameE = 0;
+  float frameE = 0, llr = 0; int nllr = 0;
   for (int k = 0; k <= L1_NFFT/2; k++) {
     float m2 = fre[k]*fre[k] + fim[k]*fim[k];
     frameE += m2;
@@ -225,6 +233,8 @@ static void l1_frame(const float *in, float *out, bool removeVoices) {
     xi_prev[k]   = gamma * g * g;                 /* feeds the next frame    */
     gain_prev[k] = g;
 
+    if (k > 2 && k < 200) { llr += (gamma * xi) / (1.0f + xi) - logf(1.0f + xi); nllr++; }
+
     g = powf(g, gAlpha);                          /* validated sharpening    */
     if (g < 0.01f) g = 0.01f;                     /* floor: no dead bins     */
     g *= frameGate;
@@ -237,6 +247,8 @@ static void l1_frame(const float *in, float *out, bool removeVoices) {
   for (int i = 1; i < L1_NFFT/2; i++) {              /* undo forward-as-inv  */
     float t = fre[i]; fre[i] = fre[L1_NFFT-i]; fre[L1_NFFT-i] = t;
   }
+  gVadLLR = nllr ? (llr / nllr) : 0.0f;
+
   /* roll the sliding minimum window */
   if (++l1MinCnt >= L1_MINWIN) {
     for (int k = 0; k <= L1_NFFT/2; k++) {

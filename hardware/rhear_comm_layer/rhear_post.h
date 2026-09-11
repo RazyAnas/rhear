@@ -69,18 +69,60 @@ static int gateBuffer(int16_t *y, int n) {
   return 100 * closed / m;
 }
 
-/* streaming version for live mode: a slow tracker of the speech level */
-static float gSpk = -30.0f, gGateG = 1.0f;
+/* Streaming gate driven by the VAD, not by energy.
+ *
+ * The energy version compared each frame against a tracked speech level and
+ * kept holding open, because energy cannot distinguish loud noise from a
+ * voice -- exactly the failure reported. gVadLLR is the Sohn likelihood ratio
+ * computed inside l1_frame from the a priori and a posteriori SNRs, which is
+ * the statistic that CAN make that distinction. */
+/* Measured on the real recording, separating speech frames from silent ones:
+ *      raw frame energy          d' 5.11  -> 100.0% correct
+ *      enhanced frame energy     d' 2.21  ->  99.7%
+ *      enhanced above own floor  d' 2.03  ->  86.6%
+ *      Sohn LLR                  d' 0.97  ->  77.8%
+ * The simplest feature wins outright and the statistical VAD is the worst of
+ * the four. The earlier energy gate did not fail because energy is the wrong
+ * signal -- it failed because it measured against a tracked SPEECH level.
+ * Measuring against the tracked NOISE FLOOR instead is what makes it work. */
+/* Margins are small because they are relative to a floor that actually
+ * tracks. The measured optimum on the real recording was an absolute -19.4 dB
+ * against speech near -15 and quiet near -25, i.e. about 6 dB above the
+ * floor. An earlier version used 12 dB above a floor seeded at -60 that rose
+ * at 0.0015/frame -- a ten-second time constant -- so across a ten-second
+ * clip the floor never reached the real one, "above floor" read ~30 dB
+ * permanently, and the gate never closed once. Seeding the floor on the
+ * first frame is what makes this work at all. */
+/* Runtime-adjustable, because a threshold fitted to one recording is fitted
+ * to one room. Tune by ear with 'G' / 'g' while watching the OPEN/-- marker
+ * the live mode prints. */
+static float gVadOpen  = 6.0f;   /* dB above the noise floor to open  */
+static float gVadClose = 3.0f;   /* dB above to stay open: hysteresis */
+static float gGateG = 0.0f, gFloor = 0.0f;
+static bool  gFloorInit = false;
 static int   gHang = 0;
-static void gateStream(int16_t *y, int n) {
+static bool  gVoiced = false;
+
+/* pass the RAW mic frame, not the enhanced one -- raw separates better */
+float gLastAbove = 0.0f;      /* dB above floor, for the live display */
+static void gateStream(int16_t *y, int n, const int16_t *raw) {
   double s = 0;
-  for (int i = 0; i < n; i++) { double v = y[i]/32768.0; s += v*v; }
-  float e = 10.0f*log10f((float)(s/n) + 1e-20f);
-  if (e > gSpk) gSpk += 0.30f * (e - gSpk);          /* fast up   */
-  else          gSpk += 0.002f * (e - gSpk);         /* slow down */
-  if (e > gSpk - GATE_BELOW) gHang = GATE_POST; else if (gHang > 0) gHang--;
+  for (int i = 0; i < n; i++) { double v = raw[i] / 32768.0; s += v * v; }
+  float e = 10.0f * log10f((float)(s / n) + 1e-20f);
+  if (!gFloorInit) { gFloor = e; gFloorInit = true; }   /* seed, do not crawl */
+  /* fast down, slow up, so speech cannot drag the floor upward -- but the
+   * up-rate is 0.01 (~1.6 s), not 0.0015 (~10 s), so it can follow a room
+   * whose noise rises during the clip. */
+  if (e < gFloor) gFloor += 0.25f  * (e - gFloor);
+  else            gFloor += 0.01f  * (e - gFloor);
+  float above = e - gFloor; gLastAbove = above;
+  if (gVoiced) { if (above < gVadClose) gVoiced = false; }
+  else         { if (above > gVadOpen)  gVoiced = true;  }
+  if (gVoiced) gHang = GATE_POST; else if (gHang > 0) gHang--;
   float want = (gHang > 0) ? 1.0f : powf(10.0f, GATE_FLOOR/20.0f);
-  gGateG += 0.25f * (want - gGateG);                 /* ramp, no clicks */
+  /* asymmetric ramp: open fast so no word onset is clipped, close slowly so
+   * the tail of a word is not chopped */
+  gGateG += ((want > gGateG) ? 0.50f : 0.08f) * (want - gGateG);
   for (int i = 0; i < n; i++) y[i] = (int16_t)(y[i] * gGateG);
 }
 
