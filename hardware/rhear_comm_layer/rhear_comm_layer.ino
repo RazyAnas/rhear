@@ -150,6 +150,73 @@ static float dbfs(const int16_t *x, int n) {
   return 10.0f * log10f((float)(s / (n ? n : 1)) + 1e-12f);
 }
 
+
+/* --------------------------------------------- makeup and measurement */
+/* A note on something that was tried and MEASURED WORSE, so it is not here:
+ * priming the minimum-statistics tracker on ~1.5 s of ambient before
+ * recording. The reasoning was that the tracker needs L1_MINWIN frames to
+ * converge, so starting on speech teaches it the wrong floor. Tested on a
+ * real recording, same speech both ways: no priming gave +6.4 dB of
+ * speech-to-background improvement, priming gave +1.1 dB. Priming locks the
+ * sliding-window minimum to a floor lower than the clip's actual noise, and
+ * the window only lifts it every L1_MINWIN frames, so the gain sits near
+ * unity and nothing is suppressed. The in-clip adaptation is better.
+ * See hosttest/prime_test.c. */
+
+/* speech-matched makeup: scale so the LOUD frames of the output sit at the
+ * same level as the loud frames of the input. A fixed multiplier (the old
+ * x4) clips peaks on a loud talker, and hard clipping is heard as noise --
+ * which is what made the enhanced side of the A/B sound dirty. */
+static float speechMakeup(const int16_t *a, const int16_t *b, int n) {
+  const int F = 320; int m = n / F;
+  if (m < 4) return 1.0f;
+  static float ea[512], eb[512];
+  if (m > 512) m = 512;
+  for (int i = 0; i < m; i++) {
+    double sa = 0, sb = 0;
+    for (int j = 0; j < F; j++) {
+      double va = a[i*F+j] / 32768.0, vb = b[i*F+j] / 32768.0;
+      sa += va*va; sb += vb*vb;
+    }
+    ea[i] = (float)(sa / F); eb[i] = (float)(sb / F);
+  }
+  float thr = 0;                                  /* 70th percentile of input */
+  for (int q = 0; q < m; q++) { int c = 0;
+    for (int i = 0; i < m; i++) if (ea[i] <= ea[q]) c++;
+    if (c * 100 >= m * 70) { thr = ea[q]; break; } }
+  double sa = 0, sb = 0; int cnt = 0;
+  for (int i = 0; i < m; i++) if (ea[i] >= thr) { sa += ea[i]; sb += eb[i]; cnt++; }
+  if (!cnt || sb <= 0) return 1.0f;
+  float g = (float)sqrt(sa / sb);
+  if (g > 16.0f) g = 16.0f;
+  return g;
+}
+
+/* on-device measurement of what the enhancer actually did */
+static void reportGap(const int16_t *a, const int16_t *b, int n) {
+  const int F = 320; int m = n / F; if (m > 512) m = 512;
+  static float ea[512], eb[512];
+  for (int i = 0; i < m; i++) {
+    double sa = 0, sb = 0;
+    for (int j = 0; j < F; j++) { double va=a[i*F+j]/32768.0, vb=b[i*F+j]/32768.0;
+                                  sa += va*va; sb += vb*vb; }
+    ea[i] = (float)(sa/F); eb[i] = (float)(sb/F);
+  }
+  float hi = 0, lo = 1e30f;
+  for (int i = 0; i < m; i++) { if (ea[i] > hi) hi = ea[i]; if (ea[i] < lo) lo = ea[i]; }
+  float tHi = lo + 0.30f*(hi-lo), tLo = lo + 0.05f*(hi-lo);
+  double as=0, ab=0, bs=0, bb=0; int cs=0, cb=0;
+  for (int i = 0; i < m; i++) {
+    if (ea[i] >= tHi) { as += ea[i]; bs += eb[i]; cs++; }
+    if (ea[i] <= tLo) { ab += ea[i]; bb += eb[i]; cb++; }
+  }
+  if (!cs || !cb) { Serial.println(F("gap: not enough contrast to measure")); return; }
+  float rawGap = 10*log10f((float)((as/cs)/(ab/cb+1e-20)));
+  float enhGap = 10*log10f((float)((bs/cs)/(bb/cb+1e-20)));
+  Serial.printf("gap: raw %.1f dB -> enhanced %.1f dB   (improvement %+.1f dB)\n",
+                rawGap, enhGap, enhGap - rawGap);
+}
+
 /* ----------------------------------------------------------------- modes */
 static void cmdRecord() {
   Serial.println(F("REC10"));           /* host sync marker */
@@ -171,6 +238,7 @@ static void cmdLive(bool enhance) {
   static float win_[L1_NFFT], outf[L1_HOP];
   static int fill = 0;
   if (enhance) { l1_init(); memset(win_, 0, sizeof win_); fill = 0; }
+  static float liveGain = 1.0f;
   while (!Serial.available()) {
     int n = micRead(buf, CHUNK);
     if (!enhance) { ampPlay(buf, n); continue; }
@@ -179,9 +247,21 @@ static void cmdLive(bool enhance) {
     for (int i = 0; i < n && i < L1_HOP; i++)
       win_[L1_NFFT - L1_HOP + i] = buf[i] / 32768.0f;
     l1_frame(win_, outf, false);
+    /* slow AGC rather than a fixed multiplier: track the ratio of input to
+     * output energy on loud frames only, so quiet frames cannot wind the gain
+     * up into the noise. */
     static int16_t eo[L1_HOP];
+    double ein = 0, eout = 0;
     for (int i = 0; i < L1_HOP; i++) {
-      float v = outf[i] * 4.0f;                 /* makeup for the mask */
+      double a = buf[i] / 32768.0; ein += a * a; eout += outf[i] * outf[i];
+    }
+    if (ein / L1_HOP > 1e-5 && eout > 1e-12) {
+      float want = (float)sqrt(ein / eout);
+      if (want > 16.0f) want = 16.0f;
+      liveGain += 0.05f * (want - liveGain);    /* ~0.3 s time constant */
+    }
+    for (int i = 0; i < L1_HOP; i++) {
+      float v = outf[i] * liveGain;
       if (v > 0.99f) v = 0.99f; if (v < -0.99f) v = -0.99f;
       eo[i] = (int16_t)(v * 32000.0f);
     }
@@ -212,15 +292,24 @@ static void cmdAB() {
     for (int i = 0; i < L1_NFFT; i++) fin[i] = rec[h * L1_HOP + i] / 32768.0f;
     l1_frame(fin, fout, false);
     for (int i = 0; i < L1_HOP; i++) {
-      float v = fout[i] * 4.0f;
+      float v = fout[i];
       if (v > 0.99f) v = 0.99f; if (v < -0.99f) v = -0.99f;
       enh[h * L1_HOP + i] = (int16_t)(v * 32000.0f);
     }
   }
+  float mk = speechMakeup(rec, enh, N);       /* match loud frames, do not clip */
+  for (int i = 0; i < N; i++) {
+    float v = enh[i] * mk;
+    if (v >  32000.0f) v =  32000.0f;
+    if (v < -32000.0f) v = -32000.0f;
+    enh[i] = (int16_t)v;
+  }
+  Serial.printf("A/B: speech-matched makeup %.2fx\n", mk);
   uint32_t ms = millis() - t0;
   Serial.printf("A/B: %d frames in %lu ms = %.2f ms/frame, RTF %.3f of the 16 ms budget\n",
                 hops, (unsigned long)ms, (float)ms / hops, ((float)ms / hops) / 16.0f);
   Serial.printf("A/B: raw %.1f dBFS   enhanced %.1f dBFS\n", dbfs(rec, N), dbfs(enh, N));
+  reportGap(rec, enh, N);
 
   Serial.println(F("A/B: playing RAW"));      ampPlay(rec, N);
   delay(600);
