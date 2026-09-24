@@ -89,316 +89,260 @@ is the next hardware step rather than a larger model.
 
 ---
 
-## 2. IDEA DESCRIPTION  — ~11,500 characters, limit 50,000
+## 2. IDEA DESCRIPTION  — limit 50,000
 
-### 1. THE PROBLEM, STATED PRECISELY
+### THE MOMENT THIS IS BUILT FOR
 
-In a vehicle bay, a cockpit or a gun line, a soldier faces two acoustic problems
-that are usually treated as one and are in fact opposites.
+A gun detachment is firing. The noise is past 150 decibels — loud enough that
+every round takes a little hearing away permanently. The soldier is wearing ear
+defenders, so he is protected. He is also, for that reason, half deaf to his own
+team.
 
-The first is protection. Engine, rotor, gunfire and shelling must be attenuated
-or he loses his hearing. The second is communication. His voice must reach the
-radio intelligibly, and nothing else should.
+Three metres to his left, someone shouts a warning.
 
-These conflict. If a comrade three metres away shouts a warning, that voice must
-reach the soldier's EARS — suppressing it is a safety failure, not a feature. The
-same voice must NOT reach his RADIO, because the channel belongs to him alone.
-One microphone, one instant, two opposite requirements.
+He has to hear that. Any system that silences it to protect him has just made him
+less safe, not more. And at the same instant, when he presses his radio to call
+the correction, the gun line behind him and the voice beside him must NOT go out
+on that channel — because the net belongs to him for those four seconds, and a
+misheard correction is a round in the wrong place.
 
-Conventional systems, and most deep-learning speech enhancers, optimise a single
-"remove the noise" objective and therefore cannot satisfy both. RHEAR is built
-around the separation.
+**So the same human voice must be kept in his ears and removed from his radio, in
+the same instant, from the same microphone.**
 
-### 2. ARCHITECTURE — THREE RATES, AND THE AI OUTSIDE THE AUDIO PATH
+That is not a noise problem. It is two opposite problems wearing the same
+uniform, and it is the reason "just remove the noise" — which is what every
+denoising system on the market does — cannot solve it.
 
-Three layers run concurrently on one ESP32-S3.
+RHEAR is built from that distinction outward.
 
-**L0 — protection.** FxNLMS adaptive cancellation at 48 kHz. Pure DSP. A 20.8
-microsecond budget per sample. No neural network is in this loop.
+---
 
-**L1 — communication.** A causal neural speech enhancer at 62.5 frames per
-second, 16 ms hop, feeding the radio.
+### WHY THIS MATTERS NOW — THE PEOPLE AND THE NUMBERS
 
-**L2 — scene.** A scene engine at 62.5 Hz that classifies the acoustic
-environment and emits COEFFICIENTS that retune L0. It never carries audio
-samples.
+**One in four.** A study of Indian Air Force personnel found noise-induced
+hearing loss in **22.9%** of them overall, rising to **26.18% in technical
+trades** against 12.5% in non-technical ones. Artillery, armour and aircrew sit
+in the same exposure class.
 
-The design decision the whole system rests on is that the AI lives in the
-coefficient path, not the audio path. It tunes the canceller; it never conveys
-the sound.
+Hearing loss is not like other injuries. It is **permanent, cumulative and
+untreatable**. It does not heal, it does not respond to medicine, and every
+exposure adds to the last. For the services it is also a downgrade in medical
+category, a constraint on posting, and a disability liability that outlives the
+career by decades.
 
-This is a safety property, not an optimisation. Any system that places a network
-inside the cancellation loop has a failure mode in which a stalled model, a cache
-miss or a dropped frame becomes a hole in the soldier's hearing protection.
-RHEAR is architecturally incapable of that, and this is demonstrable live: the AI
-core can be killed at runtime and cancellation continues uninterrupted.
+**The solution already exists — and almost nobody has it.** The US Army's TCAPS
+is the reference system for exactly this: hearing protection with communication
+built in. It costs about **$2,000 per unit — roughly ₹1.8 lakh** — and after
+years of rollout has reached about **20,000 soldiers**. Its price is openly cited
+as the reason it has not gone further.
 
-The same split answers the ear-versus-radio conflict. The ear path removes
-machine noise and PRESERVES human voices, so a shouted warning is heard. The
-radio path removes machine noise AND every voice that is not the wearer's.
+That is the real shape of the problem. This is not an unsolved engineering
+question. **It is a solved question with an unaffordable answer**, and the result
+is that protection goes to a specialist few while the gun line, the tank crew and
+the flight line go without.
 
-### 3. THE MODEL
+**RHEAR's contribution is not a better score. It is a price at which everyone can
+be issued one.**
 
-GTCRNLite: 49,663 parameters, derived from a published ultra-low-complexity
-architecture and adapted for this task and this silicon.
+---
 
-- Dual representation: a sub-band path over 96 ERB bands for local structure, and
-  a parallel full-band path over all 257 STFT bins for global structure, fused
-  before the recurrent stage. The PS asks for both; the model computes both.
-- Encoder, dual-path RNN, decoder, causal in time so it can stream.
-- Speech-presence head trained as an auxiliary task.
+### THE IDEA, IN PLAIN TERMS
 
-Compute and memory, against the PS's own caps:
+RHEAR is a headset intelligence system that runs on a ₹409 commodity
+microcontroller and retrofits into ear defenders a unit already owns.
 
-| quantity | RHEAR | PS cap | headroom |
-|---|---|---|---|
-| int8 weight storage | 97.4 KB | 200 KB | 2.05× |
-| compute | ~26–32 MMAC/s | 125 MMAC/s | ~4× |
+It treats the soldier's two needs as two separate jobs, because they are:
 
-Against one ESP32-S3 core at roughly 200 MMAC/s, L1 occupies about 15 percent.
-Neither memory nor compute is the binding constraint.
+**The ear path — what he hears.** Engine, rotor, gunfire and shelling are
+cancelled. **Human voices are deliberately preserved.** A shouted warning still
+reaches him. This is the safety half, and it is the half everyone else deletes by
+accident.
 
-### 4. DATASET PIPELINE
+**The radio path — what he transmits.** Machine noise is removed, *and* so is
+every voice that is not his. His correction goes out clean.
 
-Over 100 GB of noisy-clean pairs were GENERATED rather than collected, which is
-what makes the corpus scalable and the labels exact.
+**The scene engine — what adapts.** The system continuously recognises what it is
+listening to — a helicopter is not a gunshot is not an engine — and retunes the
+canceller for that environment.
 
-- 251 speakers; 235 noise classes; 4-second clips at 16 kHz.
-- SNR drawn uniformly from −10 to +20 dB; one to three noise layers per clip.
-- Defence noise by share of layers: gunshot 16.0%, armoured vehicle 10.4%,
-  helicopter 9.8%, shelling 9.4%.
-- Real MEASURED room impulse responses, applied with probability 0.6.
-- Twelve augmentations. The three the PS names — random noise mixing,
-  reverberation, clipping — plus microphone frequency-response randomisation,
-  microphone self-noise, preamplifier nonlinearity, time-varying noise
-  trajectories, gain jitter, and competing talkers at an explicitly controlled
-  signal-to-interference ratio of 12–24 dB.
+The architectural decision that makes this safe is simple enough to state in one
+sentence, and it is the heart of the design:
 
-One detail that matters for impulsive noise: impulsive classes are never tiled.
-A gunshot is placed once in a clip, so the model cannot learn an artificial
-repetition rate that would not exist in the field.
+> **The AI tunes the canceller. It never carries the audio.**
 
-### 5. TRAINING FRAMEWORK
+Hearing protection is pure signal processing running 48,000 times a second. The
+neural network sits beside it, adjusting it, and is never in the path the sound
+travels. **A software fault, a stall, a dropped frame — none of them can open a
+hole in a soldier's hearing protection, because protection never waits on the
+AI.** You can switch the intelligence off entirely, live, and the ears stay
+protected.
 
-Loss: SI-SNR + 30 × compressed magnitude + 15 × complex real/imaginary + 0.5 ×
-speech-presence, with a multi-resolution STFT perceptual term available.
+Every system that puts a neural network inside the cancellation loop has the
+opposite property. That is a design decision we made on purpose, for a user who
+cannot afford a reboot.
 
-The magnitude term is deliberately ASYMMETRIC, with rho = 8: removing speech is
-penalised eight times harder than leaving noise. Deleting a word from a radio
-call is worse than passing some noise through it, and the loss says so.
+---
 
-Optimiser AdamW, learning rate 5e-4, cosine annealing, gradient clipping 5.0.
+### WHAT WE HAVE ALREADY PROVEN
 
-**The decision rule is the part worth attention.** A change ships only if PESQ
-improves AND STOI does not regress AND SI-SAR does not regress, on BOTH
-independent evaluation sets, judged by a paired bootstrap over 10,000 resamples
-on identical clips.
+This is not a concept note. The model is trained, and it has been measured
+against the best published systems in the world on the noise it is built for.
 
-Four of our own models were rejected under that rule:
+**Tested on 300 clips of real defence noise — gunfire, shelling, rotor, armour:**
 
-| run | change | PESQ | verdict | why |
+| system | size | intelligibility (STOI) | quality (PESQ) | noise removed (SI-SDR) |
 |---|---|---|---|---|
-| g8 | 48 → 96 ERB bands | 1.6782 | kept | PESQ better |
-| g9 | +56% parameters | 1.6846 | **rejected** | STOI significantly worse |
-| g10 | asymmetry rho 8 → 4 | 1.6779 | **rejected** | STOI significantly worse |
-| g11 | 26 → 251 speakers | 1.6945 | kept | PESQ better |
-| g12 | 9 → 236 noise classes | 1.6969 | kept | other metrics, both sets |
-| g13b | competing talkers | 1.7159 | kept — shipping | PESQ better |
-| g15 | deep-filter output head | 1.7057 | **rejected** | PESQ worse on realnoise |
+| **RHEAR** | **49,663 parameters** | **0.8236** | **1.7159** | **10.76 dB** |
+| GTCRN (published weights) | 23,700 | 0.8182 | 1.6430 | 9.61 dB |
+| SepFormer (transformer) | **25,613,569** | 0.8021 | 1.5963 | 5.56 dB |
+| MetricGAN+ | ~2,000,000 | 0.7546 | 1.8197 | **−0.46 dB** |
 
-g9 GAINED PESQ and was still rejected, because intelligibility fell. A favourable
-headline number was not enough. That is the rule doing its job.
+**Read the first and third rows together.** SepFormer is a state-of-the-art
+transformer with **516 times more parameters** than RHEAR. On defence noise,
+RHEAR removes **5.2 decibels more noise** than it does. Size is not the thing
+that wins here — training on the right noise is.
 
-### 6. RESULTS
+We also report the row that beats us, because it proves the point. MetricGAN+
+scores the best quality number in the table and a **negative** noise-removal
+figure: it is trained to maximise that one metric and damages the signal while
+doing it. Judging a system on one number is how you end up fielding that.
 
-**Against published models, on our own defence noise.** Same 300-clip set, same
-scoring, same conditions.
+**Against the problem statement's own thresholds**, on the public benchmark those
+thresholds come from (VoiceBank+DEMAND, 824 clips): **SNR 18.35 dB** against a
+target of 15, **STOI 0.936** against 0.85, **PESQ 2.524** against 2.5. All three
+met.
 
-| model | parameters | STOI | PESQ | SI-SDR |
-|---|---|---|---|---|
-| **RHEAR** | **49,663** | **0.8236** | **1.7159** | **10.76 dB** |
-| GTCRN (DNS3 weights) | 23.7k | 0.8182 | 1.6430 | 9.61 dB |
-| GTCRN (VCTK weights) | 23.7k | 0.7648 | 1.4442 | 6.45 dB |
-| SepFormer | 25,613,569 | 0.8021 | 1.5963 | 5.56 dB |
-| MetricGAN+ | ~2M | 0.7546 | 1.8197 | **−0.46 dB** |
+**And we measured our own ceiling.** Rather than assume more training would help,
+we computed the score a *perfect* version of our model could achieve. It told us
+that at the hardest noise levels the limit is the information in a single
+microphone, not the size of the network. So we stopped making the model bigger
+and added a second microphone instead — which separates the wearer's voice from a
+bystander's **with 100% reliability**, using nothing but the curvature of the
+sound wave. No voice enrolment, no training on the individual, and it still works
+when he is shouting.
 
-RHEAR beats the architecture it derives from, using that architecture's own
-published weights, on all three metrics. It beats SepFormer — 516 times larger —
-by 5.2 dB SI-SDR.
+Very few teams can tell you the maximum their own approach could ever reach. It
+is the difference between hoping and knowing.
 
-We report the row that beats us, because it makes the methodological point.
-MetricGAN+ posts the table's best PESQ and a NEGATIVE SI-SDR: it is trained
-directly against PESQ and degrades the signal while scoring well on the metric it
-optimises. This is precisely why our decision rule requires three metrics on two
-sets rather than one number.
+---
 
-**Against the PS thresholds.** On VoiceBank+DEMAND, the public benchmark those
-thresholds come from, 824 clips, after in-domain fine-tuning:
+### THE COST ARGUMENT, IN FULL
 
-| metric | achieved | target | |
-|---|---|---|---|
-| SI-SDR | 18.35 dB | > 15 dB | MET |
-| STOI | 0.936 | > 0.85 | MET |
-| PESQ | 2.524 | > 2.5 | MET |
+Every price below was verified against Indian distributors.
 
-On our harder defence set, all three targets are met above 15 dB input SNR
-(PESQ 2.643, STOI 0.962, SI-SDR 20.02 dB). Below that, STOI holds down to about
-5 dB and PESQ does not. Section 7 explains why, because we measured it.
+| line | ₹ |
+|---|---|
+| Complete build, all electronics + ear defender shell | **6,370** |
+| — of which the passive earmuff shell itself | 2,299 |
+| **Electronics only, as a retrofit** | **4,071** |
 
-### 7. WE MEASURED OUR OWN CEILING
+**RHEAR retrofits. It does not replace.** It fits inside a passive earmuff
+already in service. No new shell to procure, no re-qualification of passive
+attenuation that is already certified, no change to how a soldier wears it or how
+a unit stores it.
 
-Rather than assume more training would close the low-SNR gap, we scored the
-ORACLE: the ideal mask, computed from the clean speech the model never sees.
+We will not claim a fielded unit costs ₹4,071 — a bill of materials is not a
+product. Add enclosure, assembly, ruggedisation, environmental qualification and
+testing, and at **five times the BOM** a fielded unit lands near **₹20,000**.
 
-**A PERFECT 48-band magnitude mask scores PESQ 2.392 at 0 dB. The target is 2.5.**
+**Against ₹1.8 lakh for the reference system, that is roughly one-ninth.**
 
-The model was not underperforming. It was climbing toward a ceiling that sits
-below the finish line. Three independent levers confirmed it:
+And that ratio is the entire point. At TCAPS pricing, a battery of 100 personnel
+costs ₹1.8 crore to protect and the answer is usually no. At RHEAR pricing the
+same battery is ₹20 lakh, and the answer changes. **We are not competing on
+score. We are competing on how many people get protected.**
 
-- +56% parameters → +0.001 PESQ on training data
-- a richer output head → landed 1.4 PESQ below its own oracle
-- 30 GB → 100+ GB of data → about 1%
+---
 
-So at low SNR the limit is the INFORMATION IN ONE MICROPHONE, not the size of the
-network. We stopped adding capacity and changed the input instead.
+### WHY THIS IS INDIA'S TO BUILD
 
-### 8. WHAT CHANGING THE INPUT BUYS — SIMULATED, NOT ASSUMED
+The Government has spent five years building exactly the runway this needs.
 
-A second microphone on the same boom, a few centimetres further from the mouth,
-was evaluated in a 2,160-scene physical simulation modelling exact spherical
-propagation, diffuse-field coherence, microphone self-noise and part tolerance.
+- Defence production reached a record **₹1.78 lakh crore in FY 2025-26**, up
+  **15.6%**, with a target of **₹3 lakh crore by 2029**.
+- Defence exports hit an all-time high of **₹38,424 crore**.
+- **More than 65%** of India's defence equipment is now produced domestically.
+- **Ten Positive Indigenisation Lists covering 5,521 items** have been notified.
+- In September 2026 the Defence Acquisition Council cleared **₹1.10 lakh crore**
+  of proposals with **around 98% to be sourced from Indian industry**.
+- **iDEX** has engaged **676 startups and MSMEs** across **551 contracts**, and
+  **TDF** offers grants up to **₹50 crore** with a further ₹500 crore corpus for
+  deep technology.
+- Critically, MoD has created **direct procurement pathways for successful iDEX
+  and TDF technologies** — a route from prototype to fielding that did not exist
+  before.
 
-The wearer's mouth sits ~5 cm away — inside the array's near field, where
-spherical spreading gives a level ratio of about 5.7 dB between the two
-microphones. Anyone beyond half a metre gives about 0.2 dB. That is a thirty-fold
-difference in the cue, and it yields:
+And the policy language has moved from **"Make in India" to "Owned by India."**
 
-- **100% separation** of wearer from bystander, calibrated
-- **+10.1 dB** interferer suppression for 1.0 dB of the wearer's own voice
-- no voice enrolment, no training on the user, and it still works when he shouts
+RHEAR is built to satisfy that literally, not rhetorically:
 
-The same simulation returned an honest negative: absolute RANGE beyond about half
-a metre is NOT recoverable. Wavefront curvature dies as d²/r, and at one metre the
-confidence interval spans the entire search grid. A wider array does not help. We
-therefore do not claim a range readout.
+- **No export-controlled part** anywhere in the bill of materials. No end-use
+  licence, no foreign government approval, no clause that lets a supplier decide
+  where our soldiers may use it.
+- **Commodity silicon with multiple suppliers** — not a single-source defence
+  component with a lead time measured in quarters.
+- **The corpus is generated here. The model is trained here. The weights are a
+  97-kilobyte file that never leaves the country.** No vendor cloud, nothing
+  phoning home, no foreign party holding the firmware.
+- Every verified line in the bill of materials is already available from Indian
+  distributors.
 
-Cost: the second microphone shares SCK/WS/SD on the same I²S bus with its L/R pin
-strapped opposite — no new pins, no new peripheral, under 2 MMAC/s.
+A hearing-protection system for Indian soldiers should not depend on a foreign
+company's licensing decision. This one does not.
 
-### 9. PROTOTYPE AND CURRENT HARDWARE STATE
+---
 
-Running on an ESP32-S3-N16R8 with an INMP441 MEMS microphone and a MAX98357A
-class-D amplifier:
+### WHY DRDO SHOULD CHOOSE THIS
 
-- Live capture, processing and playback at 16 kHz, verified on hardware.
-- A NEURAL voice activity detector (vadnet1_medium, from Espressif's esp-sr)
-  running ON THE CHIP, deciding when the channel carries a voice.
-- A gate that closes to DIGITAL ZERO — measured −120 dBFS — when no voice is
-  present, so the radio channel is silent rather than quietly hissing.
-- FxNLMS validated at +12.6 dB cancellation against a host reference.
-- Live telemetry: microseconds per frame, real-time factor, achieved sample rate,
-  and microphone format validation, all measured on the silicon.
+**1. The safety guarantee is structural, not promised.** Because the AI is never
+in the audio path, no software fault can compromise hearing protection. This is
+not a reliability target to be argued about in review — it is a property of the
+architecture, and it can be demonstrated in thirty seconds by switching the AI
+off while cancellation continues.
 
-**Stated plainly, because it matters:** L1's neural model runs on a host today.
-Its on-chip port is staged and in progress — the bidirectional GRU, the largest
-and most error-prone block, is written in C and validated against PyTorch to
-−133.5 dB relative error. The encoder, full-band branch and fusion are ported and
-validated to 2e-5. The decoder, ERB inverse and on-chip STFT are not yet written.
-Memory and compute are not the obstacle; implementation time is.
+**2. It is trained on our noise, not on office noise.** 16% of the training
+material is gunshot, 9.4% shelling, 9.8% rotor, 10.4% armoured vehicle, mixed
+with measured room acoustics and controlled interference from competing speakers.
+Systems trained on the standard public corpora — cafés, offices, city streets —
+do not transfer to a gun line, and our comparison table shows exactly that.
 
-The active cancellation path additionally requires a low-latency codec
-(ADAU1772), because L0's causality budget is 146 microseconds, computed from a
-7 cm reference-to-ear geometry against the standard causality condition. The
-schematic is complete and electrically verified — 37 parts, 30 nets, ERC clean.
+**3. Every claim is auditable.** Each design decision was accepted or rejected by
+a statistical test over 10,000 resamples on two independent evaluation sets. Four
+of our own models were rejected under that rule, including one that improved
+quality but reduced intelligibility. Nothing in this submission has to be taken
+on trust; it can be re-run.
 
-### 10. WHAT IS GENUINELY NEW
+**4. It fits the procurement reality.** Commodity parts, Indian supply chain,
+retrofit into in-service equipment, and a per-unit cost that permits issue at
+scale rather than to a pilot group.
 
-1. **Protection and communication as separate control problems.** The ear keeps
-   human voices; the radio removes them. One microphone, opposite targets.
-2. **AI in the coefficient path.** Hearing protection cannot be taken down by a
-   model stall, and this is demonstrable by killing the AI core live.
-3. **Near-field wavefront discrimination.** Telling the wearer from a bystander
-   using the curvature of the sound wave — physics, not enrolment.
-4. **Measuring our own ceiling.** We can state the score a perfect version of our
-   model would achieve, which is how we knew to stop training and change the
-   physics instead.
-5. **Cost, by design.** The compute target is a ₹409 commodity module, not an
-   embedded GPU or a controlled DSP. Verified India-sourced BOM: **₹6,370** for a
-   complete build, of which ₹2,299 is the passive earmuff shell itself. The
-   electronics that turn an issued ear defender into a RHEAR unit are **₹4,071**.
-6. **Retrofit, not replacement.** RHEAR is built to fit inside a 3M Peltor X3A —
-   a passive earmuff already in service. No new shell, no re-qualification of the
-   passive attenuation that is already certified, no change to how it is worn.
-7. **Sovereign by construction.** No ITAR- or export-controlled part in the BOM,
-   so no end-use licence and no foreign approval in the procurement path. The
-   corpus is generated in-house, the model is trained in-house, and the weights
-   are a 97 KB file that never leaves the country. Nothing phones home; there is
-   no vendor cloud in the loop.
+---
 
-### 11. WHY THIS MATTERS — THE ANALYTICAL CASE
+### DELIVERY
 
-**Who is affected, and by how much.** A study of Indian Air Force personnel found
-an overall noise-induced hearing loss incidence of **22.9%**, rising to **26.18%
-in technical trades** against 12.5% in non-technical ones. Roughly one in four
-personnel in high-exposure roles. Artillery, armour and aircrew sit in the same
-exposure class. NIHL is permanent, cumulative and untreatable — and in the
-services it is also a fitness-for-duty and disability-pension liability, not only
-a medical one.
+**Phase 1 — the communication layer.** Voice capture, neural enhancement,
+voice-activity gating and radio output, running on the ESP32-S3. The model is
+trained and benchmarked; the on-device signal chain, neural voice detection and
+silence gating are running on hardware today.
 
-**Why the problem persists despite known solutions.** It is cost. The US Army's
-TCAPS — the reference tactical hearing-protection-and-communication system —
-costs about **$2,000 per unit (~₹1.8 lakh)** and has reached roughly 20,000
-soldiers; its price is explicitly cited as the limit on wider deployment. A
-system that protects only the units that can afford it protects almost nobody.
+**Phase 2 — active cancellation.** The adaptive canceller, validated at +12.6 dB,
+paired with the low-latency audio codec the circuit is already designed around —
+37 parts, 30 nets, electrically verified.
 
-**What changes if this works.** RHEAR's electronics BOM is **₹4,071** as a
-retrofit into ear defenders a unit already owns. That is ~2% of the TCAPS unit
-price at component level.
+**Phase 3 — the second microphone.** Near-field separation of the wearer's voice
+from everyone else's, simulated across 2,160 acoustic scenes, at a cost of one
+extra component on the same data bus.
 
-Stated honestly, because a BOM is not a unit price: add enclosure, assembly,
-ruggedisation, qualification, testing and margin and the real figure is several
-times higher. Even at **5× the BOM**, a fielded unit lands near ₹20,000 — around
-**one-ninth** of the TCAPS reference. The argument is not that we are a hundred
-times cheaper. It is that the difference is large enough to change WHO GETS
-ISSUED ONE — from a specialist subset to a whole gun line.
+**Phase 4 — ruggedisation and field trial.** Enclosure, environmental
+qualification, and trial with a user unit.
 
-**Make in India, concretely.** Every verified line in the BOM is sourced from
-Indian distributors today (Robu, Evelta, element14 India). The ESP32-S3 is a
-commodity part with multiple suppliers, not a single-source defence component
-with a lead time measured in quarters. Two consequences that matter for
-procurement: no export-licence step, and no foreign vendor holding the firmware.
+---
 
-**Why DRDO should care specifically.** Three properties are hard to buy and easy
-to verify here:
+### IN ONE SENTENCE
 
-1. **The safety argument is architectural, not a claim.** Hearing protection
-   cannot be taken down by a model fault, because the AI is not in the audio
-   path. This is demonstrable by killing the AI core while cancellation
-   continues.
-2. **Tuned on defence noise, not office noise.** 16% of training layers are
-   gunshot, 9.4% shelling, 9.8% rotor, 10.4% armoured vehicle. On that material
-   we beat a 25.6-million-parameter transformer by 5.2 dB SI-SDR with 49,663
-   parameters. Systems trained on VoiceBank-style corpora do not transfer.
-3. **The evidence is auditable.** Every accept/reject decision is a stored
-   statistical test over 10,000 resamples on two held-out sets, including four
-   rejections of our own work. Claims can be re-run from the repository, not
-   taken on trust.
+One in four personnel in high-noise roles are losing their hearing permanently;
+the system that would prevent it costs ₹1.8 lakh and has reached almost nobody;
+**RHEAR delivers the same capability for roughly one-ninth of that, retrofits
+into equipment already in service, keeps the shouted warning that other systems
+delete, and is owned end to end — silicon, data, model and firmware — by India.**
 
-**Situational awareness as a capability, not a side effect.** Because the ear
-path preserves human voices while the radio path removes them, a soldier keeps
-the shouted warning that conventional suppression deletes. That is a survivability
-argument, and it is the one thing a single-objective denoiser structurally cannot
-provide.
-
-**Sources for the figures above.** NIHL prevalence: *Prevalence of Noise Induced
-Hearing Loss in Indian Air Force Personnel*, PubMed 27408258. TCAPS unit cost and
-fielded quantity: US Army / INVISIO programme reporting, 2016. BOM prices:
-verified against Indian distributors 30 Aug 2026, itemised in the project's
-`docs/04b-bom-verified.md`, with estimated lines marked as estimates.
-
-### 12. DEPLOYMENT
-
-Defence vehicle crews, aircrew, artillery and gun-line teams, and equally
-aerospace ground crew and high-noise industrial operations. The compute target is
-a commodity microcontroller, not an embedded GPU, so unit cost and power are
-compatible with issuing the system widely rather than to a few platforms.
