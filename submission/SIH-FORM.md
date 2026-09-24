@@ -66,6 +66,19 @@ by a paired bootstrap over 10,000 resamples on two independent evaluation sets.
 Four of the team's own models were rejected under that rule, including one that
 improved PESQ but degraded intelligibility.
 
+Cost is the deployment argument. The reference tactical system, the US Army's
+TCAPS, costs about $2,000 per unit and its price is cited as the limit on wider
+fielding. RHEAR's India-sourced electronics BOM is ₹4,071 as a RETROFIT into
+passive ear defenders a unit already owns — no new shell and no re-qualification
+of certified passive attenuation. Even at five times the BOM once enclosure,
+ruggedisation and testing are added, a fielded unit is roughly one-ninth of the
+TCAPS reference. That difference decides who gets issued one: a specialist subset,
+or a whole gun line. It matters because a study of Indian Air Force personnel put
+noise-induced hearing loss at 22.9% overall and 26.18% in technical trades —
+roughly one in four, permanent and untreatable. No part in the BOM is
+export-controlled, the corpus and weights are produced in-house, and the model is
+a 97 KB file that never leaves the country.
+
 The project also reports its own ceiling. Scoring the ideal mask shows that a
 perfect 48-band magnitude mask cannot exceed PESQ 2.392 at 0 dB against a 2.5
 target — so at low SNR the limit is the information in one microphone, not the
@@ -309,8 +322,81 @@ schematic is complete and electrically verified — 37 parts, 30 nets, ERC clean
 4. **Measuring our own ceiling.** We can state the score a perfect version of our
    model would achieve, which is how we knew to stop training and change the
    physics instead.
+5. **Cost, by design.** The compute target is a ₹409 commodity module, not an
+   embedded GPU or a controlled DSP. Verified India-sourced BOM: **₹6,370** for a
+   complete build, of which ₹2,299 is the passive earmuff shell itself. The
+   electronics that turn an issued ear defender into a RHEAR unit are **₹4,071**.
+6. **Retrofit, not replacement.** RHEAR is built to fit inside a 3M Peltor X3A —
+   a passive earmuff already in service. No new shell, no re-qualification of the
+   passive attenuation that is already certified, no change to how it is worn.
+7. **Sovereign by construction.** No ITAR- or export-controlled part in the BOM,
+   so no end-use licence and no foreign approval in the procurement path. The
+   corpus is generated in-house, the model is trained in-house, and the weights
+   are a 97 KB file that never leaves the country. Nothing phones home; there is
+   no vendor cloud in the loop.
 
-### 11. DEPLOYMENT
+### 11. WHY THIS MATTERS — THE ANALYTICAL CASE
+
+**Who is affected, and by how much.** A study of Indian Air Force personnel found
+an overall noise-induced hearing loss incidence of **22.9%**, rising to **26.18%
+in technical trades** against 12.5% in non-technical ones. Roughly one in four
+personnel in high-exposure roles. Artillery, armour and aircrew sit in the same
+exposure class. NIHL is permanent, cumulative and untreatable — and in the
+services it is also a fitness-for-duty and disability-pension liability, not only
+a medical one.
+
+**Why the problem persists despite known solutions.** It is cost. The US Army's
+TCAPS — the reference tactical hearing-protection-and-communication system —
+costs about **$2,000 per unit (~₹1.8 lakh)** and has reached roughly 20,000
+soldiers; its price is explicitly cited as the limit on wider deployment. A
+system that protects only the units that can afford it protects almost nobody.
+
+**What changes if this works.** RHEAR's electronics BOM is **₹4,071** as a
+retrofit into ear defenders a unit already owns. That is ~2% of the TCAPS unit
+price at component level.
+
+Stated honestly, because a BOM is not a unit price: add enclosure, assembly,
+ruggedisation, qualification, testing and margin and the real figure is several
+times higher. Even at **5× the BOM**, a fielded unit lands near ₹20,000 — around
+**one-ninth** of the TCAPS reference. The argument is not that we are a hundred
+times cheaper. It is that the difference is large enough to change WHO GETS
+ISSUED ONE — from a specialist subset to a whole gun line.
+
+**Make in India, concretely.** Every verified line in the BOM is sourced from
+Indian distributors today (Robu, Evelta, element14 India). The ESP32-S3 is a
+commodity part with multiple suppliers, not a single-source defence component
+with a lead time measured in quarters. Two consequences that matter for
+procurement: no export-licence step, and no foreign vendor holding the firmware.
+
+**Why DRDO should care specifically.** Three properties are hard to buy and easy
+to verify here:
+
+1. **The safety argument is architectural, not a claim.** Hearing protection
+   cannot be taken down by a model fault, because the AI is not in the audio
+   path. This is demonstrable by killing the AI core while cancellation
+   continues.
+2. **Tuned on defence noise, not office noise.** 16% of training layers are
+   gunshot, 9.4% shelling, 9.8% rotor, 10.4% armoured vehicle. On that material
+   we beat a 25.6-million-parameter transformer by 5.2 dB SI-SDR with 49,663
+   parameters. Systems trained on VoiceBank-style corpora do not transfer.
+3. **The evidence is auditable.** Every accept/reject decision is a stored
+   statistical test over 10,000 resamples on two held-out sets, including four
+   rejections of our own work. Claims can be re-run from the repository, not
+   taken on trust.
+
+**Situational awareness as a capability, not a side effect.** Because the ear
+path preserves human voices while the radio path removes them, a soldier keeps
+the shouted warning that conventional suppression deletes. That is a survivability
+argument, and it is the one thing a single-objective denoiser structurally cannot
+provide.
+
+**Sources for the figures above.** NIHL prevalence: *Prevalence of Noise Induced
+Hearing Loss in Indian Air Force Personnel*, PubMed 27408258. TCAPS unit cost and
+fielded quantity: US Army / INVISIO programme reporting, 2016. BOM prices:
+verified against Indian distributors 30 Aug 2026, itemised in the project's
+`docs/04b-bom-verified.md`, with estimated lines marked as estimates.
+
+### 12. DEPLOYMENT
 
 Defence vehicle crews, aircrew, artillery and gun-line teams, and equally
 aerospace ground crew and high-noise industrial operations. The compute target is
