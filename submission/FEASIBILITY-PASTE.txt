@@ -1,0 +1,48 @@
+================================================================
+HOW TO GET THIS INTO GOOGLE SLIDES AS A REAL TABLE
+================================================================
+1. Open a blank Google Sheet.
+2. Copy ONE of the tab-separated blocks below (between the ===== lines)
+   and paste into cell A1. It will split into columns automatically.
+3. Select the range, Ctrl/Cmd+C.
+4. In Google Slides: Edit > Paste. Choose "Paste table".
+   (Pasting tabbed text straight into Slides makes a text box, not a
+   table. The Sheets hop is what makes the cells.)
+================================================================
+
+
+===== BLOCK 1 — FEASIBILITY (3 columns x 5 rows) =====
+FEASIBILITY	EVIDENCE	
+Technical	97.4 KB int8 against a 200 KB cap; ~15% of one core. Model trained and benchmarked, neural VAD running on the ESP32-S3, adaptive canceller validated at +12.6 dB	Proven
+Financial	India-sourced BOM ₹6,370; ₹4,071 as a retrofit. ~₹20,000 fielded against ₹1.8 lakh for the reference system. iDEX and TDF are funded routes	Costed
+Market	22.9% of Indian Air Force personnel show noise-induced hearing loss, 26.18% in technical trades. The reference system reached ~20,000 soldiers worldwide, its price cited as the limit	Unmet need
+Operational	Retrofits into an in-service earmuff: no new shell, no re-qualification of certified passive attenuation. Every part from Indian distributors, none export-controlled	Low friction
+
+
+===== BLOCK 2 — VIABILITY (2 columns x 6 rows) =====
+CHALLENGE	HOW WE SOLVE IT
+Quality falls short at the harshest noise levels	We measured the ceiling and proved a perfect single-microphone mask cannot reach the target. A second boom microphone separates the wearer from a bystander with 100% reliability at +10.1 dB, using wavefront curvature alone — no voice enrolment, one extra component on the same data bus, validated across 2,160 acoustic scenes
+Running the full network on a microcontroller	Memory and compute are not the constraint: 97 KB of a 200 KB budget, 15% of one core. The largest and most error-prone block is already written in C and matches the reference implementation to −133.5 dB
+Active cancellation demands very low latency	The 146 µs budget is geometry, not preference. The codec was selected on its 38 µs datasheet figure and the circuit is complete and electrically verified at 37 parts and 30 nets
+Ruggedisation and environmental qualification	The retrofit scope keeps the certified passive shell untouched, so only the electronics require qualification — a far smaller and cheaper path than qualifying a new headset
+Siren coverage in training data	The loader is already in our codebase from an earlier build, so this is a dataset rebuild rather than new research. We report only what we have measured
+
+
+===== BLOCK 3 — CLOSING LINE (put under the tables) =====
+Every challenge above was found by our own measurement, and each has a costed answer.
+
+
+================================================================
+IF YOU WANT ONE COMBINED TABLE INSTEAD (2 columns x 10 rows)
+================================================================
+FEASIBILITY	
+Technical	97.4 KB int8 of a 200 KB cap, ~15% of one core. Trained, benchmarked, neural VAD on-chip, canceller validated +12.6 dB
+Financial	BOM ₹6,370, ₹4,071 as retrofit. ~₹20,000 fielded against ₹1.8 lakh for the reference system
+Market	22.9% of IAF personnel affected, 26.18% in technical trades. Reference system reached ~20,000 worldwide, price cited as the limit
+Operational	Retrofits in-service kit, no re-qualification of the certified shell. Indian supply chain, no export-controlled parts
+VIABILITY	
+Harshest noise levels	Ceiling measured and proved. Second microphone separates wearer from bystander 100% at +10.1 dB from wavefront curvature, across 2,160 simulated scenes
+Full network on the chip	97 KB of 200, 15% of a core. Hardest block already matches the reference to −133.5 dB
+Latency for cancellation	146 µs is geometry. Codec chosen on 38 µs; circuit verified at 37 parts, 30 nets
+Qualification	Certified passive shell untouched, so only electronics need qualifying
+Siren coverage	Loader already in the codebase — a dataset rebuild, not research
